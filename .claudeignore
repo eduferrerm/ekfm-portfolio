@@ -1,0 +1,10 @@
+# Dependencies and build output
+node_modules
+.next
+
+# Payload generated GraphQL types and schema
+payload-types.ts
+payload/generated-schema.graphql
+
+# Database migrations
+migrations
