@@ -33,12 +33,13 @@ const nextConfig: NextConfig = {
   // Required for PostHog reverse-proxy rewrites with a trailing-slash-free setup.
   skipTrailingSlashRedirect: true,
   webpack: (config, { webpack, isServer }) => {
-    // The Vercel Blob client upload handler (clientUploads:true) imports
-    // `getFileKey` from plugin-cloud-storage's `/utilities` barrel. That barrel
-    // also re-exports `resolveSignedURLKey`, which imports `payload/internal`
-    // (the full server graph: pino, migrations → fs/module, undici → node:*).
-    // It's dead code on the client, but webpack still resolves the chain and
-    // fails on node builtins. Redirect just that module to a browser stub.
+    // storage-vercel-blob@3.85.1 registers VercelBlobClientUploadHandler in the
+    // admin import map UNCONDITIONALLY (independent of clientUploads). It reaches
+    // `resolveSignedURLKey`, whose real impl imports `payload/internal` — the
+    // full server graph (pino, migrations → fs/module, undici → node:*) — which
+    // webpack can't bundle for the browser. Redirect that one dead-on-client
+    // module to a stub. Required while on this adapter version; revisit on
+    // upgrade or when withPayload allows Turbopack (Next >= 16.1).
     if (!isServer) {
       config.plugins.push(
         new webpack.NormalModuleReplacementPlugin(

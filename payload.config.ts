@@ -47,11 +47,12 @@ export default buildConfig({
   plugins: [
     vercelBlobStorage({
       // Maps the Media upload collection onto a Vercel Blob store.
+      // disableLocalStorage is set automatically by the adapter.
       collections: {
         media: true,
       },
-      // Browser → Blob direct uploads, bypassing the 4.5MB serverless body cap.
-      clientUploads: true,
+      // Server-side uploads: assets are small, pre-optimized images well under
+      // Vercel's 4.5MB request cap, so client uploads aren't needed.
       // Token is injected automatically by Vercel; read from env, never hardcoded.
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
