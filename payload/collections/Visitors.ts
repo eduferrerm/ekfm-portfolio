@@ -34,6 +34,16 @@ export const Visitors: CollectionConfig = {
       type: 'text',
     },
     {
+      // Upload field = a relationship to a Media doc, not embedded bytes.
+      // Stores only a FK (visitors.company_logo_id -> media.id); the file itself
+      // lives in Media / Vercel Blob. The admin renders a picker: choose an
+      // existing asset or drag-and-drop a new one (creates the Media row inline).
+      // Semantic name is the SSOT — admin label derives from it ("Company Logo").
+      name: 'companyLogo',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       name: 'notes',
       type: 'richText',
     },

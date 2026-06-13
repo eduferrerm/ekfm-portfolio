@@ -158,6 +158,10 @@ export interface User {
 export interface Media {
   id: number;
   /**
+   * Human-friendly name for this asset (shown in the media picker).
+   */
+  title: string;
+  /**
    * Alternative text for accessibility and SEO.
    */
   alt: string;
@@ -251,6 +255,7 @@ export interface Visitor {
   company: string;
   slug: string;
   headline?: string | null;
+  companyLogo?: (number | null) | Media;
   notes?: {
     root: {
       type: string;
@@ -387,6 +392,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  title?: T;
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -436,6 +442,7 @@ export interface VisitorsSelect<T extends boolean = true> {
   company?: T;
   slug?: T;
   headline?: T;
+  companyLogo?: T;
   notes?: T;
   updatedAt?: T;
   createdAt?: T;
