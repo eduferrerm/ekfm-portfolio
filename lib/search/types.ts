@@ -11,6 +11,8 @@ export type SearchDocument = {
   title: string
   description?: string
   keywords: string[]
+  /** Recruiter-term synonyms of this doc's keywords. Fed to Fuse, never rendered. */
+  aliases: string[]
   /** Route to navigate to when this result is selected. */
   href: string
 }
@@ -22,6 +24,7 @@ export const SEARCH_FUSE_OPTIONS: IFuseOptions<SearchDocument> = {
   ignoreLocation: true,
   keys: [
     { name: 'title', weight: 0.6 },
+    { name: 'aliases', weight: 0.3 },
     { name: 'keywords', weight: 0.3 },
     { name: 'description', weight: 0.1 },
   ],

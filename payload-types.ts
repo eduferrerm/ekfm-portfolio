@@ -201,7 +201,8 @@ export interface Portfolio {
     };
     [k: string]: unknown;
   } | null;
-  keywords?: (number | Keyword)[] | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -213,6 +214,8 @@ export interface Keyword {
   id: number;
   label: string;
   slug: string;
+  category: 'scope' | 'craft';
+  aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -242,7 +245,8 @@ export interface Experience {
     };
     [k: string]: unknown;
   } | null;
-  keywords?: (number | Keyword)[] | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -415,7 +419,8 @@ export interface PortfolioSelect<T extends boolean = true> {
   slug?: T;
   summary?: T;
   content?: T;
-  keywords?: T;
+  scope?: T;
+  craft?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -430,7 +435,8 @@ export interface ExperienceSelect<T extends boolean = true> {
   endDate?: T;
   current?: T;
   description?: T;
-  keywords?: T;
+  scope?: T;
+  craft?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -454,6 +460,8 @@ export interface VisitorsSelect<T extends boolean = true> {
 export interface KeywordsSelect<T extends boolean = true> {
   label?: T;
   slug?: T;
+  category?: T;
+  aliases?: T;
   updatedAt?: T;
   createdAt?: T;
 }

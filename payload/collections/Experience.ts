@@ -54,10 +54,18 @@ export const Experience: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'keywords',
+      name: 'scope',
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
+      filterOptions: () => ({ category: { equals: 'scope' } }),
+    },
+    {
+      name: 'craft',
+      type: 'relationship',
+      relationTo: 'keywords',
+      hasMany: true,
+      filterOptions: () => ({ category: { equals: 'craft' } }),
     },
   ],
 }

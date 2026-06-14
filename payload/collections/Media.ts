@@ -25,7 +25,13 @@ export const Media: CollectionConfig = {
     // Adapter (Vercel Blob) handles persistence; no local on-disk copies.
     // With clientUploads off (server uploads only), every file flows through a
     // serverless function — each upload must stay under Vercel's ~4.5MB
-    // request-body limit. Runtime validation only; no DB schema change.
+    // request-body limit, which is why showcase reels are authored lean
+    // (720p/short/H265-VP9). Escape hatch for a reel that won't compress under
+    // the cap: set clientUploads:true in payload.config.ts so the browser
+    // uploads straight to Blob, bypassing the function. It's a pre-validated,
+    // runtime-only flip — the client-bundle shim already neutralizes the
+    // client-upload handler leak, so flipping it needs no further changes.
+    // Runtime validation only; no DB schema change.
     mimeTypes: ['image/*', 'application/pdf', 'video/mp4', 'video/webm'],
   },
   fields: [

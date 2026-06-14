@@ -38,10 +38,22 @@ export const Portfolio: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'keywords',
+      // Two scoped relationship fields (not one mixed field). Each filters the
+      // shared Keywords collection to its own category. Display order = attach
+      // order (hasMany preserves it, drag-reorderable in admin) — never sorted
+      // at render.
+      name: 'scope',
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
+      filterOptions: () => ({ category: { equals: 'scope' } }),
+    },
+    {
+      name: 'craft',
+      type: 'relationship',
+      relationTo: 'keywords',
+      hasMany: true,
+      filterOptions: () => ({ category: { equals: 'craft' } }),
     },
   ],
 }
