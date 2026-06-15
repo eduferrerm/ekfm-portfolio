@@ -2,6 +2,7 @@ import type { Experience } from '@/payload-types'
 import { List } from '@/components/primitives/List'
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { MediaVideo } from '@/components/primitives/MediaVideo'
+import { CONTENT_SUBHEADERS } from '@/lib/labels'
 
 import { dateRange, keywordLabels } from './experience'
 
@@ -49,21 +50,21 @@ export function ExperienceSection({ exp }: { exp: Experience }) {
 
       {responsibilities.length > 0 && (
         <div className="mb-10">
-          <SectionLabel>Role Description</SectionLabel>
+          <SectionLabel>{CONTENT_SUBHEADERS.experience.roleDescription}</SectionLabel>
           <List variant="prose" items={responsibilities} />
         </div>
       )}
 
       {scope.length > 0 && (
         <div className="mb-8">
-          <SectionLabel>Scope</SectionLabel>
+          <SectionLabel>{CONTENT_SUBHEADERS.experience.scope}</SectionLabel>
           <List variant="tag" items={scope} />
         </div>
       )}
 
       {craft.length > 0 && (
         <div className="mb-8">
-          <SectionLabel>Craft</SectionLabel>
+          <SectionLabel>{CONTENT_SUBHEADERS.experience.craft}</SectionLabel>
           <List variant="tag" items={craft} />
         </div>
       )}

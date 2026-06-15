@@ -1,3 +1,6 @@
 export { GraphClient } from './GraphClient'
 export { GraphSkeleton } from './GraphSkeleton'
 export type { GraphProps } from './Graph'
+export type { GraphData } from './types'
+export { getDiagram } from './diagrams'
+export { DIAGRAM_OPTIONS, DIAGRAM_KEYS, type DiagramKey } from './diagrams/keys'
