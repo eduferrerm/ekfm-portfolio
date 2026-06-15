@@ -2,8 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { slugify } from '../../lib/slugify'
 
-/** Work history surfaced at /experience. */
+/** Work history surfaced at /experience (one anchored section per role). */
 export const Experience: CollectionConfig = {
   slug: 'experience',
   admin: {
@@ -26,6 +27,26 @@ export const Experience: CollectionConfig = {
       name: 'company',
       type: 'text',
       required: true,
+    },
+    {
+      // Anchor target for /experience#slug and the search href. Auto-derived
+      // from the role when left blank, but editable + stable: once set it does
+      // not track later role edits, so existing bookmarks/search hrefs survive
+      // a role rename. Unique to guarantee a single DOM id per anchor.
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value, data }) =>
+            value || (typeof data?.role === 'string' ? slugify(data.role) : value),
+        ],
+      },
     },
     {
       type: 'row',
@@ -60,8 +81,38 @@ export const Experience: CollectionConfig = {
       defaultValue: false,
     },
     {
-      name: 'description',
-      type: 'richText',
+      // Optional company mark, rendered via next/image on the experience card.
+      name: 'companyLogo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Optional company logo.',
+      },
+    },
+    {
+      // Optional autoplay showcase reel. Authored lean (<4.5MB, server uploads);
+      // picker is scoped to video assets only.
+      name: 'showcase',
+      type: 'upload',
+      relationTo: 'media',
+      filterOptions: () => ({ mimeType: { contains: 'video' } }),
+      admin: {
+        description: 'Optional autoplay showcase video (kept under 4.5MB at encode).',
+      },
+    },
+    {
+      // Renders as the hardcoded "Role Description" section — a list of prose
+      // paragraphs (List, prose variant), not a single rich-text block.
+      name: 'responsibilities',
+      type: 'array',
+      labels: { singular: 'Responsibility', plural: 'Responsibilities' },
+      fields: [
+        {
+          name: 'text',
+          type: 'textarea',
+          required: true,
+        },
+      ],
     },
     {
       name: 'scope',
