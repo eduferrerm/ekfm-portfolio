@@ -18,7 +18,15 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
   const [portfolio, experience, keywords] = await Promise.all([
     payload.find({ collection: 'portfolio', limit: 1000, depth: 1 }),
     payload.find({ collection: 'experience', limit: 1000, depth: 1 }),
-    payload.find({ collection: 'keywords', limit: 1000, depth: 0 }),
+    // Search-only keywords never stand on their own as a result — they exist to
+    // lift the content they're attached to (via searchKeywords). Excluded here.
+    // (Phase 6 will re-admit navigational searchOnly keywords that carry a target.)
+    payload.find({
+      collection: 'keywords',
+      limit: 1000,
+      depth: 0,
+      where: { searchOnly: { not_equals: true } },
+    }),
   ])
 
   // Resolved keyword (depth:1 populates scope/craft relationships into objects).
@@ -45,8 +53,13 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       type: 'portfolio' as const,
       title: doc.title,
       description: doc.summary ?? undefined,
+      // keywords[] = rendered descriptors only. searchKeywords (labels + their
+      // aliases) ride in aliases[], which is search-fed but never rendered.
       keywords: keywordLabels(doc.scope, doc.craft),
-      aliases: keywordAliases(doc.scope, doc.craft),
+      aliases: [
+        ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
+        ...keywordLabels(doc.searchKeywords),
+      ],
       href: `/portfolio/${doc.slug}`,
     })),
     ...experience.docs.map((doc) => ({
@@ -54,7 +67,10 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       type: 'experience' as const,
       title: `${doc.role} · ${doc.company}`,
       keywords: keywordLabels(doc.scope, doc.craft),
-      aliases: keywordAliases(doc.scope, doc.craft),
+      aliases: [
+        ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
+        ...keywordLabels(doc.searchKeywords),
+      ],
       href: '/experience',
     })),
     ...keywords.docs.map((doc) => ({
