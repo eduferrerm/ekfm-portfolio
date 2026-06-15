@@ -184,49 +184,69 @@ export interface Media {
 export interface Portfolio {
   id: number;
   title: string;
-  slug: string;
+  /**
+   * Short feature name shown above the title and in nav/related cards.
+   */
+  eyebrow: string;
+  /**
+   * URL slug for /portfolio/[slug]. Auto-filled from the title if left blank; editable.
+   */
+  slug?: string | null;
+  /**
+   * Sort order (ascending). Lower shows first; /portfolio redirects to the lowest.
+   */
+  order?: number | null;
+  /**
+   * Square/circular thumbnail for nav + landing cards.
+   */
+  thumbnail?: (number | null) | Media;
   summary?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  overview?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * System Design diagram (authored in features/portfolio/graph/diagrams).
+   */
+  diagramKey: 'context-aware-routes';
+  /**
+   * Subtitle under "Key Decisions". Defaults to the eyebrow when blank.
+   */
+  keyDecisionsTitle?: string | null;
+  keyDecisions?:
+    | {
+        title: string;
+        description?: string | null;
+        conclusion: 'up' | 'down';
+        points?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  relatedContent?:
+    | (
+        | {
+            relationTo: 'portfolio';
+            value: number | Portfolio;
+          }
+        | {
+            relationTo: 'experience';
+            value: number | Experience;
+          }
+      )[]
+    | null;
   scope?: (number | Keyword)[] | null;
   craft?: (number | Keyword)[] | null;
   /**
    * Hidden terms that surface this item in search but never render on the page.
    */
   searchKeywords?: (number | Keyword)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "keywords".
- */
-export interface Keyword {
-  id: number;
-  label: string;
-  slug: string;
-  /**
-   * Hidden recruiter term — feeds search only, never rendered. Skips category.
-   */
-  searchOnly?: boolean | null;
-  /**
-   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing).
-   */
-  category?: ('scope' | 'craft') | null;
-  aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -265,6 +285,26 @@ export interface Experience {
    * Hidden terms that surface this item in search but never render on the page.
    */
   searchKeywords?: (number | Keyword)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keywords".
+ */
+export interface Keyword {
+  id: number;
+  label: string;
+  slug: string;
+  /**
+   * Hidden recruiter term — feeds search only, never rendered. Skips category.
+   */
+  searchOnly?: boolean | null;
+  /**
+   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing).
+   */
+  category?: ('scope' | 'craft') | null;
+  aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -434,9 +474,34 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PortfolioSelect<T extends boolean = true> {
   title?: T;
+  eyebrow?: T;
   slug?: T;
+  order?: T;
+  thumbnail?: T;
   summary?: T;
-  content?: T;
+  overview?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  diagramKey?: T;
+  keyDecisionsTitle?: T;
+  keyDecisions?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        conclusion?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  relatedContent?: T;
   scope?: T;
   craft?: T;
   searchKeywords?: T;
