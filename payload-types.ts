@@ -238,24 +238,27 @@ export interface Experience {
   id: number;
   role: string;
   company: string;
+  /**
+   * URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.
+   */
+  slug?: string | null;
   startDate: string;
   endDate?: string | null;
   current?: boolean | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  /**
+   * Optional company logo.
+   */
+  companyLogo?: (number | null) | Media;
+  /**
+   * Optional autoplay showcase video (kept under 4.5MB at encode).
+   */
+  showcase?: (number | null) | Media;
+  responsibilities?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   scope?: (number | Keyword)[] | null;
   craft?: (number | Keyword)[] | null;
   /**
@@ -447,10 +450,18 @@ export interface PortfolioSelect<T extends boolean = true> {
 export interface ExperienceSelect<T extends boolean = true> {
   role?: T;
   company?: T;
+  slug?: T;
   startDate?: T;
   endDate?: T;
   current?: T;
-  description?: T;
+  companyLogo?: T;
+  showcase?: T;
+  responsibilities?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   scope?: T;
   craft?: T;
   searchKeywords?: T;

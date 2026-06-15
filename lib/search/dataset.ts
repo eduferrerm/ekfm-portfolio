@@ -71,7 +71,7 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
         ...keywordLabels(doc.searchKeywords),
       ],
-      href: '/experience',
+      href: `/experience#${doc.slug}`,
     })),
     ...keywords.docs.map((doc) => ({
       id: `keyword:${doc.id}`,
