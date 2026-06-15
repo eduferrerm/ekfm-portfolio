@@ -18,15 +18,34 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
   const [portfolio, experience, keywords] = await Promise.all([
     payload.find({ collection: 'portfolio', limit: 1000, depth: 1 }),
     payload.find({ collection: 'experience', limit: 1000, depth: 1 }),
-    payload.find({ collection: 'keywords', limit: 1000, depth: 0 }),
+    // Search-only keywords never stand on their own as a result — they exist to
+    // lift the content they're attached to (via searchKeywords). Excluded here.
+    // (Phase 6 will re-admit navigational searchOnly keywords that carry a target.)
+    payload.find({
+      collection: 'keywords',
+      limit: 1000,
+      depth: 0,
+      where: { searchOnly: { not_equals: true } },
+    }),
   ])
 
-  const keywordLabels = (
-    items: Array<number | string | { label?: string }> | null | undefined,
-  ): string[] =>
-    (items ?? [])
+  // Resolved keyword (depth:1 populates scope/craft relationships into objects).
+  type Keyword = number | string | { label?: string; aliases?: (string | null)[] | null }
+
+  // Flatten scope + craft (in attach order — scope first) into the doc's
+  // keyword labels.
+  const keywordLabels = (...groups: Array<Keyword[] | null | undefined>): string[] =>
+    groups
+      .flatMap((items) => items ?? [])
       .map((k) => (typeof k === 'object' && k ? k.label : undefined))
       .filter((label): label is string => Boolean(label))
+
+  // Collect the recruiter-term synonyms off those same keywords for search recall.
+  const keywordAliases = (...groups: Array<Keyword[] | null | undefined>): string[] =>
+    groups
+      .flatMap((items) => items ?? [])
+      .flatMap((k) => (typeof k === 'object' && k ? (k.aliases ?? []) : []))
+      .filter((alias): alias is string => Boolean(alias))
 
   const docs: SearchDocument[] = [
     ...portfolio.docs.map((doc) => ({
@@ -34,14 +53,24 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       type: 'portfolio' as const,
       title: doc.title,
       description: doc.summary ?? undefined,
-      keywords: keywordLabels(doc.keywords),
+      // keywords[] = rendered descriptors only. searchKeywords (labels + their
+      // aliases) ride in aliases[], which is search-fed but never rendered.
+      keywords: keywordLabels(doc.scope, doc.craft),
+      aliases: [
+        ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
+        ...keywordLabels(doc.searchKeywords),
+      ],
       href: `/portfolio/${doc.slug}`,
     })),
     ...experience.docs.map((doc) => ({
       id: `experience:${doc.id}`,
       type: 'experience' as const,
       title: `${doc.role} · ${doc.company}`,
-      keywords: keywordLabels(doc.keywords),
+      keywords: keywordLabels(doc.scope, doc.craft),
+      aliases: [
+        ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
+        ...keywordLabels(doc.searchKeywords),
+      ],
       href: '/experience',
     })),
     ...keywords.docs.map((doc) => ({
@@ -49,6 +78,7 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       type: 'keyword' as const,
       title: doc.label,
       keywords: [],
+      aliases: (doc.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
       href: `/portfolio?keyword=${encodeURIComponent(doc.slug)}`,
     })),
   ]

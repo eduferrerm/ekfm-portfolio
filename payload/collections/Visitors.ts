@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
-/** Per-company visitor landing data surfaced at /visitor/[company]. */
+/** Per-company visitor landing data surfaced at /dear/[company]. */
 export const Visitors: CollectionConfig = {
   slug: 'visitors',
   admin: {

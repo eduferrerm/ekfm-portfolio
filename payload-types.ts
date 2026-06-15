@@ -201,7 +201,12 @@ export interface Portfolio {
     };
     [k: string]: unknown;
   } | null;
-  keywords?: (number | Keyword)[] | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
+  /**
+   * Hidden terms that surface this item in search but never render on the page.
+   */
+  searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -213,6 +218,15 @@ export interface Keyword {
   id: number;
   label: string;
   slug: string;
+  /**
+   * Hidden recruiter term — feeds search only, never rendered. Skips category.
+   */
+  searchOnly?: boolean | null;
+  /**
+   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing).
+   */
+  category?: ('scope' | 'craft') | null;
+  aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -242,7 +256,12 @@ export interface Experience {
     };
     [k: string]: unknown;
   } | null;
-  keywords?: (number | Keyword)[] | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
+  /**
+   * Hidden terms that surface this item in search but never render on the page.
+   */
+  searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -415,7 +434,9 @@ export interface PortfolioSelect<T extends boolean = true> {
   slug?: T;
   summary?: T;
   content?: T;
-  keywords?: T;
+  scope?: T;
+  craft?: T;
+  searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -430,7 +451,9 @@ export interface ExperienceSelect<T extends boolean = true> {
   endDate?: T;
   current?: T;
   description?: T;
-  keywords?: T;
+  scope?: T;
+  craft?: T;
+  searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -454,6 +477,9 @@ export interface VisitorsSelect<T extends boolean = true> {
 export interface KeywordsSelect<T extends boolean = true> {
   label?: T;
   slug?: T;
+  searchOnly?: T;
+  category?: T;
+  aliases?: T;
   updatedAt?: T;
   createdAt?: T;
 }
