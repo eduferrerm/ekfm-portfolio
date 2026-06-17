@@ -15,7 +15,9 @@ import { Tag } from './Tag'
  */
 type ListProps = {
   variant: 'prose' | 'tag'
-  items: string[]
+  // `prose` accepts rich nodes (e.g. a paragraph with a highlighted span); `tag`
+  // callers still pass plain strings.
+  items: React.ReactNode[]
   className?: string
 }
 

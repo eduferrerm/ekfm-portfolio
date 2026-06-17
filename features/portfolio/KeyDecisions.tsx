@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { List } from '@/components/primitives/List'
-import { Slider } from '@/components/primitives/Slider'
+import { SliderControls } from '@/components/primitives/Slider'
 import { CONTENT_SUBHEADERS } from '@/lib/labels'
 
 import type { KeyDecisionView } from './portfolio'
@@ -50,33 +50,36 @@ export function KeyDecisions({
         {subtitle}
       </p>
 
-      <Slider
-        index={index}
-        count={decisions.length}
-        onIndexChange={setIndex}
-        label={CONTENT_SUBHEADERS.portfolio.keyDecisions}
-        className="mt-6"
-      >
-        <div className="grid gap-10 md:grid-cols-2">
-          <div>
-            <h3 className="mb-4 text-xl font-semibold text-blue-500">{decision.title}</h3>
-            {decision.description && (
-              <p className="leading-relaxed text-foreground/80">{decision.description}</p>
-            )}
-          </div>
+      <div className="mt-6 flex flex-col gap-6">
+        <div className="rounded-2xl border border-border p-6 sm:p-10">
+          <div className="grid gap-10 md:grid-cols-2">
+            <div>
+              <h3 className="mb-4 text-xl font-semibold text-blue-500">{decision.title}</h3>
+              {decision.description && (
+                <p className="leading-relaxed text-foreground/80">{decision.description}</p>
+              )}
+            </div>
 
-          <div>
-            <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold text-blue-500">
-              {CONTENT_SUBHEADERS.portfolio.conclusion}{' '}
-              <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
-              <span className="sr-only">
-                {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
-              </span>
-            </h3>
-            <List variant="prose" items={decision.points} />
+            <div>
+              <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold text-blue-500">
+                {CONTENT_SUBHEADERS.portfolio.conclusion}{' '}
+                <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
+                <span className="sr-only">
+                  {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
+                </span>
+              </h3>
+              <List variant="prose" items={decision.points} />
+            </div>
           </div>
         </div>
-      </Slider>
+
+        <SliderControls
+          index={index}
+          count={decisions.length}
+          onIndexChange={setIndex}
+          label={CONTENT_SUBHEADERS.portfolio.keyDecisions}
+        />
+      </div>
     </section>
   )
 }

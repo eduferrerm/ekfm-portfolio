@@ -95,8 +95,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'visitor-content': VisitorContent;
+  };
+  globalsSelect: {
+    'visitor-content': VisitorContentSelect<false> | VisitorContentSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -315,24 +319,36 @@ export interface Keyword {
 export interface Visitor {
   id: number;
   company: string;
+  role: string;
+  /**
+   * URL slug for /dear/[company]. Auto-filled from the company if left blank; editable.
+   */
   slug: string;
-  headline?: string | null;
+  /**
+   * Company avatar for the welcome banner + card.
+   */
   companyLogo?: (number | null) | Media;
-  notes?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  /**
+   * Link to the job post the expectations were sourced from.
+   */
+  jobPostUrl: string;
+  expectations: {
+    expectation: string;
+    reply: string;
+    relevantContent?:
+      | (
+          | {
+              relationTo: 'portfolio';
+              value: number | Portfolio;
+            }
+          | {
+              relationTo: 'experience';
+              value: number | Experience;
+            }
+        )[]
+      | null;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -539,10 +555,18 @@ export interface ExperienceSelect<T extends boolean = true> {
  */
 export interface VisitorsSelect<T extends boolean = true> {
   company?: T;
+  role?: T;
   slug?: T;
-  headline?: T;
   companyLogo?: T;
-  notes?: T;
+  jobPostUrl?: T;
+  expectations?:
+    | T
+    | {
+        expectation?: T;
+        reply?: T;
+        relevantContent?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -598,6 +622,57 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-content".
+ */
+export interface VisitorContent {
+  id: number;
+  welcomeGreeting?: string | null;
+  intro?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Phrase in the intro to highlight (e.g. "Relevant content"). Optional.
+   */
+  highlightPhrase?: string | null;
+  constants?: {
+    expectations?: string | null;
+    reply?: string | null;
+    relevantContent?: string | null;
+    jobPost?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-content_select".
+ */
+export interface VisitorContentSelect<T extends boolean = true> {
+  welcomeGreeting?: T;
+  intro?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  highlightPhrase?: T;
+  constants?:
+    | T
+    | {
+        expectations?: T;
+        reply?: T;
+        relevantContent?: T;
+        jobPost?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
