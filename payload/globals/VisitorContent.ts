@@ -48,6 +48,8 @@ export const VisitorContent: GlobalConfig = {
         { name: 'reply', type: 'text', defaultValue: 'Reply' },
         { name: 'relevantContent', type: 'text', defaultValue: 'Relevant content' },
         { name: 'jobPost', type: 'text', defaultValue: 'Job Post Here' },
+        // Nav label for the visitor-only Dear Company band on the assembled landing.
+        { name: 'dearCompanyNav', type: 'text', defaultValue: 'Dear Company' },
       ],
     },
   ],

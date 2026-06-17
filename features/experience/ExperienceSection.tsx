@@ -2,7 +2,7 @@ import type { Experience } from '@/payload-types'
 import { List } from '@/components/primitives/List'
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { MediaVideo } from '@/components/primitives/MediaVideo'
-import { CONTENT_SUBHEADERS } from '@/lib/labels'
+import type { Subheaders } from '@/lib/labels'
 
 import { dateRange, keywordLabels } from './experience'
 
@@ -21,7 +21,13 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  * keeps the heading clear of any sticky chrome when jumped to. Sub-sections
  * render only when they have content.
  */
-export function ExperienceSection({ exp }: { exp: Experience }) {
+export function ExperienceSection({
+  exp,
+  labels,
+}: {
+  exp: Experience
+  labels: Subheaders['experience']
+}) {
   const logo = typeof exp.companyLogo === 'object' ? exp.companyLogo : null
   const video = typeof exp.showcase === 'object' ? exp.showcase : null
   const responsibilities = (exp.responsibilities ?? [])
@@ -50,21 +56,21 @@ export function ExperienceSection({ exp }: { exp: Experience }) {
 
       {responsibilities.length > 0 && (
         <div className="mb-10">
-          <SectionLabel>{CONTENT_SUBHEADERS.experience.roleDescription}</SectionLabel>
+          <SectionLabel>{labels.roleDescription}</SectionLabel>
           <List variant="prose" items={responsibilities} />
         </div>
       )}
 
       {scope.length > 0 && (
         <div className="mb-8">
-          <SectionLabel>{CONTENT_SUBHEADERS.experience.scope}</SectionLabel>
+          <SectionLabel>{labels.scope}</SectionLabel>
           <List variant="tag" items={scope} />
         </div>
       )}
 
       {craft.length > 0 && (
         <div className="mb-8">
-          <SectionLabel>{CONTENT_SUBHEADERS.experience.craft}</SectionLabel>
+          <SectionLabel>{labels.craft}</SectionLabel>
           <List variant="tag" items={craft} />
         </div>
       )}

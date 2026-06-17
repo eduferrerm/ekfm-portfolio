@@ -14,6 +14,8 @@ import { Experience } from './payload/collections/Experience'
 import { Visitors } from './payload/collections/Visitors'
 import { Keywords } from './payload/collections/Keywords'
 import { VisitorContent } from './payload/globals/VisitorContent'
+import { Landing } from './payload/globals/Landing'
+import { Labels } from './payload/globals/Labels'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,7 +28,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Portfolio, Experience, Visitors, Keywords],
-  globals: [VisitorContent],
+  globals: [VisitorContent, Landing, Labels],
   editor: lexicalEditor(),
   // Secret is read exclusively from the environment — never hardcoded.
   secret: process.env.PAYLOAD_SECRET || '',

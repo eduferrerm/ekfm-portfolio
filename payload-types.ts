@@ -97,9 +97,13 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'visitor-content': VisitorContent;
+    landing: Landing;
+    labels: Label;
   };
   globalsSelect: {
     'visitor-content': VisitorContentSelect<false> | VisitorContentSelect<true>;
+    landing: LandingSelect<false> | LandingSelect<true>;
+    labels: LabelsSelect<false> | LabelsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -645,6 +649,137 @@ export interface VisitorContent {
     reply?: string | null;
     relevantContent?: string | null;
     jobPost?: string | null;
+    dearCompanyNav?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing".
+ */
+export interface Landing {
+  id: number;
+  sections?:
+    | {
+        /**
+         * Which band this is. Binds to its renderer; the copy comes from the matching group below.
+         */
+        key: 'tldr' | 'experience' | 'portfolio' | 'moreAboutMe' | 'contact';
+        /**
+         * Nav text. The band’s anchor id + search title derive from this (slugified).
+         */
+        navLabel: string;
+        /**
+         * Search synonyms for this section. Fed to search, never shown.
+         */
+        aliases?: string[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  hero?: {
+    title?: string | null;
+    driveLabel?: string | null;
+    drive?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    craftLabel?: string | null;
+    /**
+     * Craft keywords shown in the hero, in attach order.
+     */
+    craft?: (number | Keyword)[] | null;
+  };
+  tldr?: {
+    greeting?: string | null;
+    blocks?:
+      | {
+          title: string;
+          body?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  experience?: {
+    heading?: string | null;
+    subheader?: string | null;
+    diveInto?: {
+      subheader?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    ctaLabel?: string | null;
+  };
+  portfolio?: {
+    heading?: string | null;
+    subheader?: string | null;
+    diveInto?: {
+      subheader?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    ctaLabel?: string | null;
+  };
+  moreAboutMe?: {
+    heading?: string | null;
+    subheader?: string | null;
+    teaser?: {
+      eyebrow?: string | null;
+      title?: string | null;
+      description?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+      ctaLabel?: string | null;
+    };
+  };
+  contact?: {
+    header?: string | null;
+    subheader?: string | null;
+    description?: string | null;
+    ctaLabel?: string | null;
+    ctaUrl?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels".
+ */
+export interface Label {
+  id: number;
+  constants?: {
+    portfolio?: {
+      overview?: string | null;
+      systemDesign?: string | null;
+      keyDecisions?: string | null;
+      conclusion?: string | null;
+      relevantContent?: string | null;
+    };
+    experience?: {
+      roleDescription?: string | null;
+      scope?: string | null;
+      craft?: string | null;
+    };
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -669,6 +804,149 @@ export interface VisitorContentSelect<T extends boolean = true> {
         reply?: T;
         relevantContent?: T;
         jobPost?: T;
+        dearCompanyNav?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing_select".
+ */
+export interface LandingSelect<T extends boolean = true> {
+  sections?:
+    | T
+    | {
+        key?: T;
+        navLabel?: T;
+        aliases?: T;
+        id?: T;
+      };
+  hero?:
+    | T
+    | {
+        title?: T;
+        driveLabel?: T;
+        drive?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        craftLabel?: T;
+        craft?: T;
+      };
+  tldr?:
+    | T
+    | {
+        greeting?: T;
+        blocks?:
+          | T
+          | {
+              title?: T;
+              body?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  experience?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        diveInto?:
+          | T
+          | {
+              subheader?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        ctaLabel?: T;
+      };
+  portfolio?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        diveInto?:
+          | T
+          | {
+              subheader?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        ctaLabel?: T;
+      };
+  moreAboutMe?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        teaser?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              description?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              ctaLabel?: T;
+            };
+      };
+  contact?:
+    | T
+    | {
+        header?: T;
+        subheader?: T;
+        description?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels_select".
+ */
+export interface LabelsSelect<T extends boolean = true> {
+  constants?:
+    | T
+    | {
+        portfolio?:
+          | T
+          | {
+              overview?: T;
+              systemDesign?: T;
+              keyDecisions?: T;
+              conclusion?: T;
+              relevantContent?: T;
+            };
+        experience?:
+          | T
+          | {
+              roleDescription?: T;
+              scope?: T;
+              craft?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

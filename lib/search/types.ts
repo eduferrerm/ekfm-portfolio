@@ -7,7 +7,7 @@ import type { IFuseOptions } from 'fuse.js'
  */
 export type SearchDocument = {
   id: string
-  type: 'portfolio' | 'experience' | 'keyword'
+  type: 'portfolio' | 'experience' | 'keyword' | 'section'
   title: string
   description?: string
   keywords: string[]

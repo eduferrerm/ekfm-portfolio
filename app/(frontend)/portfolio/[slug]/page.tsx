@@ -4,7 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { List } from '@/components/primitives/List'
-import { CONTENT_SUBHEADERS } from '@/lib/labels'
+import { getSubheaders } from '@/lib/labels'
 import { keywordLabels } from '@/features/experience/experience'
 import { GraphClient, getDiagram } from '@/features/portfolio/graph'
 import { KeyDecisions } from '@/features/portfolio/KeyDecisions'
@@ -33,15 +33,19 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 export default async function PortfolioItemPage({ params }: Args) {
   const { slug } = await params
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'portfolio',
-    where: { slug: { equals: slug } },
-    depth: 1,
-    limit: 1,
-  })
+  const [{ docs }, subheaders] = await Promise.all([
+    payload.find({
+      collection: 'portfolio',
+      where: { slug: { equals: slug } },
+      depth: 1,
+      limit: 1,
+    }),
+    getSubheaders(),
+  ])
 
   const item = docs[0]
   if (!item) notFound()
+  const labels = subheaders.portfolio
 
   const overview = (item.overview ?? [])
     .map((o) => o.text)
@@ -66,12 +70,12 @@ export default async function PortfolioItemPage({ params }: Args) {
       <div className="grid gap-12 md:grid-cols-2">
         {overview.length > 0 && (
           <section>
-            <SectionLabel>{CONTENT_SUBHEADERS.portfolio.overview}</SectionLabel>
+            <SectionLabel>{labels.overview}</SectionLabel>
             <List variant="prose" items={overview} />
           </section>
         )}
         <section>
-          <SectionLabel>{CONTENT_SUBHEADERS.portfolio.systemDesign}</SectionLabel>
+          <SectionLabel>{labels.systemDesign}</SectionLabel>
           {diagram && (
             <div className="h-[28rem] w-full overflow-hidden rounded-lg border border-border">
               <GraphClient nodes={diagram.nodes} edges={diagram.edges} />
@@ -82,11 +86,11 @@ export default async function PortfolioItemPage({ params }: Args) {
 
       {decisions.length > 0 && (
         <Suspense fallback={null}>
-          <KeyDecisions decisions={decisions} subtitle={keyDecisionsSubtitle(item)} />
+          <KeyDecisions decisions={decisions} subtitle={keyDecisionsSubtitle(item)} labels={labels} />
         </Suspense>
       )}
 
-      <RelatedContent items={related} />
+      <RelatedContent items={related} label={labels.relevantContent} />
     </article>
   )
 }

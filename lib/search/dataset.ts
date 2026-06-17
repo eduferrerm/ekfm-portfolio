@@ -3,6 +3,8 @@ import 'server-only'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import { slugify } from '@/lib/slugify'
+
 import type { SearchDocument } from './types'
 
 /**
@@ -15,7 +17,7 @@ import type { SearchDocument } from './types'
 export async function buildSearchDataset(): Promise<SearchDocument[]> {
   const payload = await getPayload({ config })
 
-  const [portfolio, experience, keywords] = await Promise.all([
+  const [portfolio, experience, keywords, landing] = await Promise.all([
     payload.find({ collection: 'portfolio', limit: 1000, depth: 1 }),
     payload.find({ collection: 'experience', limit: 1000, depth: 1 }),
     // Search-only keywords never stand on their own as a result — they exist to
@@ -27,6 +29,10 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       depth: 0,
       where: { searchOnly: { not_equals: true } },
     }),
+    // Landing sections own their search: each navigable band emits a doc that
+    // deep-links to its /#slug anchor (slug = slugify(navLabel), same derivation
+    // the nav + render use, so they always agree).
+    payload.findGlobal({ slug: 'landing', depth: 0 }),
   ])
 
   // Resolved keyword (depth:1 populates scope/craft relationships into objects).
@@ -81,6 +87,17 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
       aliases: (doc.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
       href: `/portfolio?keyword=${encodeURIComponent(doc.slug)}`,
     })),
+    ...(landing.sections ?? []).map((section) => {
+      const slug = slugify(section.navLabel)
+      return {
+        id: `section:${slug}`,
+        type: 'section' as const,
+        title: section.navLabel,
+        keywords: [],
+        aliases: (section.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
+        href: `/#${slug}`,
+      }
+    }),
   ]
 
   return docs
