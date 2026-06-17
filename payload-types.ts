@@ -303,7 +303,6 @@ export interface Experience {
 export interface Keyword {
   id: number;
   label: string;
-  slug: string;
   /**
    * Hidden recruiter term — feeds search only, never rendered. Skips category.
    */
@@ -580,7 +579,6 @@ export interface VisitorsSelect<T extends boolean = true> {
  */
 export interface KeywordsSelect<T extends boolean = true> {
   label?: T;
-  slug?: T;
   searchOnly?: T;
   category?: T;
   aliases?: T;

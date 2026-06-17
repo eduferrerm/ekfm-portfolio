@@ -22,18 +22,12 @@ export const Keywords: CollectionConfig = {
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      index: true,
-    },
-    {
-      // Phase 6 primitive, pulled forward. Marks a keyword as search-only:
-      // never rendered, never offered in the scope/craft pickers. Attaches to
-      // content via the `searchKeywords` relationship field to lift that item
-      // in search without showing on the page (e.g. "fintech", "B2B SaaS").
-      // (Phase 6 will also add a `target` for navigational search-only keywords.)
+      // Marks a keyword as search-only: never rendered, never offered in the
+      // scope/craft pickers. Attaches to content via the `searchKeywords`
+      // relationship field to lift that item in search without showing on the
+      // page (e.g. "fintech", "B2B SaaS"). (Phase 6 dropped the `slug` field —
+      // keywords carry no URL identity; the navigational target mechanism was
+      // retired and keyword recall folds into the content docs they tag.)
       name: 'searchOnly',
       type: 'checkbox',
       defaultValue: false,
