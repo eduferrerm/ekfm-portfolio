@@ -22,7 +22,9 @@ Resolved since C's seed below:
 
 - **Open #2 (Nav re-architecture + 2a/2b): RESOLVED (Phase 5).** Ratified replacing searchOnly+target with sections-own-search. (2a) `Landing.sections[]` stays YAGNI — a flat CMS array `{ key, navLabel, aliases[] }`, **not** a block/page-builder. (2b) **Hybrid, not "absorbing into generic content":** per-band copy lives in structured groups on a single `Landing` global; the *navigable section list* is a CMS array (`sections[]`) that drives nav + anchor ids (`slugify(navLabel)`) + search `section` docs. Owner rejected a **code** manifest (same instinct as the subheaders→CMS refactor) — so the manifest is CMS data, the only code-bound piece being the `key` enum (a section type must bind to a renderer). See Phase 5 build log.
 
-Still open: **#6** (drop `keyword` from SearchDocument union — Phase 6).
+Resolved in Phase 6:
+- **Open #4 (Migration baseline): CONFIRMED at-launch.** The `Keyword.slug` drop rode dev-push/raw-SQL on the empty shared DB (no prod served yet); no migration infra built this phase. Single baseline `0001` still authored once at launch against final schema (see Branch & deploy strategy).
+- **Open #6 (Drop keyword from SearchDocument union): DONE.** `keyword` removed from the union + no longer emitted (had a dead `/portfolio?keyword=` href once the nav `target` mechanism was retired; recall already folds into the content docs the keyword tags). Union is now `portfolio | experience | section`.
 
 ### Branch & deploy strategy (LOCKED)
 `main` is wired to **auto-deploy to prod** on Vercel → `main` is the *release* branch. `development` is the **staging trunk** (auth-locked on Vercel = password-protected deployed env). Therefore:
@@ -103,9 +105,9 @@ Per-feature diagrams = direct JSON → shared NoSSR GraphClient, linked by diagr
 1. ~~Shape C — keep or back out.~~ **KEEP** (committed `156ef40`); test pending.
 2. **Nav re-architecture** — ratify replacing the locked searchOnly+target; then (a) confirm Landing sections[] stays on the right side of YAGNI-on-blocks, (b) decide how Landing.sections relates to the Hero/TLDR/Contact globals (additional vs absorbing — pick one model).
 3. ~~Highlighting — keep or cut.~~ **CUT.**
-4. **Migration baseline** — when to establish it.
+4. ~~Migration baseline — when to establish it.~~ **CONFIRMED at-launch** (Phase 6).
 5. ~~Inline-create fix — confirm.~~ **DONE.**
-6. **Standalone keyword search docs** — once slug/keyword-nav is gone, do keyword-type docs drop from the corpus entirely (→ remove `keyword` from the SearchDocument union)?
+6. ~~Standalone keyword search docs — drop from the corpus?~~ **DONE — dropped** (Phase 6).
 7. **Original keyword-registration doubt** — still unstated; confirm whether the inline-create fix actually covers what testing surfaced.
 
 ## Current state
@@ -201,3 +203,27 @@ Delivered:
 Outstanding for owner: PR `feature/information-architecture-composition` → `development`; author real `Landing` + `Labels` global copy (hero Drive/Craft, TLDR blocks, dive-into lists, contact CTA url, section aliases for search recall). Confirm the WelcomeBanner placement (slim ribbon above the nav) matches the "Visitor: Welcome" mock — adjust in review if not.
 
 Next (after merge): **Phase 6 (Search palette)** — Fuse index over the corpus (now incl. `section` docs) + palette UI + visitor personalization empty state; `Keyword.slug` removal (destructive, gated on migration baseline — Open #4); `SearchDocument` contract pass + drop `keyword` (Open #6).
+
+**Phase 6 (Search palette) BUILT** on `feature/information-architecture-search` (off freshly-pulled `development` after Phase 5 merged as PR #6 `8966524`; PR pending owner). Owner drove via two shared mocks (Search Palette + Visitor: Custom Search), each at mobile/tablet/desktop folds plus a 6-frame invoke animation. **This is the last IA branch — the search palette is the schema stress test, so the SearchDocument contract was locked here.**
+
+Owner decisions (this session):
+- **Open #6 — drop `keyword` docs (DONE).** The union is now `portfolio | experience | section`; keyword docs no longer emit. Their href (`/portfolio?keyword=…`) had no route once the nav `target` mechanism was retired, and keyword recall already folds into the content docs they tag (descriptor labels → `keywords[]`; descriptor + `searchKeywords` synonyms → `aliases[]`). Searching "React" still surfaces the tagged Feature/Experience.
+- **Open #4 — migration baseline stays at-launch.** The `Keyword.slug` drop rode the empty shared DB (raw SQL); no migration infra built. Baseline `0001` authored once at launch.
+- **Filter chips = dynamic by doc type.** `All` + one chip per type present in the corpus (`Experience` / `Features` / `Sections`). The mock's "TLDR/Content/Portfolio Details Page" chip names were illustrative. Visitors get a leading `Company: {role}` facet that scopes results to the union of the visitor's relevant-content hrefs.
+- **Mobile hamburger menu = NOT this branch.** Frame-1's section-list-with-portfolio-sub-items + SEARCH button is the deferred shared-aside-nav branch's territory. This branch ships the palette + a Search trigger in the existing `LandingNav` (mobile included); the mobile overlay's back-arrow just closes (no menu to return to yet).
+- **Recent Searches = localStorage, per-device.** Last 5, de-duped case-insensitively, tap re-runs, Clear wipes. Client-only.
+- **Highlighting stays CUT** (Open #3) — no scroll-to-text-fragment built.
+
+Delivered:
+- **SearchDocument contract (LOCKED):** union `portfolio | experience | section`. Enriched with display fields so result rows render the mock's card contract without re-deriving on the client: `label` (category eyebrow — "Feature"/"Experience"/"Section"), `name` (bold line — portfolio eyebrow / experience company / section navLabel), `thumbnail` (resolved Blob URL). `title` stays the Fuse-searchable primary (experience = "role · company", so "IC5" matches a row that displays only "Meta"). Fuse keys reweighted: title .5 / name .4 / keywords .3 / aliases .25 / description .1, `minMatchCharLength: 2`. `aliases` weighting is no longer inert.
+- **`lib/search/dataset.ts`:** dropped the keywords query + keyword docs; added `mediaUrl()` resolver; emits `label`/`name`/`thumbnail`. Section docs now ship a **bare `#slug` fragment** (not `/#slug`) so the palette resolves them against the current route — selecting a section on `/dear/[company]` scrolls within the visitor page instead of bouncing to `/` (owner call; `SearchPalette` prefixes `usePathname()`).
+- **`features/search-palette/`:** `SearchPalette.tsx` (client: trigger + portaled overlay — portaled to body because the nav's `backdrop-blur` would otherwise contain a fixed overlay; Cmd/Ctrl+K toggle, Esc close, ↑/↓/Enter over results, body-scroll lock; desktop = anchored top-right panel, mobile = top sheet with back/X; debounced `SearchPerformed` + `SearchResultSelected` analytics), `SearchResultRow.tsx` (thumbnail/placeholder + eyebrow + name, reused by results AND the visitor empty state), `facets.ts` (`buildFacets` dynamic-by-type + `applyFacet`), `useRecentSearches.ts` (localStorage), `visitorContext.ts` (server: builds the per-expectation empty state + `Company: {role}` chip from a depth≥2 Visitor), `types.ts`. Reused the existing `useSearchIndex.ts` + `lib/fuse`.
+- **Wiring:** `Landing.tsx` adds `buildSearchDataset()` to its `Promise.all` and builds `visitorSearch` when a visitor is present; `LandingNav.tsx` now takes `documents` + `visitorSearch` and mounts `<SearchPalette>` in place of the old static "Search" pill. Corpus ships as a prop (built at ISR), Fuse index built client-side.
+- **Schema:** `Keyword.slug` removed (no URL identity needed). Codegen ran (`payload-types.ts` regenerated); column dropped via raw SQL on the empty DB (`ALTER TABLE keywords DROP COLUMN slug CASCADE` — table was 0 rows; `keywords_slug_idx` dropped by CASCADE) after confirming no background `next dev` (the lingering-server trap). Config ↔ DB back in sync (verified: a later Local-API init pulled schema with no destructive prompt).
+- Verified: `pnpm build` green (11/11; `/` ○ Static, `/dear/[company]` ƒ; tsc + eslint clean). Seeded a temp portfolio + experience + visitor → ran prod server → fetched `/dear/{slug}` (dynamic, so it reflects fresh content unlike the prerendered `/`): serialized corpus showed **0** `keyword` docs, **0** `/portfolio?keyword=` hrefs, 5 `section` docs, correct `label`/`name`/`thumbnail` shape, and the visitor personalization (`Company: Senior Product Engineer` chip + `Expectation 1/1` group). Palette trigger (`aria-label="Open search"`) present in nav. Temp docs deleted (portfolio/visitors/keywords = 0); temp scripts removed.
+
+**Deferred / flagged for owner (NOT this branch):**
+- **Mobile hamburger menu + reveal-on-scroll nav animation** — still the deferred shared-aside-nav branch's territory (frame-1 menu, the invoke animation polish).
+- **Empty-content corpus:** with real content unauthored, the live corpus is just the 5 section docs + whatever's seeded. Recall/weighting tuning (aliases) is best re-checked during the content-fill pass (also the keyword-authoring UX acceptance test, Open #7).
+
+Outstanding for owner: PR `feature/information-architecture-search` → `development`; author section `aliases` (recruiter synonyms) on the Landing global for search recall; confirm the palette visuals against the mocks (desktop anchored panel vs. mobile sheet, chip styling) and adjust in review. With Phase 6 merged, all IA phases are complete — next is launch prep (clone staging→prod, snapshot `0001`) + the deferred feature branches (relational map, shared-aside nav).

@@ -1,9 +1,11 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import { buildSearchDataset } from '@/lib/search/dataset'
 import { slugify } from '@/lib/slugify'
 import type { Visitor, VisitorContent } from '@/payload-types'
 import { DearCompanySection } from '@/features/visitor/DearCompanySection'
+import { buildVisitorSearchContext } from '@/features/search-palette/visitorContext'
 import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
@@ -32,13 +34,15 @@ export async function Landing({
   visitorContent?: VisitorContent | null
 }) {
   const payload = await getPayload({ config })
-  const [landing, pCards, eCards] = await Promise.all([
+  const [landing, pCards, eCards, searchDocs] = await Promise.all([
     payload.findGlobal({ slug: 'landing', depth: 1 }), // depth:1 populates hero.craft labels
     portfolioCards(),
     experienceCards(),
+    buildSearchDataset(),
   ])
 
   const sections = landing.sections ?? []
+  const visitorSearch = visitor ? buildVisitorSearchContext(visitor) : null
   const dearCompanyNav = visitorContent?.constants?.dearCompanyNav || 'Dear Company'
   const navItems = [
     ...(visitor ? [{ label: dearCompanyNav, slug: DEAR_COMPANY_ID }] : []),
@@ -57,7 +61,7 @@ export async function Landing({
         </div>
       )}
 
-      <LandingNav items={navItems} />
+      <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
 
       <HeroBand hero={landing.hero} />
 
