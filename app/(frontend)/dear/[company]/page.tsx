@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { DearCompanySection } from '@/features/visitor/DearCompanySection'
-import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
+import { Landing } from '@/features/landing/Landing'
 
 // ISR: per-company pages are generated on-demand and revalidated hourly. No
 // generateStaticParams — unknown companies 404 and known ones build on first
@@ -14,6 +13,11 @@ type Args = {
   params: Promise<{ company: string }>
 }
 
+/**
+ * Personalized landing for a company. Renders the same assembled Landing as `/`
+ * but visitor-aware: the welcome banner + Dear Company band weave into the full
+ * page. No content is duplicated — one shared Landing RSC, one SSOT.
+ */
 export default async function VisitorPage({ params }: Args) {
   const { company } = await params
   const payload = await getPayload({ config })
@@ -30,16 +34,7 @@ export default async function VisitorPage({ params }: Args) {
   const visitor = docs[0]
   if (!visitor) notFound()
 
-  const content = await payload.findGlobal({ slug: 'visitor-content' })
+  const visitorContent = await payload.findGlobal({ slug: 'visitor-content' })
 
-  return (
-    <main className="mx-auto max-w-5xl space-y-12 px-6 py-10">
-      <WelcomeBanner
-        company={visitor.company}
-        logo={visitor.companyLogo}
-        greeting={content.welcomeGreeting}
-      />
-      <DearCompanySection visitor={visitor} content={content} />
-    </main>
-  )
+  return <Landing visitor={visitor} visitorContent={visitorContent} />
 }

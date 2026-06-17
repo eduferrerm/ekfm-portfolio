@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { List } from '@/components/primitives/List'
 import { SliderControls } from '@/components/primitives/Slider'
-import { CONTENT_SUBHEADERS } from '@/lib/labels'
+import type { Subheaders } from '@/lib/labels'
 
 import type { KeyDecisionView } from './portfolio'
 
@@ -18,9 +18,11 @@ import type { KeyDecisionView } from './portfolio'
 export function KeyDecisions({
   decisions,
   subtitle,
+  labels,
 }: {
   decisions: KeyDecisionView[]
   subtitle: string
+  labels: Subheaders['portfolio']
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -43,9 +45,7 @@ export function KeyDecisions({
 
   return (
     <section className="scroll-mt-24">
-      <h2 className="text-3xl font-semibold tracking-tight">
-        {CONTENT_SUBHEADERS.portfolio.keyDecisions}
-      </h2>
+      <h2 className="text-3xl font-semibold tracking-tight">{labels.keyDecisions}</h2>
       <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">
         {subtitle}
       </p>
@@ -62,7 +62,7 @@ export function KeyDecisions({
 
             <div>
               <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold text-blue-500">
-                {CONTENT_SUBHEADERS.portfolio.conclusion}{' '}
+                {labels.conclusion}{' '}
                 <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
                 <span className="sr-only">
                   {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
@@ -77,7 +77,7 @@ export function KeyDecisions({
           index={index}
           count={decisions.length}
           onIndexChange={setIndex}
-          label={CONTENT_SUBHEADERS.portfolio.keyDecisions}
+          label={labels.keyDecisions}
         />
       </div>
     </section>

@@ -1,0 +1,105 @@
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
+import { slugify } from '@/lib/slugify'
+import type { Visitor, VisitorContent } from '@/payload-types'
+import { DearCompanySection } from '@/features/visitor/DearCompanySection'
+import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
+
+import { LandingNav } from './LandingNav'
+import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
+import { experienceCards, portfolioCards } from './projections'
+
+/** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
+const DEAR_COMPANY_ID = 'dear-company'
+
+/**
+ * The assembled landing, composed from the Landing global + collection
+ * projections. Visitor-aware: `/` renders it plain; `/dear/[company]` passes a
+ * `visitor` (+ the VisitorContent global) which mounts the welcome banner and
+ * weaves the Dear Company band in after the hero. One SSOT, one component — no
+ * content is duplicated between the two routes.
+ *
+ * Render order is fixed in code (each band is a bespoke composition); the nav,
+ * the band anchor ids, and the search docs all derive from `Landing.sections[]`,
+ * so they stay in sync without a code manifest.
+ */
+export async function Landing({
+  visitor,
+  visitorContent,
+}: {
+  visitor?: Visitor | null
+  visitorContent?: VisitorContent | null
+}) {
+  const payload = await getPayload({ config })
+  const [landing, pCards, eCards] = await Promise.all([
+    payload.findGlobal({ slug: 'landing', depth: 1 }), // depth:1 populates hero.craft labels
+    portfolioCards(),
+    experienceCards(),
+  ])
+
+  const sections = landing.sections ?? []
+  const dearCompanyNav = visitorContent?.constants?.dearCompanyNav || 'Dear Company'
+  const navItems = [
+    ...(visitor ? [{ label: dearCompanyNav, slug: DEAR_COMPANY_ID }] : []),
+    ...sections.map((s) => ({ label: s.navLabel, slug: slugify(s.navLabel) })),
+  ]
+
+  return (
+    <main>
+      {visitor && (
+        <div className="mx-auto w-full max-w-5xl px-6 pt-6">
+          <WelcomeBanner
+            company={visitor.company}
+            logo={visitor.companyLogo}
+            greeting={visitorContent?.welcomeGreeting}
+          />
+        </div>
+      )}
+
+      <LandingNav items={navItems} />
+
+      <HeroBand hero={landing.hero} />
+
+      {visitor && visitorContent && (
+        <div className="mx-auto w-full max-w-5xl px-6 py-20">
+          <DearCompanySection visitor={visitor} content={visitorContent} />
+        </div>
+      )}
+
+      {sections.map((section) => {
+        const id = slugify(section.navLabel)
+        switch (section.key) {
+          case 'tldr':
+            return <TldrBand key={section.id} id={id} tldr={landing.tldr} />
+          case 'experience':
+            return (
+              <LandingSectionBand
+                key={section.id}
+                id={id}
+                section={landing.experience}
+                cards={eCards}
+                ctaLabel={landing.experience?.ctaLabel || 'View Role'}
+              />
+            )
+          case 'portfolio':
+            return (
+              <LandingSectionBand
+                key={section.id}
+                id={id}
+                section={landing.portfolio}
+                cards={pCards}
+                ctaLabel={landing.portfolio?.ctaLabel || 'Feature Details'}
+              />
+            )
+          case 'moreAboutMe':
+            return <MoreAboutMeBand key={section.id} id={id} data={landing.moreAboutMe} />
+          case 'contact':
+            return <ContactBand key={section.id} id={id} contact={landing.contact} />
+          default:
+            return null
+        }
+      })}
+    </main>
+  )
+}

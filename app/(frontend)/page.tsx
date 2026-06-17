@@ -1,17 +1,13 @@
-import { ExperienceLandingSection } from '@/features/experience/ExperienceLandingSection'
+import { Landing } from '@/features/landing/Landing'
 
 // ISR: landing page is statically generated and revalidated hourly.
 export const revalidate = 3600
 
 /**
- * Landing page. Phase 5 (Composition) owns the full aggregation (globals +
- * projections + conditional Dear Company). For now it mounts the Experience
- * projection so the deep-links are testable end to end.
+ * Landing page. Composes the Landing global + collection projections via the
+ * shared Landing RSC. The `/dear/[company]` route renders the same component
+ * with a visitor for the personalized variant.
  */
 export default function HomePage() {
-  return (
-    <main>
-      <ExperienceLandingSection />
-    </main>
-  )
+  return <Landing />
 }

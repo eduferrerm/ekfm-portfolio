@@ -7,7 +7,7 @@
 
 ## Status / deltas (maintained by CC build threads)
 
-_Last updated: 2026-06-17 (Phase 4 build session)._
+_Last updated: 2026-06-17 (Phase 5 build session)._
 
 **Working model change (2026-06-15):** the owner now drives planning directly; CC plans **and** builds each phase. C ("the planning thread") is consulted for discussion only, not for per-phase build prompts. The "Thread's role (C)" section below is retained for history.
 
@@ -20,7 +20,9 @@ Resolved since C's seed below:
 - **Open #5 (Inline-create fix): DONE.** `allowCreate: false` + `admin.description` hints on `scope`/`craft`/`searchKeywords` (Experience + Portfolio).
 - **Open #7 (Original keyword doubt): DEFERRED.** "UX feels better; real test is filling actual content," which happens after all phases. Final content-fill pass is the acceptance test for keyword authoring UX.
 
-Still open: **#2** (nav re-architecture ratify + 2a/2b — Phase 5/6), **#6** (drop `keyword` from SearchDocument union — Phase 6).
+- **Open #2 (Nav re-architecture + 2a/2b): RESOLVED (Phase 5).** Ratified replacing searchOnly+target with sections-own-search. (2a) `Landing.sections[]` stays YAGNI — a flat CMS array `{ key, navLabel, aliases[] }`, **not** a block/page-builder. (2b) **Hybrid, not "absorbing into generic content":** per-band copy lives in structured groups on a single `Landing` global; the *navigable section list* is a CMS array (`sections[]`) that drives nav + anchor ids (`slugify(navLabel)`) + search `section` docs. Owner rejected a **code** manifest (same instinct as the subheaders→CMS refactor) — so the manifest is CMS data, the only code-bound piece being the `key` enum (a section type must bind to a renderer). See Phase 5 build log.
+
+Still open: **#6** (drop `keyword` from SearchDocument union — Phase 6).
 
 ### Branch & deploy strategy (LOCKED)
 `main` is wired to **auto-deploy to prod** on Vercel → `main` is the *release* branch. `development` is the **staging trunk** (auth-locked on Vercel = password-protected deployed env). Therefore:
@@ -171,4 +173,31 @@ Delivered:
 
 Outstanding for owner: PR `feature/information-architecture-visitors` → `development`; author real visitor content + the `VisitorContent` global copy (welcomeGreeting/intro/highlightPhrase/constants). Open question to confirm at review: the relevant-content card `title` is a literal collection category ("Feature"/"Experience") — if you want a content-driven category later it's a Portfolio schema field (flag before Phase 6).
 
-Next (after merge): **Phase 5 (Composition)** — landing aggregation (globals + projections + conditional Dear Company section/banner), `/dear/[company]` woven into the assembled landing, Landing global + sections[], shared slugify anchors, `CONTENT_SUBHEADERS` const→global refactor.
+**Phase 5 (Composition) BUILT** on `feature/information-architecture-composition` (off freshly-pulled `development` after Phase 4 merged as PR #5 `bf79c4e`; PR pending owner). Owner drove via the single `Landing.jpg` mock + a four-round design dialogue that resolved Open #2 and the visitor-composition model before any code.
+
+Owner decisions (this session):
+- **Visitor composition (Open #2a model):** one shared visitor-aware `Landing` RSC. `/` renders it plain; `/dear/[company]` passes a `visitor` (+ VisitorContent global) which mounts the `WelcomeBanner` and weaves the Dear Company band in after the hero. **No content duplication** — same SSOT/component; the per-company HTML is just ISR cache (PPR noted as a future escape hatch, YAGNI now). `/dear/[company]` graduated from the Phase-4 standalone page to the full assembled landing.
+- **Section model (Open #2b):** rejected both a code manifest *and* a generic-content-blocks global. Landed on structured copy groups + a CMS `sections[]` array (the manifest, in CMS). Nav, band anchor ids, and search docs all derive from `sections[]` via shared `slugify(navLabel)` so they can't drift; build-/save-time `validate` rejects duplicate slugified navLabels + repeated keys. `afterChange → revalidatePath('/')`.
+- **Hero vs TLDR are two entries:** `Hero` = top band ("PRODUCT ENGINEERING" + Drive prose + Craft ordered-keyword relationship), un-anchored (nav hidden over it, so NOT a `sections` entry). `TLDR` = the "Hi there I'm Edu" band (greeting + array of `{ title, body[] }` blocks; bio "Background" is the first block) — the nav's TLDR anchor.
+- **Drive = prose; Craft = ordered craft-keyword relationship** (descriptor pattern: `category=craft` + `searchOnly != true`, attach-order, `allowCreate:false`).
+- **Experience & Portfolio landing bands = identical card layout** (owner: the sidebar in the mock is the `/experience` *inner* page, not the landing). One shared `LandingCard` + `LandingSectionBand`; each band = `{ heading, subheader, diveInto: { subheader, items[] } }` (the "Dive into" label + list) with cards projected from the collection (portfolio by `order`, experience by `-startDate`). Old quick-links `ExperienceLandingSection` deleted.
+- **More About Me:** the relational-map *feature* (CSV→JSON pipeline + GraphClient interactions) is its **own branch**, but its **global lands now** (`moreAboutMe` group: heading, subheader, `teaser{ eyebrow,title,description,items[],ctaLabel }`). Band renders the teaser card + a placeholder where the graph will mount. No map data/CSV in this branch.
+- **`CONTENT_SUBHEADERS` → CMS (Open Q resolved):** the owner's "pull subheaders into CMS" instinct is the same one that killed the code manifest, so the refactor is ON. New `Labels` global with a `constants` group (admin section "Constants", matching `VisitorContent.constants`). `lib/labels.ts` now exposes `getSubheaders()` (findGlobal + merge over typed defaults as fallback) read once per detail-page RSC and threaded down as props (client `KeyDecisions` receives them as props).
+- **All editorial copy is CMS** (owner principle, audited + fixed pre-handoff): card CTA labels are `experience.ctaLabel`/`portfolio.ctaLabel` on the Landing global ("View Role"/"Feature Details" defaults); hero column labels are `hero.driveLabel`/`craftLabel`; the visitor nav label is `VisitorContent.constants.dearCompanyNav`. Only the **EKFM wordmark** (brand) and the nav **Search** affordance (Phase-6 palette trigger placeholder) remain literals — not editorial copy.
+
+Delivered:
+- Globals: `payload/globals/Landing.ts` (slug `landing`; sections[] + hero/tldr/experience/portfolio/moreAboutMe/contact groups; defaults match the mock so a fresh global renders meaningfully — verified the 5 default sections + hero/portfolio/contact copy populate on an unsaved global). `payload/globals/Labels.ts` (slug `labels`; `constants` group). Both registered in `payload.config.ts` (`globals: [VisitorContent, Landing, Labels]`).
+- Render: `features/landing/{Landing.tsx (orchestrator, visitor-aware), LandingNav.tsx (sticky; reads sections[]; Search placeholder + reveal-animation deferred), bands.tsx (Hero/Tldr/LandingSection/MoreAboutMe/Contact), LandingCard.tsx, projections.ts (portfolioCards/experienceCards/proseLines)}`. **Filename note:** helpers are `projections.ts`, NOT `landing.ts` — `Landing.tsx`/`landing.ts` collide on case-insensitive macOS (TS2305/TS1149).
+- Routes: `/` → `<Landing />` (○ Static, ISR 1h); `/dear/[company]` → `<Landing visitor … />` (ƒ on-demand ISR, depth:2 visitor + findGlobal). 
+- Refactor: `lib/labels.ts` (`getSubheaders()` + `SUBHEADER_DEFAULTS`, now `server-only`); consumers updated (`experience/page.tsx`, `ExperienceSection`, `portfolio/[slug]/page.tsx`, `KeyDecisions`, `RelatedContent`) to receive subheaders as props.
+- Search: `SearchDocument` union gains `'section'`; `buildSearchDataset` emits one section doc per `Landing.sections[]` entry (`title=navLabel`, `aliases`, `href:/#${slugify(navLabel)}`). Emission only — palette UI stays Phase 6.
+- Schema push: globals are additive (new tables `landing*`, `labels`) → applied **silently** via `scripts/push-schema.mts` (no dev server running; `--env-file=.env.local` needed since the script doesn't load dotenv). `pg` introspection confirmed all tables (`landing_rels` for craft, `landing_texts` for aliases hasMany, the array tables). No destructive DDL this phase.
+- Verified: `pnpm build` green (11/11; `/` ○ Static, `/dear/[company]` ƒ; tsc + eslint clean). Ran prod server: `/` 200 with nav anchors == band ids (`#tldr/#experience/#portfolio/#more-about-me/#contact`, hero correctly un-anchored); seeded a temp visitor → `/dear/acme-test-co` 200 with WelcomeBanner ("Welcome Acme Test Co"), `#dear-company` band + nav item, reply paragraphs split on blank lines; `/` has zero `dear-company`; unknown slug → 404. Temp visitor deleted (visitors=0), temp scripts removed.
+
+**Deferred / flagged for owner (NOT this branch):**
+- **Relational map feature** — CSV→JSON pipeline + GraphClient wiring + interactions on its own branch (owner has the CSVs). Shares only the `GraphData` render contract. The `moreAboutMe` global + teaser placeholder are already in place.
+- **Vestigial `/tldr` + `/contact` routes** render blank `<main />` (first-commit scaffolding) and `features/menu/PortfolioNav.tsx` (live in the portfolio layout sidebar) still links to them. The landing now owns TLDR/Contact as anchors (`/#tldr`, `/#contact`). Left intact this phase (the portfolio sidebar is the **deferred shared-aside-nav branch's** territory); that branch should retire the blank routes + repoint PortfolioNav to the landing anchors.
+
+Outstanding for owner: PR `feature/information-architecture-composition` → `development`; author real `Landing` + `Labels` global copy (hero Drive/Craft, TLDR blocks, dive-into lists, contact CTA url, section aliases for search recall). Confirm the WelcomeBanner placement (slim ribbon above the nav) matches the "Visitor: Welcome" mock — adjust in review if not.
+
+Next (after merge): **Phase 6 (Search palette)** — Fuse index over the corpus (now incl. `section` docs) + palette UI + visitor personalization empty state; `Keyword.slug` removal (destructive, gated on migration baseline — Open #4); `SearchDocument` contract pass + drop `keyword` (Open #6).
