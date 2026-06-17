@@ -7,7 +7,7 @@
 
 ## Status / deltas (maintained by CC build threads)
 
-_Last updated: 2026-06-15 (Phase 2 kickoff session)._
+_Last updated: 2026-06-17 (Phase 4 build session)._
 
 **Working model change (2026-06-15):** the owner now drives planning directly; CC plans **and** builds each phase. C ("the planning thread") is consulted for discussion only, not for per-phase build prompts. The "Thread's role (C)" section below is retained for history.
 
@@ -46,8 +46,8 @@ EKFM: Next 15 / Payload 3 / Postgres portfolio. The **search palette is the cent
 1. **Foundations** — keyword taxonomy + Search contract. ✅ Sealed. aliases verified to flow (depth:1, no field-narrowing); scope/craft confirmed hasMany; schema-safe (no rows tagged).
    - **1b. Keyword Shape C** (searchOnly boolean → searchKeywords) — pulled forward from Phase 6. Built + committed; adoption test pending (Open #1).
 2. **Experience** — detail page + landing projection. Structure locked (see decisions); build prompt not yet produced.
-3. **Portfolio/Features** — detail (overview, Key Decisions slider, related content) + per-feature reactflow diagrams (direct JSON, diagramKey).
-4. **Visitors** — personalization data (expectations[], relevantContent).
+3. **Portfolio/Features** — detail (overview, Key Decisions slider, related content) + per-feature reactflow diagrams (direct JSON, diagramKey). ✅ Built + merged (PR #4).
+4. **Visitors** — personalization data (expectations[], per-expectation relevantContent) + `/dear/[company]` cover letter + welcome banner + first Payload global. ✅ Built (PR pending).
 5. **Composition** — landing aggregation (globals + projections + conditional Dear Company), /dear/[company], relational map (CSV→JSON→GraphClient). Also: the **Landing global + sections[]**, shared slugify helper, render-stamped anchor ids, afterChange revalidation. [CC grouped the Landing global into Phase 6; C placed the global + render here with Composition and left section *indexing* in Phase 6, per "compose then index". Flag if you prefer it whole in 6.]
 6. **Search palette** — Fuse index over corpus + UI + visitor personalization. Re-scoped: alias weighting; Keyword.slug removal (destructive, gated on migration baseline); section search-docs (/#slug, emitted by dataset via shared slugify); SearchDocument contract pass; ~~term-highlighting~~ (CUT, Open #3). Keyword target mechanism dropped (superseded).
 
@@ -150,4 +150,25 @@ Delivered:
 
 Outstanding for owner: PR `feature/information-architecture-portfolio` → `development`; author real diagram files + portfolio content (eyebrow/thumbnail/overview/diagram/keyDecisions); decide whether `scripts/push-schema.mts` graduates to a package script. **This branch's purpose = lock the schemas + prove the UX so later churn ≈ 0; the search palette (Phase 6) is the real schema stress test.** Search dataset still emits portfolio docs (`/portfolio/${slug}`) — unchanged (could fold `eyebrow` in later; no schema change needed).
 
-Next (after merge): **Phase 4 (Visitors)** — `expectations[]` + `relevantContent`; feeds Dear Company + visitor palette empty state.
+**Phase 4 (Visitors / Dear Company) BUILT** on `feature/information-architecture-visitors` (off freshly-pulled `development` after Phase 3 merged as PR #4 `3224929`; PR pending owner). Owner drove via three shared mocks (Visitor Welcome / Cover Letter / Custom Search) — design-sharing again resolved structure fast. Net model: a published Visitor = a per-company cover letter at `/dear/[company]`; the author picks N job-post expectations, writes one reply per expectation, and attaches supporting site content **per expectation**.
+
+Owner decisions (this session):
+- **Scope folded:** owner pulled the "Dear Company landing composition" into Phase 4 (welcome banner + Dear Company section built now as reusable RSCs; Phase 5 slots them into the assembled landing). Full landing chrome (Hero/TLDR/Craft/Experience/Portfolio) stays Phase 5; personalized search-palette empty state stays Phase 6 (this branch supplies the fields it reads).
+- **relevantContent is per-expectation** for visitors (each `expectations[]` row owns its supporting items) — distinct from Portfolio's doc-level `relatedContent`. Polymorphic `relationTo:['portfolio','experience']`, hasMany.
+- **Reply = single `textarea`** (not the roadmap's `replyColumn1/2`, not a prose array): owner wants any-length prose auto-balanced into two columns to cap card height (keeps slide + nav in one viewport). Rendered `sm:columns-2` **without** `break-inside-avoid` so a single body splits/balances. Plain prose only (no richText — confirmed cheap pre-launch refactor if ever needed; supporting content is the structured `relevantContent`, not inline links).
+- **Fixed visitor copy → a Payload Global** (`VisitorContent`), the **first global in the project** (`globals: []` was empty). Single source of truth; the existing `CONTENT_SUBHEADERS` const→global refactor is **deferred to Phase 5** (global-doc work). Owner renamed the label group → `constants`.
+- **Card contract = `title` + `metadata`** (for the future shared Card): in relevant-content cards `title` = content category ("Experience"/"Feature"), `metadata` = the surfaced item's name (portfolio eyebrow / experience company).
+- **Slider atomized:** `Slider` → `SliderControls` (nav-only atom: Prev/dots/Next); consumers own their slide container. KeyDecisions recomposed (no visual change). First reuse = visitor Expectations.
+
+Delivered:
+- Schema (Visitors): dropped `headline` + `notes` (richText); added `role` (req), `jobPostUrl` (req), slug `beforeValidate` auto-from-`company` (mirrors Experience/Portfolio), `expectations[]` (req, minRows 1) → `{ expectation (textarea 280), reply (textarea 1500), relevantContent (polymorphic hasMany) }`. `afterChange` → `revalidatePath('/dear/{slug}')` (+ old slug on rename), wrapped in `try/catch` so programmatic writes (seed/migration) outside a Next request scope don't throw.
+- Global `VisitorContent` (`payload/globals/VisitorContent.ts`, `slug: visitor-content`): `welcomeGreeting`, `intro[]` ({text}), `highlightPhrase`, `constants` group (`expectations`/`reply`/`relevantContent`/`jobPost`, defaulted). Wired `globals: [VisitorContent]`.
+- Frontend (`features/visitor/`): `visitor.ts` (`resolveRelevantContent` → title/metadata/href/thumbnail; `expectationViews` splits the reply textarea on blank lines), `WelcomeBanner.tsx`, `DearCompanySection.tsx` (RSC: `Dear {company}`, intro via `List` with a highlighted `<span>`, Job Post link, `<Suspense>` slider), `Expectations.tsx` (client: `?expectation=N` URL-sync, reply `columns-2` balanced, title/metadata cards, `SliderControls`).
+- Primitives: `Slider`→`SliderControls` atom; `List` prose widened to `React.ReactNode[]` (carries the highlight span, one chevron-marker source).
+- Route: `/dear/[company]` rebuilt from stub — on-demand ISR (revalidate 3600, no generateStaticParams), Local API `find` depth:2 + `findGlobal`, `notFound()` on miss, own container (no portfolio sidebar layout).
+- **Schema-push note (lingering-dev-server gotcha, NEW):** a backgrounded `next dev` that survives a `pkill` keeps **hot-pushing on every config save**. That silently applied the additive/empty-table diffs (reply array→textarea: empty `visitors_expectations_reply` dropped silently) but **stalled on the `labels→constants` rename TUI** (reads `/dev/tty`), leaving the DB half-migrated. Fix: `kill` the dev PIDs, raw-SQL the destructive parts (`DROP TABLE … CASCADE` + `ALTER TABLE … DROP COLUMN labels_*`), then a clean foreground `push-schema.mts` for the pure additions. Lesson: kill dev by PID (verify `ps`) before any destructive schema change; `pkill -f "next dev"` missed the pnpm-wrapped child. `pg` isn't hoisted under pnpm — introspect via the explicit `.pnpm/pg@8.20.0/...` path.
+- Verified: `pnpm build` green (11/11, `/dear/[company]` is ƒ; tsc + eslint clean); seeded temp visitor → 200 with all bands, `?expectation=2` selects slide 2 server-side, per-expectation relevant content differs, single long reply balances across `columns-2`, constants resolve, unknown slug → 404; temp visitor removed + global reset (visitors rows = 0), temp scripts deleted. pg introspection confirmed final schema (`constants_*`, `reply` column, no `labels_*`/reply sub-table/`notes`/`headline`).
+
+Outstanding for owner: PR `feature/information-architecture-visitors` → `development`; author real visitor content + the `VisitorContent` global copy (welcomeGreeting/intro/highlightPhrase/constants). Open question to confirm at review: the relevant-content card `title` is a literal collection category ("Feature"/"Experience") — if you want a content-driven category later it's a Portfolio schema field (flag before Phase 6).
+
+Next (after merge): **Phase 5 (Composition)** — landing aggregation (globals + projections + conditional Dear Company section/banner), `/dear/[company]` woven into the assembled landing, Landing global + sections[], shared slugify anchors, `CONTENT_SUBHEADERS` const→global refactor.
