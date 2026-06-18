@@ -11,15 +11,16 @@ const LINKS = [
 ] as const
 
 /**
- * Persistent portfolio navigation. Rendered inside the portfolio shared layout
- * so it survives App Router soft-navigations (the SPA feel). Highlights the
- * active section by pathname prefix.
+ * Persistent section navigation, shared by the portfolio and experience shared
+ * layouts so it survives App Router soft-navigations (the SPA feel). Highlights
+ * the active section by pathname prefix. The per-item sub-nav (role/feature
+ * thumbnails) lives on the deferred shared-aside-nav branch.
  */
-export function PortfolioNav() {
+export function SectionNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex flex-col gap-1" aria-label="Portfolio sections">
+    <nav className="flex flex-col gap-1" aria-label="Sections">
       {LINKS.map(({ href, label }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`)
         return (

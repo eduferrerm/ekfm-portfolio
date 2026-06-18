@@ -87,7 +87,7 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
         ...keywordLabels(doc.searchKeywords),
       ],
-      href: `/experience#${doc.slug}`,
+      href: `/experience/${doc.slug}`,
     })),
     ...(landing.sections ?? []).map((section) => {
       const slug = slugify(section.navLabel)

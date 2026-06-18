@@ -40,9 +40,10 @@ export const Labels: GlobalConfig = {
           name: 'experience',
           type: 'group',
           fields: [
-            { name: 'roleDescription', type: 'text', defaultValue: 'Role Description' },
+            { name: 'roleDescription', type: 'text', defaultValue: 'Responsibilities' },
             { name: 'scope', type: 'text', defaultValue: 'Scope' },
             { name: 'craft', type: 'text', defaultValue: 'Craft' },
+            { name: 'deepDive', type: 'text', defaultValue: 'Deep Dive' },
           ],
         },
       ],

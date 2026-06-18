@@ -50,7 +50,7 @@ export function relatedItems(related?: Portfolio['relatedContent']): RelatedItem
       }
       const value = rel.value
       if (typeof value !== 'object' || !value || !value.slug) return null
-      return { title: `${value.role} · ${value.company}`, href: `/experience#${value.slug}` }
+      return { title: `${value.role} · ${value.company}`, href: `/experience/${value.slug}` }
     })
     .filter((item): item is RelatedItem => Boolean(item))
 }

@@ -1,4 +1,4 @@
-import { PortfolioNav } from '@/features/menu/PortfolioNav'
+import { SectionNav } from '@/features/menu/SectionNav'
 
 /**
  * Shared layout for the portfolio section: a persistent sidebar (nav) plus the
@@ -15,7 +15,7 @@ export default function PortfolioLayout({
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 shrink-0 border-r border-border p-4">
-        <PortfolioNav />
+        <SectionNav />
       </aside>
       <main className="min-w-0 flex-1 p-6">{children}</main>
     </div>
