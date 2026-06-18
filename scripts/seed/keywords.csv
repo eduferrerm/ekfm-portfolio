@@ -1,0 +1,32 @@
+key,label,category,aliases
+frontend,Frontend,scope,FE|UI|client-side|web|frontend engineering
+product-engineering,Product Engineering,scope,product eng|product engineer|product-minded|0 to 1|0-to-1|product builder
+platform,Platform,scope,backend|infra|infrastructure|platform engineering|full-stack|fullstack|distributed systems
+design-systems,Design Systems,scope,DS|component library|design system|design tokens|component systems
+react,React,craft,JSX|React.js|hooks|RSC|react server components
+typescript,TypeScript,craft,TS|typed javascript|static typing
+nextjs,Next.js,craft,next|app router|SSR|ISR|server components|react framework
+nodejs,Node.js,craft,node|server-side javascript|backend js
+postgres,PostgreSQL,craft,postgres|SQL|relational database|drizzle|relational db
+system-design,System Design,craft,architecture|systems design|distributed design|technical design
+api-design,API Design,craft,REST|GraphQL|API|endpoints|api architecture
+testing,Testing,craft,QA|test automation|unit tests|integration tests|e2e tests
+ci-cd,CI/CD,craft,continuous integration|continuous deployment|pipelines|deployment
+accessibility,Accessibility,craft,a11y|WCAG|inclusive design|screen readers
+performance,Performance,craft,perf|web vitals|optimization|core web vitals|page speed
+search,Search,craft,information retrieval|fuzzy search|full-text search|search relevance
+data-visualization,Data Visualization,craft,dataviz|charts|graphs|d3|node graphs
+ui-engineering,UI Engineering,craft,UI eng|interface engineering|frontend architecture|component architecture
+visual-design,Visual Design,craft,UI design|graphic design|brand|visual identity|typography
+animation,Animation,craft,motion|transitions|micro-interactions|motion design
+work,work,searchOnly,working|projects|portfolio|my work
+track-record,track record,searchOnly,proven results|execution history|results|delivery history
+e2e-ownership,end-to-end ownership,searchOnly,E2E ownership|ownership|owned end to end|full ownership|end to end
+scope-of-impact,scope of impact,searchOnly,impact|business impact|measurable impact|outcomes
+expertise,expertise,searchOnly,domain mastery|proficiency|deep knowledge|specialist|expert
+seniority,seniority,searchOnly,senior|staff|staff engineer|IC5|lead|principal|tech lead
+tenure,tenure,searchOnly,years of experience|YOE|industry experience|veteran
+background,background,searchOnly,about|bio|story|about me
+events,live events,searchOnly,events|experiences|ticketing|entertainment
+social-media,social media,searchOnly,consumer|social|scale|big tech
+fintech,fintech,searchOnly,financial technology|payments|banking
