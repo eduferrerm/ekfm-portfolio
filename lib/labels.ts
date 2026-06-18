@@ -23,9 +23,10 @@ export const SUBHEADER_DEFAULTS = {
     relevantContent: 'Relevant content',
   },
   experience: {
-    roleDescription: 'Role Description',
+    roleDescription: 'Responsibilities',
     scope: 'Scope',
     craft: 'Craft',
+    deepDive: 'Deep Dive',
   },
 } as const
 
@@ -58,6 +59,7 @@ export async function getSubheaders(): Promise<Subheaders> {
       roleDescription: e?.roleDescription || d.experience.roleDescription,
       scope: e?.scope || d.experience.scope,
       craft: e?.craft || d.experience.craft,
+      deepDive: e?.deepDive || d.experience.deepDive,
     },
   }
 }

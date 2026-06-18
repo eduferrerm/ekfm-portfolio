@@ -277,10 +277,20 @@ export interface Experience {
    * Optional company logo.
    */
   companyLogo?: (number | null) | Media;
-  /**
-   * Optional autoplay showcase video (kept under 4.5MB at encode).
-   */
-  showcase?: (number | null) | Media;
+  showcase?:
+    | {
+        image: number | Media;
+        /**
+         * Optional "Visit site" link for this showcase image.
+         */
+        url?: string | null;
+        /**
+         * Optional caption / accessible label for this image.
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   responsibilities?:
     | {
         text: string;
@@ -289,6 +299,18 @@ export interface Experience {
     | null;
   scope?: (number | Keyword)[] | null;
   craft?: (number | Keyword)[] | null;
+  deepDive?:
+    | {
+        team?: string | null;
+        details?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Hidden terms that surface this item in search but never render on the page.
    */
@@ -539,7 +561,14 @@ export interface ExperienceSelect<T extends boolean = true> {
   endDate?: T;
   current?: T;
   companyLogo?: T;
-  showcase?: T;
+  showcase?:
+    | T
+    | {
+        image?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   responsibilities?:
     | T
     | {
@@ -548,6 +577,18 @@ export interface ExperienceSelect<T extends boolean = true> {
       };
   scope?: T;
   craft?: T;
+  deepDive?:
+    | T
+    | {
+        team?: T;
+        details?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -777,6 +818,7 @@ export interface Label {
       roleDescription?: string | null;
       scope?: string | null;
       craft?: string | null;
+      deepDive?: string | null;
     };
   };
   updatedAt?: string | null;
@@ -944,6 +986,7 @@ export interface LabelsSelect<T extends boolean = true> {
               roleDescription?: T;
               scope?: T;
               craft?: T;
+              deepDive?: T;
             };
       };
   updatedAt?: T;

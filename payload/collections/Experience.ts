@@ -90,15 +90,31 @@ export const Experience: CollectionConfig = {
       },
     },
     {
-      // Optional autoplay showcase reel. Authored lean (<4.5MB, server uploads);
-      // picker is scoped to video assets only.
+      // Showcase gallery for the detail page: a main image + thumbnail strip.
+      // Each item is an image with an optional "Visit site" url and caption.
+      // Picker is scoped to image assets only.
       name: 'showcase',
-      type: 'upload',
-      relationTo: 'media',
-      filterOptions: () => ({ mimeType: { contains: 'video' } }),
-      admin: {
-        description: 'Optional autoplay showcase video (kept under 4.5MB at encode).',
-      },
+      type: 'array',
+      labels: { singular: 'Showcase item', plural: 'Showcase' },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          filterOptions: () => ({ mimeType: { contains: 'image' } }),
+        },
+        {
+          name: 'url',
+          type: 'text',
+          admin: { description: 'Optional "Visit site" link for this showcase image.' },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          admin: { description: 'Optional caption / accessible label for this image.' },
+        },
+      ],
     },
     {
       // Renders as the hardcoded "Role Description" section — a list of prose
@@ -129,6 +145,26 @@ export const Experience: CollectionConfig = {
       hasMany: true,
       filterOptions: () => ({ category: { equals: 'craft' }, searchOnly: { not_equals: true } }),
       admin: { allowCreate: false },
+    },
+    {
+      // Deep Dive: the storytelling band below the fold — a slider of
+      // {team, details[]} entries (experience's analogue of Portfolio's Key
+      // Decisions). Each entry pairs a "Team" narrative with a "Details" list.
+      name: 'deepDive',
+      type: 'array',
+      labels: { singular: 'Deep Dive', plural: 'Deep Dive' },
+      fields: [
+        {
+          name: 'team',
+          type: 'textarea',
+        },
+        {
+          name: 'details',
+          type: 'array',
+          labels: { singular: 'Detail', plural: 'Details' },
+          fields: [{ name: 'text', type: 'textarea', required: true }],
+        },
+      ],
     },
     {
       // Hidden, search-only attachments. Never rendered on the page; flattened

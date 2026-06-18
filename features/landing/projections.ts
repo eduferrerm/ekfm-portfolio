@@ -48,8 +48,8 @@ export async function portfolioCards(): Promise<LandingCardData[]> {
 
 /**
  * Experience landing cards, newest first. Mirrors the portfolio card contract:
- * the company is the eyebrow, the role the title, and the card deep-links into
- * the /experience#slug anchor (there is no per-role detail page).
+ * the company is the eyebrow, the role the title, and the card links to the
+ * per-role detail page at /experience/[slug].
  */
 export async function experienceCards(): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
@@ -64,7 +64,7 @@ export async function experienceCards(): Promise<LandingCardData[]> {
     eyebrow: d.company,
     title: d.role,
     tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
-    href: d.slug ? `/experience#${d.slug}` : '/experience',
+    href: d.slug ? `/experience/${d.slug}` : '/experience',
     image: d.companyLogo,
   }))
 }

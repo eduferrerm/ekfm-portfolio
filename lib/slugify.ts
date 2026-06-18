@@ -1,6 +1,6 @@
 /**
- * Single shared slug helper. Used for Experience anchor ids (`/experience#slug`)
- * and, later, Landing section anchors (`/#slug`) — one implementation so the
+ * Single shared slug helper. Used for Experience route slugs (`/experience/[slug]`)
+ * and Landing section anchors (`/#slug`) — one implementation so the
  * stored/derived slug always matches the id stamped at render time.
  *
  * Deterministic and dependency-free: lowercase, strip diacritics, collapse any

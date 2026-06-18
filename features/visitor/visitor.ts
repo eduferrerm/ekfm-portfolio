@@ -47,7 +47,7 @@ export function resolveRelevantContent(
       return {
         title: 'Experience',
         metadata: value.company,
-        href: `/experience#${value.slug}`,
+        href: `/experience/${value.slug}`,
         thumbnail: value.companyLogo,
       }
     })
