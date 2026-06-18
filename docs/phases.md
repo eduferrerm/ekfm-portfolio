@@ -8,16 +8,26 @@
 
 ## Status
 
-_Last updated: 2026-06-18 (IA refinement kickoff)._
+_Last updated: 2026-06-18 (IA refinement complete — all four slices resolved)._
 
 **Phases 1–6 (Foundations → Search palette): COMPLETE.** All merged to `development`
 (latest: PR #7 search). Build logs pruned 2026-06-18 — see git history + CLAUDE.md for the
 sealed architecture. The search palette was the schema stress test; the `SearchDocument`
 contract is locked (`portfolio | experience | section`).
 
-**Now: IA refinement** on `feature/information-architecture-refinement` (off `development`).
-A grab-bag of post-phase polish + gap-closing surfaced during review. Phased to keep each
-slice scoped + independently reviewable (one schema migration per slice, never tangled).
+**IA refinement: COMPLETE.** A grab-bag of post-phase polish + gap-closing, phased to keep each
+slice scoped + independently reviewable (one schema migration per slice, never tangled). Final
+state of the four slices:
+- **B (Experience detail rebuild) — MERGED** (PR #8).
+- **C (Landing YoE) — MERGED** (PR #9).
+- **A (Keyword model + seeder) — BUILT, schema pushed + seeded, PR open** (`feature/
+  information-architecture-keywords`).
+- **D (bands→section rename) — CLOSED, skip** (owner, 2026-06-18).
+
+**Remaining to fully close:** merge the Slice A PR, then re-attach El País's keyword tags in
+admin (the keyword reseed cleared its 2 links; its old scope tag "Conceptual Direction" is not
+in the new taxonomy — pick a real scope keyword, re-pick React for craft). Once merged, this
+file can be cleared.
 
 ---
 
@@ -48,75 +58,45 @@ trunk (auth-locked / password-protected deployed env).
 Source list "Item N" = the owner's review-notes numbering. Each slice = its own feature branch
 off `development` → PR → `/code-review`.
 
-### Slice B — Experience detail rebuild (Items 1, 4) — IN PROGRESS
-New full-detail design (mock: `Experience_ Desktop Full.jpg`). Closes the showcase-media gap.
+### Slice B — Experience detail rebuild (Items 1, 4) — MERGED (PR #8)
+Full-detail experience page mirroring the Portfolio details UX: per-role route
+`/experience/[slug]` (ISR, `notFound` on miss) under a persistent-sidebar layout; index
+redirects to the newest role. `showcase` → image-array gallery `{ image, url?, label? }`;
+"Role Description" → "Responsibilities"; Scope = plain list, Craft = pills; **Deep Dive**
+slider (`deepDive[]{team,details[]}`, `?dive=N`, mirrors Key Decisions). Search href contract
+moved `/experience#slug` → `/experience/[slug]`. Item 4 (seniority) dropped — lives in the
+`role` string. Architecture sealed in CLAUDE.md (ROUTING/SEARCH); build logs in git history.
 
-**LOCKED — Experience mirrors Portfolio (owner, 2026-06-18):**
-- **Landing section = cards.** Already shipped in Phase 5 (shared `LandingCard` + identical band
-  layout to portfolio). No work here.
-- **Details page = same UX as the Portfolio details page.** Adopt the portfolio pattern 1:1:
-  - `app/(frontend)/experience/layout.tsx` — persistent `<aside>` sidebar + `<main>` slot, soft-
-    nav (mirror `portfolio/layout.tsx`; sidebar survives soft-navs = SPA feel).
-  - `app/(frontend)/experience/page.tsx` — index **redirects to the first role** (sort
-    `-startDate`), mirroring `portfolio/page.tsx`'s redirect-to-lowest-`order`.
-  - `app/(frontend)/experience/[slug]/page.tsx` — **per-role route**, Local API depth:1, ISR
-    3600, `notFound()` on miss. Replaces the old single stacked `/experience#slug` page.
-  - Sidebar = mirror `PortfolioNav` (section-level nav, active-by-pathname-prefix). The
-    **role/item sub-nav** (thumbnail + eyebrow + title sub-items in the mock) stays on the
-    deferred **shared-aside-nav** branch — same branch that owns portfolio's item sub-nav +
-    mobile hamburger. Roles are reached via landing cards + search + redirect-to-first (exactly
-    how portfolio items are reached today).
+### Slice A — Keyword model refactor + seeder — BUILT + SEEDED, PR open
+Branch `feature/information-architecture-keywords` (off `development`). Shipped exactly as
+decided:
+- `category` → **required 3-value select** (`scope | craft | searchOnly`); the `searchOnly`
+  boolean is **gone** (folded into the 3rd category value). filterOptions are category-based:
+  scope/craft pickers `category equals scope|craft`; `searchKeywords` picker `category equals
+  searchOnly`.
+- **`key`** = immutable (`access.update:()=>false`) unique machine id = the seeder's upsert
+  identity; `label` stays the editable display.
+- **"SO:" prefix** on search-only rows = list-view Cell `payload/components/KeywordLabelCell`
+  (not `useAsTitle`, which drives the picker typeahead).
+- **Seeder** `scripts/seed-keywords.mts` (`pnpm seed:keywords`, `--env-file`), upsert-by-`key`
+  from `scripts/seed/keywords.csv` (`key,label,category,aliases` pipe-delim) = keyword SSOT.
+- **Schema push (done):** wipe+reseed path (Option 2). DB had 2 rows (0 search-only). Hit the
+  ambiguous-rename TUI (`key` add vs `search_only`→`key` rename) → raw-SQL dropped `search_only`
+  first, leaving a silent additive push. Then `pnpm seed:keywords` → **31 keywords** (4 scope /
+  16 craft / 11 searchOnly) + aliases. Verified: build 11/11, tsc + eslint clean.
+- CLAUDE.md KEYWORDS block folded. **To close:** merge PR + re-attach El País's tags in admin.
 
-**Decided (content/schema):**
-- `showcase`: single video → **array `{ image: Media, url?: text, label?: text }`** (gallery:
-  main image + thumbnails; `url` = "Visit site"). Destructive schema change — confirm before
-  data-loss push.
-- "Role Description" label → **"Responsibilities"** (copy only; field stays `responsibilities[]`).
-- Scope renders as a **plain list** (not pills); Craft stays pills.
-- **Deep Dive** = experience's analogue of Portfolio's Key Decisions slider: `deepDive[]`
-  ({ team: textarea, details: array {text} }), `SliderControls` atom + `?dive=N` URL-sync
-  (mirror `KeyDecisions.tsx`). Heading "Deep Dive" + eyebrow "{role} at {company}".
-  *(Schema shape provisional — refine if C's implementation notes land.)*
-- **Item 4 (level/seniority): DROPPED.** No field exists, mock surfaces none, seniority already
-  lives in the `role` string ("Senior …", "IC5 …").
+### Slice C — Landing YoE (Item 3) — MERGED (PR #9)
+Years-of-experience as a **union of date intervals (not a sum)** computed in the landing RSC
+(`lib/yoe.ts`, pure + testable; `projections.experienceYearsLabel()`). Placement = **TL;DR**,
+format = **"N+ years"** (owner-locked). Rendered via a **`{years}` token** the author drops into
+the TL;DR copy — all words stay in the CMS, code injects only the figure (inert if the token is
+absent). No schema change. Documented on the `tldr` group in CLAUDE.md.
 
-**Knock-on (must update with the routing change):**
-- Search href contract: `/experience#slug` → **`/experience/[slug]`** (`lib/search/dataset.ts`
-  experience emission). Update CLAUDE.md ROUTING + SEARCH blocks accordingly.
-
-### Slice A — Keyword model refactor + seeder — CODE-READY, seed gated on CSV
-**Decided (do not re-litigate):**
-- `category` → **required 3-value select** (`scope | craft | searchOnly`). **DROP the
-  `searchOnly` boolean.** searchOnly = recall-only, never rendered, attaches via `searchKeywords`
-  only (its `filterOptions` switches `searchOnly: { equals: true }` → `category: { equals:
-  'searchOnly' }`; scope/craft pickers switch the `not_equals` guard likewise).
-- Add **`key`** field = immutable machine identity / seeder upsert key (`Keyword.slug` already
-  dropped). `label` = editable human display. Idempotency matches on `key`.
-- **"SO:" prefix** for searchOnly rows = custom **list-view Cell** component, NOT a virtual
-  `useAsTitle` (useAsTitle drives the relationship picker's server-side typeahead; a non-stored
-  field would break it). Picker already segregates searchOnly via `filterOptions`.
-- Palette groups by `SearchDocument.type`, NOT `keyword.category` — keywords emit no palette
-  docs, so the 3rd enum value needs **zero palette work**.
-- **Seeder** = tsx Local-API script `scripts/seed-keywords.mts`, upserts by `key` + validation.
-  Single CSV `scripts/seed/keywords.csv` (cols `key,label,category,aliases`; aliases
-  pipe-delimited). No item→keyword mapping file — keywords are hand-attached in admin.
-
-**Build bundle (when CSV ready):** category 3-value select + `key` field + list Cell +
-`seed-keywords.mts`. Destructive schema via `scripts/push-schema.mts` (or raw SQL for prompting
-diffs) — **confirm before any data-loss push**.
-**Gated on:** CSV authoring (owner + C, in progress).
-**CLAUDE.md folds pending:** drop `keyword` from `SearchDocument.type` doc; rewrite KEYWORDS
-block for 3-value `category` + `key` (no `searchOnly` boolean).
-
-### Slice C — Landing YoE (Item 3) — no schema change
-Years-of-experience computed in RSC as a **union of date intervals (NOT a sum)** — overlapping
-roles count once. Uses existing `startDate` + nullable `endDate` + `current`.
-**Open:** render placement (hero vs TLDR); display format ("8 years" vs "8+ years").
-
-### Slice D — bands → section rename (Item 6) — DECISION OPEN
-Pure rename of `features/landing/bands.tsx`. **Lean: don't.** "bands" (layout term) vs "section"
-(load-bearing `Landing.sections[]` manifest) is a useful distinction; renaming risks semantic
-collision for cosmetic gain. Do last + isolated if pursued at all.
+### Slice D — bands → section rename (Item 6) — CLOSED (skip, owner 2026-06-18)
+Decided **not** to rename `features/landing/bands.tsx`. "bands" (layout term) vs "section"
+(load-bearing `Landing.sections[]` manifest) is a useful distinction; renaming was cosmetic and
+risked semantic collision. No code change.
 
 ---
 
