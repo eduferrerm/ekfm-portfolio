@@ -5,6 +5,7 @@ import config from '@payload-config'
 
 import type { Media } from '@/payload-types'
 import { keywordLabels } from '@/features/experience/experience'
+import { experienceYears, formatYearsLabel } from '@/lib/yoe'
 
 /**
  * View-model for one landing card — the shared shape rendered by both the
@@ -67,4 +68,21 @@ export async function experienceCards(): Promise<LandingCardData[]> {
     href: d.slug ? `/experience/${d.slug}` : '/experience',
     image: d.companyLogo,
   }))
+}
+
+/**
+ * Formatted years-of-experience label (e.g. "8+ years") for the TL;DR band,
+ * computed as a union of role date intervals so overlapping roles count once.
+ * Returns '' when there are no datable roles. Evaluated at ISR regeneration via
+ * `new Date()` — granularity (whole years) makes hourly recompute ample.
+ */
+export async function experienceYearsLabel(): Promise<string> {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'experience',
+    limit: 1000,
+    depth: 0,
+    select: { startDate: true, endDate: true, current: true },
+  })
+  return formatYearsLabel(experienceYears(docs, new Date()))
 }
