@@ -10,7 +10,7 @@ import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
-import { experienceCards, portfolioCards } from './projections'
+import { experienceCards, experienceYearsLabel, portfolioCards } from './projections'
 
 /** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
 const DEAR_COMPANY_ID = 'dear-company'
@@ -34,11 +34,12 @@ export async function Landing({
   visitorContent?: VisitorContent | null
 }) {
   const payload = await getPayload({ config })
-  const [landing, pCards, eCards, searchDocs] = await Promise.all([
+  const [landing, pCards, eCards, searchDocs, yearsLabel] = await Promise.all([
     payload.findGlobal({ slug: 'landing', depth: 1 }), // depth:1 populates hero.craft labels
     portfolioCards(),
     experienceCards(),
     buildSearchDataset(),
+    experienceYearsLabel(), // union-of-intervals YoE for the TL;DR band
   ])
 
   const sections = landing.sections ?? []
@@ -75,7 +76,7 @@ export async function Landing({
         const id = slugify(section.navLabel)
         switch (section.key) {
           case 'tldr':
-            return <TldrBand key={section.id} id={id} tldr={landing.tldr} />
+            return <TldrBand key={section.id} id={id} tldr={landing.tldr} yearsLabel={yearsLabel} />
           case 'experience':
             return (
               <LandingSectionBand

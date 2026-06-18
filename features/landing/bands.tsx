@@ -52,19 +52,30 @@ export function HeroBand({ hero }: { hero: Landing['hero'] }) {
  * TL;DR — the "Hi there! I'm Edu" band: greeting + an array of titled prose
  * blocks (the bio "Background" block is the first).
  */
-export function TldrBand({ id, tldr }: { id: string; tldr: Landing['tldr'] }) {
+export function TldrBand({
+  id,
+  tldr,
+  yearsLabel,
+}: {
+  id: string
+  tldr: Landing['tldr']
+  yearsLabel?: string
+}) {
   const blocks = tldr?.blocks ?? []
+  // Inject the computed years-of-experience wherever the author drops a `{years}`
+  // token in the TL;DR copy — the surrounding words stay in the CMS, code supplies
+  // only the figure. Resolves to '' when there is no datable experience.
+  const fillYears = (text: string) => text.replaceAll('{years}', yearsLabel ?? '')
+  const greeting = tldr?.greeting ? fillYears(tldr.greeting) : ''
 
   return (
     <section id={id} className={`${BAND} scroll-mt-24`}>
-      {tldr?.greeting && (
-        <h2 className="mb-12 text-4xl font-semibold tracking-tight">{tldr.greeting}</h2>
-      )}
+      {greeting && <h2 className="mb-12 text-4xl font-semibold tracking-tight">{greeting}</h2>}
       <div className="space-y-12">
         {blocks.map((block, i) => (
           <div key={block.id ?? i}>
             <BandLabel>{block.title}</BandLabel>
-            <List variant="prose" items={proseLines(block.body)} />
+            <List variant="prose" items={proseLines(block.body).map(fillYears)} />
           </div>
         ))}
       </div>
