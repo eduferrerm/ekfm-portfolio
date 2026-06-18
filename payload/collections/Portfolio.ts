@@ -143,7 +143,7 @@ export const Portfolio: CollectionConfig = {
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
-      filterOptions: () => ({ category: { equals: 'scope' }, searchOnly: { not_equals: true } }),
+      filterOptions: () => ({ category: { equals: 'scope' } }),
       admin: { allowCreate: false },
     },
     {
@@ -151,7 +151,7 @@ export const Portfolio: CollectionConfig = {
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
-      filterOptions: () => ({ category: { equals: 'craft' }, searchOnly: { not_equals: true } }),
+      filterOptions: () => ({ category: { equals: 'craft' } }),
       admin: { allowCreate: false },
     },
     {
@@ -162,7 +162,7 @@ export const Portfolio: CollectionConfig = {
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
-      filterOptions: () => ({ searchOnly: { equals: true } }),
+      filterOptions: () => ({ category: { equals: 'searchOnly' } }),
       admin: {
         allowCreate: false,
         description: 'Hidden terms that surface this item in search but never render on the page.',

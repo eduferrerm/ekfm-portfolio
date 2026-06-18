@@ -166,7 +166,7 @@ export const Landing: GlobalConfig = {
           type: 'relationship',
           relationTo: 'keywords',
           hasMany: true,
-          filterOptions: () => ({ category: { equals: 'craft' }, searchOnly: { not_equals: true } }),
+          filterOptions: () => ({ category: { equals: 'craft' } }),
           admin: { allowCreate: false, description: 'Craft keywords shown in the hero, in attach order.' },
         },
       ],

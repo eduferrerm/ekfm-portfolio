@@ -324,15 +324,15 @@ export interface Experience {
  */
 export interface Keyword {
   id: number;
+  /**
+   * Immutable machine key (seeder upsert identity). Set once; cannot be edited.
+   */
+  key: string;
   label: string;
   /**
-   * Hidden recruiter term — feeds search only, never rendered. Skips category.
+   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing). Search-only = hidden recruiter term, feeds search only, never rendered.
    */
-  searchOnly?: boolean | null;
-  /**
-   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing).
-   */
-  category?: ('scope' | 'craft') | null;
+  category: 'scope' | 'craft' | 'searchOnly';
   aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
@@ -619,8 +619,8 @@ export interface VisitorsSelect<T extends boolean = true> {
  * via the `definition` "keywords_select".
  */
 export interface KeywordsSelect<T extends boolean = true> {
+  key?: T;
   label?: T;
-  searchOnly?: T;
   category?: T;
   aliases?: T;
   updatedAt?: T;
