@@ -710,9 +710,13 @@ export interface Landing {
          */
         navLabel: string;
         /**
-         * Search synonyms for this section. Fed to search, never shown.
+         * One-off nav synonyms for this section. Fed to search, never shown.
          */
         aliases?: string[] | null;
+        /**
+         * Hidden terms that surface this section in search but never render.
+         */
+        searchKeywords?: (number | Keyword)[] | null;
         id?: string | null;
       }[]
     | null;
@@ -861,6 +865,7 @@ export interface LandingSelect<T extends boolean = true> {
         key?: T;
         navLabel?: T;
         aliases?: T;
+        searchKeywords?: T;
         id?: T;
       };
   hero?:

@@ -25,7 +25,8 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
     // and a keyword's recall value already folds into the content it tags —
     // descriptor labels into keywords[], descriptor + searchKeyword synonyms into
     // aliases[]. Landing sections own navigation now (each emits a /#slug doc).
-    payload.findGlobal({ slug: 'landing', depth: 0 }),
+    // depth:1 populates sections[].searchKeywords so their recall terms fold in.
+    payload.findGlobal({ slug: 'landing', depth: 1 }),
   ])
 
   // Resolved keyword (depth:1 populates scope/craft relationships into objects).
@@ -98,7 +99,13 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         name: section.navLabel,
         title: section.navLabel,
         keywords: [],
-        aliases: (section.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
+        // Free-text nav synonyms + the section's searchOnly keywords (label +
+        // aliases). Same recall fold content uses; sections render no keywords[].
+        aliases: [
+          ...(section.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
+          ...keywordAliases(section.searchKeywords),
+          ...keywordLabels(section.searchKeywords),
+        ],
         // Bare fragment, not `/#slug`: the assembled landing renders these
         // anchors on BOTH `/` and `/dear/[company]`, so the palette resolves the
         // fragment against the current route (see SearchPalette) — a visitor

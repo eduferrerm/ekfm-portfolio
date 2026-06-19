@@ -137,13 +137,31 @@ export const Landing: GlobalConfig = {
           admin: { description: 'Nav text. The band’s anchor id + search title derive from this (slugified).' },
         },
         {
-          // Recruiter-term synonyms fed to the search palette, never rendered
-          // (e.g. "about" -> TLDR, "work history" -> Experience). Same role as
-          // keyword aliases in the search dataset.
+          // One-off, section-local navigational synonyms fed to the search
+          // palette, never rendered (e.g. "about" -> TLDR, "work history" ->
+          // Experience). For *curated, reusable* recall vocabulary, prefer
+          // `searchKeywords` below — keep this for nav synonyms that belong to
+          // this band alone.
           name: 'aliases',
           type: 'text',
           hasMany: true,
-          admin: { description: 'Search synonyms for this section. Fed to search, never shown.' },
+          admin: { description: 'One-off nav synonyms for this section. Fed to search, never shown.' },
+        },
+        {
+          // Hidden, search-only keywords that surface this section on curated
+          // recall terms (e.g. "hobbies" -> More About Me) without rendering on
+          // the page. Same mechanism content uses: the keyword's label + aliases
+          // fold into this section's search aliases (see lib/search/dataset.ts).
+          // Offers only searchOnly keywords, so it never overlaps scope/craft.
+          name: 'searchKeywords',
+          type: 'relationship',
+          relationTo: 'keywords',
+          hasMany: true,
+          filterOptions: () => ({ category: { equals: 'searchOnly' } }),
+          admin: {
+            allowCreate: false,
+            description: 'Hidden terms that surface this section in search but never render.',
+          },
         },
       ],
     },
