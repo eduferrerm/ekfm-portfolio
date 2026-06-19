@@ -5,11 +5,11 @@ import config from '@payload-config'
 
 import { List } from '@/components/primitives/List'
 import { getSubheaders } from '@/lib/labels'
-import { keywordLabels } from '@/features/experience/experience'
+import { keywordLabels } from '@/features/experience/projections'
 import { GraphClient, getDiagram } from '@/features/portfolio/graph'
 import { KeyDecisions } from '@/features/portfolio/KeyDecisions'
 import { RelatedContent } from '@/features/portfolio/RelatedContent'
-import { decisionViews, keyDecisionsSubtitle, relatedItems } from '@/features/portfolio/portfolio'
+import { decisionViews, keyDecisionsSubtitle, relatedItems } from '@/features/portfolio/projections'
 
 // ISR: revalidated hourly.
 export const revalidate = 3600

@@ -301,7 +301,8 @@ export interface Experience {
   craft?: (number | Keyword)[] | null;
   deepDive?:
     | {
-        team?: string | null;
+        title?: string | null;
+        description?: string | null;
         details?:
           | {
               text: string;
@@ -580,7 +581,8 @@ export interface ExperienceSelect<T extends boolean = true> {
   deepDive?:
     | T
     | {
-        team?: T;
+        title?: T;
+        description?: T;
         details?:
           | T
           | {

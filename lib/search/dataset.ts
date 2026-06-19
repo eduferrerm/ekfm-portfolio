@@ -3,6 +3,7 @@ import 'server-only'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import { experienceHref, portfolioHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 
 import type { SearchDocument } from './types'
@@ -73,7 +74,7 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
         ...keywordLabels(doc.searchKeywords),
       ],
-      href: `/portfolio/${doc.slug}`,
+      href: portfolioHref(doc.slug),
     })),
     ...experience.docs.map((doc) => ({
       id: `experience:${doc.id}`,
@@ -88,7 +89,7 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         ...keywordAliases(doc.scope, doc.craft, doc.searchKeywords),
         ...keywordLabels(doc.searchKeywords),
       ],
-      href: `/experience/${doc.slug}`,
+      href: experienceHref(doc.slug),
     })),
     ...(landing.sections ?? []).map((section) => {
       const slug = slugify(section.navLabel)

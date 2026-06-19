@@ -1,4 +1,5 @@
 import type { Media, Visitor } from '@/payload-types'
+import { resolveContentRefs } from '@/lib/content'
 
 /**
  * A resolved per-expectation supporting-content card. Follows the shared card
@@ -22,36 +23,28 @@ export type ExpectationView = {
 
 /**
  * Resolve the polymorphic per-expectation `relevantContent` to display cards.
- * Needs a depth>=1 query (values populated to docs); unpopulated ids are
- * skipped. Portfolio → its eyebrow (the canonical card label) + thumbnail;
- * Experience → company + logo.
+ * The narrowing, slug guard, and route shape live in `resolveContentRefs`; here
+ * we only shape the card: Portfolio → "Feature" + eyebrow + thumbnail;
+ * Experience → "Experience" + company + logo.
  */
 export function resolveRelevantContent(
   related?: Visitor['expectations'][number]['relevantContent'],
 ): RelevantItem[] {
-  return (related ?? [])
-    .map((rel): RelevantItem | null => {
-      // Check the discriminant first so `rel.value` narrows to the matching doc.
-      if (rel.relationTo === 'portfolio') {
-        const value = rel.value
-        if (typeof value !== 'object' || !value || !value.slug) return null
-        return {
+  return resolveContentRefs(related).map((ref) =>
+    ref.relationTo === 'portfolio'
+      ? {
           title: 'Feature',
-          metadata: value.eyebrow,
-          href: `/portfolio/${value.slug}`,
-          thumbnail: value.thumbnail,
+          metadata: ref.doc.eyebrow,
+          href: ref.href,
+          thumbnail: ref.doc.thumbnail,
         }
-      }
-      const value = rel.value
-      if (typeof value !== 'object' || !value || !value.slug) return null
-      return {
-        title: 'Experience',
-        metadata: value.company,
-        href: `/experience/${value.slug}`,
-        thumbnail: value.companyLogo,
-      }
-    })
-    .filter((item): item is RelevantItem => Boolean(item))
+      : {
+          title: 'Experience',
+          metadata: ref.doc.company,
+          href: ref.href,
+          thumbnail: ref.doc.companyLogo,
+        },
+  )
 }
 
 /**

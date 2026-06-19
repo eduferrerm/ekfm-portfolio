@@ -1,4 +1,6 @@
 import type { Portfolio } from '@/payload-types'
+import { resolveContentRefs } from '@/lib/content'
+import { proseLines } from '@/lib/prose'
 
 /**
  * View-model for one Key Decisions slide — the decision (left) and its
@@ -24,9 +26,7 @@ export function decisionViews(decisions?: Portfolio['keyDecisions']): KeyDecisio
     title: decision.title,
     description: decision.description,
     conclusion: decision.conclusion,
-    points: (decision.points ?? [])
-      .map((p) => p.text)
-      .filter((text): text is string => Boolean(text)),
+    points: proseLines(decision.points),
   }))
 }
 
@@ -36,21 +36,15 @@ export function keyDecisionsSubtitle(item: Pick<Portfolio, 'keyDecisionsTitle' |
 }
 
 /**
- * Resolve the polymorphic `relatedContent` relationship to title + href. Needs a
- * depth>=1 query (values populated to docs); unpopulated ids are skipped.
+ * Resolve the polymorphic `relatedContent` relationship to title + href. The
+ * narrowing, slug guard, and route shape live in `resolveContentRefs`; here we
+ * only shape the label: a portfolio piece shows its eyebrow, a role shows
+ * "{role} · {company}".
  */
 export function relatedItems(related?: Portfolio['relatedContent']): RelatedItem[] {
-  return (related ?? [])
-    .map((rel): RelatedItem | null => {
-      // Check the discriminant first so `rel.value` narrows to the matching doc.
-      if (rel.relationTo === 'portfolio') {
-        const value = rel.value
-        if (typeof value !== 'object' || !value || !value.slug) return null
-        return { title: value.eyebrow, href: `/portfolio/${value.slug}` }
-      }
-      const value = rel.value
-      if (typeof value !== 'object' || !value || !value.slug) return null
-      return { title: `${value.role} · ${value.company}`, href: `/experience/${value.slug}` }
-    })
-    .filter((item): item is RelatedItem => Boolean(item))
+  return resolveContentRefs(related).map((ref) =>
+    ref.relationTo === 'portfolio'
+      ? { title: ref.doc.eyebrow, href: ref.href }
+      : { title: `${ref.doc.role} · ${ref.doc.company}`, href: ref.href },
+  )
 }

@@ -5,14 +5,14 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { List } from '@/components/primitives/List'
 import { SliderControls } from '@/components/primitives/Slider'
 
-import type { DeepDiveView } from './experience'
+import type { DeepDiveView } from './projections'
 
 /**
  * Deep Dive slider — experience's analogue of the portfolio Key Decisions slider.
  * The hardcoded heading + eyebrow ("{role} at {company}") stay fixed; only the
  * slide content changes as you cycle the N entries. The active slide is mirrored
  * to `?dive=N` (1-based) so it deep-links and survives back/forward. Each slide:
- * the Team narrative (left) + its Details list (right).
+ * the titled narrative (left) + its Details list (right).
  */
 export function DeepDive({
   items,
@@ -53,8 +53,10 @@ export function DeepDive({
         <div className="rounded-2xl border border-border p-6 sm:p-10">
           <div className="grid gap-10 md:grid-cols-2">
             <div>
-              <h3 className="mb-4 text-xl font-semibold text-blue-500">Team</h3>
-              {entry.team && <p className="leading-relaxed text-foreground/80">{entry.team}</p>}
+              <h3 className="mb-4 text-xl font-semibold text-blue-500">{entry.title}</h3>
+              {entry.description && (
+                <p className="leading-relaxed text-foreground/80">{entry.description}</p>
+              )}
             </div>
             <div>
               <h3 className="mb-4 text-xl font-semibold text-blue-500">Details</h3>

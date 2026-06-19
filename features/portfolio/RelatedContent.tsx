@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import type { RelatedItem } from './portfolio'
+import type { RelatedItem } from './projections'
 
 /**
  * "See also" links to other work and to roles (resolved upstream from the

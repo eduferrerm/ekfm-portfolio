@@ -6,7 +6,7 @@ import { List } from '@/components/primitives/List'
 import { SliderControls } from '@/components/primitives/Slider'
 import type { Subheaders } from '@/lib/labels'
 
-import type { KeyDecisionView } from './portfolio'
+import type { KeyDecisionView } from './projections'
 
 /**
  * Deep-dive Key Decisions slider. The hardcoded "Key Decisions" heading and the

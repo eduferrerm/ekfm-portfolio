@@ -10,7 +10,7 @@ import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
-import { experienceCards, experienceYearsLabel, portfolioCards } from './projections'
+import { experienceCards, experienceYearsLabel, portfolioCards } from './queries'
 
 /** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
 const DEAR_COMPANY_ID = 'dear-company'

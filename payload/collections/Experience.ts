@@ -148,14 +148,19 @@ export const Experience: CollectionConfig = {
     },
     {
       // Deep Dive: the storytelling band below the fold — a slider of
-      // {team, details[]} entries (experience's analogue of Portfolio's Key
-      // Decisions). Each entry pairs a "Team" narrative with a "Details" list.
+      // {title, description, details[]} entries (experience's analogue of
+      // Portfolio's Key Decisions). Each entry pairs a titled narrative with a
+      // "Details" list.
       name: 'deepDive',
       type: 'array',
       labels: { singular: 'Deep Dive', plural: 'Deep Dive' },
       fields: [
         {
-          name: 'team',
+          name: 'title',
+          type: 'text',
+        },
+        {
+          name: 'description',
           type: 'textarea',
         },
         {
