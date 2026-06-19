@@ -1,6 +1,28 @@
-import type { Experience, Media, Portfolio } from '@/payload-types'
+import type { Experience, Landing, Media, Portfolio } from '@/payload-types'
 import { keywordLabels } from '@/lib/keywords'
+import { ROUTED_SECTIONS, type NavSectionView, type SectionKey } from '@/lib/nav'
 import { experienceHref, portfolioHref } from '@/lib/routes'
+import { slugify } from '@/lib/slugify'
+
+/**
+ * Project Landing.sections[] (the SSOT for the navigable section list) to the
+ * aside/mobile nav view-models. Same rows LandingNav renders; the difference is
+ * the href strategy — routed sections (experience/portfolio) point at their
+ * detail route, the rest at their landing band anchor (/#slug, the same id the
+ * band renders). Order + labels come straight from the CMS.
+ */
+export function sectionNavViews(sections: Landing['sections']): NavSectionView[] {
+  return (sections ?? []).map((s) => {
+    const key = s.key as SectionKey
+    const routed = ROUTED_SECTIONS.has(key)
+    return {
+      key,
+      label: s.navLabel,
+      href: routed ? `/${key}` : `/#${slugify(s.navLabel)}`,
+      routed,
+    }
+  })
+}
 
 /**
  * View-model for one landing card — the shared shape rendered by both the

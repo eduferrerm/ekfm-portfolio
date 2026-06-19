@@ -1,5 +1,19 @@
 import type { Experience, Media } from '@/payload-types'
+import type { NavItem } from '@/lib/nav'
 import { proseLines } from '@/lib/prose'
+import { experienceHref } from '@/lib/routes'
+
+/** Project an Experience doc (depth>=1) to an aside nav sub-item: company over role. */
+export function experienceNavItem(
+  d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo'>,
+): NavItem {
+  return {
+    href: experienceHref(d.slug),
+    primary: d.company,
+    secondary: d.role,
+    thumbnail: d.companyLogo,
+  }
+}
 
 /** One showcase gallery image with its optional "Visit site" url + caption. */
 export type ShowcaseItem = {
