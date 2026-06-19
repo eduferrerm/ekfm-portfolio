@@ -4,9 +4,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import type { Landing } from '@/payload-types'
+import type { NavSectionView } from '@/lib/nav'
+import { slugify } from '@/lib/slugify'
 import { experienceYears, formatYearsLabel } from '@/lib/yoe'
 
-import { experienceCard, portfolioCard, type LandingCardData } from './projections'
+import { experienceCard, portfolioCard, sectionNavViews, type LandingCardData } from './projections'
 
 /**
  * Landing data-access (Payload Local API, no HTTP hop). Each query fetches lean
@@ -17,6 +19,31 @@ import { experienceCard, portfolioCard, type LandingCardData } from './projectio
 export async function landingGlobal(): Promise<Landing> {
   const payload = await getPayload({ config })
   return payload.findGlobal({ slug: 'landing', depth: 1 })
+}
+
+/**
+ * The section nav (SSOT: Landing.sections[]), shared by the desktop aside + the
+ * mobile overlay menu. Lean fetch (sections only); projected to view-models with
+ * their per-section href strategy in `sectionNavViews`.
+ */
+export async function sectionNav(): Promise<NavSectionView[]> {
+  const payload = await getPayload({ config })
+  const landing = await payload.findGlobal({ slug: 'landing', depth: 0, select: { sections: true } })
+  return sectionNavViews(landing.sections)
+}
+
+/**
+ * Resolve a landing section's on-page anchor (e.g. '/#tldr') by its `key`. Backs
+ * the section-shortcut routes (/tldr, /contact, /more-me): those aren't real
+ * pages — they redirect to the matching landing band. Anchor = slugify(navLabel),
+ * the same derivation the band ids + LandingNav use, so they always agree.
+ * Returns null if the section isn't present (let the caller 404).
+ */
+export async function landingSectionAnchor(key: string): Promise<string | null> {
+  const payload = await getPayload({ config })
+  const landing = await payload.findGlobal({ slug: 'landing', depth: 0, select: { sections: true } })
+  const section = (landing.sections ?? []).find((s) => s.key === key)
+  return section ? `/#${slugify(section.navLabel)}` : null
 }
 
 /** Portfolio landing cards, in display `order` (ascending). depth:1 populates the

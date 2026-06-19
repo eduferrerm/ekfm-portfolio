@@ -1,22 +1,29 @@
-import { SectionNav } from '@/features/menu/SectionNav'
+import { experienceNavItems } from '@/features/experience/queries'
+import { sectionNav } from '@/features/landing/queries'
+import { buildSearchDataset } from '@/lib/search/dataset'
+
+import { SectionShell } from '../_chrome/SectionShell'
 
 /**
- * Shared layout for the experience section, mirroring the portfolio layout: a
- * persistent sidebar (nav) plus the server-rendered per-role detail route in the
- * content slot. The sidebar is not remounted across soft-navigations, giving the
- * section its SPA feel while each detail route stays server-rendered.
+ * Shared layout for the experience section: the global SectionShell (top bar +
+ * persistent aside + mobile menu) wrapping the server-rendered per-role detail
+ * route. The aside sub-nav lists every role (newest first); the shell is not
+ * remounted across soft-navigations, giving the section its SPA feel.
  */
-export default function ExperienceLayout({
+export default async function ExperienceLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [sections, items, documents] = await Promise.all([
+    sectionNav(),
+    experienceNavItems(),
+    buildSearchDataset(),
+  ])
+
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-56 shrink-0 border-r border-border p-4">
-        <SectionNav />
-      </aside>
-      <main className="min-w-0 flex-1 p-6">{children}</main>
-    </div>
+    <SectionShell active="experience" sections={sections} items={items} documents={documents}>
+      {children}
+    </SectionShell>
   )
 }

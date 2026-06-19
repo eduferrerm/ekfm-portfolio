@@ -1,6 +1,20 @@
 import type { Portfolio } from '@/payload-types'
+import type { NavItem } from '@/lib/nav'
 import { resolveContentRefs } from '@/lib/content'
 import { proseLines } from '@/lib/prose'
+import { portfolioHref } from '@/lib/routes'
+
+/** Project a Portfolio doc (depth>=1) to an aside nav sub-item: eyebrow over title. */
+export function portfolioNavItem(
+  d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail'>,
+): NavItem {
+  return {
+    href: portfolioHref(d.slug),
+    primary: d.eyebrow,
+    secondary: d.title,
+    thumbnail: d.thumbnail,
+  }
+}
 
 /**
  * View-model for one Key Decisions slide — the decision (left) and its
