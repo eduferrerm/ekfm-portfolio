@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { List } from "@/components/primitives/List";
 import type { Landing } from "@/payload-types";
-import { keywordLabels } from "@/features/experience/projections";
+import { keywordLabels } from "@/lib/keywords";
 import { proseLines } from "@/lib/prose";
 
 import { LandingCard } from "./LandingCard";
