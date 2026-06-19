@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { cn } from '@/lib/utils'
 
-import type { ShowcaseItem } from './experience'
+import type { ShowcaseItem } from './projections'
 
 /**
  * Showcase gallery for the experience detail header: one large active image with

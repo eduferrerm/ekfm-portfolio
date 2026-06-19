@@ -1,16 +1,11 @@
-import 'server-only'
-
-import { getPayload } from 'payload'
-import config from '@payload-config'
-
-import type { Media } from '@/payload-types'
-import { keywordLabels } from '@/features/experience/experience'
-import { experienceYears, formatYearsLabel } from '@/lib/yoe'
+import type { Experience, Media, Portfolio } from '@/payload-types'
+import { keywordLabels } from '@/features/experience/projections'
+import { experienceHref, portfolioHref } from '@/lib/routes'
 
 /**
  * View-model for one landing card — the shared shape rendered by both the
  * Experience and Portfolio bands (the owner reuses one card layout for both).
- * The cards project from their collections, not from the Landing global.
+ * Pure projection: the docs are fetched in `./queries`, shaped here.
  */
 export type LandingCardData = {
   eyebrow?: string | null
@@ -20,69 +15,31 @@ export type LandingCardData = {
   image?: Media | number | null
 }
 
-/** Flatten an array of `{ text }` rows to non-empty strings (prose helper). */
-export function proseLines(rows?: { text?: string | null }[] | null): string[] {
-  return (rows ?? []).map((r) => r.text).filter((t): t is string => Boolean(t))
-}
-
-/**
- * Portfolio landing cards, in display `order` (ascending). depth:1 populates the
- * scope/craft labels + the thumbnail; `select` keeps the read lean.
- */
-export async function portfolioCards(): Promise<LandingCardData[]> {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'portfolio',
-    sort: 'order',
-    limit: 1000,
-    depth: 1,
-    select: { eyebrow: true, title: true, slug: true, thumbnail: true, scope: true, craft: true },
-  })
-  return docs.map((d) => ({
+/** Project a Portfolio doc (depth>=1) to its landing card. */
+export function portfolioCard(
+  d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail' | 'scope' | 'craft'>,
+): LandingCardData {
+  return {
     eyebrow: d.eyebrow,
     title: d.title,
     tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
-    href: d.slug ? `/portfolio/${d.slug}` : '/portfolio',
+    href: portfolioHref(d.slug),
     image: d.thumbnail,
-  }))
+  }
 }
 
 /**
- * Experience landing cards, newest first. Mirrors the portfolio card contract:
- * the company is the eyebrow, the role the title, and the card links to the
- * per-role detail page at /experience/[slug].
+ * Project an Experience doc (depth>=1) to its landing card. Mirrors the portfolio
+ * contract: company is the eyebrow, role the title, linking to /experience/[slug].
  */
-export async function experienceCards(): Promise<LandingCardData[]> {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'experience',
-    sort: '-startDate',
-    limit: 1000,
-    depth: 1,
-    select: { role: true, company: true, slug: true, companyLogo: true, scope: true, craft: true },
-  })
-  return docs.map((d) => ({
+export function experienceCard(
+  d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo' | 'scope' | 'craft'>,
+): LandingCardData {
+  return {
     eyebrow: d.company,
     title: d.role,
     tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
-    href: d.slug ? `/experience/${d.slug}` : '/experience',
+    href: experienceHref(d.slug),
     image: d.companyLogo,
-  }))
-}
-
-/**
- * Formatted years-of-experience label (e.g. "8+ years") for the TL;DR band,
- * computed as a union of role date intervals so overlapping roles count once.
- * Returns '' when there are no datable roles. Evaluated at ISR regeneration via
- * `new Date()` — granularity (whole years) makes hourly recompute ample.
- */
-export async function experienceYearsLabel(): Promise<string> {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'experience',
-    limit: 1000,
-    depth: 0,
-    select: { startDate: true, endDate: true, current: true },
-  })
-  return formatYearsLabel(experienceYears(docs, new Date()))
+  }
 }

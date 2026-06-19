@@ -5,15 +5,11 @@ import config from '@payload-config'
 
 import { List } from '@/components/primitives/List'
 import { MediaImage } from '@/components/primitives/MediaImage'
+import { yearRange } from '@/lib/format'
 import { getSubheaders } from '@/lib/labels'
 import { DeepDive } from '@/features/experience/DeepDive'
 import { ShowcaseGallery } from '@/features/experience/ShowcaseGallery'
-import {
-  deepDiveViews,
-  keywordLabels,
-  showcaseItems,
-  yearRange,
-} from '@/features/experience/experience'
+import { deepDiveViews, keywordLabels, showcaseItems } from '@/features/experience/projections'
 
 // ISR: revalidated hourly.
 export const revalidate = 3600

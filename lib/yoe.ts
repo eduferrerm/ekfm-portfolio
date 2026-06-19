@@ -2,7 +2,7 @@
  * Years-of-experience as a UNION of date intervals, not a sum: overlapping roles
  * (e.g. a contract held alongside a full-time job) count once, not twice. Pure +
  * side-effect-free so it stays trivially testable; the data read lives in the
- * landing projection (features/landing/projections.ts).
+ * landing query (features/landing/queries.ts).
  */
 
 type DateInterval = { start: Date; end: Date }
