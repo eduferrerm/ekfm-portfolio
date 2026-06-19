@@ -53,10 +53,16 @@ export type SearchDocument = {
  * lifts the Kubernetes/Frontend-tagged item without out-shouting a real title
  * match; prose description is the weakest signal. `minMatchCharLength: 2` keeps
  * single-character noise out while still matching short real terms ("AI", "QA").
+ *
+ * `threshold: 0.3` (tightened from 0.4): at 0.4 a 5-char query like "hippo"
+ * fuzzy-matched the "hip" inside owner**ship** (an alias of the `e2e-ownership`
+ * keyword), surfacing every item tagged with it. 0.3 rejects that 2-error
+ * fragment match while still admitting genuine typos (e.g. "ownrship" → 0.29,
+ * "custm" → 0.36) and all exact/prefix hits (≤0.05).
  */
 export const SEARCH_FUSE_OPTIONS: IFuseOptions<SearchDocument> = {
   includeScore: true,
-  threshold: 0.4,
+  threshold: 0.3,
   ignoreLocation: true,
   minMatchCharLength: 2,
   keys: [
