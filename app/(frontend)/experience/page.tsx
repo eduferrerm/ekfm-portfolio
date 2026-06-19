@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+
+import { firstExperienceSlug } from '@/features/experience/queries'
 
 // ISR: revalidated hourly.
 export const revalidate = 3600
@@ -11,15 +11,7 @@ export const revalidate = 3600
  * most recent role (newest `startDate`), mirroring the portfolio index.
  */
 export default async function ExperienceIndex() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'experience',
-    sort: '-startDate',
-    limit: 1,
-    depth: 0,
-  })
-
-  const first = docs[0]
-  if (!first?.slug) notFound()
-  redirect(`/experience/${first.slug}`)
+  const slug = await firstExperienceSlug()
+  if (!slug) notFound()
+  redirect(`/experience/${slug}`)
 }

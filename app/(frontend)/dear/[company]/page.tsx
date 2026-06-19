@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 import { Landing } from '@/features/landing/Landing'
+import { visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
 
 // ISR: per-company pages are generated on-demand and revalidated hourly. No
 // generateStaticParams — unknown companies 404 and known ones build on first
@@ -20,21 +19,11 @@ type Args = {
  */
 export default async function VisitorPage({ params }: Args) {
   const { company } = await params
-  const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'visitors',
-    where: { slug: { equals: company } },
-    // depth:2 populates the avatar + each expectation's relevantContent docs and
-    // their thumbnails (one level past the related doc) for the cards.
-    depth: 2,
-    limit: 1,
-  })
-
-  const visitor = docs[0]
+  const visitor = await visitorBySlug(company)
   if (!visitor) notFound()
 
-  const visitorContent = await payload.findGlobal({ slug: 'visitor-content' })
+  const visitorContent = await visitorContentGlobal()
 
   return <Landing visitor={visitor} visitorContent={visitorContent} />
 }

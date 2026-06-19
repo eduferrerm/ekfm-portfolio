@@ -1,5 +1,5 @@
 import type { Experience, Media, Portfolio } from '@/payload-types'
-import { keywordLabels } from '@/features/experience/projections'
+import { keywordLabels } from '@/lib/keywords'
 import { experienceHref, portfolioHref } from '@/lib/routes'
 
 /**

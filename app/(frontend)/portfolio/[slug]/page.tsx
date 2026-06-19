@@ -1,14 +1,13 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 import { List } from '@/components/primitives/List'
+import { keywordLabels } from '@/lib/keywords'
 import { getSubheaders } from '@/lib/labels'
-import { keywordLabels } from '@/features/experience/projections'
 import { GraphClient, getDiagram } from '@/features/portfolio/graph'
 import { KeyDecisions } from '@/features/portfolio/KeyDecisions'
 import { RelatedContent } from '@/features/portfolio/RelatedContent'
+import { portfolioBySlug } from '@/features/portfolio/queries'
 import { decisionViews, keyDecisionsSubtitle, relatedItems } from '@/features/portfolio/projections'
 
 // ISR: revalidated hourly.
@@ -32,18 +31,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  */
 export default async function PortfolioItemPage({ params }: Args) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-  const [{ docs }, subheaders] = await Promise.all([
-    payload.find({
-      collection: 'portfolio',
-      where: { slug: { equals: slug } },
-      depth: 1,
-      limit: 1,
-    }),
-    getSubheaders(),
-  ])
+  const [item, subheaders] = await Promise.all([portfolioBySlug(slug), getSubheaders()])
 
-  const item = docs[0]
   if (!item) notFound()
   const labels = subheaders.portfolio
 

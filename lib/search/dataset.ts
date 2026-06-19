@@ -3,6 +3,7 @@ import 'server-only'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import { keywordAliases, keywordLabels } from '@/lib/keywords'
 import { experienceHref, portfolioHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 
@@ -29,24 +30,6 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
     // depth:1 populates sections[].searchKeywords so their recall terms fold in.
     payload.findGlobal({ slug: 'landing', depth: 1 }),
   ])
-
-  // Resolved keyword (depth:1 populates scope/craft relationships into objects).
-  type Keyword = number | string | { label?: string; aliases?: (string | null)[] | null }
-
-  // Flatten scope + craft (in attach order — scope first) into the doc's
-  // keyword labels.
-  const keywordLabels = (...groups: Array<Keyword[] | null | undefined>): string[] =>
-    groups
-      .flatMap((items) => items ?? [])
-      .map((k) => (typeof k === 'object' && k ? k.label : undefined))
-      .filter((label): label is string => Boolean(label))
-
-  // Collect the recruiter-term synonyms off those same keywords for search recall.
-  const keywordAliases = (...groups: Array<Keyword[] | null | undefined>): string[] =>
-    groups
-      .flatMap((items) => items ?? [])
-      .flatMap((k) => (typeof k === 'object' && k ? (k.aliases ?? []) : []))
-      .filter((alias): alias is string => Boolean(alias))
 
   // depth:1 populates a Media relationship into an object carrying `url`; an
   // unpopulated id (or missing media) yields no thumbnail.
