@@ -3,6 +3,7 @@ import 'server-only'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import type { Landing } from '@/payload-types'
 import { experienceYears, formatYearsLabel } from '@/lib/yoe'
 
 import { experienceCard, portfolioCard, type LandingCardData } from './projections'
@@ -11,6 +12,12 @@ import { experienceCard, portfolioCard, type LandingCardData } from './projectio
  * Landing data-access (Payload Local API, no HTTP hop). Each query fetches lean
  * via `select` then hands the docs to the pure mappers in `./projections`.
  */
+
+/** The Landing global. depth:1 populates hero.craft labels + sections[].searchKeywords. */
+export async function landingGlobal(): Promise<Landing> {
+  const payload = await getPayload({ config })
+  return payload.findGlobal({ slug: 'landing', depth: 1 })
+}
 
 /** Portfolio landing cards, in display `order` (ascending). depth:1 populates the
  * scope/craft labels + the thumbnail; `select` keeps the read lean. */

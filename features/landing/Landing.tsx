@@ -1,6 +1,3 @@
-import { getPayload } from 'payload'
-import config from '@payload-config'
-
 import { buildSearchDataset } from '@/lib/search/dataset'
 import { slugify } from '@/lib/slugify'
 import type { Visitor, VisitorContent } from '@/payload-types'
@@ -10,7 +7,7 @@ import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
-import { experienceCards, experienceYearsLabel, portfolioCards } from './queries'
+import { experienceCards, experienceYearsLabel, landingGlobal, portfolioCards } from './queries'
 
 /** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
 const DEAR_COMPANY_ID = 'dear-company'
@@ -33,9 +30,8 @@ export async function Landing({
   visitor?: Visitor | null
   visitorContent?: VisitorContent | null
 }) {
-  const payload = await getPayload({ config })
   const [landing, pCards, eCards, searchDocs, yearsLabel] = await Promise.all([
-    payload.findGlobal({ slug: 'landing', depth: 1 }), // depth:1 populates hero.craft labels
+    landingGlobal(),
     portfolioCards(),
     experienceCards(),
     buildSearchDataset(),

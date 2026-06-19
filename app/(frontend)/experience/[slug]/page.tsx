@@ -1,15 +1,15 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 import { List } from '@/components/primitives/List'
 import { MediaImage } from '@/components/primitives/MediaImage'
+import { keywordLabels } from '@/lib/keywords'
 import { yearRange } from '@/lib/format'
 import { getSubheaders } from '@/lib/labels'
 import { DeepDive } from '@/features/experience/DeepDive'
 import { ShowcaseGallery } from '@/features/experience/ShowcaseGallery'
-import { deepDiveViews, keywordLabels, showcaseItems } from '@/features/experience/projections'
+import { experienceBySlug } from '@/features/experience/queries'
+import { deepDiveViews, showcaseItems } from '@/features/experience/projections'
 
 // ISR: revalidated hourly.
 export const revalidate = 3600
@@ -36,18 +36,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  */
 export default async function ExperienceItemPage({ params }: Args) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-  const [{ docs }, subheaders] = await Promise.all([
-    payload.find({
-      collection: 'experience',
-      where: { slug: { equals: slug } },
-      depth: 1,
-      limit: 1,
-    }),
-    getSubheaders(),
-  ])
+  const [exp, subheaders] = await Promise.all([experienceBySlug(slug), getSubheaders()])
 
-  const exp = docs[0]
   if (!exp) notFound()
   const labels = subheaders.experience
 
