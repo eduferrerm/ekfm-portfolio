@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { SliderControls } from '@/components/primitives/Slider'
@@ -18,9 +19,10 @@ export type ExpectationLabels = {
 /**
  * The Dear Company cover-letter slider. Each slide pairs one candidate
  * expectation with a reply (prose flowed into two balanced columns) and the
- * site content that supports it. The active slide mirrors to `?expectation=N`
- * (1-based) so it deep-links and survives back/forward — must be rendered under
- * <Suspense> by the parent (useSearchParams). Composes the atomized
+ * site content that supports it. The active slide is client state (instant, no
+ * RSC round-trip) seeded from `?expectation=N` (1-based) and mirrored back to the
+ * URL via the History API so it stays deep-linkable. Reads searchParams on mount,
+ * so the parent must render it under <Suspense>. Composes the atomized
  * SliderControls inside the card surface.
  */
 export function Expectations({
@@ -34,21 +36,25 @@ export function Expectations({
   logo?: Media | number | null
   labels: ExpectationLabels
 }) {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  // Active slide is client state so changing slides is instant — no RSC
+  // round-trip. Seed once from ?expectation=N (1-based), clamped to range.
+  const [index, setIndex] = useState(() => {
+    const parsed = Number(searchParams.get('expectation'))
+    if (!Number.isFinite(parsed)) return 0
+    return Math.min(Math.max(parsed - 1, 0), Math.max(expectations.length - 1, 0))
+  })
 
   if (expectations.length === 0) return null
 
-  const parsed = Number(searchParams.get('expectation'))
-  const index = Number.isFinite(parsed)
-    ? Math.min(Math.max(parsed - 1, 0), expectations.length - 1)
-    : 0
-
-  const setIndex = (next: number) => {
-    const params = new URLSearchParams(searchParams)
+  const goToIndex = (next: number) => {
+    setIndex(next)
+    // Mirror to the URL for deep-linking via the History API — updates the
+    // address bar without the server round-trip that router.replace incurs.
+    const params = new URLSearchParams(window.location.search)
     params.set('expectation', String(next + 1))
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`)
   }
 
   const view = expectations[index]
@@ -110,7 +116,7 @@ export function Expectations({
       <SliderControls
         index={index}
         count={expectations.length}
-        onIndexChange={setIndex}
+        onIndexChange={goToIndex}
         label={labels.expectations}
       />
     </div>
