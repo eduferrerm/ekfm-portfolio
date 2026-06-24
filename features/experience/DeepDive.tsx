@@ -30,9 +30,7 @@ export function DeepDive({
   if (items.length === 0) return null
 
   const parsed = Number(searchParams.get('dive'))
-  const index = Number.isFinite(parsed)
-    ? Math.min(Math.max(parsed - 1, 0), items.length - 1)
-    : 0
+  const index = Number.isFinite(parsed) ? Math.min(Math.max(parsed - 1, 0), items.length - 1) : 0
 
   const setIndex = (next: number) => {
     const params = new URLSearchParams(searchParams)
@@ -45,9 +43,7 @@ export function DeepDive({
   return (
     <section className="scroll-mt-24">
       <h2 className="text-3xl font-semibold tracking-tight">{heading}</h2>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">
-        {eyebrow}
-      </p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>
 
       <div className="mt-6 flex flex-col gap-6">
         <div className="rounded-2xl border border-border p-6 sm:p-10">

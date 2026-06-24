@@ -39,7 +39,8 @@ export const Experience: CollectionConfig = {
       index: true,
       admin: {
         position: 'sidebar',
-        description: 'URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.',
+        description:
+          'URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.',
       },
       hooks: {
         beforeValidate: [

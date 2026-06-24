@@ -61,7 +61,8 @@ export const Visitors: CollectionConfig = {
       index: true,
       admin: {
         position: 'sidebar',
-        description: 'URL slug for /dear/[company]. Auto-filled from the company if left blank; editable.',
+        description:
+          'URL slug for /dear/[company]. Auto-filled from the company if left blank; editable.',
       },
       hooks: {
         beforeValidate: [

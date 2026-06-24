@@ -2,10 +2,7 @@ import 'server-only'
 
 import { PostHog } from 'posthog-node'
 
-import type {
-  AnalyticsEventName,
-  AnalyticsEventProperties,
-} from './events'
+import type { AnalyticsEventName, AnalyticsEventProperties } from './events'
 
 /**
  * Server-side PostHog client (posthog-node). Lives in the analytics domain and

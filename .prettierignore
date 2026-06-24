@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+build
+pnpm-lock.yaml
+payload-types.ts
+next-env.d.ts
+importMap.js
+lib/stubs
+

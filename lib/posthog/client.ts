@@ -2,10 +2,7 @@
 
 import posthog from 'posthog-js'
 
-import type {
-  AnalyticsEventName,
-  AnalyticsEventProperties,
-} from './events'
+import type { AnalyticsEventName, AnalyticsEventProperties } from './events'
 
 /**
  * Typed wrapper around `posthog.capture` for use in Client Components. Mirrors

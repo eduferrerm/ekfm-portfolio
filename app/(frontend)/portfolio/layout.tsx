@@ -11,11 +11,7 @@ import { SectionShell } from '../_chrome/SectionShell'
  * across soft-navigations, giving the section its SPA feel. Section state lives
  * in the URL (e.g. ?decision=) — read it in the child routes, not here.
  */
-export default async function PortfolioLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function PortfolioLayout({ children }: { children: React.ReactNode }) {
   const [sections, items, documents] = await Promise.all([
     sectionNav(),
     portfolioNavItems(),

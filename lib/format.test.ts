@@ -31,7 +31,9 @@ describe('dateRange', () => {
 
 describe('yearRange', () => {
   it('renders year granularity, Present when current', () => {
-    expect(yearRange({ startDate: '2018-05-10', endDate: null, current: true })).toBe('2018 - Present')
+    expect(yearRange({ startDate: '2018-05-10', endDate: null, current: true })).toBe(
+      '2018 - Present',
+    )
     expect(yearRange({ startDate: '2018-05-10', endDate: '2021-09-10', current: false })).toBe(
       '2018 - 2021',
     )

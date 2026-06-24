@@ -13,10 +13,7 @@ import { SEARCH_FUSE_OPTIONS, type SearchDocument } from '@/lib/search/types'
  * `search` function. No network calls — search is fully client-side (Fuse.js).
  */
 export function useSearchIndex(documents: readonly SearchDocument[]) {
-  const fuse = useMemo(
-    () => createFuse(documents, SEARCH_FUSE_OPTIONS),
-    [documents],
-  )
+  const fuse = useMemo(() => createFuse(documents, SEARCH_FUSE_OPTIONS), [documents])
 
   const search = useMemo(
     () =>

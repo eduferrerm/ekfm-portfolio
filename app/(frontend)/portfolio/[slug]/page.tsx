@@ -52,9 +52,7 @@ export default async function PortfolioItemPage({ params }: Args) {
           {item.eyebrow}
         </p>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{item.title}</h1>
-        {item.summary && (
-          <p className="max-w-2xl text-lg text-muted-foreground">{item.summary}</p>
-        )}
+        {item.summary && <p className="max-w-2xl text-lg text-muted-foreground">{item.summary}</p>}
         {tags.length > 0 && <List variant="tag" items={tags} />}
         <hr className="border-border" />
       </header>
@@ -78,7 +76,11 @@ export default async function PortfolioItemPage({ params }: Args) {
 
       {decisions.length > 0 && (
         <Suspense fallback={null}>
-          <KeyDecisions decisions={decisions} subtitle={keyDecisionsSubtitle(item)} labels={labels} />
+          <KeyDecisions
+            decisions={decisions}
+            subtitle={keyDecisionsSubtitle(item)}
+            labels={labels}
+          />
         </Suspense>
       )}
 

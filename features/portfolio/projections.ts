@@ -45,7 +45,9 @@ export function decisionViews(decisions?: Portfolio['keyDecisions']): KeyDecisio
 }
 
 /** The persistent Key Decisions subtitle: the authored title, or the eyebrow. */
-export function keyDecisionsSubtitle(item: Pick<Portfolio, 'keyDecisionsTitle' | 'eyebrow'>): string {
+export function keyDecisionsSubtitle(
+  item: Pick<Portfolio, 'keyDecisionsTitle' | 'eyebrow'>,
+): string {
   return item.keyDecisionsTitle?.trim() || item.eyebrow
 }
 
