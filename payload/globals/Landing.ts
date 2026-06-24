@@ -28,13 +28,12 @@ import { slugify } from '../../lib/slugify'
 const SECTION_KEYS = ['tldr', 'experience', 'portfolio', 'moreAboutMe', 'contact'] as const
 
 /** Reusable prose-array field (blank-line-free paragraphs), mirrors Experience/Portfolio. */
-const proseArray = (name: string, singular: string, plural: string) =>
-  ({
-    name,
-    type: 'array' as const,
-    labels: { singular, plural },
-    fields: [{ name: 'text', type: 'textarea' as const, required: true }],
-  })
+const proseArray = (name: string, singular: string, plural: string) => ({
+  name,
+  type: 'array' as const,
+  labels: { singular, plural },
+  fields: [{ name: 'text', type: 'textarea' as const, required: true }],
+})
 
 /** The shared "landing section" copy shape — heading + descriptive subheader, a
  * labelled "Dive into" list, and the card CTA label. Used identically by the
@@ -45,25 +44,24 @@ const landingSectionGroup = (
   heading: string,
   subheaderDefault: string,
   ctaDefault: string,
-) =>
-  ({
-    name,
-    type: 'group' as const,
-    fields: [
-      { name: 'heading', type: 'text' as const, defaultValue: heading },
-      { name: 'subheader', type: 'textarea' as const, defaultValue: subheaderDefault },
-      {
-        name: 'diveInto',
-        type: 'group' as const,
-        fields: [
-          { name: 'subheader', type: 'text' as const, defaultValue: 'Dive into' },
-          proseArray('items', 'Item', 'Items'),
-        ],
-      },
-      // The label on every card's CTA button in this band.
-      { name: 'ctaLabel', type: 'text' as const, defaultValue: ctaDefault },
-    ],
-  })
+) => ({
+  name,
+  type: 'group' as const,
+  fields: [
+    { name: 'heading', type: 'text' as const, defaultValue: heading },
+    { name: 'subheader', type: 'textarea' as const, defaultValue: subheaderDefault },
+    {
+      name: 'diveInto',
+      type: 'group' as const,
+      fields: [
+        { name: 'subheader', type: 'text' as const, defaultValue: 'Dive into' },
+        proseArray('items', 'Item', 'Items'),
+      ],
+    },
+    // The label on every card's CTA button in this band.
+    { name: 'ctaLabel', type: 'text' as const, defaultValue: ctaDefault },
+  ],
+})
 
 export const Landing: GlobalConfig = {
   slug: 'landing',
@@ -112,7 +110,8 @@ export const Landing: GlobalConfig = {
           const navLabel = typeof row?.navLabel === 'string' ? row.navLabel : ''
           const slug = slugify(navLabel)
           if (!slug) return 'Every section needs a nav label that yields a non-empty anchor.'
-          if (slugs.has(slug)) return `Duplicate section anchor "${slug}" — nav labels must be unique.`
+          if (slugs.has(slug))
+            return `Duplicate section anchor "${slug}" — nav labels must be unique.`
           slugs.add(slug)
           const key = row?.key
           if (typeof key === 'string') {
@@ -128,13 +127,19 @@ export const Landing: GlobalConfig = {
           type: 'select',
           required: true,
           options: SECTION_KEYS.map((value) => ({ label: value, value })),
-          admin: { description: 'Which band this is. Binds to its renderer; the copy comes from the matching group below.' },
+          admin: {
+            description:
+              'Which band this is. Binds to its renderer; the copy comes from the matching group below.',
+          },
         },
         {
           name: 'navLabel',
           type: 'text',
           required: true,
-          admin: { description: 'Nav text. The band’s anchor id + search title derive from this (slugified).' },
+          admin: {
+            description:
+              'Nav text. The band’s anchor id + search title derive from this (slugified).',
+          },
         },
         {
           // One-off, section-local navigational synonyms fed to the search
@@ -145,7 +150,9 @@ export const Landing: GlobalConfig = {
           name: 'aliases',
           type: 'text',
           hasMany: true,
-          admin: { description: 'One-off nav synonyms for this section. Fed to search, never shown.' },
+          admin: {
+            description: 'One-off nav synonyms for this section. Fed to search, never shown.',
+          },
         },
         {
           // Hidden, search-only keywords that surface this section on curated
@@ -185,7 +192,10 @@ export const Landing: GlobalConfig = {
           relationTo: 'keywords',
           hasMany: true,
           filterOptions: () => ({ category: { equals: 'craft' } }),
-          admin: { allowCreate: false, description: 'Craft keywords shown in the hero, in attach order.' },
+          admin: {
+            allowCreate: false,
+            description: 'Craft keywords shown in the hero, in attach order.',
+          },
         },
       ],
     },
@@ -228,13 +238,21 @@ export const Landing: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'heading', type: 'text', defaultValue: 'More about me' },
-        { name: 'subheader', type: 'textarea', defaultValue: 'Slight chance that perhaps too much, lol' },
+        {
+          name: 'subheader',
+          type: 'textarea',
+          defaultValue: 'Slight chance that perhaps too much, lol',
+        },
         {
           name: 'teaser',
           type: 'group',
           fields: [
             { name: 'eyebrow', type: 'text', defaultValue: 'Mental Graph' },
-            { name: 'title', type: 'text', defaultValue: 'Relational Map Of ChatGPT Conversations' },
+            {
+              name: 'title',
+              type: 'text',
+              defaultValue: 'Relational Map Of ChatGPT Conversations',
+            },
             { name: 'description', type: 'textarea' },
             proseArray('items', 'Item', 'Items'),
             { name: 'ctaLabel', type: 'text', defaultValue: 'Feature System Here' },
@@ -248,7 +266,11 @@ export const Landing: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'header', type: 'text', defaultValue: 'Contact' },
-        { name: 'subheader', type: 'textarea', defaultValue: 'Thanks for taking the time to drop by and check out my portfolio 👋' },
+        {
+          name: 'subheader',
+          type: 'textarea',
+          defaultValue: 'Thanks for taking the time to drop by and check out my portfolio 👋',
+        },
         { name: 'description', type: 'textarea' },
         { name: 'ctaLabel', type: 'text' },
         { name: 'ctaUrl', type: 'text' },

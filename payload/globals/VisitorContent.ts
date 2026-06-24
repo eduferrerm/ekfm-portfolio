@@ -36,7 +36,9 @@ export const VisitorContent: GlobalConfig = {
       // link) — surfaces that each expectation has a relevant-content section.
       name: 'highlightPhrase',
       type: 'text',
-      admin: { description: 'Phrase in the intro to highlight (e.g. "Relevant content"). Optional.' },
+      admin: {
+        description: 'Phrase in the intro to highlight (e.g. "Relevant content"). Optional.',
+      },
     },
     {
       // Fixed UI strings for the Dear Company section (subheaders + button).

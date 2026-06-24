@@ -98,8 +98,7 @@ export function SearchPalette({
 
   // hrefs of the visitor's relevant content — used to scope the Company facet.
   const companyHrefs = useMemo(
-    () =>
-      new Set((visitorSearch?.expectations ?? []).flatMap((g) => g.items.map((i) => i.href))),
+    () => new Set((visitorSearch?.expectations ?? []).flatMap((g) => g.items.map((i) => i.href))),
     [visitorSearch],
   )
 
@@ -194,7 +193,12 @@ export function SearchPalette({
           <button type="button" onClick={close} aria-label="Back" className="text-muted-foreground">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <button type="button" onClick={close} aria-label="Close" className="text-muted-foreground">
+          <button
+            type="button"
+            onClick={close}
+            aria-label="Close"
+            className="text-muted-foreground"
+          >
             <X className="h-5 w-5" />
           </button>
         </div>

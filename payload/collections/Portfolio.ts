@@ -43,7 +43,8 @@ export const Portfolio: CollectionConfig = {
       index: true,
       admin: {
         position: 'sidebar',
-        description: 'URL slug for /portfolio/[slug]. Auto-filled from the title if left blank; editable.',
+        description:
+          'URL slug for /portfolio/[slug]. Auto-filled from the title if left blank; editable.',
       },
       hooks: {
         beforeValidate: [
@@ -59,7 +60,8 @@ export const Portfolio: CollectionConfig = {
       defaultValue: 0,
       admin: {
         position: 'sidebar',
-        description: 'Sort order (ascending). Lower shows first; /portfolio redirects to the lowest.',
+        description:
+          'Sort order (ascending). Lower shows first; /portfolio redirects to the lowest.',
       },
     },
     {
@@ -67,7 +69,10 @@ export const Portfolio: CollectionConfig = {
       name: 'thumbnail',
       type: 'upload',
       relationTo: 'media',
-      admin: { position: 'sidebar', description: 'Square/circular thumbnail for nav + landing cards.' },
+      admin: {
+        position: 'sidebar',
+        description: 'Square/circular thumbnail for nav + landing cards.',
+      },
     },
     {
       // Short lede; the search result description (see lib/search/dataset.ts).

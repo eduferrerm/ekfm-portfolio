@@ -22,7 +22,9 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
       )}
       <div>
         {card.eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">{card.eyebrow}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            {card.eyebrow}
+          </p>
         )}
         <h3 className="mt-1 text-lg font-semibold tracking-tight">{card.title}</h3>
       </div>

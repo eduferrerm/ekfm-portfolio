@@ -31,9 +31,7 @@ export async function graphqlFetch<
   })
 
   if (!response.ok) {
-    throw new Error(
-      `GraphQL request failed: ${response.status} ${response.statusText}`,
-    )
+    throw new Error(`GraphQL request failed: ${response.status} ${response.statusText}`)
   }
 
   const result = (await response.json()) as GraphQLResponse<TData>

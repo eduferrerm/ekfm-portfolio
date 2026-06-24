@@ -5,13 +5,7 @@ import { cn } from '@/lib/utils'
  * `tag` variant of {@link List} (scope/craft on the experience page) and reused
  * wherever a discrete label needs chip styling.
  */
-export function Tag({
-  children,
-  className,
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
+export function Tag({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <span
       className={cn(

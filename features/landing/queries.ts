@@ -28,7 +28,11 @@ export async function landingGlobal(): Promise<Landing> {
  */
 export async function sectionNav(): Promise<NavSectionView[]> {
   const payload = await getPayload({ config })
-  const landing = await payload.findGlobal({ slug: 'landing', depth: 0, select: { sections: true } })
+  const landing = await payload.findGlobal({
+    slug: 'landing',
+    depth: 0,
+    select: { sections: true },
+  })
   return sectionNavViews(landing.sections)
 }
 
@@ -41,7 +45,11 @@ export async function sectionNav(): Promise<NavSectionView[]> {
  */
 export async function landingSectionAnchor(key: string): Promise<string | null> {
   const payload = await getPayload({ config })
-  const landing = await payload.findGlobal({ slug: 'landing', depth: 0, select: { sections: true } })
+  const landing = await payload.findGlobal({
+    slug: 'landing',
+    depth: 0,
+    select: { sections: true },
+  })
   const section = (landing.sections ?? []).find((s) => s.key === key)
   return section ? `/#${slugify(section.navLabel)}` : null
 }

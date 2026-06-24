@@ -10,11 +10,7 @@ import { SectionShell } from '../_chrome/SectionShell'
  * route. The aside sub-nav lists every role (newest first); the shell is not
  * remounted across soft-navigations, giving the section its SPA feel.
  */
-export default async function ExperienceLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function ExperienceLayout({ children }: { children: React.ReactNode }) {
   const [sections, items, documents] = await Promise.all([
     sectionNav(),
     experienceNavItems(),

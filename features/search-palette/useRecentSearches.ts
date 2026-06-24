@@ -37,25 +37,22 @@ export function useRecentSearches() {
     }
   }, [])
 
-  const add = useCallback(
-    (query: string) => {
-      const trimmed = query.trim()
-      if (!trimmed) return
-      setRecents((prev) => {
-        const next = [
-          trimmed,
-          ...prev.filter((q) => q.toLowerCase() !== trimmed.toLowerCase()),
-        ].slice(0, MAX_RECENT)
-        try {
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-        } catch {
-          // Ignore.
-        }
-        return next
-      })
-    },
-    [],
-  )
+  const add = useCallback((query: string) => {
+    const trimmed = query.trim()
+    if (!trimmed) return
+    setRecents((prev) => {
+      const next = [
+        trimmed,
+        ...prev.filter((q) => q.toLowerCase() !== trimmed.toLowerCase()),
+      ].slice(0, MAX_RECENT)
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+      } catch {
+        // Ignore.
+      }
+      return next
+    })
+  }, [])
 
   const clear = useCallback(() => persist([]), [persist])
 

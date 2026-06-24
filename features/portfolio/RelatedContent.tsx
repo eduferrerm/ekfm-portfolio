@@ -15,10 +15,7 @@ export function RelatedContent({ items, label }: { items: RelatedItem[]; label: 
       <ul className="flex flex-col gap-2">
         {items.map((item) => (
           <li key={item.href}>
-            <Link
-              href={item.href}
-              className="text-foreground underline-offset-4 hover:underline"
-            >
+            <Link href={item.href} className="text-foreground underline-offset-4 hover:underline">
               {item.title}
             </Link>
           </li>

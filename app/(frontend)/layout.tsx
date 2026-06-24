@@ -9,11 +9,7 @@ export const metadata: Metadata = {
   description: 'Portfolio of Eduardo Ferrer',
 }
 
-export default function FrontendLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>

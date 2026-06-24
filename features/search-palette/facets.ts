@@ -36,10 +36,7 @@ export function buildFacets(documents: readonly SearchDocument[]): Facet[] {
 }
 
 /** Narrow results to the active facet. 'all' is a pass-through; 'company' is handled upstream. */
-export function applyFacet(
-  results: readonly SearchDocument[],
-  facetKey: string,
-): SearchDocument[] {
+export function applyFacet(results: readonly SearchDocument[], facetKey: string): SearchDocument[] {
   if (facetKey === ALL_FACET || facetKey === COMPANY_FACET) return [...results]
   return results.filter((doc) => doc.type === facetKey)
 }
