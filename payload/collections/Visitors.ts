@@ -100,7 +100,9 @@ export const Visitors: CollectionConfig = {
           name: 'expectation',
           type: 'textarea',
           required: true,
-          maxLength: 280,
+          // Matches the design comp's expectation headline 1:1 (133-char sample,
+          // zero headroom) so authored content can't outgrow the slider card.
+          maxLength: 133,
         },
         {
           // The reply contrasting the candidate against this expectation. A
@@ -110,7 +112,10 @@ export const Visitors: CollectionConfig = {
           name: 'reply',
           type: 'textarea',
           required: true,
-          maxLength: 1500,
+          // Matches the design comp's 4-paragraph reply 1:1 (510-char sample,
+          // including the blank-line paragraph separators) so it flows into the
+          // two-column block within one viewport, no headroom.
+          maxLength: 510,
         },
         {
           // Per-expectation supporting content. Polymorphic (mirrors
