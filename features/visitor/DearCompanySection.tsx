@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 
 import { List } from '@/components/primitives/List'
+import { dearHref } from '@/lib/routes'
 import type { Visitor, VisitorContent } from '@/payload-types'
 
 import { Expectations, type ExpectationLabels } from './Expectations'
@@ -38,7 +39,9 @@ export function DearCompanySection({
   visitor: Visitor
   content: VisitorContent
 }) {
-  const views = expectationViews(visitor.expectations)
+  // Scope the per-expectation relevant-content links to the visitor's mirror so
+  // they stay in scope (the slider renders them as plain <Link>s, no client scoping).
+  const views = expectationViews(visitor.expectations, dearHref(visitor.slug))
   const intro = (content.intro ?? []).map((i) => withHighlight(i.text, content.highlightPhrase))
   const labels: ExpectationLabels = {
     expectations: content.constants?.expectations || 'Expectations',
