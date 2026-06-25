@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 
 /**
  * Fixed section subheaders for the content detail pages — the labels that must
@@ -19,6 +20,11 @@ export const Labels: GlobalConfig = {
   access: {
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    // Subheaders render on every portfolio + experience detail page (+ scoped
+    // twins), so an edit revalidates the whole tree on demand.
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {

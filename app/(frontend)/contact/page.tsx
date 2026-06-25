@@ -2,8 +2,8 @@ import { notFound, redirect } from 'next/navigation'
 
 import { landingSectionAnchor } from '@/features/landing/queries'
 
-// ISR: revalidated hourly.
-export const revalidate = 3600
+// ISR: daily backstop; publishes revalidate on demand (revalidateSite).
+export const revalidate = 86400
 
 /**
  * Contact is a landing section, not a standalone page. A direct hit on /contact

@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import { firstExperienceSlug } from '@/features/experience/queries'
 import { dearHref, experienceHref } from '@/lib/routes'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 type Args = {
   params: Promise<{ company: string }>

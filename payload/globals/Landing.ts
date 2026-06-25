@@ -1,8 +1,8 @@
 import type { GlobalConfig } from 'payload'
-import { revalidatePath } from 'next/cache'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 import { slugify } from '../../lib/slugify'
 
 /**
@@ -70,19 +70,9 @@ export const Landing: GlobalConfig = {
     update: authenticated,
   },
   hooks: {
-    // The landing is ISR; an edit refreshes it. Best-effort (revalidatePath only
-    // works inside a Next request scope) so programmatic writes don't throw —
-    // mirrors the Visitors hook. Per-company /dear pages self-heal on their own
-    // hourly revalidate.
-    afterChange: [
-      () => {
-        try {
-          revalidatePath('/')
-        } catch {
-          // Not in a request context (seed/migration) — ignore.
-        }
-      },
-    ],
+    // Landing copy fans out to `/` AND every /dear/[company] mirror (one shared
+    // RSC), so an edit revalidates the whole tree on demand — not just `/`.
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {

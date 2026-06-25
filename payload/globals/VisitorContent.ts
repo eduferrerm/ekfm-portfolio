@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 
 /**
  * Fixed copy for the visitor routes (the welcome banner + the Dear Company
@@ -16,6 +17,11 @@ export const VisitorContent: GlobalConfig = {
   access: {
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    // This copy renders on every /dear/[company] page, so an edit revalidates
+    // the whole tree on demand (the mirror shares it across all companies).
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {

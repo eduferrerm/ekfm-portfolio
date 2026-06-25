@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
-import { revalidatePath } from 'next/cache'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite, warmVisitor } from '../../lib/revalidate'
 import { slugify } from '../../lib/slugify'
 
 /** Per-company visitor landing data surfaced at /dear/[company]. */
@@ -19,21 +19,15 @@ export const Visitors: CollectionConfig = {
     delete: authenticated,
   },
   hooks: {
-    // On-demand ISR: publishing/editing a visitor refreshes its /dear page. A
-    // slug rename revalidates the old path too so the stale page drops out.
+    // Publishing/editing a visitor refreshes the whole tree on demand — the
+    // whole-tree revalidate also drops a renamed-away old slug, so no per-path
+    // bookkeeping is needed. Then warm the visitor's landing so the shareable
+    // link is hot on the first recruiter click (covers companies added between
+    // deploys, before they're in generateStaticParams).
     afterChange: [
-      ({ doc, previousDoc }) => {
-        // Best-effort cache hint. revalidatePath only works inside a Next request
-        // scope, so swallow the throw when writing from a script (seed/migration)
-        // — the page is ISR and self-heals on its next revalidate regardless.
-        try {
-          revalidatePath(`/dear/${doc.slug}`)
-          if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
-            revalidatePath(`/dear/${previousDoc.slug}`)
-          }
-        } catch {
-          // Not in a request context (e.g. programmatic create) — ignore.
-        }
+      async ({ doc }) => {
+        revalidateSite()
+        await warmVisitor(doc.slug)
       },
     ],
   },

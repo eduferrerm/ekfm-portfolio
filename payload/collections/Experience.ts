@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 import { slugify } from '../../lib/slugify'
 
 /** Work history surfaced at /experience (one anchored section per role). */
@@ -16,6 +17,11 @@ export const Experience: CollectionConfig = {
     create: authenticated,
     update: authenticated,
     delete: authenticated,
+  },
+  hooks: {
+    // A role feeds its detail page (+ scoped twin), the landing cards, and the
+    // search corpus, so an edit revalidates the whole tree on demand.
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {

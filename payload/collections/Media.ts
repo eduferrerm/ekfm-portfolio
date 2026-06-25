@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 
 /**
  * Upload collection backing all images/files. Storage is delegated to the
@@ -20,6 +21,12 @@ export const Media: CollectionConfig = {
     create: authenticated,
     update: authenticated,
     delete: authenticated,
+  },
+  hooks: {
+    // Replacing an asset / editing alt text changes what renders, so revalidate
+    // the whole tree on demand. (The referencing doc's own hook also fires when
+    // a relation is re-pointed; this covers in-place edits to the asset itself.)
+    afterChange: [() => revalidateSite()],
   },
   upload: {
     // Adapter (Vercel Blob) handles persistence; no local on-disk copies.

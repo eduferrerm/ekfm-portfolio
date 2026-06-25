@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 import { slugify } from '../../lib/slugify'
 import { DIAGRAM_OPTIONS } from '../../features/portfolio/graph/diagrams/keys'
 
@@ -17,6 +18,11 @@ export const Portfolio: CollectionConfig = {
     create: authenticated,
     update: authenticated,
     delete: authenticated,
+  },
+  hooks: {
+    // A piece feeds its detail page (+ scoped twin), the landing cards, and the
+    // search corpus, so an edit revalidates the whole tree on demand.
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {
