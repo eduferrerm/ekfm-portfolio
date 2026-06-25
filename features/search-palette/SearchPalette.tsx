@@ -97,18 +97,20 @@ export function SearchPalette({
       : base
   }, [documents, visitorSearch])
 
-  // hrefs of the visitor's relevant content — used to scope the Company facet.
-  const companyHrefs = useMemo(
-    () => new Set((visitorSearch?.expectations ?? []).flatMap((g) => g.items.map((i) => i.href))),
-    [visitorSearch],
-  )
+  // The Company facet is an empty-state affordance, not a search scope: it shows
+  // the curated relevant-content list while the input is empty. The moment the
+  // visitor starts typing, flip to All (a real corpus search over everything);
+  // clearing the input returns to the Company empty state. The effect only fires
+  // on the empty↔typing transition, so a manual facet pick mid-query still sticks.
+  useEffect(() => {
+    if (!visitorSearch) return
+    setFacet(isQuerying ? ALL_FACET : COMPANY_FACET)
+  }, [isQuerying, visitorSearch])
 
   const results = useMemo(() => {
     if (!isQuerying) return []
-    const raw = search(query)
-    if (facet === COMPANY_FACET) return raw.filter((d) => companyHrefs.has(d.href))
-    return applyFacet(raw, facet)
-  }, [isQuerying, search, query, facet, companyHrefs])
+    return applyFacet(search(query), facet)
+  }, [isQuerying, search, query, facet])
 
   // Keep the active row in range and scrolled into view.
   useEffect(() => {
