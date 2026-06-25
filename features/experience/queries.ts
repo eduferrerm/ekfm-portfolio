@@ -14,7 +14,7 @@ import { experienceNavItem } from './projections'
  */
 
 /** All roles as aside nav sub-items, newest first (matches the aside order). */
-export async function experienceNavItems(): Promise<NavItem[]> {
+export async function experienceNavItems(scope = ''): Promise<NavItem[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
@@ -23,7 +23,7 @@ export async function experienceNavItems(): Promise<NavItem[]> {
     depth: 1,
     select: { role: true, company: true, slug: true, companyLogo: true },
   })
-  return docs.map((d) => experienceNavItem(d))
+  return docs.map((d) => experienceNavItem(d, scope))
 }
 
 /** One role by slug. depth:1 populates the logo, showcase images and scope/craft labels. */

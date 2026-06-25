@@ -14,7 +14,7 @@ import { portfolioNavItem } from './projections'
  */
 
 /** All pieces as aside nav sub-items, in display `order`. */
-export async function portfolioNavItems(): Promise<NavItem[]> {
+export async function portfolioNavItems(scope = ''): Promise<NavItem[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
@@ -23,7 +23,7 @@ export async function portfolioNavItems(): Promise<NavItem[]> {
     depth: 1,
     select: { eyebrow: true, title: true, slug: true, thumbnail: true },
   })
-  return docs.map((d) => portfolioNavItem(d))
+  return docs.map((d) => portfolioNavItem(d, scope))
 }
 
 /** One piece by slug. depth:1 populates scope/craft labels + relatedContent docs. */
