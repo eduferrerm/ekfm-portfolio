@@ -67,7 +67,7 @@ export function Expectations({
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-primary">{labels.expectations}</p>
-          <p className="truncate text-xs text-muted-foreground">Company: {role}</p>
+          <p className="truncate text-xs text-muted-foreground">{role}</p>
         </div>
         <span className="text-xs font-semibold text-primary">
           {index + 1}/{expectations.length}
