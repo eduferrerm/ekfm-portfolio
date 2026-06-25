@@ -3,7 +3,7 @@ import { allPortfolioSlugs } from '@/features/portfolio/queries'
 import { allVisitorSlugs } from '@/features/visitor/queries'
 import { dearHref } from '@/lib/routes'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const [companies, slugs] = await Promise.all([allVisitorSlugs(), allPortfolioSlugs()])

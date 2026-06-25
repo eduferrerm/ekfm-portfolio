@@ -2,7 +2,7 @@ import { ExperienceDetail } from '@/features/experience/ExperienceDetail'
 import { allExperienceSlugs } from '@/features/experience/queries'
 import { allVisitorSlugs } from '@/features/visitor/queries'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const [companies, slugs] = await Promise.all([allVisitorSlugs(), allExperienceSlugs()])

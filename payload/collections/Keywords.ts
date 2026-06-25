@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
 
 /** Tags used to relate and search across portfolio items and experience. */
 export const Keywords: CollectionConfig = {
@@ -19,6 +20,13 @@ export const Keywords: CollectionConfig = {
     create: authenticated,
     update: authenticated,
     delete: authenticated,
+  },
+  hooks: {
+    // Keyword labels/aliases feed the rendered descriptor pills + the search
+    // corpus, so an edit revalidates the whole tree on demand. (Bulk seeding
+    // runs outside a request scope — revalidateSite swallows that and the daily
+    // backstop covers it.)
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {

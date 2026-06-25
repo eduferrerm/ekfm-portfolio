@@ -2,8 +2,8 @@ import { notFound, redirect } from 'next/navigation'
 
 import { firstExperienceSlug } from '@/features/experience/queries'
 
-// ISR: revalidated hourly.
-export const revalidate = 3600
+// ISR: daily backstop; publishes revalidate on demand (revalidateSite).
+export const revalidate = 86400
 
 /**
  * Experience has no standalone landing page — it's reached via the landing

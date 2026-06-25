@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import { firstPortfolioSlug } from '@/features/portfolio/queries'
 import { dearHref, portfolioHref } from '@/lib/routes'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 type Args = {
   params: Promise<{ company: string }>

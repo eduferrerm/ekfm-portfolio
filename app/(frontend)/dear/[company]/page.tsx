@@ -3,10 +3,13 @@ import { notFound } from 'next/navigation'
 import { Landing } from '@/features/landing/Landing'
 import { allVisitorSlugs, visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
 
-// ISR: per-company pages revalidate hourly. generateStaticParams pre-renders every
-// known company at build so the shareable landing is never cold; unknown companies
-// fall through to the layout's notFound() (dynamicParams stays true).
-export const revalidate = 3600
+// ISR: daily time-based backstop. Freshness is driven on demand — a visitor
+// publish runs revalidateSite() + warmVisitor(slug) (see payload/collections/
+// Visitors.ts), so the shareable landing is hot the moment it's published, even
+// for a company added between deploys. generateStaticParams pre-renders every
+// known company at build; unknown companies fall through to the layout's
+// notFound() (dynamicParams stays true).
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const companies = await allVisitorSlugs()
