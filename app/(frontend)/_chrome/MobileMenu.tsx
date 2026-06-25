@@ -6,11 +6,12 @@ import { SiteNav } from '@/features/menu/SiteNav'
 import type { NavItem, NavSectionView, SectionKey } from '@/lib/nav'
 
 /**
- * Mobile/tablet nav: a hamburger in the top bar that opens a full-screen overlay
- * holding the same SiteNav as the desktop aside (one nav model, two shells).
- * Hidden at md+, where the persistent aside takes over. Tapping a nav link closes
- * the overlay (the wrapper's onClick). IA-first; styling lands with the design
- * system.
+ * Compact nav: a hamburger in the top bar that opens a full-screen overlay
+ * holding the same SiteNav as the persistent aside (one nav model, two shells).
+ * Shown until the rail breakpoint (1822px = 1200px content + 2×311px aside), the
+ * point at which there's margin to park the persistent aside; above it the aside
+ * takes over. Tapping a nav link closes the overlay (the wrapper's onClick).
+ * IA-first; styling lands with the design system.
  */
 export function MobileMenu({
   active,
@@ -26,7 +27,7 @@ export function MobileMenu({
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="md:hidden">
+    <div className="min-[1822px]:hidden">
       <button
         type="button"
         onClick={() => setOpen(true)}
