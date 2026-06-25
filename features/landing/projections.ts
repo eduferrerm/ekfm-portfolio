@@ -1,7 +1,7 @@
 import type { Experience, Landing, Media, Portfolio } from '@/payload-types'
 import { keywordLabels } from '@/lib/keywords'
 import { ROUTED_SECTIONS, type NavSectionView, type SectionKey } from '@/lib/nav'
-import { experienceHref, portfolioHref } from '@/lib/routes'
+import { experienceHref, portfolioHref, scopeHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 
 /**
@@ -11,14 +11,14 @@ import { slugify } from '@/lib/slugify'
  * detail route, the rest at their landing band anchor (/#slug, the same id the
  * band renders). Order + labels come straight from the CMS.
  */
-export function sectionNavViews(sections: Landing['sections']): NavSectionView[] {
+export function sectionNavViews(sections: Landing['sections'], scope = ''): NavSectionView[] {
   return (sections ?? []).map((s) => {
     const key = s.key as SectionKey
     const routed = ROUTED_SECTIONS.has(key)
     return {
       key,
       label: s.navLabel,
-      href: routed ? `/${key}` : `/#${slugify(s.navLabel)}`,
+      href: scopeHref(routed ? `/${key}` : `/#${slugify(s.navLabel)}`, scope),
       routed,
     }
   })
@@ -40,12 +40,13 @@ export type LandingCardData = {
 /** Project a Portfolio doc (depth>=1) to its landing card. */
 export function portfolioCard(
   d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail' | 'scope' | 'craft'>,
+  scope = '',
 ): LandingCardData {
   return {
     eyebrow: d.eyebrow,
     title: d.title,
     tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
-    href: portfolioHref(d.slug),
+    href: portfolioHref(d.slug, scope),
     image: d.thumbnail,
   }
 }
@@ -56,12 +57,13 @@ export function portfolioCard(
  */
 export function experienceCard(
   d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo' | 'scope' | 'craft'>,
+  scope = '',
 ): LandingCardData {
   return {
     eyebrow: d.company,
     title: d.role,
     tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
-    href: experienceHref(d.slug),
+    href: experienceHref(d.slug, scope),
     image: d.companyLogo,
   }
 }

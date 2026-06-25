@@ -26,18 +26,18 @@ export type ResolvedRef =
  * `doc` to whatever card label they render — this owns only the narrowing, the
  * slug guard, and the route shape.
  */
-export function resolveContentRefs(refs?: ContentRef[] | null): ResolvedRef[] {
+export function resolveContentRefs(refs?: ContentRef[] | null, scope = ''): ResolvedRef[] {
   return (refs ?? [])
     .map((ref): ResolvedRef | null => {
       // Check the discriminant first so `value` narrows to the matching doc.
       if (ref.relationTo === 'portfolio') {
         const value = ref.value
         if (typeof value !== 'object' || !value || !value.slug) return null
-        return { relationTo: 'portfolio', doc: value, href: portfolioHref(value.slug) }
+        return { relationTo: 'portfolio', doc: value, href: portfolioHref(value.slug, scope) }
       }
       const value = ref.value
       if (typeof value !== 'object' || !value || !value.slug) return null
-      return { relationTo: 'experience', doc: value, href: experienceHref(value.slug) }
+      return { relationTo: 'experience', doc: value, href: experienceHref(value.slug, scope) }
     })
     .filter((ref): ref is ResolvedRef => Boolean(ref))
 }

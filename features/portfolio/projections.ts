@@ -7,9 +7,10 @@ import { portfolioHref } from '@/lib/routes'
 /** Project a Portfolio doc (depth>=1) to an aside nav sub-item: eyebrow over title. */
 export function portfolioNavItem(
   d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail'>,
+  scope = '',
 ): NavItem {
   return {
-    href: portfolioHref(d.slug),
+    href: portfolioHref(d.slug, scope),
     primary: d.eyebrow,
     secondary: d.title,
     thumbnail: d.thumbnail,
@@ -57,8 +58,8 @@ export function keyDecisionsSubtitle(
  * only shape the label: a portfolio piece shows its eyebrow, a role shows
  * "{role} · {company}".
  */
-export function relatedItems(related?: Portfolio['relatedContent']): RelatedItem[] {
-  return resolveContentRefs(related).map((ref) =>
+export function relatedItems(related?: Portfolio['relatedContent'], scope = ''): RelatedItem[] {
+  return resolveContentRefs(related, scope).map((ref) =>
     ref.relationTo === 'portfolio'
       ? { title: ref.doc.eyebrow, href: ref.href }
       : { title: `${ref.doc.role} · ${ref.doc.company}`, href: ref.href },

@@ -6,9 +6,10 @@ import { experienceHref } from '@/lib/routes'
 /** Project an Experience doc (depth>=1) to an aside nav sub-item: company over role. */
 export function experienceNavItem(
   d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo'>,
+  scope = '',
 ): NavItem {
   return {
-    href: experienceHref(d.slug),
+    href: experienceHref(d.slug, scope),
     primary: d.company,
     secondary: d.role,
     thumbnail: d.companyLogo,
