@@ -1,12 +1,17 @@
 import { notFound } from 'next/navigation'
 
 import { Landing } from '@/features/landing/Landing'
-import { visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
+import { allVisitorSlugs, visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
 
-// ISR: per-company pages are generated on-demand and revalidated hourly. No
-// generateStaticParams — unknown companies 404 and known ones build on first
-// hit (and revalidate via the Visitors afterChange hook).
+// ISR: per-company pages revalidate hourly. generateStaticParams pre-renders every
+// known company at build so the shareable landing is never cold; unknown companies
+// fall through to the layout's notFound() (dynamicParams stays true).
 export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const companies = await allVisitorSlugs()
+  return companies.map((company) => ({ company }))
+}
 
 type Args = {
   params: Promise<{ company: string }>

@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom'
 
 import { capture } from '@/lib/posthog/client'
 import { AnalyticsEvent } from '@/lib/posthog/events'
+import { scopeFromPath, scopeHref } from '@/lib/routes'
 import type { SearchDocument } from '@/lib/search/types'
 import { cn } from '@/lib/utils'
 
@@ -138,9 +139,13 @@ export function SearchPalette({
       if (trimmed) add(trimmed)
       setOpen(false)
       // Section docs ship a bare `#slug` fragment so they resolve against the
-      // current route (a visitor stays on /dear/[company]); absolute hrefs
-      // (portfolio/experience detail pages) navigate as-is.
-      router.push(row.href.startsWith('#') ? `${pathname}${row.href}` : row.href)
+      // current route (a visitor stays on /dear/[company]); root-relative detail
+      // hrefs are scoped to the current mirror (if any) so results never break out.
+      router.push(
+        row.href.startsWith('#')
+          ? `${pathname}${row.href}`
+          : scopeHref(row.href, scopeFromPath(pathname)),
+      )
     },
     [trimmed, add, router, pathname],
   )

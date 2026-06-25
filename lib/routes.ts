@@ -33,3 +33,13 @@ export function experienceHref(slug?: string | null, scope = ''): string {
 export function dearHref(company: string): string {
   return `/dear/${company}`
 }
+
+/**
+ * Recover the visitor scope prefix from a pathname (`/dear/ashby/...` ->
+ * `/dear/ashby`), or '' on the canonical site. Lets client chrome (e.g. the search
+ * palette) scope links from the current URL without prop-drilling the company.
+ */
+export function scopeFromPath(pathname: string): string {
+  const match = pathname.match(/^\/dear\/[^/]+/)
+  return match ? match[0] : ''
+}

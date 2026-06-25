@@ -1,7 +1,14 @@
 import { PortfolioDetail } from '@/features/portfolio/PortfolioDetail'
+import { allPortfolioSlugs } from '@/features/portfolio/queries'
+import { allVisitorSlugs } from '@/features/visitor/queries'
 import { dearHref } from '@/lib/routes'
 
 export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const [companies, slugs] = await Promise.all([allVisitorSlugs(), allPortfolioSlugs()])
+  return companies.flatMap((company) => slugs.map((slug) => ({ company, slug })))
+}
 
 type Args = {
   params: Promise<{ company: string; slug: string }>
