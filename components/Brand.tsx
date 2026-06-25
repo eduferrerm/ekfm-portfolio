@@ -7,9 +7,17 @@ import Link from 'next/link'
  * as `mark` — no next.config/SVGR change is needed for inline SVG. (A
  * CMS-managed SVG rendered via next/image would need `dangerouslyAllowSVG`.)
  */
-export function Brand({ mark, className }: { mark?: React.ReactNode; className?: string }) {
+export function Brand({
+  mark,
+  className,
+  href = '/',
+}: {
+  mark?: React.ReactNode
+  className?: string
+  href?: string
+}) {
   return (
-    <Link href="/" aria-label="EKFM — home" className={className}>
+    <Link href={href} aria-label="EKFM — home" className={className}>
       {mark ?? (
         <span className="rounded border border-primary px-2 py-0.5 text-sm font-bold tracking-widest text-primary">
           EKFM

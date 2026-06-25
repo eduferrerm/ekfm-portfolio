@@ -38,6 +38,7 @@ export default async function ScopedExperienceLayout({
       items={items}
       documents={documents}
       visitorSearch={buildVisitorSearchContext(visitor)}
+      homeHref={scope}
     >
       {children}
     </SectionShell>

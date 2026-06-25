@@ -22,6 +22,7 @@ export function SectionShell({
   items,
   documents,
   visitorSearch,
+  homeHref = '/',
   children,
 }: {
   active: SectionKey
@@ -29,12 +30,13 @@ export function SectionShell({
   items: NavItem[]
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
+  homeHref?: string
   children: ReactNode
 }) {
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between gap-4 px-6 py-4">
-        <Brand />
+        <Brand href={homeHref} />
         <div className="flex items-center gap-2">
           <SearchPalette documents={documents} visitorSearch={visitorSearch} />
           <MobileMenu active={active} sections={sections} items={items} />

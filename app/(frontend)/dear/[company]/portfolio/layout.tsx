@@ -39,6 +39,7 @@ export default async function ScopedPortfolioLayout({
       items={items}
       documents={documents}
       visitorSearch={buildVisitorSearchContext(visitor)}
+      homeHref={scope}
     >
       {children}
     </SectionShell>
