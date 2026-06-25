@@ -39,7 +39,7 @@ export async function allVisitorSlugs(): Promise<string[]> {
 }
 
 /** The VisitorContent global — fixed visitor-route copy (depth:0, ISR-cached). */
-export async function visitorContentGlobal(): Promise<VisitorContent> {
+export const visitorContentGlobal = cache(async (): Promise<VisitorContent> => {
   const payload = await getPayload({ config })
   return payload.findGlobal({ slug: 'visitor-content' })
-}
+})

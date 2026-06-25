@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { experienceNavItems } from '@/features/experience/queries'
 import { sectionNav } from '@/features/landing/queries'
 import { buildVisitorSearchContext } from '@/features/search-palette/visitorContext'
-import { visitorBySlug } from '@/features/visitor/queries'
+import { visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
 import { dearHref } from '@/lib/routes'
 import { buildSearchDataset } from '@/lib/search/dataset'
 
@@ -23,13 +23,18 @@ export default async function ScopedExperienceLayout({
 }) {
   const { company } = await params
   const scope = dearHref(company)
-  const [visitor, sections, items, documents] = await Promise.all([
+  const [visitor, visitorContent, sections, items, documents] = await Promise.all([
     visitorBySlug(company),
+    visitorContentGlobal(),
     sectionNav(scope),
     experienceNavItems(scope),
     buildSearchDataset(),
   ])
   if (!visitor) notFound()
+  const home = {
+    label: visitorContent?.constants?.dearCompanyNav || 'Dear Company',
+    href: scope,
+  }
 
   return (
     <SectionShell
@@ -38,7 +43,7 @@ export default async function ScopedExperienceLayout({
       items={items}
       documents={documents}
       visitorSearch={buildVisitorSearchContext(visitor)}
-      homeHref={scope}
+      home={home}
     >
       {children}
     </SectionShell>

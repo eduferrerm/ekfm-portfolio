@@ -16,10 +16,12 @@ export function MobileMenu({
   active,
   sections,
   items,
+  home,
 }: {
   active: SectionKey
   sections: NavSectionView[]
   items: NavItem[]
+  home?: { label: string; href: string } | null
 }) {
   const [open, setOpen] = useState(false)
 
@@ -45,7 +47,7 @@ export function MobileMenu({
             ×
           </button>
           <div className="mt-10" onClick={() => setOpen(false)}>
-            <SiteNav active={active} sections={sections} items={items} />
+            <SiteNav active={active} sections={sections} items={items} home={home} />
           </div>
         </div>
       )}
