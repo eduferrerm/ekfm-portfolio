@@ -44,9 +44,8 @@ export async function Landing({
 
   const sections = landing.sections ?? []
   const visitorSearch = visitor ? buildVisitorSearchContext(visitor) : null
-  const dearCompanyNav = visitorContent?.constants?.dearCompanyNav || 'Dear Company'
   const navItems = [
-    ...(visitor ? [{ label: dearCompanyNav, slug: DEAR_COMPANY_ID }] : []),
+    ...(visitor ? [{ label: `Dear ${visitor.company}`, slug: DEAR_COMPANY_ID }] : []),
     ...sections.map((s) => ({ label: s.navLabel, slug: slugify(s.navLabel) })),
   ]
 

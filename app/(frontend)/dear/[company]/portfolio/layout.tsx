@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { sectionNav } from '@/features/landing/queries'
 import { portfolioNavItems } from '@/features/portfolio/queries'
 import { buildVisitorSearchContext } from '@/features/search-palette/visitorContext'
-import { visitorBySlug, visitorContentGlobal } from '@/features/visitor/queries'
+import { visitorBySlug } from '@/features/visitor/queries'
 import { dearHref } from '@/lib/routes'
 import { buildSearchDataset } from '@/lib/search/dataset'
 
@@ -24,18 +24,14 @@ export default async function ScopedPortfolioLayout({
 }) {
   const { company } = await params
   const scope = dearHref(company)
-  const [visitor, visitorContent, sections, items, documents] = await Promise.all([
+  const [visitor, sections, items, documents] = await Promise.all([
     visitorBySlug(company),
-    visitorContentGlobal(),
     sectionNav(scope),
     portfolioNavItems(scope),
     buildSearchDataset(),
   ])
   if (!visitor) notFound()
-  const home = {
-    label: visitorContent?.constants?.dearCompanyNav || 'Dear Company',
-    href: scope,
-  }
+  const home = { label: `Dear ${visitor.company}`, href: scope }
 
   return (
     <SectionShell

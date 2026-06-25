@@ -22,7 +22,7 @@ export function buildVisitorSearchContext(visitor: Visitor): VisitorSearchContex
   const total = expectations.length
 
   return {
-    companyChipLabel: `Company: ${visitor.role}`,
+    companyChipLabel: `${visitor.company}: ${visitor.role}`,
     expectations: expectations.map((expectation, index) => ({
       title: `Expectation ${index + 1}/${total}`,
       summary: expectation.expectation,
