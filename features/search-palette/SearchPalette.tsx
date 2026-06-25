@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+import { Container } from '@/components/Container'
 import { capture } from '@/lib/posthog/client'
 import { AnalyticsEvent } from '@/lib/posthog/events'
 import { scopeFromPath, scopeHref } from '@/lib/routes'
@@ -32,10 +33,18 @@ export function SearchPalette({
   documents,
   visitorSearch,
   placeholder = 'Search',
+  overlayAlign = 'edge',
 }: {
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
   placeholder?: string
+  /**
+   * Where the portaled overlay anchors. 'container' aligns it to the shared
+   * content column (<Container>) so it sits under a Search trigger that lives in
+   * that column (the landing nav, the inner-page top bar). 'edge' pins it to the
+   * viewport edge for a trigger that sits at the edge.
+   */
+  overlayAlign?: 'container' | 'edge'
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -180,6 +189,143 @@ export function SearchPalette({
   const showChips = isQuerying || Boolean(visitorSearch)
   const showExpectations = !isQuerying && Boolean(visitorSearch)
 
+  const panelBody = (
+    <>
+      {/* Mobile-only back / close (desktop closes via backdrop or Esc). */}
+      <div className="mb-3 flex items-center justify-between sm:hidden">
+        <button type="button" onClick={close} aria-label="Back" className="text-muted-foreground">
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <button type="button" onClick={close} aria-label="Close" className="text-muted-foreground">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setActiveIndex(0)
+          }}
+          placeholder={placeholder}
+          aria-label="Search query"
+          className="w-full rounded-lg border border-border bg-muted/40 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+        />
+      </div>
+
+      {showChips && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {facets.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => {
+                setFacet(f.key)
+                setActiveIndex(0)
+              }}
+              aria-pressed={facet === f.key}
+              className={cn(
+                'rounded-md border px-2.5 py-1 text-xs transition',
+                facet === f.key
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : 'border-border text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-3 flex-1 overflow-y-auto">
+        {isQuerying && (
+          <div>
+            <p className="px-2 text-sm font-medium text-primary">Results</p>
+            {results.length === 0 ? (
+              <p className="px-2 py-6 text-sm text-muted-foreground">No results for “{trimmed}”.</p>
+            ) : (
+              <div className="mt-1 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                {results.map((doc, i) => (
+                  <SearchResultRow
+                    key={doc.id}
+                    ref={i === activeIndex ? activeRowRef : undefined}
+                    row={doc}
+                    active={i === activeIndex}
+                    onMouseEnter={() => setActiveIndex(i)}
+                    onSelect={() => selectRow(doc, i)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {showExpectations &&
+          visitorSearch!.expectations.map((group) => (
+            <div key={group.title} className="mt-4 first:mt-0">
+              <p className="px-2 text-sm font-medium text-primary">{group.title}</p>
+              <p className="px-2 text-xs text-muted-foreground line-clamp-2">{group.summary}</p>
+              <div className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                {group.items.map((item, i) => (
+                  <SearchResultRow
+                    key={`${group.title}:${item.href}`}
+                    row={item}
+                    onSelect={() => selectRow(item, i)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+
+        {recents.length > 0 && (
+          <div className="mt-4 border-t border-border pt-3">
+            <div className="flex items-center justify-between px-2">
+              <span className="text-sm font-medium text-primary">Recent Searches</span>
+              <button
+                type="button"
+                onClick={clear}
+                className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2 px-2">
+              {recents.map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => runRecent(r)}
+                  className="rounded-md px-1 text-xs text-muted-foreground hover:text-foreground"
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  )
+
+  // The dialog itself; positioning lives on the alignment wrapper in `overlay`
+  // so the same panel can sit in the content column (landing nav) or at the
+  // viewport edge (full-bleed section header).
+  const dialog = (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search"
+      onKeyDown={onPanelKeyDown}
+      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-card p-4 shadow-2xl sm:w-[28rem]"
+    >
+      {panelBody}
+    </div>
+  )
+
   const overlay = (
     <div className="fixed inset-0 z-[60]">
       <button
@@ -188,138 +334,19 @@ export function SearchPalette({
         onClick={close}
         className="absolute inset-0 cursor-default bg-background/70 backdrop-blur-sm"
       />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="Search"
-        onKeyDown={onPanelKeyDown}
-        className="absolute inset-x-3 top-3 mx-auto flex max-h-[calc(100vh-1.5rem)] max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-card p-4 shadow-2xl sm:inset-x-auto sm:right-6 sm:top-16 sm:w-[28rem]"
-      >
-        {/* Mobile-only back / close (desktop closes via backdrop or Esc). */}
-        <div className="mb-3 flex items-center justify-between sm:hidden">
-          <button type="button" onClick={close} aria-label="Back" className="text-muted-foreground">
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={close}
-            aria-label="Close"
-            className="text-muted-foreground"
-          >
-            <X className="h-5 w-5" />
-          </button>
+      {/* The alignment wrapper is click-through (pointer-events-none) so an
+          outside click still reaches the backdrop; only the dialog itself
+          catches events. 'container' aligns the panel to the content column,
+          under the nav's Search button; 'edge' pins it to the viewport edge. */}
+      {overlayAlign === 'container' ? (
+        <div className="pointer-events-none absolute inset-x-0 top-3 sm:top-16">
+          <Container className="flex justify-end">{dialog}</Container>
         </div>
-
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-              setActiveIndex(0)
-            }}
-            placeholder={placeholder}
-            aria-label="Search query"
-            className="w-full rounded-lg border border-border bg-muted/40 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
-          />
+      ) : (
+        <div className="pointer-events-none absolute inset-x-3 top-3 flex justify-center sm:inset-x-auto sm:right-6 sm:top-16 sm:block">
+          {dialog}
         </div>
-
-        {showChips && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {facets.map((f) => (
-              <button
-                key={f.key}
-                type="button"
-                onClick={() => {
-                  setFacet(f.key)
-                  setActiveIndex(0)
-                }}
-                aria-pressed={facet === f.key}
-                className={cn(
-                  'rounded-md border px-2.5 py-1 text-xs transition',
-                  facet === f.key
-                    ? 'border-primary bg-primary text-primary-foreground'
-                    : 'border-border text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <div className="mt-3 flex-1 overflow-y-auto">
-          {isQuerying && (
-            <div>
-              <p className="px-2 text-sm font-medium text-primary">Results</p>
-              {results.length === 0 ? (
-                <p className="px-2 py-6 text-sm text-muted-foreground">
-                  No results for “{trimmed}”.
-                </p>
-              ) : (
-                <div className="mt-1 grid grid-cols-1 gap-1 sm:grid-cols-2">
-                  {results.map((doc, i) => (
-                    <SearchResultRow
-                      key={doc.id}
-                      ref={i === activeIndex ? activeRowRef : undefined}
-                      row={doc}
-                      active={i === activeIndex}
-                      onMouseEnter={() => setActiveIndex(i)}
-                      onSelect={() => selectRow(doc, i)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {showExpectations &&
-            visitorSearch!.expectations.map((group) => (
-              <div key={group.title} className="mt-4 first:mt-0">
-                <p className="px-2 text-sm font-medium text-primary">{group.title}</p>
-                <p className="px-2 text-xs text-muted-foreground line-clamp-2">{group.summary}</p>
-                <div className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
-                  {group.items.map((item, i) => (
-                    <SearchResultRow
-                      key={`${group.title}:${item.href}`}
-                      row={item}
-                      onSelect={() => selectRow(item, i)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-
-          {recents.length > 0 && (
-            <div className="mt-4 border-t border-border pt-3">
-              <div className="flex items-center justify-between px-2">
-                <span className="text-sm font-medium text-primary">Recent Searches</span>
-                <button
-                  type="button"
-                  onClick={clear}
-                  className="text-xs text-muted-foreground underline-offset-2 hover:underline"
-                >
-                  Clear
-                </button>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-2 px-2">
-                {recents.map((r) => (
-                  <button
-                    key={r}
-                    type="button"
-                    onClick={() => runRecent(r)}
-                    className="rounded-md px-1 text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    {r}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   )
 

@@ -45,7 +45,7 @@ export async function ExperienceDetail({ slug }: { slug: string }) {
   const dives = deepDiveViews(exp.deepDive)
 
   return (
-    <article className="mx-auto max-w-5xl space-y-16">
+    <article className="space-y-16">
       <header className="space-y-5">
         <div className="flex items-center gap-3">
           {logo && <MediaImage media={logo} className="h-10 w-auto" />}

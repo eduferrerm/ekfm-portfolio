@@ -1,3 +1,4 @@
+import { Container } from '@/components/Container'
 import { buildSearchDataset } from '@/lib/search/dataset'
 import { dearHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
@@ -52,13 +53,13 @@ export async function Landing({
   return (
     <main>
       {visitor && (
-        <div className="mx-auto w-full max-w-5xl px-6 pt-6">
+        <Container className="pt-6">
           <WelcomeBanner
             company={visitor.company}
             logo={visitor.companyLogo}
             greeting={visitorContent?.welcomeGreeting}
           />
-        </div>
+        </Container>
       )}
 
       <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
@@ -66,9 +67,9 @@ export async function Landing({
       <HeroBand hero={landing.hero} />
 
       {visitor && visitorContent && (
-        <div className="mx-auto w-full max-w-5xl px-6 py-20">
+        <Container className="py-20">
           <DearCompanySection visitor={visitor} content={visitorContent} />
-        </div>
+        </Container>
       )}
 
       {sections.map((section) => {

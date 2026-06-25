@@ -1,3 +1,4 @@
+import { Container } from '@/components/Container'
 import { SearchPalette } from '@/features/search-palette/SearchPalette'
 import type { VisitorSearchContext } from '@/features/search-palette/types'
 import type { SearchDocument } from '@/lib/search/types'
@@ -20,7 +21,7 @@ export function LandingNav({
 }) {
   return (
     <nav className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6 px-6 py-3">
+      <Container className="flex items-center justify-between gap-6 py-3">
         <span className="rounded border border-primary px-2 py-0.5 text-sm font-bold tracking-widest text-primary">
           EKFM
         </span>
@@ -36,8 +37,12 @@ export function LandingNav({
             </li>
           ))}
         </ul>
-        <SearchPalette documents={documents} visitorSearch={visitorSearch} />
-      </div>
+        <SearchPalette
+          documents={documents}
+          visitorSearch={visitorSearch}
+          overlayAlign="container"
+        />
+      </Container>
     </nav>
   )
 }

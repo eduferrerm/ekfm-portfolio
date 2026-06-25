@@ -41,7 +41,7 @@ export async function PortfolioDetail({ slug, scope = '' }: { slug: string; scop
   const related = relatedItems(item.relatedContent, scope)
 
   return (
-    <article className="mx-auto max-w-5xl space-y-16">
+    <article className="space-y-16">
       <header className="space-y-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
           {item.eyebrow}
