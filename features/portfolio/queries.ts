@@ -23,7 +23,7 @@ export async function portfolioNavItems(): Promise<NavItem[]> {
     depth: 1,
     select: { eyebrow: true, title: true, slug: true, thumbnail: true },
   })
-  return docs.map(portfolioNavItem)
+  return docs.map((d) => portfolioNavItem(d))
 }
 
 /** One piece by slug. depth:1 populates scope/craft labels + relatedContent docs. */
@@ -48,4 +48,17 @@ export async function firstPortfolioSlug(): Promise<string | null> {
     depth: 0,
   })
   return docs[0]?.slug ?? null
+}
+
+/** Every piece's slug — drives `generateStaticParams` so details pre-render at build. */
+export async function allPortfolioSlugs(): Promise<string[]> {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'portfolio',
+    sort: 'order',
+    limit: 1000,
+    depth: 0,
+    select: { slug: true },
+  })
+  return docs.map((d) => d.slug).filter((slug): slug is string => Boolean(slug))
 }

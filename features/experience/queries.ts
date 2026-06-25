@@ -23,7 +23,7 @@ export async function experienceNavItems(): Promise<NavItem[]> {
     depth: 1,
     select: { role: true, company: true, slug: true, companyLogo: true },
   })
-  return docs.map(experienceNavItem)
+  return docs.map((d) => experienceNavItem(d))
 }
 
 /** One role by slug. depth:1 populates the logo, showcase images and scope/craft labels. */
@@ -48,4 +48,17 @@ export async function firstExperienceSlug(): Promise<string | null> {
     depth: 0,
   })
   return docs[0]?.slug ?? null
+}
+
+/** Every role's slug — drives `generateStaticParams` so details pre-render at build. */
+export async function allExperienceSlugs(): Promise<string[]> {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'experience',
+    sort: '-startDate',
+    limit: 1000,
+    depth: 0,
+    select: { slug: true },
+  })
+  return docs.map((d) => d.slug).filter((slug): slug is string => Boolean(slug))
 }
