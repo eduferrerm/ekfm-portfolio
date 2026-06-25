@@ -24,3 +24,22 @@ export function portfolioHref(slug?: string | null, scope = ''): string {
 export function experienceHref(slug?: string | null, scope = ''): string {
   return scopeHref(slug ? `/experience/${slug}` : '/experience', scope)
 }
+
+/**
+ * The visitor landing route for a company — and the scope prefix for its mirrored
+ * tree (e.g. '/dear/ashby'). Pass the result as the `scope` arg to any href
+ * builder so links stay inside the visitor's mirror.
+ */
+export function dearHref(company: string): string {
+  return `/dear/${company}`
+}
+
+/**
+ * Recover the visitor scope prefix from a pathname (`/dear/ashby/...` ->
+ * `/dear/ashby`), or '' on the canonical site. Lets client chrome (e.g. the search
+ * palette) scope links from the current URL without prop-drilling the company.
+ */
+export function scopeFromPath(pathname: string): string {
+  const match = pathname.match(/^\/dear\/[^/]+/)
+  return match ? match[0] : ''
+}

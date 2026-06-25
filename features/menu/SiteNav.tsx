@@ -19,15 +19,26 @@ export function SiteNav({
   sections,
   active,
   items,
+  home,
 }: {
   sections: NavSectionView[]
   active: SectionKey
   items: NavItem[]
+  /** Visitor-only "Dear Company" entry linking back to the scoped landing. */
+  home?: { label: string; href: string } | null
 }) {
   const pathname = usePathname()
 
   return (
     <nav className="flex flex-col gap-2" aria-label="Sections">
+      {home && (
+        <Link
+          href={home.href}
+          className="text-sm uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+        >
+          {home.label}
+        </Link>
+      )}
       {sections.map((section) => {
         const sectionActive = section.routed && section.key === active
         return (

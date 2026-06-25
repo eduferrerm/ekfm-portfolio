@@ -29,8 +29,9 @@ export type ExpectationView = {
  */
 export function resolveRelevantContent(
   related?: Visitor['expectations'][number]['relevantContent'],
+  scope = '',
 ): RelevantItem[] {
-  return resolveContentRefs(related).map((ref) =>
+  return resolveContentRefs(related, scope).map((ref) =>
     ref.relationTo === 'portfolio'
       ? {
           title: 'Feature',
@@ -52,13 +53,16 @@ export function resolveRelevantContent(
  * body; split it on blank lines into paragraphs (the render flows them into two
  * balanced columns).
  */
-export function expectationViews(expectations?: Visitor['expectations']): ExpectationView[] {
+export function expectationViews(
+  expectations?: Visitor['expectations'],
+  scope = '',
+): ExpectationView[] {
   return (expectations ?? []).map((e) => ({
     expectation: e.expectation,
     replyParagraphs: (e.reply ?? '')
       .split(/\n\s*\n/)
       .map((p) => p.trim())
       .filter(Boolean),
-    items: resolveRelevantContent(e.relevantContent),
+    items: resolveRelevantContent(e.relevantContent, scope),
   }))
 }

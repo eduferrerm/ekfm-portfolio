@@ -27,14 +27,14 @@ export async function landingGlobal(): Promise<Landing> {
  * mobile overlay menu. Lean fetch (sections only); projected to view-models with
  * their per-section href strategy in `sectionNavViews`.
  */
-export async function sectionNav(): Promise<NavSectionView[]> {
+export async function sectionNav(scope = ''): Promise<NavSectionView[]> {
   const payload = await getPayload({ config })
   const landing = await payload.findGlobal({
     slug: 'landing',
     depth: 0,
     select: { sections: true },
   })
-  return sectionNavViews(landing.sections)
+  return sectionNavViews(landing.sections, scope)
 }
 
 /**
@@ -57,7 +57,7 @@ export async function landingSectionAnchor(key: string, scope = ''): Promise<str
 
 /** Portfolio landing cards, in display `order` (ascending). depth:1 populates the
  * scope/craft labels + the thumbnail; `select` keeps the read lean. */
-export async function portfolioCards(): Promise<LandingCardData[]> {
+export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
@@ -66,11 +66,11 @@ export async function portfolioCards(): Promise<LandingCardData[]> {
     depth: 1,
     select: { eyebrow: true, title: true, slug: true, thumbnail: true, scope: true, craft: true },
   })
-  return docs.map((d) => portfolioCard(d))
+  return docs.map((d) => portfolioCard(d, scope))
 }
 
 /** Experience landing cards, newest first. */
-export async function experienceCards(): Promise<LandingCardData[]> {
+export async function experienceCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
@@ -79,7 +79,7 @@ export async function experienceCards(): Promise<LandingCardData[]> {
     depth: 1,
     select: { role: true, company: true, slug: true, companyLogo: true, scope: true, craft: true },
   })
-  return docs.map((d) => experienceCard(d))
+  return docs.map((d) => experienceCard(d, scope))
 }
 
 /**

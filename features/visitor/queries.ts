@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { cache } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -14,7 +15,7 @@ import type { Visitor, VisitorContent } from '@/payload-types'
  * One visitor by company slug. depth:2 populates the avatar + each expectation's
  * relevantContent docs and their thumbnails (one level past the related doc).
  */
-export async function visitorBySlug(slug: string): Promise<Visitor | null> {
+export const visitorBySlug = cache(async (slug: string): Promise<Visitor | null> => {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'visitors',
@@ -23,10 +24,22 @@ export async function visitorBySlug(slug: string): Promise<Visitor | null> {
     limit: 1,
   })
   return docs[0] ?? null
+})
+
+/** Every visitor's company slug — drives `generateStaticParams` for the mirror. */
+export async function allVisitorSlugs(): Promise<string[]> {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'visitors',
+    limit: 1000,
+    depth: 0,
+    select: { slug: true },
+  })
+  return docs.map((d) => d.slug).filter((slug): slug is string => Boolean(slug))
 }
 
 /** The VisitorContent global — fixed visitor-route copy (depth:0, ISR-cached). */
-export async function visitorContentGlobal(): Promise<VisitorContent> {
+export const visitorContentGlobal = cache(async (): Promise<VisitorContent> => {
   const payload = await getPayload({ config })
   return payload.findGlobal({ slug: 'visitor-content' })
-}
+})

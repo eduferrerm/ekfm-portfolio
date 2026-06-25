@@ -22,6 +22,7 @@ export function SectionShell({
   items,
   documents,
   visitorSearch,
+  home,
   children,
 }: {
   active: SectionKey
@@ -29,21 +30,23 @@ export function SectionShell({
   items: NavItem[]
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
+  /** Visitor scope: the "Dear Company" nav entry + the scoped Brand/home link. */
+  home?: { label: string; href: string } | null
   children: ReactNode
 }) {
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between gap-4 px-6 py-4">
-        <Brand />
+        <Brand href={home?.href ?? '/'} />
         <div className="flex items-center gap-2">
           <SearchPalette documents={documents} visitorSearch={visitorSearch} />
-          <MobileMenu active={active} sections={sections} items={items} />
+          <MobileMenu active={active} sections={sections} items={items} home={home} />
         </div>
       </header>
 
       <div className="flex">
         <aside className="hidden w-56 shrink-0 border-r border-border p-4 md:block">
-          <SiteNav active={active} sections={sections} items={items} />
+          <SiteNav active={active} sections={sections} items={items} home={home} />
         </aside>
         <main className="min-w-0 flex-1 p-6">{children}</main>
       </div>

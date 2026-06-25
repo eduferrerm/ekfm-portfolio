@@ -1,4 +1,5 @@
 import { buildSearchDataset } from '@/lib/search/dataset'
+import { dearHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 import type { Visitor, VisitorContent } from '@/payload-types'
 import { DearCompanySection } from '@/features/visitor/DearCompanySection'
@@ -30,19 +31,21 @@ export async function Landing({
   visitor?: Visitor | null
   visitorContent?: VisitorContent | null
 }) {
+  // On a visitor page, scope every internal link to the company's mirror so
+  // navigation never falls out of the visitor experience.
+  const scope = visitor?.slug ? dearHref(visitor.slug) : ''
   const [landing, pCards, eCards, searchDocs, yearsLabel] = await Promise.all([
     landingGlobal(),
-    portfolioCards(),
-    experienceCards(),
+    portfolioCards(scope),
+    experienceCards(scope),
     buildSearchDataset(),
     experienceYearsLabel(), // union-of-intervals YoE for the TL;DR band
   ])
 
   const sections = landing.sections ?? []
   const visitorSearch = visitor ? buildVisitorSearchContext(visitor) : null
-  const dearCompanyNav = visitorContent?.constants?.dearCompanyNav || 'Dear Company'
   const navItems = [
-    ...(visitor ? [{ label: dearCompanyNav, slug: DEAR_COMPANY_ID }] : []),
+    ...(visitor ? [{ label: `Dear ${visitor.company}`, slug: DEAR_COMPANY_ID }] : []),
     ...sections.map((s) => ({ label: s.navLabel, slug: slugify(s.navLabel) })),
   ]
 
