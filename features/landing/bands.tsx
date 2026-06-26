@@ -22,15 +22,16 @@ function BandLabel({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Hero — the un-anchored top band ("PRODUCT ENGINEERING" + Drive prose + Craft
- * keyword pills). Not a `sections` entry; the nav is hidden over it.
+ * Hero — the un-anchored top band ("PRODUCT ENGINEERING" + Drive prose + a
+ * "Craft & Scope" tag list). Not a `sections` entry; the nav is hidden over it.
+ * The tag list is the two hero pickers concatenated craft-first, then scope.
  */
 export function HeroBand({ hero }: { hero: Landing['hero'] }) {
   const drive = proseLines(hero?.drive)
-  const craft = keywordLabels(hero?.craft)
+  const craftAndScope = keywordLabels(hero?.craft, hero?.scope)
 
   return (
-    <section>
+    <section className="flex min-h-screen flex-col justify-center">
       <Container className={BAND_SPACING}>
         <h1 className="mb-16 text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
         <div className="grid gap-10 sm:grid-cols-2">
@@ -40,10 +41,10 @@ export function HeroBand({ hero }: { hero: Landing['hero'] }) {
               <List variant="prose" items={drive} />
             </div>
           )}
-          {craft.length > 0 && (
+          {craftAndScope.length > 0 && (
             <div>
-              {hero?.craftLabel && <BandLabel>{hero.craftLabel}</BandLabel>}
-              <List variant="tag" items={craft} />
+              {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
+              <List variant="tag" items={craftAndScope} />
             </div>
           )}
         </div>

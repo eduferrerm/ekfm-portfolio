@@ -731,11 +731,15 @@ export interface Landing {
           id?: string | null;
         }[]
       | null;
-    craftLabel?: string | null;
+    listLabel?: string | null;
     /**
-     * Craft keywords shown in the hero, in attach order.
+     * Craft keywords shown in the hero (before scope), in attach order.
      */
     craft?: (number | Keyword)[] | null;
+    /**
+     * Scope keywords shown in the hero (after craft), in attach order.
+     */
+    scope?: (number | Keyword)[] | null;
   };
   tldr?: {
     greeting?: string | null;
@@ -881,8 +885,9 @@ export interface LandingSelect<T extends boolean = true> {
               text?: T;
               id?: T;
             };
-        craftLabel?: T;
+        listLabel?: T;
         craft?: T;
+        scope?: T;
       };
   tldr?:
     | T
