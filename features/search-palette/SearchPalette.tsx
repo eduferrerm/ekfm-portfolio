@@ -357,7 +357,7 @@ export function SearchPalette({
         onClick={() => setOpen(true)}
         aria-label="Open search"
         aria-keyshortcuts="Meta+K Control+K"
-        className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground transition hover:text-foreground"
+        className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
       >
         <Search className="h-3.5 w-3.5" />
         Search

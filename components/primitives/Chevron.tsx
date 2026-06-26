@@ -2,25 +2,26 @@ import { cn } from '@/lib/utils'
 
 export type ChevronDirection = 'up' | 'right' | 'down' | 'left'
 
-/** Per-direction rotation. The base SVG points DOWN; rotate for the rest. */
+/** Per-direction rotation. The base glyph points RIGHT; rotate for the rest. */
 const ROTATION: Record<ChevronDirection, string> = {
-  down: 'rotate-0',
-  left: 'rotate-90',
-  up: 'rotate-180',
-  right: '-rotate-90',
+  right: 'rotate-0',
+  down: 'rotate-90',
+  left: 'rotate-180',
+  up: '-rotate-90',
 }
 
 /**
- * Placeholder chevron icon. A custom icon (authored upstream, not yet in the
- * repo) will replace the inline SVG path later — keep the `{direction, color}`
- * API stable so the swap stays internal to this file.
+ * The EKFM arrow glyph — a blocky chevron used as a directional cue (e.g. the
+ * hero scroll hint). `direction` rotates it (the artwork natively points RIGHT);
+ * `color` is a Tailwind text-color utility (e.g. `text-muted-foreground`) applied
+ * via `currentColor` because app code is inline-style-free, so the icon recolors
+ * by prop rather than being baked into the SVG.
  *
- * `color` is a Tailwind text-color utility (e.g. `text-muted-foreground`), applied
- * via `currentColor` because app code is inline-style-free; `direction` rotates the
- * glyph. The exact color chosen at call sites today is provisional.
+ * Fill-based and non-square (13×20 viewBox), so it sizes by height with auto
+ * width to preserve its aspect ratio; pass `className` to override.
  */
 export function Chevron({
-  direction = 'down',
+  direction = 'right',
   color = 'text-current',
   className,
 }: {
@@ -30,16 +31,15 @@ export function Chevron({
 }) {
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 13 20"
       fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       aria-hidden="true"
-      className={cn('h-6 w-6', ROTATION[direction], color, className)}
+      className={cn('h-5 w-auto', ROTATION[direction], color, className)}
     >
-      <polyline points="6 9 12 15 18 9" />
+      <path
+        d="M4.00684 20L1.74846e-06 20L1.57331e-06 15.9932L4.00684 15.9932L4.00684 20ZM8.01367 15.9932L4.00684 15.9932L4.00684 11.9863L8.01367 11.9863L8.01367 15.9932ZM8.01367 4.00684L8.01367 7.97949L12.0205 7.97949L12.0205 11.9863L8.01367 11.9863L8.01367 8.01367L4.00684 8.01367L4.00684 4.00684L8.01367 4.00684ZM4.00684 4.00684L1.04937e-06 4.00684L8.74228e-07 5.25411e-07L4.00684 3.50267e-07L4.00684 4.00684Z"
+        fill="currentColor"
+      />
     </svg>
   )
 }
