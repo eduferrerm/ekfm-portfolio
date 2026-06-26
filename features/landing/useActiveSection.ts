@@ -2,10 +2,15 @@
 
 import { useEffect, useState } from 'react'
 
-/** How far below the viewport top a band's top must scroll before it counts as
- *  "current" — just under the sticky nav (~56px) plus a little cushion, so the
- *  highlight lands where a clicked `#slug` anchor settles (scroll-mt-24 = 96px). */
-const ACTIVATION_OFFSET = 120
+/** The activation line: a band counts as "current" once its top scrolls above
+ *  this far below the viewport top. A fraction of the viewport (≈ upper third) so a
+ *  band lights up when it's prominently in view, not only when its top reaches the
+ *  very top — otherwise the first band after the tall hero activates a beat late.
+ *  Floored at 120px so it always clears the sticky nav and a clicked `#slug` anchor
+ *  (which settles at scroll-mt-24 = 96px) is immediately current on short viewports. */
+const ACTIVATION_RATIO = 0.33
+const ACTIVATION_MIN = 120
+const activationLine = () => Math.max(ACTIVATION_MIN, window.innerHeight * ACTIVATION_RATIO)
 
 /**
  * Scroll-spy for the landing nav: returns the slug of the section currently under
@@ -14,8 +19,8 @@ const ACTIVATION_OFFSET = 120
  * The active band is "the last one whose top has scrolled above the activation
  * line" — i.e. the band currently sitting under the nav. Bands are in document
  * order (tops strictly increasing down a single column), so we walk them and take
- * the last with `top <= ACTIVATION_OFFSET`, stopping at the first that hasn't
- * reached the line yet. That deliberately avoids the IntersectionObserver
+ * the last whose top is above the activation line, stopping at the first that
+ * hasn't reached it yet. That deliberately avoids the IntersectionObserver
  * "two bands share a margin band, which one wins?" ambiguity (it reports the
  * scrolled-past one), and a tall band stays current with no null-flicker while you
  * read its middle. Null above the first band (over the hero, where the nav is
@@ -48,9 +53,10 @@ export function useActiveSection(slugs: string[]): string | null {
         setActive(sections[sections.length - 1].id)
         return
       }
+      const line = activationLine()
       let current: string | null = null
       for (const el of sections) {
-        if (el.getBoundingClientRect().top > ACTIVATION_OFFSET) break
+        if (el.getBoundingClientRect().top > line) break
         current = el.id
       }
       setActive(current)
