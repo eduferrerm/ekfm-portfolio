@@ -163,20 +163,24 @@ export const Landing: GlobalConfig = {
       ],
     },
     {
-      // Top band: "PRODUCT ENGINEERING" + Drive (prose) + Craft (ordered craft
-      // keywords). Un-anchored — nav is hidden over the hero — so not a `sections`
-      // entry.
+      // Top band: "PRODUCT ENGINEERING" + Drive (prose) + a "Craft & Scope" tag
+      // list. Un-anchored — nav is hidden over the hero — so not a `sections`
+      // entry. The tag list is two CMS-distinct pickers (craft, then scope) that
+      // the hero render concatenates under one `listLabel`.
       name: 'hero',
       type: 'group',
       fields: [
         { name: 'title', type: 'text', defaultValue: 'PRODUCT ENGINEERING' },
         { name: 'driveLabel', type: 'text', defaultValue: 'Drive' },
         proseArray('drive', 'Drive line', 'Drive'),
-        { name: 'craftLabel', type: 'text', defaultValue: 'Craft' },
+        // Single label over the combined craft+scope tag list (render concatenates
+        // the two pickers below). Kept as one editable string, not per-picker.
+        { name: 'listLabel', type: 'text', defaultValue: 'Craft & Scope' },
         {
           // Curated craft tags, CMS-ordered (display = attach order, drag-reorder,
           // no render-time sort) — the descriptor pattern from Portfolio/Experience.
-          // Scoped to craft keywords, hidden search-only tags excluded.
+          // Scoped to craft keywords, hidden search-only tags excluded. Rendered
+          // first, before `scope`, under the shared `listLabel`.
           name: 'craft',
           type: 'relationship',
           relationTo: 'keywords',
@@ -184,7 +188,20 @@ export const Landing: GlobalConfig = {
           filterOptions: () => ({ category: { equals: 'craft' } }),
           admin: {
             allowCreate: false,
-            description: 'Craft keywords shown in the hero, in attach order.',
+            description: 'Craft keywords shown in the hero (before scope), in attach order.',
+          },
+        },
+        {
+          // Curated scope tags, same descriptor pattern. Scoped to scope keywords;
+          // rendered after `craft` under the shared `listLabel` ("Craft & Scope").
+          name: 'scope',
+          type: 'relationship',
+          relationTo: 'keywords',
+          hasMany: true,
+          filterOptions: () => ({ category: { equals: 'scope' } }),
+          admin: {
+            allowCreate: false,
+            description: 'Scope keywords shown in the hero (after craft), in attach order.',
           },
         },
       ],
