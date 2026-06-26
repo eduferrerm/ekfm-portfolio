@@ -56,6 +56,7 @@ export async function Landing({
 
       <HeroBand
         hero={landing.hero}
+        navItems={navItems}
         banner={
           visitor ? (
             <WelcomeBanner

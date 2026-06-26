@@ -3,44 +3,45 @@ import { SearchPalette } from '@/features/search-palette/SearchPalette'
 import type { VisitorSearchContext } from '@/features/search-palette/types'
 import type { SearchDocument } from '@/lib/search/types'
 
+import { StickyNavReveal } from './StickyNavReveal'
+import type { NavItem } from './NavList'
+
 /**
- * Persistent landing nav. Anchors derive from the Landing global's section
- * `navLabel`s (slugified upstream), so the nav, the band ids, and the search
- * docs all stay in sync. Sticky; the reveal-on-scroll animation (hidden over the
- * hero) is deferred. The Search affordance opens the Phase-6 palette, wired to
- * the prebuilt corpus + (for visitors) their personalized empty state.
+ * Persistent landing nav — the single canonical `<nav>` landmark. Sticky; the
+ * EKFM wordmark sits on the left, and the nav links sit on the right next to Search
+ * (one group). The wordmark + links live in `StickyNavReveal`: hidden while the
+ * hero's own nav copy is on screen, revealed (staggered) once it scrolls away, so
+ * the two nav copies are never both visible at once. Search stays visible at all
+ * times and anchors the right edge; it opens the Phase-6 palette, wired to the
+ * prebuilt corpus + (for visitors) their personalized empty state.
+ *
+ * Anchors derive from the Landing global's section `navLabel`s (slugified
+ * upstream), so the nav, the band ids, and the search docs all stay in sync.
  */
 export function LandingNav({
   items,
   documents,
   visitorSearch,
 }: {
-  items: { label: string; slug: string }[]
+  items: NavItem[]
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
 }) {
   return (
-    <nav className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <Container className="flex items-center justify-between gap-6 py-3">
-        <span className="rounded border border-primary px-2 py-0.5 text-sm font-bold tracking-widest text-primary">
-          EKFM
-        </span>
-        <ul className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
-          {items.map((item) => (
-            <li key={item.slug}>
-              <a
-                href={`#${item.slug}`}
-                className="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <SearchPalette
-          documents={documents}
-          visitorSearch={visitorSearch}
-          overlayAlign="container"
+    <nav
+      aria-label="Primary"
+      className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur"
+    >
+      <Container className="flex items-center py-3">
+        <StickyNavReveal
+          items={items}
+          search={
+            <SearchPalette
+              documents={documents}
+              visitorSearch={visitorSearch}
+              overlayAlign="container"
+            />
+          }
         />
       </Container>
     </nav>
