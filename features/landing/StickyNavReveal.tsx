@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Brand } from './Brand'
 import { NavList, type NavItem } from './NavList'
 import { HERO_NAV_SELECTOR, STAGGER_DELAYS } from './navReveal'
+import { useActiveSection } from './useActiveSection'
 
 /**
  * The sticky nav row: the EKFM wordmark on the left, and on the right the nav
@@ -23,6 +24,7 @@ import { HERO_NAV_SELECTOR, STAGGER_DELAYS } from './navReveal'
  */
 export function StickyNavReveal({ items, search }: { items: NavItem[]; search: ReactNode }) {
   const [revealed, setRevealed] = useState(false)
+  const activeSlug = useActiveSection(items.map((item) => item.slug))
 
   useEffect(() => {
     const sentinel = document.querySelector(HERO_NAV_SELECTOR)
@@ -77,6 +79,8 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
             className="flex items-center gap-x-5 gap-y-1 text-sm"
             linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
             itemClassName={(i) => reveal(i + 1)}
+            activeSlug={activeSlug}
+            activeLinkClassName="font-medium text-foreground underline underline-offset-4"
           />
         </div>
         {search}
