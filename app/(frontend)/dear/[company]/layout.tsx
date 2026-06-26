@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 import { visitorBySlug } from '@/features/visitor/queries'
 
@@ -16,14 +16,15 @@ type Args = {
 
 /**
  * Guard + scope root for the visitor mirror (`/dear/[company]/...`). Validates the
- * company once for the entire subtree — an unknown company 404s before any scoped
- * page renders, so non-visitors can't browse a half-personalized site. The visitor
- * fetch is React.cache()-deduped, so the landing + section layouts that also read
- * it share this one query.
+ * company once for the entire subtree — an unknown company redirects to the
+ * canonical site (`/`) before any scoped page renders, so a mistyped or unseeded
+ * link shows the non-personalized portfolio instead of dead-ending, and non-visitors
+ * can't browse a half-personalized site. The visitor fetch is React.cache()-deduped,
+ * so the landing + section layouts that also read it share this one query.
  */
 export default async function DearLayout({ params, children }: Args) {
   const { company } = await params
   const visitor = await visitorBySlug(company)
-  if (!visitor) notFound()
+  if (!visitor) redirect('/')
   return <>{children}</>
 }
