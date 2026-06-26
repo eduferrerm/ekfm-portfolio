@@ -1,12 +1,16 @@
 import Link from 'next/link'
 
+import { Chevron } from '@/components/primitives/Chevron'
 import { Container } from '@/components/Container'
 import { List } from '@/components/primitives/List'
 import type { Landing } from '@/payload-types'
 import { keywordLabels } from '@/lib/keywords'
 import { proseLines } from '@/lib/prose'
 
+import { Brand } from './Brand'
 import { LandingCard } from './LandingCard'
+import { NavList, type NavItem } from './NavList'
+import { HERO_NAV_ATTR } from './navReveal'
 import type { LandingCardData } from './projections'
 
 /** Vertical rhythm shared by every band; width + gutter come from <Container>. */
@@ -22,36 +26,74 @@ function BandLabel({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Hero — the un-anchored top band ("PRODUCT ENGINEERING" + Drive prose + a
- * "Craft & Scope" tag list). Not a `sections` entry; the nav is hidden over it.
- * The tag list is the two hero pickers concatenated craft-first, then scope.
+ * Hero — the un-anchored top band. A full-viewport centered stack (EKFM wordmark →
+ * "PRODUCT ENGINEERING" title → an in-hero copy of the nav → a chevron scroll-cue),
+ * then the Drive prose + "Craft & Scope" tag list below the fold. Not a `sections`
+ * entry.
+ *
+ * The in-hero nav is the visible nav at the top; the sticky nav's wordmark + links
+ * stay hidden until this copy scrolls away (it carries `HERO_NAV_ATTR`, watched by
+ * `StickyNavReveal`), so the two copies are never both on screen. This copy is
+ * `decorative` (aria-hidden, unfocusable) — the sticky nav is the single real nav
+ * landmark, so the duplicated links don't dilute the a11y tree.
+ *
  * `relative` so the visitor `banner` slot can absolutely-position itself within
- * the hero (top-left); omitted on the canonical `/`.
+ * the hero (top); omitted on the canonical `/`.
  */
-export function HeroBand({ hero, banner }: { hero: Landing['hero']; banner?: React.ReactNode }) {
+export function HeroBand({
+  hero,
+  navItems,
+  banner,
+}: {
+  hero: Landing['hero']
+  navItems: NavItem[]
+  banner?: React.ReactNode
+}) {
   const drive = proseLines(hero?.drive)
   const craftAndScope = keywordLabels(hero?.craft, hero?.scope)
 
   return (
-    <section className="relative flex min-h-screen flex-col justify-center">
+    <section className="relative">
       {banner}
-      <Container className={BAND_SPACING}>
-        <h1 className="mb-16 text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
-        <div className="grid gap-10 sm:grid-cols-2">
-          {drive.length > 0 && (
-            <div>
-              {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
-              <List variant="prose" items={drive} />
+      {/* One viewport minus the sticky nav (~3.5rem), so the centered block fills
+          the first screen and the bottom chevron clears the fold. */}
+      <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center">
+        <Container className="flex flex-col items-center gap-8 text-center">
+          <Brand className="text-lg" />
+          <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
+          {navItems.length > 0 && (
+            <div {...{ [HERO_NAV_ATTR]: '' }}>
+              <NavList
+                items={navItems}
+                decorative
+                className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm"
+                linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+              />
             </div>
           )}
-          {craftAndScope.length > 0 && (
-            <div>
-              {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-              <List variant="tag" items={craftAndScope} />
-            </div>
-          )}
-        </div>
-      </Container>
+        </Container>
+        <span className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <Chevron direction="down" color="text-muted-foreground" />
+        </span>
+      </div>
+      {(drive.length > 0 || craftAndScope.length > 0) && (
+        <Container className={BAND_SPACING}>
+          <div className="grid gap-10 sm:grid-cols-2">
+            {drive.length > 0 && (
+              <div>
+                {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
+                <List variant="prose" items={drive} />
+              </div>
+            )}
+            {craftAndScope.length > 0 && (
+              <div>
+                {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
+                <List variant="tag" items={craftAndScope} />
+              </div>
+            )}
+          </div>
+        </Container>
+      )}
     </section>
   )
 }
