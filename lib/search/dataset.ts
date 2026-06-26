@@ -83,10 +83,9 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
         name: section.navLabel,
         title: section.navLabel,
         keywords: [],
-        // Free-text nav synonyms + the section's searchOnly keywords (label +
-        // aliases). Same recall fold content uses; sections render no keywords[].
+        // The section's searchOnly keywords (label + aliases) — the section's
+        // sole recall lane. Same fold content uses; sections render no keywords[].
         aliases: [
-          ...(section.aliases ?? []).filter((alias): alias is string => Boolean(alias)),
           ...keywordAliases(section.searchKeywords),
           ...keywordLabels(section.searchKeywords),
         ],

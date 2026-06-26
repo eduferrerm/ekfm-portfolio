@@ -49,7 +49,7 @@ export function HeroBand({
   navItems: NavItem[]
   banner?: React.ReactNode
 }) {
-  const drive = proseLines(hero?.drive)
+  const drive = hero?.drive?.trim()
   const craftAndScope = keywordLabels(hero?.craft, hero?.scope)
 
   return (
@@ -75,19 +75,15 @@ export function HeroBand({
         <span className="animate-bounce">
           <Chevron direction="down" color="text-muted-foreground" />
         </span>
-        {(drive.length > 0 || craftAndScope.length > 0) && (
+        {(drive || craftAndScope.length > 0) && (
           <Container>
             <div className="grid gap-10 sm:grid-cols-2">
-              {drive.length > 0 && (
+              {drive && (
                 <div>
                   {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
-                  {/* Drive reads as a plain text block (paragraphs), not a marked
-                      list — one <p> per authored row. */}
-                  <div className="space-y-3 leading-relaxed text-foreground/90">
-                    {drive.map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))}
-                  </div>
+                  {/* Plain prose block; `whitespace-pre-line` honours any line
+                      breaks the author types in the textarea. */}
+                  <p className="whitespace-pre-line leading-relaxed text-foreground/90">{drive}</p>
                 </div>
               )}
               {craftAndScope.length > 0 && (
@@ -123,11 +119,17 @@ export function TldrBand({
   // only the figure. Resolves to '' when there is no datable experience.
   const fillYears = (text: string) => text.replaceAll('{years}', yearsLabel ?? '')
   const greeting = tldr?.greeting ? fillYears(tldr.greeting) : ''
+  const subtitle = tldr?.subtitle ? fillYears(tldr.subtitle) : ''
 
   return (
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
-        {greeting && <h2 className="mb-12 text-4xl font-semibold tracking-tight">{greeting}</h2>}
+        {greeting && <h2 className="mb-6 text-4xl font-semibold tracking-tight">{greeting}</h2>}
+        {subtitle && (
+          <p className="mb-12 max-w-2xl whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
+            {subtitle}
+          </p>
+        )}
         <div className="space-y-12">
           {blocks.map((block, i) => (
             <div key={block.id ?? i}>
