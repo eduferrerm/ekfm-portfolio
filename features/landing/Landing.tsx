@@ -52,19 +52,20 @@ export async function Landing({
 
   return (
     <main>
-      {visitor && (
-        <Container className="pt-6">
-          <WelcomeBanner
-            company={visitor.company}
-            logo={visitor.companyLogo}
-            greeting={visitorContent?.welcomeGreeting}
-          />
-        </Container>
-      )}
-
       <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
 
-      <HeroBand hero={landing.hero} />
+      <HeroBand
+        hero={landing.hero}
+        banner={
+          visitor ? (
+            <WelcomeBanner
+              company={visitor.company}
+              logo={visitor.companyLogo}
+              greeting={visitorContent?.welcomeGreeting}
+            />
+          ) : undefined
+        }
+      />
 
       {visitor && visitorContent && (
         <Container className="py-20">

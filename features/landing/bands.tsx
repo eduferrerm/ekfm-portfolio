@@ -25,13 +25,16 @@ function BandLabel({ children }: { children: React.ReactNode }) {
  * Hero — the un-anchored top band ("PRODUCT ENGINEERING" + Drive prose + a
  * "Craft & Scope" tag list). Not a `sections` entry; the nav is hidden over it.
  * The tag list is the two hero pickers concatenated craft-first, then scope.
+ * `relative` so the visitor `banner` slot can absolutely-position itself within
+ * the hero (top-left); omitted on the canonical `/`.
  */
-export function HeroBand({ hero }: { hero: Landing['hero'] }) {
+export function HeroBand({ hero, banner }: { hero: Landing['hero']; banner?: React.ReactNode }) {
   const drive = proseLines(hero?.drive)
   const craftAndScope = keywordLabels(hero?.craft, hero?.scope)
 
   return (
-    <section className="flex min-h-screen flex-col justify-center">
+    <section className="relative flex min-h-screen flex-col justify-center">
+      {banner}
       <Container className={BAND_SPACING}>
         <h1 className="mb-16 text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
         <div className="grid gap-10 sm:grid-cols-2">
