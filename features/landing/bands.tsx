@@ -26,10 +26,10 @@ function BandLabel({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Hero — the un-anchored top band. A full-viewport centered stack (EKFM wordmark →
- * "PRODUCT ENGINEERING" title → an in-hero copy of the nav → a chevron scroll-cue),
- * then the Drive prose + "Craft & Scope" tag list below the fold. Not a `sections`
- * entry.
+ * Hero — the un-anchored top band. One viewport (minus the sticky nav) holding a
+ * single centered stack: EKFM wordmark → "PRODUCT ENGINEERING" title → an in-hero
+ * copy of the nav → a chevron scroll-cue → the Drive prose + "Craft & Scope" tag
+ * list. Everything shares this 100vh block. Not a `sections` entry.
  *
  * The in-hero nav is the visible nav at the top; the sticky nav's wordmark + links
  * stay hidden until this copy scrolls away (it carries `HERO_NAV_ATTR`, watched by
@@ -55,9 +55,9 @@ export function HeroBand({
   return (
     <section className="relative">
       {banner}
-      {/* One viewport minus the sticky nav (~3.5rem), so the centered block fills
-          the first screen and the bottom chevron clears the fold. */}
-      <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center">
+      {/* The whole hero is ONE viewport (minus the sticky nav, ~3.5rem): wordmark,
+          title, in-hero nav, chevron, and the Drive/Craft grid all share this block. */}
+      <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
           <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
@@ -72,28 +72,28 @@ export function HeroBand({
             </div>
           )}
         </Container>
-        <span className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <span className="animate-bounce">
           <Chevron direction="down" color="text-muted-foreground" />
         </span>
+        {(drive.length > 0 || craftAndScope.length > 0) && (
+          <Container>
+            <div className="grid gap-10 sm:grid-cols-2">
+              {drive.length > 0 && (
+                <div>
+                  {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
+                  <List variant="prose" items={drive} />
+                </div>
+              )}
+              {craftAndScope.length > 0 && (
+                <div>
+                  {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
+                  <List variant="tag" items={craftAndScope} />
+                </div>
+              )}
+            </div>
+          </Container>
+        )}
       </div>
-      {(drive.length > 0 || craftAndScope.length > 0) && (
-        <Container className={BAND_SPACING}>
-          <div className="grid gap-10 sm:grid-cols-2">
-            {drive.length > 0 && (
-              <div>
-                {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
-                <List variant="prose" items={drive} />
-              </div>
-            )}
-            {craftAndScope.length > 0 && (
-              <div>
-                {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-                <List variant="tag" items={craftAndScope} />
-              </div>
-            )}
-          </div>
-        </Container>
-      )}
     </section>
   )
 }

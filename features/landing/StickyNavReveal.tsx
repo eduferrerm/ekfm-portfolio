@@ -26,8 +26,14 @@ export function StickyNavReveal({ items }: { items: NavItem[] }) {
   useEffect(() => {
     const sentinel = document.querySelector(HERO_NAV_SELECTOR)
     if (!sentinel) return
+    // The in-hero copy can only ever leave through the TOP (it sits at the top of
+    // the page), so "not intersecting the inset viewport" == "scrolled above the
+    // sticky bar" — reveal then. Don't also gate on boundingClientRect.top < 0: the
+    // copy stops intersecting the moment its BOTTOM clears the rootMargin line, when
+    // its top is still positive, so that guard dropped the single crossing callback
+    // on slow scrolls and the nav never rendered.
     const observer = new IntersectionObserver(
-      ([entry]) => setRevealed(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      ([entry]) => setRevealed(!entry.isIntersecting),
       // Trigger as the in-hero copy meets the sticky bar, not the viewport edge.
       { rootMargin: '-56px 0px 0px 0px' },
     )
@@ -35,22 +41,26 @@ export function StickyNavReveal({ items }: { items: NavItem[] }) {
     return () => observer.disconnect()
   }, [])
 
-  const count = items.length + 1 // brand occupies sequence slot 0, links follow
-
-  /** Reveal + stagger classes for sequence slot `seq`. Delays reverse on hide. */
+  /**
+   * Reveal + stagger classes for sequence slot `seq` (brand is 0, links follow).
+   * Each item slides down from above its row into place (transform only, no fade);
+   * the group's `overflow-hidden` clips it while parked above. The same ascending
+   * delay runs both ways, so the retract starts immediately rather than waiting out
+   * a reversed delay — which previously read as "the stagger didn't happen".
+   */
   const reveal = (seq: number) =>
     cn(
-      'transition duration-300 ease-out',
-      STAGGER_DELAYS[Math.min(revealed ? seq : count - 1 - seq, STAGGER_DELAYS.length - 1)],
-      revealed ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0',
-      // Keyboard reveal: snap into view (no stagger) when any link is focused.
-      'group-focus-within/reveal:translate-y-0 group-focus-within/reveal:opacity-100 group-focus-within/reveal:delay-[0ms]',
+      'transition-transform duration-200 ease-out',
+      STAGGER_DELAYS[Math.min(seq, STAGGER_DELAYS.length - 1)],
+      revealed ? 'translate-y-0' : '-translate-y-12',
+      // Keyboard reveal: drop into view (no stagger) when any link is focused.
+      'group-focus-within/reveal:translate-y-0 group-focus-within/reveal:delay-[0ms]',
     )
 
   return (
     <div
       className={cn(
-        'group/reveal flex items-center gap-6 focus-within:pointer-events-auto',
+        'group/reveal flex items-center gap-6 overflow-hidden focus-within:pointer-events-auto',
         revealed ? 'pointer-events-auto' : 'pointer-events-none',
       )}
     >

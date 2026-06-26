@@ -11,15 +11,16 @@ export const HERO_NAV_SELECTOR = `[${HERO_NAV_ATTR}]`
 /**
  * Per-item reveal delays for the staggered nav animation. Literal Tailwind
  * arbitrary values (not computed) so the JIT emits them; index = sequence
- * position (brand is 0, links follow). Reversed on hide so the group retracts in
- * the same cadence, inverted.
+ * position (brand is 0, links follow). The SAME ascending cadence runs in both
+ * directions — enter slides down, exit slides up — so the first element always
+ * leads and the retract starts immediately (no dead-time before it moves).
  */
 export const STAGGER_DELAYS = [
   'delay-[0ms]',
-  'delay-[60ms]',
+  'delay-[40ms]',
+  'delay-[80ms]',
   'delay-[120ms]',
-  'delay-[180ms]',
+  'delay-[160ms]',
+  'delay-[200ms]',
   'delay-[240ms]',
-  'delay-[300ms]',
-  'delay-[360ms]',
 ]
