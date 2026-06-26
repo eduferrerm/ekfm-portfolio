@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { revalidateSite } from '../../lib/revalidate'
+import { slugify } from '../../lib/slugify'
 
 /** Tags used to relate and search across portfolio items and experience. */
 export const Keywords: CollectionConfig = {
@@ -40,7 +41,19 @@ export const Keywords: CollectionConfig = {
       unique: true,
       access: { update: () => false },
       admin: {
-        description: 'Immutable machine key (seeder upsert identity). Set once; cannot be edited.',
+        description:
+          'Immutable machine key (seeder/exporter upsert identity). Auto-filled from the label if left blank; set once, cannot be edited after.',
+      },
+      hooks: {
+        // Auto-derive a clean machine key from the label when left blank (CMS
+        // create), mirroring the slug pattern on Portfolio/Experience. On update
+        // the value is already set (and access denies changes), so `value ||`
+        // returns it unchanged — the key stays the stable upsert identity that
+        // the seed/export round-trip keys on.
+        beforeValidate: [
+          ({ value, data }) =>
+            value || (typeof data?.label === 'string' ? slugify(data.label) : value),
+        ],
       },
     },
     {

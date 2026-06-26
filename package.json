@@ -16,7 +16,8 @@
     "payload": "payload",
     "generate:types": "node --import tsx/esm scripts/generate-types.mts",
     "generate:importmap": "node --import tsx/esm scripts/generate-importmap.mts",
-    "seed:keywords": "node --env-file=.env.local --import tsx/esm scripts/seed-keywords.mts"
+    "seed:keywords": "node --env-file=.env.local --import tsx/esm scripts/seed-keywords.mts",
+    "export:keywords": "node --env-file=.env.local --import tsx/esm scripts/export-keywords.mts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.85.1",
