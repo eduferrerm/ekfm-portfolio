@@ -1,5 +1,6 @@
 'use client'
 
+import { Menu, X } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
@@ -24,7 +25,24 @@ import { useActiveSection } from './useActiveSection'
  */
 export function StickyNavReveal({ items, search }: { items: NavItem[]; search: ReactNode }) {
   const [revealed, setRevealed] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const activeSlug = useActiveSection(items.map((item) => item.slug))
+
+  // While the mobile overlay is open, lock background scroll and let Escape close
+  // it — the standard modal affordances the inline desktop row doesn't need.
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [menuOpen])
 
   useEffect(() => {
     const sentinel = document.querySelector(HERO_NAV_SELECTOR)
@@ -73,7 +91,9 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
         <Brand className={reveal(0)} />
       </div>
       <div className="flex items-center gap-5">
-        <div className={clip}>
+        {/* Inline links — the desktop row. Below `lg` the full set can't fit, so it
+            gives way to the hamburger (which would otherwise overflow horizontally). */}
+        <div className={cn(clip, 'hidden lg:block')}>
           <NavList
             items={items}
             className="flex items-center gap-x-5 gap-y-1 text-sm"
@@ -83,8 +103,56 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
             activeLinkClassName="font-medium text-foreground underline underline-offset-4"
           />
         </div>
+        {/* Hamburger — the mobile equivalent of the links, so it follows the same
+            reveal (hidden over the hero's own nav copy, revealed once it scrolls away). */}
+        <div className={cn(clip, 'lg:hidden')}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="landing-mobile-menu"
+            className={cn('block text-muted-foreground transition hover:text-foreground', reveal(1))}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
         {search}
       </div>
+
+      {/* Full-screen overlay holding the same anchor links, vertical. Rendered only
+          when open, so the duplicated links never sit in the a11y tree alongside the
+          inline row; tapping any link bubbles to the wrapper and closes it. */}
+      {menuOpen && (
+        <div
+          id="landing-mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          className="fixed inset-0 z-50 flex flex-col bg-background p-6 lg:hidden"
+        >
+          <div className="flex items-center justify-between">
+            <Brand />
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+              className="text-muted-foreground transition hover:text-foreground"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+          <div className="mt-12" onClick={() => setMenuOpen(false)}>
+            <NavList
+              items={items}
+              className="flex flex-col gap-5 text-lg"
+              linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+              activeSlug={activeSlug}
+              activeLinkClassName="font-medium text-foreground underline underline-offset-4"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
