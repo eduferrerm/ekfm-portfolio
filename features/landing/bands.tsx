@@ -100,9 +100,35 @@ export function HeroBand({
   )
 }
 
+/** Art-directed TL;DR background: one optimised crop per breakpoint family. */
+const TLDR_BG = {
+  mobile: '/images/asset-tldr-bg-mobile.webp', // 1290×2796 portrait
+  tablet: '/images/asset-tldr-bg-tablet.webp', // 2048×2732 portrait
+  desktop: '/images/asset-tldr-bg-desktop.webp', // 2560×1440 landscape (default <img>)
+  ultrawide: '/images/asset-tldr-bg-ultrawide.webp', // 3840×2160 landscape
+} as const
+
 /**
  * TL;DR — the "Hi there! I'm Edu" band: greeting + an array of titled prose
- * blocks (the bio "Background" block is the first).
+ * blocks (the bio "Background" block is the first), set over a full-bleed photo
+ * of Edu on stage.
+ *
+ * Pinned scroll-through, pure CSS (no scroll-jacking): the section is taller than
+ * the viewport; the background is a sticky layer offset to the navbar's bottom
+ * (`top-[3.5rem]`) that locks the instant the section's top reaches that border
+ * and HOLDS while the copy column — pulled up over it with `-mt-[calc(100vh-3.5rem)]`
+ * — scrolls past, then sticky releases on its own as the section ends and normal
+ * scrolling resumes. The band stays a server component because the effect is
+ * layout-only.
+ *
+ * Background is an art-directed <picture> (portrait crops on phone/tablet,
+ * landscape on desktop+), so the browser fetches exactly one file and never
+ * letterboxes a 16:9 frame onto a tall phone. This is the deliberate, isolated
+ * exception to the `raw-<img>→next/image-only` rule: next/image can't swap aspect
+ * ratio per breakpoint, and a decorative full-bleed background is the canonical
+ * <picture> case. Each crop is composed to keep the copy clear of the subject, so
+ * no scrim is needed at any breakpoint; the copy is explicitly light (not the
+ * shared foreground tokens) because the photo is dark and the site is light-themed.
  */
 export function TldrBand({
   id,
@@ -122,23 +148,70 @@ export function TldrBand({
   const subtitle = tldr?.subtitle ? fillYears(tldr.subtitle) : ''
 
   return (
-    <section id={id} className="scroll-mt-24">
-      <Container className={BAND_SPACING}>
-        {greeting && <h2 className="mb-6 text-4xl font-semibold tracking-tight">{greeting}</h2>}
-        {subtitle && (
-          <p className="mb-12 max-w-2xl whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
-            {subtitle}
-          </p>
-        )}
-        <div className="space-y-12">
-          {blocks.map((block, i) => (
-            <div key={block.id ?? i}>
-              <BandLabel>{block.title}</BandLabel>
-              <List variant="prose" items={proseLines(block.body).map(fillYears)} />
+    <section id={id} className="relative isolate w-full scroll-mt-24">
+      {/* Pinned, full-bleed background. `isolate` keeps the `-z-10` layer behind
+          the copy but in front of the page, never escaping behind <body>. */}
+      <div className="sticky top-[3.5rem] -z-10 h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+        <picture>
+          <source media="(max-width: 767px)" srcSet={TLDR_BG.mobile} />
+          <source media="(max-width: 1023px)" srcSet={TLDR_BG.tablet} />
+          <source media="(min-width: 1536px)" srcSet={TLDR_BG.ultrawide} />
+          {/* Raw <img> (not next/image) is intentional here — art-directed
+              full-bleed background; see band docblock. */}
+          {/* `object-top` anchors the top edge so the subject's head is never
+              cropped; any overflow is shaved off the bottom instead. */}
+          <img
+            src={TLDR_BG.desktop}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-top"
+          />
+        </picture>
+      </div>
+
+      {/* Copy column, pulled up to overlay the pinned background — this is what
+          actually scrolls. The pull-up matches the background height so the column
+          starts flush at the navbar's bottom; the 50vh `pt`/`pb` let the photo play
+          as an intro before the copy scrolls in and an outro after it leaves. The
+          column is what makes the section taller than the viewport, driving the
+          scroll-through. */}
+      <div className="relative -mt-[calc(100vh-3.5rem)]">
+        <Container className="flex min-h-[calc(100vh-3.5rem)] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
+          <div className="max-w-[60vw] md:max-w-sm">
+            {greeting && <h2 className="mb-6 text-4xl font-semibold tracking-tight">{greeting}</h2>}
+            {subtitle && (
+              <p className="mb-12 max-w-2xl whitespace-pre-line text-lg leading-relaxed text-white/75">
+                {subtitle}
+              </p>
+            )}
+            <div className="space-y-12">
+              {blocks.map((block, i) => (
+                <div key={block.id ?? i}>
+                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-white/60">
+                    {block.title}
+                  </h3>
+                  <ul className="space-y-6">
+                    {proseLines(block.body)
+                      .map(fillYears)
+                      .map((line, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span aria-hidden className="mt-1.5 shrink-0">
+                            <Chevron
+                              direction="right"
+                              color="text-white/60"
+                              className="h-3.5 w-auto"
+                            />
+                          </span>
+                          <p className="leading-relaxed text-white/90">{line}</p>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Container>
+          </div>
+        </Container>
+      </div>
     </section>
   )
 }
