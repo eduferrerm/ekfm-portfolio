@@ -81,7 +81,13 @@ export function HeroBand({
               {drive.length > 0 && (
                 <div>
                   {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
-                  <List variant="prose" items={drive} />
+                  {/* Drive reads as a plain text block (paragraphs), not a marked
+                      list — one <p> per authored row. */}
+                  <div className="space-y-3 leading-relaxed text-foreground/90">
+                    {drive.map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
                 </div>
               )}
               {craftAndScope.length > 0 && (
