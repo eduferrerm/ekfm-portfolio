@@ -712,10 +712,6 @@ export interface Landing {
          */
         navLabel: string;
         /**
-         * One-off nav synonyms for this section. Fed to search, never shown.
-         */
-        aliases?: string[] | null;
-        /**
          * Hidden terms that surface this section in search but never render.
          */
         searchKeywords?: (number | Keyword)[] | null;
@@ -725,12 +721,7 @@ export interface Landing {
   hero?: {
     title?: string | null;
     driveLabel?: string | null;
-    drive?:
-      | {
-          text: string;
-          id?: string | null;
-        }[]
-      | null;
+    drive?: string | null;
     listLabel?: string | null;
     /**
      * Craft keywords shown in the hero (before scope), in attach order.
@@ -743,6 +734,7 @@ export interface Landing {
   };
   tldr?: {
     greeting?: string | null;
+    subtitle?: string | null;
     blocks?:
       | {
           title: string;
@@ -870,7 +862,6 @@ export interface LandingSelect<T extends boolean = true> {
     | {
         key?: T;
         navLabel?: T;
-        aliases?: T;
         searchKeywords?: T;
         id?: T;
       };
@@ -879,12 +870,7 @@ export interface LandingSelect<T extends boolean = true> {
     | {
         title?: T;
         driveLabel?: T;
-        drive?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
+        drive?: T;
         listLabel?: T;
         craft?: T;
         scope?: T;
@@ -893,6 +879,7 @@ export interface LandingSelect<T extends boolean = true> {
     | T
     | {
         greeting?: T;
+        subtitle?: T;
         blocks?:
           | T
           | {

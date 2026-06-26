@@ -81,6 +81,13 @@ export const Landing: GlobalConfig = {
       name: 'sections',
       type: 'array',
       labels: { singular: 'Section', plural: 'Sections' },
+      admin: {
+        components: {
+          // Collapsed-row label = the section's nav label (not "Section 01/02…"),
+          // so the nav spine is scannable. See payload/components/SectionRowLabel.
+          RowLabel: '@/payload/components/SectionRowLabel#SectionRowLabel',
+        },
+      },
       // Pre-seed the spine so the nav works out of the box; editable thereafter.
       defaultValue: [
         { key: 'tldr', navLabel: 'TLDR' },
@@ -132,24 +139,13 @@ export const Landing: GlobalConfig = {
           },
         },
         {
-          // One-off, section-local navigational synonyms fed to the search
-          // palette, never rendered (e.g. "about" -> TLDR, "work history" ->
-          // Experience). For *curated, reusable* recall vocabulary, prefer
-          // `searchKeywords` below — keep this for nav synonyms that belong to
-          // this band alone.
-          name: 'aliases',
-          type: 'text',
-          hasMany: true,
-          admin: {
-            description: 'One-off nav synonyms for this section. Fed to search, never shown.',
-          },
-        },
-        {
           // Hidden, search-only keywords that surface this section on curated
           // recall terms (e.g. "hobbies" -> More About Me) without rendering on
-          // the page. Same mechanism content uses: the keyword's label + aliases
-          // fold into this section's search aliases (see lib/search/dataset.ts).
-          // Offers only searchOnly keywords, so it never overlaps scope/craft.
+          // the page — the single recall lane for sections (free-text per-section
+          // `aliases[]` was retired; all section synonyms are curated keywords
+          // now). The keyword's label + aliases fold into this section's search
+          // aliases (see lib/search/dataset.ts). Offers only searchOnly keywords,
+          // so it never overlaps scope/craft.
           name: 'searchKeywords',
           type: 'relationship',
           relationTo: 'keywords',
@@ -172,7 +168,9 @@ export const Landing: GlobalConfig = {
       fields: [
         { name: 'title', type: 'text', defaultValue: 'PRODUCT ENGINEERING' },
         { name: 'driveLabel', type: 'text', defaultValue: 'Drive' },
-        proseArray('drive', 'Drive line', 'Drive'),
+        // Free prose, a single textarea (was a repeatable row list). The hero
+        // renders it as one block, honouring any line breaks the author types.
+        { name: 'drive', type: 'textarea' },
         // Single label over the combined craft+scope tag list (render concatenates
         // the two pickers below). Kept as one editable string, not per-picker.
         { name: 'listLabel', type: 'text', defaultValue: 'Craft & Scope' },
@@ -213,6 +211,14 @@ export const Landing: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'greeting', type: 'text', defaultValue: "Hi there! I'm Edu 👋" },
+        // Lead paragraph under the greeting, above the titled blocks (e.g. "Here's
+        // a quick summary of who I am and what I do if you're short on time").
+        {
+          name: 'subtitle',
+          type: 'textarea',
+          defaultValue:
+            "Here's a quick summary of who I am and what I do if in case you're short on time",
+        },
         {
           name: 'blocks',
           type: 'array',
