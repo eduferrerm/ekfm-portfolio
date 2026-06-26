@@ -326,7 +326,7 @@ export interface Experience {
 export interface Keyword {
   id: number;
   /**
-   * Immutable machine key (seeder upsert identity). Set once; cannot be edited.
+   * Immutable machine key (seeder/exporter upsert identity). Auto-filled from the label if left blank; set once, cannot be edited after.
    */
   key: string;
   label: string;
