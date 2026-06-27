@@ -212,9 +212,7 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="flex h-full w-full flex-col bg-gradient-surface">
-      <FilterChips active={activeCategory} counts={counts} onToggle={onToggleCategory} />
-
+    <div className="flex h-full w-full flex-col bg-slate-950">
       <div className="mental-graph relative min-h-0 flex-1 [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
         <ReactFlow
           nodes={nodes}
@@ -222,6 +220,7 @@ export function MentalGraph() {
           nodeTypes={nodeTypes}
           defaultEdgeOptions={defaultEdgeOptions}
           nodeOrigin={[0.5, 0.5]}
+          proOptions={{ hideAttribution: true }}
           fitView
           minZoom={0.05}
           maxZoom={2}
@@ -247,10 +246,6 @@ export function MentalGraph() {
           <Controls showInteractive={false} />
         </ReactFlow>
 
-        <p className="pointer-events-none absolute top-3 right-3 text-[10px] text-muted-foreground">
-          {focusedId ? 'Click empty space to reset' : 'Click a node to isolate its connections'}
-        </p>
-
         {hover && (
           <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
             {hover.kind === 'node' ? (
@@ -270,6 +265,8 @@ export function MentalGraph() {
           </div>
         )}
       </div>
+
+      <FilterChips active={activeCategory} counts={counts} onToggle={onToggleCategory} />
     </div>
   )
 }

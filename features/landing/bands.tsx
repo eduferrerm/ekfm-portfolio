@@ -277,8 +277,9 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
         )}
 
         {/* The relational map. Fixed height so the lazy client bundle swaps in
-            without shifting the page (the skeleton fills the same box). */}
-        <div className="mt-10 h-[60vh] min-h-100 overflow-hidden rounded-2xl border border-border">
+            without shifting the page (the skeleton fills the same box). The panel's
+            own dark fill delineates it — no border. */}
+        <div className="mt-10 h-[60vh] min-h-100 overflow-hidden rounded-2xl">
           <MentalGraphClient />
         </div>
 
