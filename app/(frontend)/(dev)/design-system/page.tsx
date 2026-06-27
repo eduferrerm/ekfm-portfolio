@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react'
 import type { Metadata } from 'next'
 
+import { TypeSpecimen } from './TypeSpecimen'
 import { Chevron } from '@/components/primitives/Chevron'
 import { Tag } from '@/components/primitives/Tag'
 import { Button } from '@/components/ui/button'
@@ -67,24 +68,25 @@ const PALETTE: Array<[name: string, swatch: string, dark?: boolean]> = [
   ['gradient', 'bg-gradient-surface'],
 ]
 
-// ── Type scale (Tier 4) — utility, sample, spec from the brand Fonts sheet ─────
-const TYPE: Array<[utility: string, spec: string]> = [
-  ['text-header', 'Condensed · Medium 500 · 40 · LH 150%'],
-  ['text-subtitle', 'Roboto · 400 · 24 · LH 125%'],
-  ['text-subheader', 'Condensed · Medium 500 · 18 · LH 110%'],
-  ['text-lead', 'Roboto · 400 · 18 · LH 150%'],
-  ['text-body', 'Roboto · 400 · 16 · LH 150%'],
-  ['text-list', 'Roboto · 400 · 14 · LH 100%'],
-  ['text-eyebrow', 'Roboto · Bold 700 · 12 · LH 100%'],
-  ['text-hero-list', 'Roboto · 400 · 12 · LH 200%'],
-  ['text-aside', 'Condensed · Medium 500 · 24 · LH 100% · uppercase'],
-  ['text-nav', 'Condensed · Medium 500 · 16 · LH 100% · uppercase'],
-  ['text-ui', 'Roboto · 400 · 14 · LH 100%  (sheet: primary)'],
-  ['text-ui-bold', 'Roboto · Bold 700 · 14 · LH 100%  (sheet: primary/bold)'],
-  ['text-card-title', 'Roboto · 400 · 24 · LH 100%'],
-  ['text-card-body', 'Roboto · 400 · 14 · LH ~143% (20/14)'],
-  ['text-meta', 'Roboto · 400 · 12 · LH 100%'],
-  ['text-meta-bold', 'Roboto · Bold 700 · 12 · LH 100%'],
+// ── Type scale (Tier 4) — the @utility roles; specs are read live off the DOM ──
+// (see TypeSpecimen) so the caption can never drift from globals.css.
+const TYPE: string[] = [
+  'text-header',
+  'text-subtitle',
+  'text-subheader',
+  'text-lead',
+  'text-body',
+  'text-list',
+  'text-eyebrow',
+  'text-hero-list',
+  'text-aside',
+  'text-nav',
+  'text-ui',
+  'text-ui-bold',
+  'text-card-title',
+  'text-card-body',
+  'text-meta',
+  'text-meta-bold',
 ]
 
 function ColorSwatch({ name, value, swatch }: { name: string; value: string; swatch: string }) {
@@ -264,25 +266,22 @@ export default function DesignSystemPage() {
 
       <section className="flex flex-col gap-8">
         <SectionHeading>Type scale</SectionHeading>
+        <p className="text-meta text-muted-foreground">
+          Every caption is read live off the rendered specimen via getComputedStyle — it cannot
+          drift from globals.css. Fluid roles report their current rendered px; resize to watch them
+          track.
+        </p>
 
-        {/* Hero headline gets its own row — 103px would break the grid. */}
-        <div className="flex flex-col gap-1 border-b border-border pb-8">
-          <p className="text-meta text-muted-foreground">
-            text-hero-headline · Condensed · Medium 500 · 103 · LH 100% · capitalize
-          </p>
-          <p className="text-hero-headline text-foreground">headline</p>
-        </div>
+        {/* Hero headline gets its own row — its sample would crowd the others. */}
+        <TypeSpecimen
+          utility="text-hero-headline"
+          sample="headline"
+          className="border-b border-border pb-8"
+        />
 
         <div className="flex flex-col gap-8">
-          {TYPE.map(([utility, spec]) => (
-            <div key={utility} className="flex flex-col gap-1">
-              <p className="text-meta text-muted-foreground">
-                {utility} · {spec}
-              </p>
-              <p className={`${utility} text-foreground`}>
-                The quick brown fox jumps over the lazy dog
-              </p>
-            </div>
+          {TYPE.map((utility) => (
+            <TypeSpecimen key={utility} utility={utility} />
           ))}
         </div>
       </section>

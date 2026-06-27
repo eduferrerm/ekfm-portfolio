@@ -233,8 +233,19 @@ the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators) a
 board — _not_ blue (blue stays the result-row / nav-card you-are-here surface). Icon controls
 (hamburger / close on `StickyNavReveal` + `MobileMenu`) are Button `size="icon"` ghosts.
 
+### Self-describing specimens
+
+The `/design-system` type-scale captions are **read live off the rendered DOM** via
+`getComputedStyle` (`design-system/TypeSpecimen.tsx`, a client component — the page is a server
+component), not hand-maintained literals, so a caption can never drift from the `@utility text-*`
+definitions in `globals.css`. It reports family (Condensed vs Roboto), weight, current px size,
+line-height as a percentage of size, and any `text-transform`; fluid `clamp()` roles report their
+current rendered px and re-read on resize. (This caught the old hero caption, which claimed
+`capitalize` for a role that has no transform.) Colour/state/palette swatches stay literal — their
+captions name the palette stop (`slate-900`), which `getComputedStyle` can't recover from a resolved
+`oklch()` value.
+
 ### Still deferred
 
-The `Chevron` primitive composed onto the layer, the blue sub-heads ("Overview", "Query Params") —
-sans vs `text-subheader` (Condensed), pending the inner-page boards — and `/design-system`
-self-describing captions (`getComputedStyle` instead of hand-maintained literals).
+The `Chevron` primitive composed onto the layer, and the blue sub-heads ("Overview", "Query
+Params") — sans vs `text-subheader` (Condensed), pending the inner-page boards.
