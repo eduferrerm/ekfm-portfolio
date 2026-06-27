@@ -90,7 +90,7 @@ function FilterChips({
               c.varClass,
               on
                 ? 'bg-[var(--node)] text-[var(--color-primary-foreground)]'
-                : 'bg-transparent text-[var(--node-soft)] hover:bg-[color-mix(in_oklch,var(--node)_15%,transparent)]',
+                : 'bg-transparent text-foreground hover:bg-[color-mix(in_oklch,var(--node)_15%,transparent)] hover:text-[var(--node-soft)]',
             )}
           >
             {c.label} ({counts[c.key] ?? 0})
@@ -243,7 +243,7 @@ export function MentalGraph() {
           onEdgeMouseLeave={clearHover}
         >
           <Background color="var(--color-muted)" gap={28} size={1} />
-          <Controls showInteractive={false} />
+          <Controls showInteractive={false} position="top-left" />
         </ReactFlow>
 
         {hover && (
