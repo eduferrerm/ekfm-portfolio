@@ -10,6 +10,7 @@ import { proseLines } from '@/lib/prose'
 
 import { Brand } from './Brand'
 import { LandingCard } from './LandingCard'
+import { MentalGraphClient } from './more-about-me/MentalGraphClient'
 import { NavList, type NavItem } from './NavList'
 import { HERO_NAV_ATTR } from './navReveal'
 import type { LandingCardData } from './projections'
@@ -259,9 +260,9 @@ export function LandingSectionBand({
 }
 
 /**
- * More About Me — heading + subheader, then space reserved for the relational
- * map (its own feature branch) above a teaser card that contextualises it. The
- * card has no link yet; the map feature wires it.
+ * More About Me — heading + subheader, then the relational mental-graph map, with
+ * a teaser card beneath that contextualises it. The map is the precomputed
+ * ~400-node graph (features/landing/more-about-me), mounted client-only.
  */
 export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreAboutMe'] }) {
   const teaser = data?.teaser
@@ -275,8 +276,13 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
           <p className="mt-3 text-lead text-muted-foreground">{data.subheader}</p>
         )}
 
-        {/* Map renders here once its feature branch lands. */}
-        <div className="mt-10 rounded-2xl border border-dashed border-border p-6 sm:p-10">
+        {/* The relational map. Fixed height so the lazy client bundle swaps in
+            without shifting the page (the skeleton fills the same box). */}
+        <div className="mt-10 h-[60vh] min-h-100 overflow-hidden rounded-2xl border border-border">
+          <MentalGraphClient />
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-dashed border-border p-6 sm:p-10">
           {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
           {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
           {teaser?.description && (

@@ -253,3 +253,22 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * More-About-Me mental graph — hover focus
+ * The hovered node's "pop" (fill/label/scale/glow) lives on the pill as Tailwind
+ * hover: utilities. The other half — dimming everything NOT hovered — is a
+ * cross-element `:has()` effect over @xyflow/react's own DOM (class names it
+ * owns), which a Tailwind utility can't express cleanly; scoped to `.mental-graph`.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.mental-graph .react-flow__node,
+.mental-graph .react-flow__edge {
+  transition: opacity 150ms ease;
+}
+.mental-graph:has(.react-flow__node:hover) .react-flow__node:not(:hover),
+.mental-graph:has(.react-flow__node:hover) .react-flow__edge {
+  opacity: 0.5;
+}
+.mental-graph .react-flow__node:hover {
+  z-index: 10;
+}

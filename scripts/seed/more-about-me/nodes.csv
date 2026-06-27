@@ -1,0 +1,402 @@
+id,label,category,description
+system_thinking,System Thinking,core_concept,Modeling wholes before optimizing parts
+human_consciousness,Human Consciousness,core_concept,The nature of subjective experience and awareness
+symbolism,Symbolism,core_concept,Compressed meaning carried through signs and forms
+emotional_integration,Emotional Integration,human_experience,Processing and integrating emotional experience
+recursive_learning,Recursive Learning,core_concept,Learning that deepens by returning to the same idea at higher resolution
+wonder,Wonder,core_concept,The question that precedes awe
+awe,Awe,core_concept,When the question dissolves into direct experience
+identity_through_craft,Identity Through Craft,core_concept,The self revealed and built through what you make
+creative_systems,Creative Systems,core_concept,Creativity understood as emergent output of constrained systems
+observation_as_superpower,Observation as a Superpower,core_concept,Watching before acting as a primary cognitive tool
+human_meaning_making,Human Meaning-Making,core_concept,How humans construct meaning from experience
+honesty,Honesty,core_concept,Truth-telling as a foundational practice
+complexity_theory,Complexity Theory,core_concept,The study of systems with emergent unpredictable behavior
+pattern_recognition,Pattern Recognition,core_concept,The ability to detect structure across domains
+emergent_behavior,Emergent Behavior,core_concept,Properties that arise from system interactions not individual parts
+music_composition,Music Composition,music,The practice of creating original music
+songwriting,Songwriting,music,Writing songs as a form of emotional truth-telling
+emotional_storytelling_through_music,Emotional Storytelling Through Music,music,Using music as a narrative vehicle for felt experience
+introspection,Introspection,human_experience,Turning inward as a primary mode of knowing
+product_thinking,Product Thinking,product,Modeling problems through the lens of users and outcomes
+ai_assisted_creativity,AI-Assisted Creativity,ai,Using AI as a collaborator in creative work
+frontend_architecture,Frontend Architecture,engineering,The structural design of frontend systems
+symbolic_lyricism,Symbolic Lyricism,music,Lyrics that carry meaning beyond their literal content
+mysticism,Mysticism,philosophy,Direct experiential approaches to ultimate reality
+deep_conversations,Deep Conversations,human_experience,Conversations that go somewhere real
+radical_honesty,Radical Honesty,human_experience,Honesty without self-protection
+building_things_that_feel_alive,Building Things That Feel Alive,core_concept,Creating work that responds and breathes
+performance_over_perfection,Performance Over Perfection,music,Shipping and playing over endless refinement
+atmospheric_production,Atmospheric Production,music,Production that creates immersive emotional environments
+fingerpicked_nylon_guitar,Fingerpicked Nylon Guitar,music,Classical fingerpicking technique on nylon string guitar
+piano_voicings,Piano Voicings,music,The art of chord voicing on piano
+modal_interchange,Modal Interchange,music,Borrowing chords from parallel modes
+rhythmic_complexity,Rhythmic Complexity,music,Layered and intricate rhythmic structures
+polyrhythms,Polyrhythms,music,Multiple simultaneous rhythmic patterns
+vocal_layering,Vocal Layering,music,Building texture through multiple vocal tracks
+ambient_textures,Ambient Textures,music,Sound design focused on atmosphere over melody
+heavy_but_melodic,Heavy-but-Melodic Music,music,The coexistence of heaviness and melody
+live_performance_design,Live Performance Design,music,Designing the experience of live performance
+album_sequencing,Album Sequencing,music,The art of ordering tracks for emotional arc
+alliteration_in_lyrics,Alliteration in Lyrics,music,Sound patterns in lyrics as micro-symbols
+sound_design,Sound Design,music,Crafting and shaping sound as a compositional element
+music_as_medicine,Music as Medicine,music,Music as a tool for emotional and psychological healing
+music_as_identity,Music as Identity,music,Music as a primary vehicle for self-expression and identity
+sonic_symbolism,Sonic Symbolism,music,Timbre and texture as carriers of meaning
+guitar_tone_shaping,Guitar Tone Shaping,music,Sculpting the character of electric guitar sound
+re_amping,Re-amping,music,Routing recorded signals back through amplifiers
+mixing,Mixing,music,Balancing and shaping recorded elements into a cohesive whole
+mastering,Mastering,music,Final stage audio processing for distribution
+deftones_inspired_contrast,Deftones-Inspired Contrast,music,The aesthetic of beauty and aggression coexisting
+tension_beauty_coexistence,Tension and Beauty Coexistence,music,The creative use of contrast between tension and resolution
+goosebump_inducing_resolution,Goosebump-Inducing Resolution,music,Musical resolution that produces physical emotional response
+transformer_models,Transformer Models,ai,The architecture underlying modern large language models
+embeddings,Embeddings,ai,Vector representations of meaning in high-dimensional space
+attention_mechanisms,Attention Mechanisms,ai,The mechanism by which transformers weigh relevance
+positional_encoding,Positional Encoding,ai,How transformers represent sequence order
+synthetic_memory,Synthetic Memory,ai,Constructed or artificial memory in AI systems
+cognitive_architectures,Cognitive Architectures,ai,Frameworks for modeling how minds process information
+ai_alignment,AI Alignment,ai,The problem of ensuring AI systems pursue intended goals
+ai_product_design,AI Product Design,ai,Designing products at the boundary of AI capability
+agentic_systems,Agentic Systems,ai,Systems that pursue goals autonomously in an environment
+autonomous_agents,Autonomous Agents,ai,AI agents that internalize and pursue their own goals
+prompt_engineering,Prompt Engineering,ai,The practice of crafting inputs to shape model outputs
+guardrails_for_ai_systems,Guardrails for AI Systems,ai,Constraints that define the action space of AI systems
+ai_workflows,AI Workflows,ai,AI systems with human checkpoints
+ai_assisted_engineering,AI-Assisted Engineering,ai,Using AI to augment software engineering practice
+learning_by_building,Learning by Building,ai,Building as the primary mode of understanding
+recursive_understanding,Recursive Understanding,ai,Understanding that deepens through self-reference
+metaphor_driven_learning,Metaphor-Driven Learning,ai,Using metaphor as a scaffold for abstract understanding
+human_ai_interaction,Human-AI Interaction,ai,The interface between human intent and AI behavior
+consciousness_and_technology,Consciousness and Technology,ai,The intersection of awareness and technological systems
+llm_systems,LLM Systems,ai,Large language model infrastructure and behavior
+frontend_performance,Frontend Performance,engineering,Optimizing the speed and responsiveness of frontend systems
+browser_internals,Browser Internals,engineering,How browsers parse render and execute
+chrome_devtools,Chrome DevTools,engineering,Browser tooling for debugging and profiling
+flame_charts,Flame Charts,engineering,Visual representations of call stack performance
+rendering_pipelines,Rendering Pipelines,engineering,The sequence of steps from code to pixels
+event_loops,Event Loops,engineering,The mechanism by which JavaScript handles async operations
+gpu_compositing,GPU Compositing,engineering,Using the GPU to composite layers for rendering
+memory_profiling,Memory Profiling,engineering,Identifying and resolving memory issues in applications
+network_waterfalls,Network Waterfalls,engineering,Visualizing sequential and parallel network requests
+caching_strategies,Caching Strategies,engineering,Approaches to storing and invalidating cached data
+cdn_architecture,CDN Architecture,engineering,Distributing content delivery across geographic nodes
+ssr,Server-Side Rendering,engineering,Rendering pages on the server before delivery
+isr,Incremental Static Regeneration,engineering,Rebuilding static pages on demand at the edge
+hydration_strategies,Hydration Strategies,engineering,Approaches to activating server-rendered HTML on the client
+design_systems,Design Systems,engineering,Systematic approaches to visual and interaction design
+token_based_theming,Token-Based Theming,engineering,Using design tokens as a theming abstraction layer
+algorithmic_ui_theming,Algorithmic UI Theming,engineering,Generating UI themes programmatically
+dynamic_color_systems,Dynamic Color Systems,engineering,Color systems that adapt to context and preference
+ux_engineering,UX Engineering,engineering,Engineering at the intersection of design and frontend
+accessibility,Accessibility,engineering,Designing for all users regardless of ability
+engineering_judgment,Engineering Judgment,engineering,The ability to make good technical decisions under uncertainty
+tradeoff_analysis,Tradeoff Analysis,engineering,Systematically evaluating competing options
+system_design,System Design,engineering,Designing large-scale software architectures
+event_driven_architecture,Event-Driven Architecture,engineering,Systems that communicate through events rather than polling
+semantic_architecture,Semantic Architecture,engineering,Naming and structuring systems to reflect their meaning
+domain_modeling,Domain Modeling,engineering,Capturing the essential concepts of a problem domain
+product_roadmapping,Product Roadmapping,engineering,Making product direction visible and debatable
+operational_maturity,Operational Maturity,engineering,The degree to which a system is production-ready
+component_systems,Component Systems,engineering,Reusable UI building blocks organized as a system
+performance_debugging,Performance Debugging,engineering,Diagnosing and resolving performance issues
+portfolio_as_product,Portfolio as Product,portfolio,Treating a personal portfolio as a product with users
+interactive_portfolios,Interactive Portfolios,portfolio,Portfolios that respond and adapt to their visitors
+personalized_ux,Personalized UX,portfolio,User experiences tailored to individual context
+visitor_token_systems,Visitor Token Systems,portfolio,Identifying and personalizing for individual visitors
+command_palettes,Command Palettes,portfolio,Keyboard-driven navigation interfaces
+graph_based_interfaces,Graph-Based Interfaces,portfolio,Interfaces that render relationships as navigable graphs
+cognitive_mapping,Cognitive Mapping,portfolio,Representing knowledge as spatial navigable structures
+experience_visualization,Experience Visualization,portfolio,Making professional experience visually navigable
+storybook,Storybook,portfolio,Component development and documentation environment
+visual_storytelling,Visual Storytelling,portfolio,Communicating through visual sequence and composition
+motion_design,Motion Design,portfolio,Using animation as a design element
+subtle_animation_systems,Subtle Animation Systems,portfolio,Animation that breathes life without demanding attention
+shader_effects,Shader Effects,portfolio,GPU-based visual effects in the browser
+three_js,Three.js,portfolio,3D graphics in the browser via WebGL
+canvas_rendering,Canvas Rendering,portfolio,2D graphics rendered via the HTML canvas API
+recruiter_experience_psychology,Recruiter Experience Psychology,portfolio,Understanding how recruiters evaluate and experience portfolios
+interview_storytelling,Interview Storytelling,portfolio,Framing professional experience as narrative in interviews
+project_does_the_talking,Project Does the Talking,portfolio,Letting work speak instead of claims
+mayan_tzolkin,Mayan Tzolk'in,philosophy,The 260-day sacred Mayan calendar system
+sufism,Sufism,philosophy,The mystical dimension of Islam
+rosicrucian_ideas,Rosicrucian Ideas,philosophy,Esoteric philosophy rooted in hidden spiritual knowledge
+freemasonry,Freemasonry,philosophy,Initiatic tradition using symbolic instruction
+spiritual_philosophy,Spiritual Philosophy,philosophy,Philosophical inquiry into ultimate meaning and transcendence
+synchronicity,Synchronicity,philosophy,Meaningful coincidence as a structuring principle of reality
+sacred_geometry,Sacred Geometry,philosophy,Geometric patterns as expressions of universal order
+geometric_harmony,Geometric Harmony,philosophy,The aesthetic and mathematical beauty of geometric form
+the_unknown,The Unknown,philosophy,What lies beyond the limits of current understanding
+mysteries,Mysteries,philosophy,Questions that resist resolution and reward contemplation
+ancient_symbolism,Ancient Symbolism,philosophy,Symbols that have survived across civilizations and time
+mythology,Mythology,philosophy,Narrative systems encoding cultural and cosmic meaning
+religious_symbolism,Religious Symbolism,philosophy,Iconography as a shared symbolic operating system
+human_meaning_making,Human Meaning-Making,philosophy,How humans construct meaning from raw experience
+the_psychology_of_grief,The Psychology of Grief,human_experience,The interior process of loss and its integration
+longing_as_fuel,Longing as Fuel,human_experience,Unresolved desire as a generative creative force
+darkness_as_metaphor,Darkness as Metaphor,human_experience,Darkness in art as emotional truth given permission
+observation_as_superpower,Observation as a Superpower,human_experience,Watching carefully as a primary cognitive advantage
+emotional_intelligence,Emotional Intelligence,human_experience,Observation applied to self and others in real time
+acceptance_through_motion,Acceptance Through Motion,human_experience,The body processing what the mind resists
+conscious_reintegration,Conscious Reintegration,human_experience,The endpoint of integration — a self that includes rather than excludes
+api_orchestration,API Orchestration,product,Coordinating multiple APIs into coherent workflows
+workflow_automation,Workflow Automation,product,Automating repetitive processes to free creative bandwidth
+founder_operations,Founder Operations,product,Operating a company as a solo or small team founder
+ownership_culture,Ownership Culture,product,Team culture built around personal accountability
+ai_enabled_business_systems,AI-Enabled Business Systems,product,Business operations augmented by AI
+product_scoping,Product Scoping,product,Defining the boundaries of a product or feature
+mvp_thinking,MVP Thinking,product,Building the minimum thing that proves the hypothesis
+operational_clarity,Operational Clarity,product,Clear shared understanding of how work gets done
+rainy_atmospheres,Rainy Atmospheres,human_experience,The emotional quality of rain as environment
+nature,Nature,human_experience,The natural world as a source of awe and grounding
+great_cafes,Great Cafés,human_experience,Cafés as productive and contemplative environments
+japanese_food,Japanese Food,human_experience,Japanese cuisine as cultural and sensory experience
+movies_that_take_you_far_away,Movies That Take You Far Away,human_experience,Films that produce total immersive transportation
+cinematic_experiences,Cinematic Experiences,human_experience,The physical and emotional experience of great cinema
+podcasts,Podcasts,human_experience,Long-form audio conversation as a learning medium
+youtube_rabbit_holes,YouTube Rabbit Holes,human_experience,Deep algorithmic exploration of niche topics
+gaming,Gaming,human_experience,Video games as a primary leisure and creative medium
+fps_games,FPS Games,human_experience,First-person shooter games
+rpgs,RPGs,human_experience,Role-playing games as narrative and systems experiences
+jrpgs,JRPGs,human_experience,Japanese role-playing games
+fitboxing,Fitboxing,human_experience,Rhythm-based boxing fitness
+paintball,Paintball,human_experience,Tactical team-based outdoor sport
+exploration,Exploration,human_experience,Moving through unfamiliar space with open attention
+quiet_spaces,Quiet Spaces,human_experience,Environments that support introspection and focus
+parks,Parks,human_experience,Natural urban spaces for rest and observation
+emotional_ambiance,Emotional Ambiance,human_experience,Environments with a strong felt emotional quality
+memory_linked_places,Memory-Linked Places,human_experience,Places that carry the weight of personal history
+somber_beauty,Somber Beauty,human_experience,Aesthetic pleasure found in melancholy and restraint
+dreamlike_environments,Dreamlike Environments,human_experience,Spaces that blur the boundary between real and imagined
+react,React,engineering,Component-based UI library
+typescript,TypeScript,engineering,Typed superset of JavaScript
+nextjs,Next.js,engineering,React framework for production web applications
+xaml_systems,XAML Systems,engineering,Declarative UI markup for game and application interfaces
+viewmodel_architecture,ViewModel Architecture,engineering,Separation of UI state from rendering logic
+git_workflows,Git Workflows,engineering,Version control practices and branching strategies
+gitflow,GitFlow,engineering,A branching model for Git
+vs_code_workflows,VS Code Workflows,engineering,Productivity patterns in Visual Studio Code
+terminal_workflows,Terminal Workflows,engineering,Command-line productivity and automation
+analytics_instrumentation,Analytics Instrumentation,engineering,Instrumenting products to capture behavioral data
+posthog,PostHog,engineering,Open-source product analytics platform
+naming_systems,Naming Systems,engineering,Systematic approaches to naming in code and design
+semantic_utilities,Semantic Utilities,engineering,Utility classes named for meaning not appearance
+component_extraction,Component Extraction,engineering,Identifying and isolating reusable components
+design_token_export_systems,Design Token Export Systems,engineering,Tooling for exporting design tokens across platforms
+noesis_ui,Noesis UI,engineering,Game UI framework using XAML and data binding
+ufo_uap_discussions,UFO/UAP Discussions,fringe,The study and discussion of unidentified aerial phenomena
+disclosure_history,Disclosure History,fringe,The history of government UAP disclosure
+historical_anomalies,Historical Anomalies,fringe,Events and artifacts that resist conventional explanation
+conspiracy_theories,Conspiracy Theories,fringe,Alternative narratives about hidden power and events
+bob_lazar_claims,Bob Lazar Claims,fringe,Claims about reverse-engineered extraterrestrial technology
+gravity_manipulation_theories,Gravity Manipulation Theories,fringe,Theoretical approaches to controlling gravitational force
+physics_beyond_public_understanding,Physics Beyond Public Understanding,fringe,Advanced or suppressed physics not in mainstream discourse
+ancient_depictions_of_anomalies,Ancient Depictions of Anomalies,fringe,Historical imagery interpreted as depicting anomalous phenomena
+consciousness_related_phenomena,Consciousness-Related Phenomena,fringe,Experiences at the edge of conventional consciousness research
+speculative_cosmology,Speculative Cosmology,fringe,Wonder-driven inquiry into the nature and origin of the universe
+symbolic_archaeology,Symbolic Archaeology,fringe,Tracing how symbols migrate across cultures and time
+hidden_history_narratives,Hidden History Narratives,fringe,Alternative accounts of human civilizational history
+fringe_epistemology,Fringe Epistemology,fringe,Honest inquiry into what consensus knowledge excludes
+perception_vs_reality,Perception vs Reality,fringe,The gap between what is perceived and what is real
+meshuggah,Meshuggah,artist,Swedish extreme metal band known for polyrhythmic complexity
+periphery,Periphery,artist,American progressive metal band
+animals_as_leaders,Animals as Leaders,artist,Instrumental progressive metal trio
+karmanjakah,Karmanjakah,artist,Progressive metal artist
+ions,Ions,artist,Electronic music artist
+jeff_loomis,Jeff Loomis,artist,Virtuoso metal guitarist
+spiritbox,Spiritbox,artist,Canadian heavy metal band
+skyharbor,Skyharbor,artist,Indian-American progressive metal band
+deftones,Deftones,artist,American alternative metal band
+fear_factory,Fear Factory,artist,American industrial metal band
+glassjaw,Glassjaw,artist,American post-hardcore band
+tennyson,Tennyson,artist,Canadian electronic duo
+anomalie,Anomalie,artist,Canadian electronic producer
+athletic_progression,Athletic Progression,artist,Electronic music artist
+yussef_dayes,Yussef Dayes,artist,British jazz drummer and producer
+wilco,Wilco,artist,American alternative rock band
+tv_girl,TV Girl,artist,American indie pop band
+tomita_lab,Tomita Lab,artist,Japanese pop artist
+thundercat,Thundercat,artist,American bassist and producer
+hed_pe,Hed PE,artist,American rap-metal band
+tennis,Tennis,artist,American indie pop duo
+sun_kil_moon,Sun Kil Moon,artist,American folk rock project of Mark Kozelek
+sondre_lerche,Sondre Lerche,artist,Norwegian singer-songwriter
+snail_mail,Snail Mail,artist,American indie rock artist
+shadow_community,Shadow Community,artist,Orchestral art pop artist
+sean_ono_lennon,Sean Ono Lennon,artist,American-Japanese musician and artist
+samara_cyn,Samara Cyn,artist,American R&B singer
+sam_gellaitry,Sam Gellaitry,artist,Scottish electronic producer
+radiohead,Radiohead,artist,British art rock band
+post_malone,Post Malone,artist,American rapper and singer
+photay,Photay,artist,American electronic producer
+oren_lavie,Oren Lavie,artist,Israeli singer-songwriter
+mt_marcy,Mt. Marcy,artist,Folk singer-songwriter
+moonchild,Moonchild,artist,American jazz-influenced R&B trio
+mild_high_club,Mild High Club,artist,American indie pop project
+mac_miller,Mac Miller,artist,American rapper and producer
+the_last_shadow_puppets,The Last Shadow Puppets,artist,British art rock supergroup
+lamp,Lamp,artist,Japanese indie pop trio
+kirinji,KIRINJI,artist,Japanese pop band
+king_krule,King Krule,artist,British art rock musician
+kendrick_lamar,Kendrick Lamar,artist,American rapper and songwriter
+kazuki_isogai,Kazuki Isogai,artist,Japanese musician
+kali_uchis,Kali Uchis,artist,Colombian-American singer
+jeff_tweedy,Jeff Tweedy,artist,American singer-songwriter and Wilco frontman
+jay_som,Jay Som,artist,American indie pop musician
+japanese_breakfast,Japanese Breakfast,artist,American indie pop project of Michelle Zauner
+jacob_collier,Jacob Collier,artist,British multi-instrumentalist and producer
+van_dyke_parks,Van Dyke Parks,artist,American orchestral pop songwriter
+silverchair,Silverchair,artist,Australian alternative rock band
+homeshake,HOMESHAKE,artist,Canadian lo-fi pop project
+hiatus_kaiyote,Hiatus Kaiyote,artist,Australian neo-soul band
+gustavo_cerati,Gustavo Cerati,artist,Argentine rock musician and Soda Stereo frontman
+giraffage,Giraffage,artist,American electronic producer
+flyte,Flyte,artist,British indie pop band
+ethan_french,Ethan French,artist,Singer-songwriter
+erykah_badu,Erykah Badu,artist,American neo-soul singer
+eloise,Eloise,artist,British singer-songwriter
+dr_dog,Dr. Dog,artist,American indie rock band
+dent_may,Dent May,artist,American indie pop musician
+cornelius,Cornelius,artist,Japanese experimental pop musician
+cero,cero,artist,Japanese indie pop band
+cafune,Cafuné,artist,American indie pop duo
+bonobo,Bonobo,artist,British electronic musician
+bobbing,Bobbing,artist,Indie folk artist
+blah_blah_blah,Blah Blah Blah,artist,Indie artist
+billie_marten,Billie Marten,artist,British singer-songwriter
+phoebe_bridgers,Phoebe Bridgers,artist,American indie folk singer-songwriter
+nirvana,Nirvana,artist,American grunge band
+foo_fighters,Foo Fighters,artist,American rock band
+pearl_jam,Pearl Jam,artist,American grunge band
+alice_in_chains,Alice in Chains,artist,American grunge band
+stone_temple_pilots,Stone Temple Pilots,artist,American grunge band
+big_fish,Big Fish,film,2003 Tim Burton fantasy film
+the_legend_of_1900,The Legend of 1900,film,1998 Italian drama about a pianist
+kill_bill,Kill Bill,film,Quentin Tarantino's martial arts revenge epic
+inglourious_basterds,Inglourious Basterds,film,Quentin Tarantino's WWII alternate history film
+once_upon_a_time_in_hollywood,Once Upon a Time in Hollywood,film,Tarantino's love letter to late 1960s Hollywood
+the_phoenician_scheme,The Phoenician Scheme,film,Wes Anderson film
+the_life_aquatic,The Life Aquatic with Steve Zissou,film,Wes Anderson's ocean adventure film
+ace_ventura,Ace Ventura: When Nature Calls,film,Jim Carrey comedy sequel
+road_trip,Road Trip,film,2000 comedy film
+eurotrip,EuroTrip,film,2004 comedy film
+shaun_of_the_dead,Shaun of the Dead,film,Edgar Wright's zombie romantic comedy
+hot_fuzz,Hot Fuzz,film,Edgar Wright's action comedy
+the_worlds_end,The World's End,film,Edgar Wright's sci-fi comedy
+paul,Paul,film,2011 sci-fi comedy
+american_pie,American Pie,film,1999 teen comedy
+rush_hour,Rush Hour,film,1998 action comedy
+jackass,Jackass,film,Stunt comedy film series
+south_park_blu,South Park: Bigger Longer & Uncut,film,1999 South Park animated film
+anchorman,Anchorman,film,2004 Will Ferrell comedy
+step_brothers,Step Brothers,film,2008 Will Ferrell comedy
+talladega_nights,Talladega Nights,film,2006 Will Ferrell NASCAR comedy
+pineapple_express,Pineapple Express,film,2008 stoner action comedy
+the_interview,The Interview,film,2014 Seth Rogen comedy
+this_is_the_end,This Is the End,film,2013 apocalyptic comedy
+what_dreams_may_come,What Dreams May Come,film,1998 afterlife fantasy drama
+the_matrix,The Matrix,film,1999 sci-fi action film about simulated reality
+altered_carbon,Altered Carbon,film,Cyberpunk series about consciousness and identity
+the_mummy,The Mummy,film,1999 adventure fantasy film
+avengers_endgame,Avengers: Endgame,film,2019 Marvel superhero epic
+gattaca,Gattaca,film,1997 genetic determinism sci-fi film
+arrival,Arrival,film,2016 linguistic sci-fi film
+oceans_eleven,Ocean's Eleven,film,2001 heist film
+v_for_vendetta,V for Vendetta,film,2005 political dystopia film
+identity,Identity,film,2003 psychological thriller
+the_ninth_gate,The Ninth Gate,film,1999 occult thriller
+unbreakable,Unbreakable,film,2000 M. Night Shyamalan superhero drama
+the_blair_witch_project,The Blair Witch Project,film,1999 found footage horror film
+vanilla_sky,Vanilla Sky,film,2001 surrealist sci-fi romance
+the_fifth_element,The Fifth Element,film,1997 sci-fi action film
+close_encounters,Close Encounters of the Third Kind,film,Spielberg's UFO contact film
+the_fourth_kind,The Fourth Kind,film,2009 alien abduction horror film
+ai_artificial_intelligence,A.I. Artificial Intelligence,film,Spielberg's film about a robot seeking to be real
+metropolis,Metropolis,film,Fritz Lang's 1927 science fiction masterpiece
+dune,Dune,film,Denis Villeneuve's epic sci-fi adaptation
+independence_day,Independence Day,film,1996 alien invasion blockbuster
+terminator_2,Terminator 2,film,1991 sci-fi action sequel
+war_of_the_worlds,War of the Worlds,film,2005 Spielberg alien invasion film
+the_others,The Others,film,2001 gothic horror film
+signs,Signs,film,M. Night Shyamalan's alien thriller
+the_village,The Village,film,M. Night Shyamalan's period mystery
+her,Her,film,Spike Jonze's film about love and AI
+constantine,Constantine,film,2005 supernatural thriller
+the_ring,The Ring,film,2002 supernatural horror film
+john_wick,John Wick,film,Action thriller franchise
+dracula,Dracula,film,Gothic vampire film
+sleepy_hollow,Sleepy Hollow,film,Tim Burton's gothic horror film
+frankenstein_del_toro,Frankenstein,film,Guillermo del Toro's Frankenstein adaptation
+interstellar,Interstellar,film,Christopher Nolan's space-time epic
+lord_of_the_rings,Lord of the Rings,film,Peter Jackson's fantasy epic trilogy
+the_conjuring,The Conjuring,film,2013 supernatural horror film
+zelda_ocarina_of_time,Zelda: Ocarina of Time,game,Nintendo 64 action-adventure classic
+zelda_majoras_mask,Zelda: Majora's Mask,game,Nintendo 64 darker Zelda with time mechanics
+mortal_kombat_3,Mortal Kombat 3,game,1995 fighting game
+doom,Doom,game,Id Software's seminal first-person shooter
+duke_nukem_3d,Duke Nukem 3D,game,1996 first-person shooter
+super_mario_64,Super Mario 64,game,Nintendo's 3D platformer landmark
+age_of_empires_ii,Age of Empires II,game,Real-time strategy classic
+banjo_kazooie,Banjo-Kazooie,game,Nintendo 64 platformer
+mario_kart,Mario Kart,game,Nintendo kart racing series
+diddy_kong_racing,Diddy Kong Racing,game,Nintendo 64 kart racing game
+final_fantasy_vii,Final Fantasy VII,game,Square's iconic JRPG
+devil_may_cry,Devil May Cry,game,Action hack-and-slash series
+halo,Halo,game,Microsoft's flagship FPS franchise
+gears_of_war,Gears of War,game,Cover-based shooter series
+god_of_war_ragnarok,God of War Ragnarök,game,Norse mythology action game
+call_of_duty,Call of Duty,game,Military FPS franchise
+persona_5,Persona 5,game,Japanese RPG about rebellion and identity
+overwatch,Overwatch,game,Blizzard's team-based hero shooter
+baldurs_gate_3,Baldur's Gate 3,game,Larian's D&D RPG epic
+elden_ring,Elden Ring,game,FromSoftware's open-world soulslike
+sekiro,Sekiro,game,FromSoftware's precision action game
+death_stranding,Death Stranding,game,Kojima's meditative delivery game
+death_stranding_2,Death Stranding 2,game,Sequel to Kojima's Death Stranding
+ghost_of_tsushima,Ghost of Tsushima,game,Open-world samurai action game
+ghost_of_yotei,Ghost of Yōtei,game,Sequel to Ghost of Tsushima
+zelda_botw,Zelda: Breath of the Wild,game,Nintendo's open-world Zelda reinvention
+zelda_totk,Zelda: Tears of the Kingdom,game,Sequel to Breath of the Wild
+the_outer_worlds_2,The Outer Worlds 2,game,Obsidian's sci-fi RPG sequel
+lost_odyssey,Lost Odyssey,game,Mistwalker's emotional JRPG for Xbox 360
+final_fantasy_vii_rebirth,Final Fantasy VII Rebirth,game,Square's FFVII remake continuation
+metaphor_refantazio,Metaphor: ReFantazio,game,Atlus's fantasy RPG from the Persona team
+arc_raiders,ARC Raiders,game,Extraction shooter from Embark Studios
+cyberpunk_2077,Cyberpunk 2077,game,CD Projekt Red's open-world cyberpunk RPG
+wizard_with_a_gun,Wizard with a Gun,game,Co-op survival crafting game
+bloomtown,Bloomtown,game,Indie RPG with retro aesthetics
+assassins_creed_iv,Assassin's Creed IV: Black Flag,game,Naval open-world action game
+sea_of_stars,Sea of Stars,game,Indie turn-based RPG homage
+lies_of_p,Lies of P,game,Soulslike based on Pinocchio
+the_first_berserker_khazan,The First Berserker: Khazan,game,Korean soulslike action RPG
+clair_obscur,Clair Obscur: Expedition 33,game,French turn-based RPG with existential themes
+dave_the_diver,Dave the Diver,game,Indie hybrid diving and restaurant management game
+black_myth_wukong,Black Myth: Wukong,game,Chinese action RPG based on Journey to the West
+for_the_king,For the King,game,Indie roguelike strategy RPG
+djent_progressive_metal,Djent / Progressive Metal,genre,Genre defined by polyrhythmic riffing and technical complexity
+alt_metal_post_hardcore,Alt Metal / Post-Hardcore,genre,Genre defined by emotional contrast and sonic intensity
+grunge,Grunge,genre,Pacific Northwest rock defined by raw emotion and distortion
+jazz_neo_soul,Jazz / Neo-Soul,genre,Genre defined by harmonic sophistication and emotional depth
+electronic_future_beats,Electronic / Future Beats,genre,Genre defined by atmospheric electronic production
+indie_pop_dream_pop,Indie Pop / Dream Pop,genre,Genre defined by melodic intimacy and emotional texture
+art_rock,Art Rock,genre,Genre defined by conceptual ambition and sonic experimentation
+orchestral_art_pop,Orchestral Art Pop,genre,Genre defined by lush arrangements and poetic songwriting
+japanese_pop_city_pop,Japanese Pop / City Pop,genre,Genre defined by sophisticated melodic and atmospheric production
+hip_hop_rnb,Hip-Hop / R&B,genre,Genre defined by rhythmic storytelling and emotional authenticity
+folk_singer_songwriter,Folk / Singer-Songwriter,genre,Genre defined by intimate acoustic storytelling
+existential_sci_fi,Existential Sci-Fi,genre,Films exploring consciousness identity and what it means to be human
+simulation_reality,Simulation / Reality,genre,Films questioning the nature of perceived reality
+myth_spectacle,Myth and Spectacle,genre,Films defined by epic scale and mythological resonance
+paranormal_horror,Paranormal Horror,genre,Films exploring the supernatural and the unknown
+gothic_dark_fantasy,Gothic Dark Fantasy,genre,Films defined by darkness symbolism and the sublime
+auteur_cinema,Auteur Cinema,genre,Films defined by a singular directorial vision
+comedy_chaos,Comedy and Chaos,genre,Films defined by anarchic humor and irreverence
+action_thriller,Action Thriller,genre,Films defined by kinetic tension and stylized action
+ufo_contact_cinema,UFO Contact Cinema,genre,Films exploring humanity's encounter with the unknown other
+soulslike,Soulslike,genre,Games defined by precision challenge death and perseverance
+jrpg,JRPG,genre,Japanese role-playing games defined by narrative and systems depth
+open_world_action,Open World Action,genre,Games defined by expansive explorable worlds
+atmospheric_narrative,Atmospheric Narrative,genre,Games defined by mood environmental storytelling and solitude
+fps_arena,FPS / Arena Shooter,genre,Games defined by first-person combat and reflexes
+classic_n64_era,Classic N64 Era,genre,Formative games from the Nintendo 64 generation
+indie_cozy,Indie / Cozy,genre,Indie games defined by low stakes and charm
