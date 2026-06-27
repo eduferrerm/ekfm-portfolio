@@ -19,11 +19,7 @@ const BAND_SPACING = 'py-20'
 
 /** Small uppercase band sub-label ("Drive", "Craft", "Dive into"). */
 function BandLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="mb-4 text-eyebrow text-muted-foreground">
-      {children}
-    </h3>
-  )
+  return <h3 className="mb-4 text-eyebrow text-muted-foreground">{children}</h3>
 }
 
 /**
@@ -67,8 +63,9 @@ export function HeroBand({
               <NavList
                 items={navItems}
                 decorative
-                className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm"
-                linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+                separated
+                className="flex flex-wrap items-center justify-center gap-y-2"
+                linkClassName="text-nav text-muted-foreground transition hover:text-foreground"
               />
             </div>
           )}
@@ -188,9 +185,7 @@ export function TldrBand({
             <div className="space-y-12">
               {blocks.map((block, i) => (
                 <div key={block.id ?? i}>
-                  <h3 className="mb-4 text-eyebrow text-white/60">
-                    {block.title}
-                  </h3>
+                  <h3 className="mb-4 text-eyebrow text-white/60">{block.title}</h3>
                   <ul className="space-y-6">
                     {proseLines(block.body)
                       .map(fillYears)
@@ -276,18 +271,14 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight">{data?.heading}</h2>
-        {data?.subheader && <p className="mt-3 text-lead text-muted-foreground">{data.subheader}</p>}
+        {data?.subheader && (
+          <p className="mt-3 text-lead text-muted-foreground">{data.subheader}</p>
+        )}
 
         {/* Map renders here once its feature branch lands. */}
         <div className="mt-10 rounded-2xl border border-dashed border-border p-6 sm:p-10">
-          {teaser?.eyebrow && (
-            <p className="text-eyebrow text-primary">
-              {teaser.eyebrow}
-            </p>
-          )}
-          {teaser?.title && (
-            <h3 className="mt-1 text-card-title">{teaser.title}</h3>
-          )}
+          {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
+          {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
           {teaser?.description && (
             <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
           )}

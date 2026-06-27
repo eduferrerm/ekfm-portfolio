@@ -38,7 +38,7 @@ export function SiteNav({
         {home && (
           <Link
             href={home.href}
-            className="text-menu-main text-muted-foreground transition hover:text-foreground"
+            className="text-aside text-muted-foreground transition hover:text-foreground"
           >
             {home.label}
           </Link>
@@ -52,8 +52,8 @@ export function SiteNav({
                 aria-current={sectionActive ? 'page' : undefined}
                 className={
                   sectionActive
-                    ? 'text-menu-main text-foreground underline underline-offset-4'
-                    : 'text-menu-main text-muted-foreground transition hover:text-foreground'
+                    ? 'text-aside text-foreground underline decoration-primary underline-offset-4'
+                    : 'text-aside text-muted-foreground transition hover:text-foreground'
                 }
               >
                 {section.label}

@@ -112,8 +112,8 @@ never fold it into a type role.
 | `text-card-body`               | Roboto    | 400       | 14                 | 1.43 (20/14) | —                     |
 | `text-eyebrow`                 | Roboto    | 700       | 12                 | 1.0          | **uppercase** + 0.1em |
 | `text-hero-list`               | Roboto    | 400       | 12                 | 2.0          | —                     |
-| `text-menu-subpage`            | Condensed | 500       | 24                 | 1.0          | **uppercase**         |
-| `text-menu-main`               | Condensed | 500       | 16                 | 1.0          | **uppercase**         |
+| `text-aside`                   | Condensed | 500       | 24                 | 1.0          | **uppercase**         |
+| `text-nav`                     | Condensed | 500       | 16                 | 1.0          | **uppercase**         |
 | `text-meta` / `text-meta-bold` | Roboto    | 400 / 700 | 12                 | 1.0          | —                     |
 
 **Naming collision resolved:** the brand sheet's "primary" type role would clash with the
@@ -141,7 +141,9 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 
 - **Page titles** (`text-hero-headline`) keep **natural case** — no transform. The landing hero
   applies `uppercase` at the call site.
-- **Nav** (`text-menu-*`) and **eyebrows** (`text-eyebrow`) bake in **uppercase**.
+- **Nav** (`text-nav` = main nav: hero + sticky header; `text-aside` = inner-page side rail) and
+  **eyebrows** (`text-eyebrow`) bake in **uppercase**. (These are the brand sheet's "Menu" group,
+  renamed by surface — `main`→`nav`, `subpage`→`aside` — for semantic salience.)
 
 ---
 
@@ -152,6 +154,11 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 - **Type:** one role class per element (`<h2 class="text-header">`), not a hand-assembled
   `text-3xl font-semibold tracking-tight` stack. If a heading style must change, it changes in one
   `@utility`.
+- **`cn` knows the type roles:** every `text-*` role shares the `text-` prefix with colour
+  utilities, so stock tailwind-merge would file `cn('text-nav', 'text-muted-foreground')` as a
+  colour clash and silently drop the _role_. `lib/utils.ts` registers all roles in twMerge's
+  `font-size` group, so a role + a colour both survive (and two roles still dedupe to one). **Keep
+  that `TYPE_ROLES` list in sync when adding or renaming an `@utility text-*`.**
 - **Component variants vs colour roles:** a `<Button variant="primary">` _uses_ `--primary`; the
   variant name is the component's emphasis tier, the colour token is global. Never invent
   per-component colour tokens like `--card-primary`.
@@ -188,12 +195,12 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
 - **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md /
   **icon** (square, wraps a single lucide/Chevron glyph), `asChild`. Consumed by `SliderControls`
   (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard` (ghost CTA), `DearCompanySection` +
-  `ContactBand` (secondary CTAs), and the **search palette** trigger (secondary, eyebrow label) +
-  mobile back/close (ghost icon, lime at rest per the board). A Button whose label needs a
-  non-default type role wraps the label in a `<span>` (e.g. the trigger's `text-eyebrow`) — twMerge
-  can't dedupe two custom `@utility` roles, so the override never goes on the Button's own
-  `className`. (The palette's Clear / recent-search controls are plain underlined / muted **text
-  links**, not buttons — the board shows no pill there.)
+  `ContactBand` (secondary CTAs), the **search palette** trigger (secondary, eyebrow label) +
+  mobile back/close (ghost icon, lime at rest per the board), and the **nav** (`MobileMenu` MENU
+  trigger; hamburger / close on `StickyNavReveal` + `MobileMenu` as ghost icons). A Button whose
+  label needs a non-default type role puts the role on a child `<span>` (e.g. the trigger's
+  `text-eyebrow`) to scope it to the label text. (The palette's Clear / recent-search controls are
+  plain underlined / muted **text links**, not buttons — the board shows no pill there.)
 - **`Input`** (`components/ui/input.tsx`) — `cva` text input; focus is the global fuchsia ring
   (`ring-ring`), not a lime border. Owns the surface + `text-body` role + the four channels; layout
   (an icon's `pl-9`) stays at the call site. Consumed by the search palette query field.
@@ -211,10 +218,17 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
 
 Specimens render live at **`/design-system`** under _Components · cva_.
 
+### Nav (landing + asides)
+
+The nav consumes the renamed Menu roles — no bespoke role. **`text-nav`** (16) drives the main nav:
+the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators) and the sticky header
+(`StickyNavReveal`, desktop + mobile overlay). **`text-aside`** (24) drives the inner-page side rail
+(`SiteNav`). Active item = `text-foreground` + a **lime underline** (`decoration-primary`), per the
+board — _not_ blue (blue stays the result-row / nav-card you-are-here surface). Icon controls
+(hamburger / close on `StickyNavReveal` + `MobileMenu`) are Button `size="icon"` ghosts.
+
 ### Still deferred
 
-`MobileMenu` + `StickyNavReveal` icon buttons (→ Button `size="icon"`), the `Chevron` primitive
-composed onto the layer, and the **landing nav** (hero + sticky reveal) + `SiteNav` active states —
-which want a dedicated **small-nav** type role (it renders smaller than both `menu-*` roles,
-16/24px). Open type questions: whether the blue sub-heads ("Overview", "Query Params") are sans vs
-`text-subheader` (Condensed), and applying `text-ui-bold` to small bold labels (company name).
+The `Chevron` primitive composed onto the layer, the blue sub-heads ("Overview", "Query Params") —
+sans vs `text-subheader` (Condensed), pending the inner-page boards — and `/design-system`
+self-describing captions (`getComputedStyle` instead of hand-maintained literals).

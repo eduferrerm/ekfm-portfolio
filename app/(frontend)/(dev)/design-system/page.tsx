@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react'
 import type { Metadata } from 'next'
 
+import { Chevron } from '@/components/primitives/Chevron'
 import { Tag } from '@/components/primitives/Tag'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -76,8 +77,8 @@ const TYPE: Array<[utility: string, spec: string]> = [
   ['text-list', 'Roboto · 400 · 14 · LH 100%'],
   ['text-eyebrow', 'Roboto · Bold 700 · 12 · LH 100%'],
   ['text-hero-list', 'Roboto · 400 · 12 · LH 200%'],
-  ['text-menu-subpage', 'Condensed · Medium 500 · 24 · LH 100% · capitalize'],
-  ['text-menu-main', 'Condensed · Medium 500 · 16 · LH 100% · capitalize'],
+  ['text-aside', 'Condensed · Medium 500 · 24 · LH 100% · uppercase'],
+  ['text-nav', 'Condensed · Medium 500 · 16 · LH 100% · uppercase'],
   ['text-ui', 'Roboto · 400 · 14 · LH 100%  (sheet: primary)'],
   ['text-ui-bold', 'Roboto · Bold 700 · 14 · LH 100%  (sheet: primary/bold)'],
   ['text-card-title', 'Roboto · 400 · 24 · LH 100%'],
@@ -224,6 +225,40 @@ export default function DesignSystemPage() {
               <p className="mt-2 text-card-body text-muted-foreground">You-are-here (blue).</p>
             </Card>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">
+            Chevron · directional glyph (recolours by prop; composes into a Button)
+          </p>
+          <div className="flex flex-wrap items-center gap-5">
+            <Chevron direction="up" color="text-muted-foreground" />
+            <Chevron direction="right" color="text-muted-foreground" />
+            <Chevron direction="down" color="text-muted-foreground" />
+            <Chevron direction="left" color="text-muted-foreground" />
+            <Button variant="ghost" size="icon" aria-label="Chevron in a button">
+              <Chevron direction="down" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">
+            Nav active state · text-nav, lime underline (you-are-here)
+          </p>
+          <ul className="flex items-center gap-x-5">
+            <li>
+              <span className="text-nav text-muted-foreground">TLDR</span>
+            </li>
+            <li>
+              <span className="text-nav text-foreground underline decoration-primary underline-offset-4">
+                Portfolio
+              </span>
+            </li>
+            <li>
+              <span className="text-nav text-muted-foreground">Contact</span>
+            </li>
+          </ul>
         </div>
       </section>
 
