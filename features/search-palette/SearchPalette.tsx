@@ -6,6 +6,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import { Container } from '@/components/Container'
+import { tagVariants } from '@/components/primitives/Tag'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { capture } from '@/lib/posthog/client'
 import { AnalyticsEvent } from '@/lib/posthog/events'
 import { scopeFromPath, scopeHref } from '@/lib/routes'
@@ -192,63 +196,88 @@ export function SearchPalette({
   const panelBody = (
     <>
       {/* Mobile-only back / close (desktop closes via backdrop or Esc). */}
+      {/* Board renders the back/close glyphs in lime at rest (not muted) — a ghost
+          icon button carrying the primary colour; hover grows the lime edge. */}
       <div className="mb-3 flex items-center justify-between sm:hidden">
-        <button type="button" onClick={close} aria-label="Back" className="text-muted-foreground">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={close}
+          aria-label="Back"
+          className="text-primary"
+        >
           <ArrowLeft className="h-5 w-5" />
-        </button>
-        <button type="button" onClick={close} aria-label="Close" className="text-muted-foreground">
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={close}
+          aria-label="Close"
+          className="text-primary"
+        >
           <X className="h-5 w-5" />
-        </button>
+        </Button>
       </div>
 
-      <div className="relative">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value)
-            setActiveIndex(0)
-          }}
-          placeholder={placeholder}
-          aria-label="Search query"
-          className="w-full rounded-lg border border-border bg-muted/40 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
-        />
-      </div>
-
-      {showChips && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {facets.map((f) => (
-            <button
-              key={f.key}
-              type="button"
-              onClick={() => {
-                setFacet(f.key)
-                setActiveIndex(0)
-              }}
-              aria-pressed={facet === f.key}
-              className={cn(
-                'rounded-md border px-2.5 py-1 text-xs transition',
-                facet === f.key
-                  ? 'border-primary bg-primary text-primary-foreground'
-                  : 'border-border text-muted-foreground hover:text-foreground',
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
+      {/* Top group: the input + facet chips share one hairline-bordered frame,
+          fixed above the scrolling content (per the board's nested panel). */}
+      <div className="rounded-lg border border-border/60 p-3">
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setActiveIndex(0)
+            }}
+            placeholder={placeholder}
+            aria-label="Search query"
+            className="pl-9 pr-3"
+          />
         </div>
-      )}
 
-      <div className="mt-3 flex-1 overflow-y-auto">
+        {showChips && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {facets.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => {
+                  setFacet(f.key)
+                  setActiveIndex(0)
+                }}
+                aria-pressed={facet === f.key}
+                className={cn(
+                  // The interactive consumer of Tag: selected fills lime (the
+                  // toggled-on affordance); unselected is an OUTLINE chip per the
+                  // board (transparent fill, not Tag's default grey), growing a
+                  // lime edge on hover.
+                  tagVariants({ selected: facet === f.key }),
+                  'cursor-pointer',
+                  facet !== f.key && 'bg-transparent hover:border-primary hover:text-foreground',
+                )}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Scrolling content. Corpus search → one Results card; a visitor empty
+          state → one card per expectation; recents → a lighter footer band. */}
+      <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto">
         {isQuerying && (
-          <div>
-            <p className="px-2 text-sm font-medium text-primary">Results</p>
+          <Card className="rounded-xl border-border/60 p-4">
+            <p className="text-lead text-label">Results</p>
             {results.length === 0 ? (
-              <p className="px-2 py-6 text-sm text-muted-foreground">No results for “{trimmed}”.</p>
+              <p className="mt-2 text-body text-muted-foreground">No results for “{trimmed}”.</p>
             ) : (
-              <div className="mt-1 grid grid-cols-1 gap-1 sm:grid-cols-2">
+              <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
                 {results.map((doc, i) => (
                   <SearchResultRow
                     key={doc.id}
@@ -261,15 +290,15 @@ export function SearchPalette({
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         )}
 
         {showExpectations &&
           visitorSearch!.expectations.map((group) => (
-            <div key={group.title} className="mt-4 first:mt-0">
-              <p className="px-2 text-sm font-medium text-primary">{group.title}</p>
-              <p className="px-2 text-xs text-muted-foreground line-clamp-2">{group.summary}</p>
-              <div className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
+            <Card key={group.title} className="rounded-xl border-border/60 p-4">
+              <p className="text-lead text-label">{group.title}</p>
+              <p className="mt-1 text-body text-muted-foreground line-clamp-2">{group.summary}</p>
+              <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
                 {group.items.map((item, i) => (
                   <SearchResultRow
                     key={`${group.title}:${item.href}`}
@@ -278,28 +307,30 @@ export function SearchPalette({
                   />
                 ))}
               </div>
-            </div>
+            </Card>
           ))}
 
         {recents.length > 0 && (
-          <div className="mt-4 border-t border-border pt-3">
-            <div className="flex items-center justify-between px-2">
-              <span className="text-sm font-medium text-primary">Recent Searches</span>
+          <div className="mt-1 rounded-xl bg-muted/30 px-4 py-3">
+            <div className="flex items-center justify-between">
+              <span className="text-lead text-label">Recent Searches</span>
+              {/* Board shows Clear as an underlined text link, not a pill. */}
               <button
                 type="button"
                 onClick={clear}
-                className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+                className="text-ui text-foreground underline underline-offset-2 transition hover:text-muted-foreground"
               >
                 Clear
               </button>
             </div>
-            <div className="mt-2 flex flex-wrap gap-2 px-2">
+            {/* Recents are plain muted text labels (no pill), per the board. */}
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
               {recents.map((r) => (
                 <button
                   key={r}
                   type="button"
                   onClick={() => runRecent(r)}
-                  className="rounded-md px-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="text-ui text-muted-foreground transition hover:text-foreground"
                 >
                   {r}
                 </button>
@@ -320,7 +351,7 @@ export function SearchPalette({
       aria-modal="true"
       aria-label="Search"
       onKeyDown={onPanelKeyDown}
-      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-card p-4 shadow-2xl sm:w-[28rem]"
+      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-background p-4 shadow-2xl sm:w-[30rem]"
     >
       {panelBody}
     </div>
@@ -352,16 +383,20 @@ export function SearchPalette({
 
   return (
     <>
-      <button
+      <Button
         type="button"
+        variant="secondary"
+        size="sm"
         onClick={() => setOpen(true)}
         aria-label="Open search"
         aria-keyshortcuts="Meta+K Control+K"
-        className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
       >
         <Search className="h-3.5 w-3.5" />
-        Search
-      </button>
+        {/* Eyebrow type role via a child span — Button bakes `text-ui` into its
+            base, and twMerge can't dedupe two custom @utility roles, so the role
+            override lives on the label element, not the Button className. */}
+        <span className="text-eyebrow">Search</span>
+      </Button>
       {mounted && open && createPortal(overlay, document.body)}
     </>
   )

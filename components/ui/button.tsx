@@ -37,6 +37,9 @@ const buttonVariants = cva(
       size: {
         sm: 'px-3 py-1',
         md: 'px-4 py-2',
+        // Square, label-free — wraps a single lucide/Chevron icon (search mobile
+        // back/close, nav hamburger/close). The icon sizes itself (h-5 w-5).
+        icon: 'p-2',
       },
     },
     defaultVariants: { variant: 'primary', size: 'md' },
