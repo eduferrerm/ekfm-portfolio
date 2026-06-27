@@ -153,9 +153,46 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
   variant name is the component's emphasis tier, the colour token is global. Never invent
   per-component colour tokens like `--card-primary`.
 
-## Deferred to the component (cva) task — not type-role targets
-Interactive components keep ad-hoc classes until they get proper variant APIs: the pill/CTA
-buttons, the search palette (`SearchPalette`, `SearchResultRow`), `ShowcaseGallery`'s button,
-`MobileMenu` icon buttons, and the `Tag`/`Chevron` primitives. The **landing nav** (hero + sticky
-reveal) is also deferred — it renders smaller than both `menu-*` roles (16/24px) and wants a
-dedicated small-nav role.
+---
+
+## Component layer (cva)
+
+On top of the token + type foundation sits a `cva` (class-variance-authority) + `tailwind-merge`
+component layer. Components consume **semantic utilities only** — variant names are the component's
+emphasis tier; the colour token stays global (`<Button variant="primary">` *uses* `--primary`).
+shadcn-shaped primitives live in `components/ui/`; brand primitives stay in `components/primitives/`.
+Render a control as a link with **`asChild`** (Radix Slot) — the variant classes compose onto the
+child `<Link>`/`<a>`.
+
+### State → channel model (decoded from the Pressables board)
+Three channels are **global**, one is **per-component**:
+
+| State | Channel | Token |
+|---|---|---|
+| **Focused** | fuchsia ring | `ring-ring` (→ `--accent`) — every pressable |
+| **Hover** | lime affordance (fills outline things, inverts the solid one) | `--primary` |
+| **Active: feedback** (momentary press) | lime flash / dim | `--feedback` |
+| **Disabled** | dimmed | opacity |
+| **Active: selection** (persisted "on" / "you are here") | **per-component** | tag → **lime fill** (`--primary`); result-row/nav card → **blue** (`--selection`); nav item → underline |
+
+The selection split is deliberate: **lime = affordance + toggled-on** (a selected filter chip),
+**blue = the current navigation location** (the selected result-row card). The brand brief's
+"tag selected = blue" was overridden by the rendered board (selected chip fills lime).
+
+### Built components
+- **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md,
+  `asChild`. Consumed by `SliderControls` (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard`
+  (ghost CTA), `DearCompanySection` + `ContactBand` (secondary CTAs).
+- **`Tag`** (`components/primitives/Tag.tsx`) — now `cva`; `selected` fills lime. `tagVariants`
+  exported for a future interactive filter `<button>`.
+- **`Card`** (`components/ui/card.tsx`) — `interactive` (hover edge + focus ring) and `selected`
+  (blue) axes; `asChild`. Consumed by `LandingCard`.
+
+Specimens render live at **`/design-system`** under *Components · cva*.
+
+### Still deferred
+The search palette (`SearchPalette` input/facets, `SearchResultRow` blue selection), `MobileMenu`
+icon buttons, the `Chevron` primitive, and the **landing nav** (hero + sticky reveal) — which wants
+a dedicated **small-nav** type role (it renders smaller than both `menu-*` roles, 16/24px). Open
+type questions: whether the blue sub-heads ("Overview", "Query Params") are sans vs `text-subheader`
+(Condensed), and applying `text-ui-bold` to small bold labels (company name).

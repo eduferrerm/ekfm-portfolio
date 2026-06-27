@@ -1,14 +1,18 @@
 import type { Metadata } from 'next'
 
+import { Tag } from '@/components/primitives/Tag'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+
 /**
- * Living specimen of the design-token + type layer (globals.css). Renders every
- * semantic color role, the raw palette primitives, the state tokens, the surface
- * gradient, and the full type scale so token decisions can be reviewed as a whole.
+ * Living specimen of the design-token + type layer (globals.css) and the cva
+ * component layer on top of it. Renders every semantic color role, the raw
+ * palette primitives, the state tokens, the surface gradient, the full type
+ * scale, and the Button/Tag/Card variants so the system can be reviewed whole.
  *
  * It consumes the semantic utilities this layer ships (bg-primary, text-card-title,
  * …). The palette section is the one place that intentionally shows raw primitives
- * (bg-lime-200, …) — it exists to document them. No components (Button/Tag/Card)
- * yet; those are later tasks.
+ * (bg-lime-200, …) — it exists to document them.
  *
  * Lives in a (dev) route group so it serves at /design-system but is not a
  * canonical section (route-parity.test ignores it; no /dear twin).
@@ -154,6 +158,57 @@ export default function DesignSystemPage() {
           <span className="rounded-sm bg-selection/20 px-2 py-1 text-ui text-foreground ring-1 ring-selection">
             Selected fill (selection / 20)
           </span>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-8">
+        <SectionHeading>Components · cva</SectionHeading>
+        <p className="text-meta text-muted-foreground">
+          Hover / focus / active states are interactive — tab to a control or hover it to see the
+          channels (focus = fuchsia ring, hover = lime affordance, press = lime feedback).
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">Button · primary / secondary / ghost</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button>Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button disabled>Disabled</Button>
+            <Button size="sm" variant="secondary">
+              Small
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">Tag · default / selected (lime fill)</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <Tag>Default</Tag>
+            <Tag selected>Selected</Tag>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">
+            Card · static / interactive (hover+focus) / selected (blue)
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Card>
+              <p className="text-card-title text-foreground">Static</p>
+              <p className="mt-2 text-card-body text-muted-foreground">Plain surface.</p>
+            </Card>
+            <Card asChild interactive>
+              <a href="#" className="block">
+                <p className="text-card-title text-foreground">Interactive</p>
+                <p className="mt-2 text-card-body text-muted-foreground">Hover / focus me.</p>
+              </a>
+            </Card>
+            <Card selected>
+              <p className="text-card-title text-foreground">Selected</p>
+              <p className="mt-2 text-card-body text-muted-foreground">You-are-here (blue).</p>
+            </Card>
+          </div>
         </div>
       </section>
 

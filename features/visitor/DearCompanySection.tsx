@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 
 import { List } from '@/components/primitives/List'
+import { Button } from '@/components/ui/button'
 import { dearHref } from '@/lib/routes'
 import type { Visitor, VisitorContent } from '@/payload-types'
 
@@ -60,14 +61,11 @@ export function DearCompanySection({
 
           <List variant="prose" items={intro} className="mt-6" />
 
-          <Link
-            href={visitor.jobPostUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
-          >
-            {jobPostLabel}
-          </Link>
+          <Button asChild variant="secondary" className="mt-8">
+            <Link href={visitor.jobPostUrl} target="_blank" rel="noopener noreferrer">
+              {jobPostLabel}
+            </Link>
+          </Button>
         </div>
 
         <Suspense fallback={null}>

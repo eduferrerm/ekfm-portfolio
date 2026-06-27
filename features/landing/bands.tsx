@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Chevron } from '@/components/primitives/Chevron'
 import { Container } from '@/components/Container'
 import { List } from '@/components/primitives/List'
+import { Button } from '@/components/ui/button'
 import type { Landing } from '@/payload-types'
 import { keywordLabels } from '@/lib/keywords'
 import { proseLines } from '@/lib/prose'
@@ -315,14 +316,11 @@ export function ContactBand({ id, contact }: { id: string; contact: Landing['con
           <p className="mt-3 max-w-2xl text-body text-muted-foreground">{contact.description}</p>
         )}
         {contact?.ctaUrl && contact?.ctaLabel && (
-          <Link
-            href={contact.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:bg-muted"
-          >
-            {contact.ctaLabel}
-          </Link>
+          <Button asChild variant="secondary" className="mt-8">
+            <Link href={contact.ctaUrl} target="_blank" rel="noopener noreferrer">
+              {contact.ctaLabel}
+            </Link>
+          </Button>
         )}
       </Container>
     </section>
