@@ -11,8 +11,9 @@ import {
   type Node,
   type NodeMouseHandler,
   type NodeProps,
+  type ReactFlowInstance,
 } from '@xyflow/react'
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 // @xyflow/react ships its own stylesheet; required for nodes/edges to render.
 import '@xyflow/react/dist/style.css'
@@ -42,7 +43,7 @@ const MentalNode = memo(function MentalNode({ data }: NodeProps) {
   return (
     <div
       className={cn(
-        'rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap transition duration-150',
+        'cursor-pointer rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap transition duration-150',
         'border-[var(--node)] text-[var(--node)] bg-[color-mix(in_oklch,var(--node)_22%,var(--color-card))]',
         'hover:scale-[1.2] hover:bg-[var(--node)] hover:text-[var(--color-primary-foreground)] hover:shadow-[0_0_20px_-2px_var(--node)]',
         categoryMeta(d.category).varClass,
@@ -90,21 +91,73 @@ type Hover =
  * a node/edge surfaces its detail in a corner panel. Category lives on every node,
  * so a tier/category filter can layer on later without touching the data.
  *
+ * Press-to-focus: clicking a node hides everything except it and its directly
+ * connected neighbours (+ the edges between), and zooms to that neighbourhood;
+ * clicking empty canvas restores the whole graph. Clicking a visible neighbour
+ * re-focuses to it, so you can walk the graph.
+ *
  * Perf: nodes/edges/handlers are referentially stable so a hover (parent state)
- * never re-renders the canvas; straight edges + onlyRenderVisibleElements keep the
- * frame cost down. (Dev is still heavier than the production build.)
+ * never re-renders the canvas — and while nothing is focused the arrays keep their
+ * identity, so only a click (discrete) ever pays a re-render. Straight edges +
+ * onlyRenderVisibleElements keep the frame cost down. (Dev is heavier than prod.)
  */
 export function MentalGraph() {
   const [hover, setHover] = useState<Hover>(null)
+  const [focusedId, setFocusedId] = useState<string | null>(null)
+  const rf = useRef<ReactFlowInstance | null>(null)
 
-  const nodes = useMemo<Node[]>(
+  const baseNodes = useMemo<Node[]>(
     () => DATA.nodes.map((n) => ({ id: n.id, position: n.position, data: n.data, type: 'mental' })),
     [],
   )
-  const edges = useMemo<Edge[]>(
+  const baseEdges = useMemo<Edge[]>(
     () => DATA.edges.map((e) => ({ id: e.id, source: e.source, target: e.target, data: e.data })),
     [],
   )
+
+  // Undirected adjacency, built once, for the focus neighbourhood.
+  const adjacency = useMemo(() => {
+    const m = new Map<string, Set<string>>()
+    const link = (a: string, b: string) => (m.get(a) ?? m.set(a, new Set()).get(a)!).add(b)
+    for (const e of DATA.edges) {
+      link(e.source, e.target)
+      link(e.target, e.source)
+    }
+    return m
+  }, [])
+
+  // The visible set when focused = the node + its neighbours (null = show all).
+  const keep = useMemo(() => {
+    if (!focusedId) return null
+    const s = new Set<string>([focusedId])
+    adjacency.get(focusedId)?.forEach((id) => s.add(id))
+    return s
+  }, [focusedId, adjacency])
+
+  // Toggle `hidden` only when focused; otherwise hand back the stable base arrays
+  // (same refs → no re-render churn for the common, unfocused case).
+  const nodes = useMemo<Node[]>(
+    () => (keep ? baseNodes.map((n) => ({ ...n, hidden: !keep.has(n.id) })) : baseNodes),
+    [keep, baseNodes],
+  )
+  const edges = useMemo<Edge[]>(
+    () =>
+      focusedId
+        ? baseEdges.map((e) => ({ ...e, hidden: e.source !== focusedId && e.target !== focusedId }))
+        : baseEdges,
+    [focusedId, baseEdges],
+  )
+
+  // Smooth-zoom to the focused neighbourhood, or back to the whole graph on reset.
+  useEffect(() => {
+    const inst = rf.current
+    if (!inst) return
+    if (keep) inst.fitView({ nodes: [...keep].map((id) => ({ id })), padding: 0.4, duration: 400 })
+    else inst.fitView({ duration: 400 })
+  }, [keep])
+
+  const onNodeClick = useCallback<NodeMouseHandler>((_, n) => setFocusedId(n.id), [])
+  const onPaneClick = useCallback(() => setFocusedId(null), [])
 
   const onNodeEnter = useCallback<NodeMouseHandler>((_, n) => {
     const d = n.data as MentalNodeData
@@ -135,6 +188,11 @@ export function MentalGraph() {
         panOnScroll={false}
         preventScrolling={false}
         onlyRenderVisibleElements
+        onInit={(inst) => {
+          rf.current = inst
+        }}
+        onNodeClick={onNodeClick}
+        onPaneClick={onPaneClick}
         onNodeMouseEnter={onNodeEnter}
         onNodeMouseLeave={clearHover}
         onEdgeMouseEnter={onEdgeEnter}
@@ -145,6 +203,10 @@ export function MentalGraph() {
       </ReactFlow>
 
       <Legend />
+
+      <p className="pointer-events-none absolute top-3 right-3 text-[10px] text-muted-foreground">
+        {focusedId ? 'Click empty space to reset' : 'Click a node to isolate its connections'}
+      </p>
 
       {hover && (
         <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
