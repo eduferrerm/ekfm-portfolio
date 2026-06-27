@@ -86,14 +86,24 @@ function FilterChips({
             aria-pressed={on}
             onClick={() => onToggle(c.key)}
             className={cn(
-              'cursor-pointer rounded-full border border-slate-600 px-3 py-1 text-meta-bold transition',
+              'inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-600 py-1 pr-1.5 pl-3 text-meta-bold transition',
               c.varClass,
               on
                 ? 'bg-[var(--node)] text-[var(--color-primary-foreground)]'
                 : 'bg-transparent text-foreground hover:bg-[color-mix(in_oklch,var(--node)_15%,transparent)] hover:text-[var(--node-soft)]',
             )}
           >
-            {c.label} ({counts[c.key] ?? 0})
+            {c.label}
+            <span
+              className={cn(
+                'inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] leading-none',
+                on
+                  ? 'bg-[var(--color-primary-foreground)] text-[var(--node)]'
+                  : 'bg-[var(--node)] text-[var(--color-primary-foreground)]',
+              )}
+            >
+              {counts[c.key] ?? 0}
+            </span>
           </button>
         )
       })}
