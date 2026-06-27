@@ -23,6 +23,7 @@ export function NavList({
   linkClassName,
   itemClassName,
   decorative = false,
+  separated = false,
   activeSlug,
   activeLinkClassName,
 }: {
@@ -31,6 +32,12 @@ export function NavList({
   linkClassName?: string
   itemClassName?: (index: number) => string
   decorative?: boolean
+  /**
+   * Render a blue pipe (`--selection`) before every item past the first — the
+   * in-hero copy's separator treatment from the board. The sticky copy leaves it
+   * off (it spaces items by gap alone).
+   */
+  separated?: boolean
   activeSlug?: string | null
   activeLinkClassName?: string
 }) {
@@ -39,7 +46,15 @@ export function NavList({
       {items.map((item, i) => {
         const active = !decorative && item.slug === activeSlug
         return (
-          <li key={item.slug} className={itemClassName?.(i)}>
+          <li
+            key={item.slug}
+            className={cn(
+              itemClassName?.(i),
+              separated &&
+                i > 0 &&
+                "before:mx-4 before:text-selection before:content-['|'] before:[font-weight:400]",
+            )}
+          >
             <a
               href={`#${item.slug}`}
               tabIndex={decorative ? -1 : undefined}

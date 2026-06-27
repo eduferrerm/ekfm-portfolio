@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 /* Tailwind v4 explicit content sources: scan the app and features directories */
 @source "../app";
@@ -53,19 +53,19 @@
    * Tokens are named by JOB; several jobs can share one tier's hue (just as the
    * primary tier is both --primary and --feedback). */
   /* Primary tier — lime-200 (loudest / emphasis) */
-  --primary: var(--color-lime-200);             /* primary action / emphasis */
+  --primary: var(--color-lime-200); /* primary action / emphasis */
   --primary-foreground: var(--color-slate-900); /* dark text on lime */
-  --feedback: var(--color-lime-200);            /* active-feedback flash */
+  --feedback: var(--color-lime-200); /* active-feedback flash */
   /* Secondary tier — blue-400 (quieter accent / hierarchy) */
-  --selection: var(--color-blue-400);           /* selected state: underline / border / fill */
-  --label: var(--color-blue-400);               /* section sub-heading / accent label text */
+  --selection: var(--color-blue-400); /* selected state: underline / border / fill */
+  --label: var(--color-blue-400); /* section sub-heading / accent label text */
   /* Tertiary tier — fuchsia-300 (focus) */
-  --accent: var(--color-fuchsia-300);           /* tertiary accent */
-  --accent-foreground: var(--color-slate-900);  /* dark text on fuchsia, if filled */
-  --ring: var(--accent);                        /* focus ring */
+  --accent: var(--color-fuchsia-300); /* tertiary accent */
+  --accent-foreground: var(--color-slate-900); /* dark text on fuchsia, if filled */
+  --ring: var(--accent); /* focus ring */
 
   /* Neutral overlay */
-  --scrim: var(--color-slate-900-50);           /* overlay / dim surface */
+  --scrim: var(--color-slate-900-50); /* overlay / dim surface */
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -129,38 +129,38 @@
 @utility text-subtitle {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1.5rem;                  /* 24px */
-  line-height: var(--leading-tight);  /* 125% */
+  font-size: 1.5rem; /* 24px */
+  line-height: var(--leading-tight); /* 125% */
 }
 @utility text-subheader {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: 1.125rem;                /* 18px */
-  line-height: 1;                     /* 100% */
+  font-size: 1.125rem; /* 18px */
+  line-height: 1; /* 100% */
 }
 @utility text-lead {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1.125rem;                /* 18px */
+  font-size: 1.125rem; /* 18px */
   line-height: var(--leading-normal); /* 150% */
 }
 @utility text-body {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1rem;                    /* 16px */
+  font-size: 1rem; /* 16px */
   line-height: var(--leading-normal); /* 150% (override: sheet confirms 150%) */
 }
 @utility text-list {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.875rem;                /* 14px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
 }
 @utility text-eyebrow {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 0.75rem;                 /* 12px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.75rem; /* 12px */
+  line-height: 1; /* 100% */
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -170,7 +170,7 @@
   font-family: var(--font-condensed);
   font-weight: 500;
   font-size: clamp(2.5rem, 0.87rem + 6.96vw, 6.4375rem); /* fluid 40 → 103px */
-  line-height: 1;                     /* 100% */
+  line-height: 1; /* 100% */
   /* No transform: page titles keep natural case (e.g. "Website UX
    * Personalisation" must preserve "UX"). The landing hero adds `uppercase`
    * at the call site. */
@@ -178,23 +178,25 @@
 @utility text-hero-list {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.75rem;                 /* 12px */
-  line-height: var(--leading-loose);  /* 200% */
+  font-size: 0.75rem; /* 12px */
+  line-height: var(--leading-loose); /* 200% */
 }
 
-/* — Menu — */
-@utility text-menu-subpage {
+/* — Nav (brand sheet "Menu" group; named by surface) — */
+/* The inner-page asides (SiteNav side rail). */
+@utility text-aside {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: 1.5rem;                  /* 24px */
-  line-height: 1;                     /* 100% */
+  font-size: 1.5rem; /* 24px */
+  line-height: 1; /* 100% */
   text-transform: uppercase;
 }
-@utility text-menu-main {
+/* The main nav — hero + sticky header navbar. */
+@utility text-nav {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: 1rem;                    /* 16px */
-  line-height: 1;                     /* 100% */
+  font-size: 1rem; /* 16px */
+  line-height: 1; /* 100% */
   text-transform: uppercase;
 }
 
@@ -202,42 +204,42 @@
 @utility text-ui {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.875rem;                /* 14px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
 }
 @utility text-ui-bold {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 0.875rem;                /* 14px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
 }
 
 /* — Card — */
 @utility text-card-title {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1.5rem;                  /* 24px */
-  line-height: 1;                     /* 100% */
+  font-size: 1.5rem; /* 24px */
+  line-height: 1; /* 100% */
 }
 @utility text-card-body {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.875rem;                /* 14px */
-  line-height: 1.4286;                /* 20px / 14px — no TW-named equivalent (override) */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.4286; /* 20px / 14px — no TW-named equivalent (override) */
 }
 
 /* — Meta — */
 @utility text-meta {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.75rem;                 /* 12px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.75rem; /* 12px */
+  line-height: 1; /* 100% */
 }
 @utility text-meta-bold {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 0.75rem;                 /* 12px */
-  line-height: 1;                     /* 100% */
+  font-size: 0.75rem; /* 12px */
+  line-height: 1; /* 100% */
 }
 
 /* ────────────────────────────────────────────────────────────────────────────

@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 import { Brand } from './Brand'
@@ -96,26 +97,28 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
         <div className={cn(clip, 'hidden lg:block')}>
           <NavList
             items={items}
-            className="flex items-center gap-x-5 gap-y-1 text-sm"
-            linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+            className="flex items-center gap-x-5 gap-y-1"
+            linkClassName="text-nav text-muted-foreground transition hover:text-foreground"
             itemClassName={(i) => reveal(i + 1)}
             activeSlug={activeSlug}
-            activeLinkClassName="font-medium text-foreground underline underline-offset-4"
+            activeLinkClassName="text-foreground underline decoration-primary underline-offset-4"
           />
         </div>
         {/* Hamburger — the mobile equivalent of the links, so it follows the same
             reveal (hidden over the hero's own nav copy, revealed once it scrolls away). */}
         <div className={cn(clip, 'lg:hidden')}>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
             aria-expanded={menuOpen}
             aria-controls="landing-mobile-menu"
-            className={cn('block text-muted-foreground transition hover:text-foreground', reveal(1))}
+            className={reveal(1)}
           >
             <Menu className="h-6 w-6" />
-          </button>
+          </Button>
         </div>
         {search}
       </div>
@@ -133,22 +136,23 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
         >
           <div className="flex items-center justify-between">
             <Brand />
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
-              className="text-muted-foreground transition hover:text-foreground"
             >
               <X className="h-6 w-6" />
-            </button>
+            </Button>
           </div>
           <div className="mt-12" onClick={() => setMenuOpen(false)}>
             <NavList
               items={items}
-              className="flex flex-col gap-5 text-lg"
-              linkClassName="uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+              className="flex flex-col gap-5"
+              linkClassName="text-nav text-muted-foreground transition hover:text-foreground"
               activeSlug={activeSlug}
-              activeLinkClassName="font-medium text-foreground underline underline-offset-4"
+              activeLinkClassName="text-foreground underline decoration-primary underline-offset-4"
             />
           </div>
         </div>

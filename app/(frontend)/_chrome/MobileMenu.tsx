@@ -1,7 +1,9 @@
 'use client'
 
+import { X } from 'lucide-react'
 import { useState } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { SiteNav } from '@/features/menu/SiteNav'
 import type { NavItem, NavSectionView, SectionKey } from '@/lib/nav'
 
@@ -28,25 +30,22 @@ export function MobileMenu({
 
   return (
     <div className="min-[1822px]:hidden">
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Open menu"
-        className="rounded-md border border-border px-3 py-1 text-sm"
-      >
-        Menu
-      </button>
+      <Button type="button" variant="secondary" size="sm" onClick={() => setOpen(true)}>
+        <span className="text-eyebrow">Menu</span>
+      </Button>
 
       {open && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-background p-6">
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="absolute right-6 top-6 text-2xl leading-none text-primary"
+            className="absolute right-4 top-4 text-primary"
           >
-            ×
-          </button>
+            <X className="h-6 w-6" />
+          </Button>
           <div className="mt-10" onClick={() => setOpen(false)}>
             <SiteNav active={active} sections={sections} items={items} home={home} />
           </div>
