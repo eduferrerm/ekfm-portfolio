@@ -267,7 +267,7 @@
 }
 .mental-graph:has(.react-flow__node:hover) .react-flow__node:not(:hover),
 .mental-graph:has(.react-flow__node:hover) .react-flow__edge {
-  opacity: 0.5;
+  opacity: 0.1;
 }
 .mental-graph .react-flow__node:hover {
   z-index: 10;
