@@ -49,16 +49,22 @@
   --border: var(--color-slate-700);
   --input: var(--color-slate-700);
 
-  /* Brand hues, by purpose */
-  --primary: var(--color-lime-200);             /* emphasis / primary action / feedback */
+  /* Brand hues — three tiers (primary / secondary / tertiary), each a stock stop.
+   * Tokens are named by JOB; several jobs can share one tier's hue (just as the
+   * primary tier is both --primary and --feedback). */
+  /* Primary tier — lime-200 (loudest / emphasis) */
+  --primary: var(--color-lime-200);             /* primary action / emphasis */
   --primary-foreground: var(--color-slate-900); /* dark text on lime */
-  --accent: var(--color-fuchsia-300);           /* tertiary hue — today that's focus */
-  --accent-foreground: var(--color-slate-900);  /* dark text on fuchsia, if ever filled */
-  --ring: var(--accent);                        /* focus = the tertiary hue */
-
-  /* Interaction state (hand-authored from the Pressables board) */
-  --selection: var(--color-blue-400);           /* selected marker: underline / border */
   --feedback: var(--color-lime-200);            /* active-feedback flash */
+  /* Secondary tier — blue-400 (quieter accent / hierarchy) */
+  --selection: var(--color-blue-400);           /* selected state: underline / border / fill */
+  --label: var(--color-blue-400);               /* section sub-heading / accent label text */
+  /* Tertiary tier — fuchsia-300 (focus) */
+  --accent: var(--color-fuchsia-300);           /* tertiary accent */
+  --accent-foreground: var(--color-slate-900);  /* dark text on fuchsia, if filled */
+  --ring: var(--accent);                        /* focus ring */
+
+  /* Neutral overlay */
   --scrim: var(--color-slate-900-50);           /* overlay / dim surface */
 }
 
@@ -92,6 +98,7 @@
   --color-ring: var(--ring);
 
   --color-selection: var(--selection);
+  --color-label: var(--label);
   --color-feedback: var(--feedback);
   --color-scrim: var(--scrim);
 }
@@ -116,7 +123,7 @@
 @utility text-header {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: 2.5rem;                  /* 40px */
+  font-size: clamp(1.75rem, 1.44rem + 1.33vw, 2.5rem); /* fluid 28 → 40px */
   line-height: var(--leading-normal); /* 150% */
 }
 @utility text-subtitle {
@@ -154,15 +161,19 @@
   font-weight: 700;
   font-size: 0.75rem;                 /* 12px */
   line-height: 1;                     /* 100% */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 /* — Hero — */
 @utility text-hero-headline {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: 6.4375rem;               /* 103px */
+  font-size: clamp(2.5rem, 0.87rem + 6.96vw, 6.4375rem); /* fluid 40 → 103px */
   line-height: 1;                     /* 100% */
-  text-transform: capitalize;
+  /* No transform: page titles keep natural case (e.g. "Website UX
+   * Personalisation" must preserve "UX"). The landing hero adds `uppercase`
+   * at the call site. */
 }
 @utility text-hero-list {
   font-family: var(--font-sans);
@@ -177,14 +188,14 @@
   font-weight: 500;
   font-size: 1.5rem;                  /* 24px */
   line-height: 1;                     /* 100% */
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 @utility text-menu-main {
   font-family: var(--font-condensed);
   font-weight: 500;
   font-size: 1rem;                    /* 16px */
   line-height: 1;                     /* 100% */
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 /* — UI (brand sheet role "primary"; renamed to avoid the text-primary color-utility collision) — */

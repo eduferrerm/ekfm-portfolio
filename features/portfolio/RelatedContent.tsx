@@ -11,7 +11,7 @@ export function RelatedContent({ items, label }: { items: RelatedItem[]; label: 
 
   return (
     <section>
-      <h2 className="mb-4 text-lg font-semibold text-blue-500">{label}</h2>
+      <h2 className="mb-4 text-subheader text-label">{label}</h2>
       <ul className="flex flex-col gap-2">
         {items.map((item) => (
           <li key={item.href}>

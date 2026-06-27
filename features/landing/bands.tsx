@@ -19,7 +19,7 @@ const BAND_SPACING = 'py-20'
 /** Small uppercase band sub-label ("Drive", "Craft", "Dive into"). */
 function BandLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+    <h3 className="mb-4 text-eyebrow text-muted-foreground">
       {children}
     </h3>
   )
@@ -60,7 +60,7 @@ export function HeroBand({
       <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
-          <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">{hero?.title}</h1>
+          <h1 className="text-hero-headline uppercase">{hero?.title}</h1>
           {navItems.length > 0 && (
             <div {...{ [HERO_NAV_ATTR]: '' }}>
               <NavList
@@ -83,7 +83,7 @@ export function HeroBand({
                   {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
                   {/* Plain prose block; `whitespace-pre-line` honours any line
                       breaks the author types in the textarea. */}
-                  <p className="whitespace-pre-line leading-relaxed text-foreground/90">{drive}</p>
+                  <p className="whitespace-pre-line text-body text-foreground/90">{drive}</p>
                 </div>
               )}
               {craftAndScope.length > 0 && (
@@ -178,16 +178,16 @@ export function TldrBand({
       <div className="relative -mt-[calc(100vh-3.5rem)]">
         <Container className="flex min-h-[calc(100vh-3.5rem)] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
           <div className="max-w-[60vw] md:max-w-sm">
-            {greeting && <h2 className="mb-6 text-4xl font-semibold tracking-tight">{greeting}</h2>}
+            {greeting && <h2 className="mb-6 text-header tracking-tight">{greeting}</h2>}
             {subtitle && (
-              <p className="mb-12 max-w-2xl whitespace-pre-line text-lg leading-relaxed text-white/75">
+              <p className="mb-12 max-w-2xl whitespace-pre-line text-lead text-white/75">
                 {subtitle}
               </p>
             )}
             <div className="space-y-12">
               {blocks.map((block, i) => (
                 <div key={block.id ?? i}>
-                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-white/60">
+                  <h3 className="mb-4 text-eyebrow text-white/60">
                     {block.title}
                   </h3>
                   <ul className="space-y-6">
@@ -202,7 +202,7 @@ export function TldrBand({
                               className="h-3.5 w-auto"
                             />
                           </span>
-                          <p className="leading-relaxed text-white/90">{line}</p>
+                          <p className="text-body text-white/90">{line}</p>
                         </li>
                       ))}
                   </ul>
@@ -237,9 +237,9 @@ export function LandingSectionBand({
   return (
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
-        <h2 className="text-3xl font-semibold tracking-tight">{section?.heading}</h2>
+        <h2 className="text-header tracking-tight">{section?.heading}</h2>
         {section?.subheader && (
-          <p className="mt-3 max-w-2xl text-muted-foreground">{section.subheader}</p>
+          <p className="mt-3 max-w-2xl text-lead text-muted-foreground">{section.subheader}</p>
         )}
 
         <div className="mt-10 grid gap-10">
@@ -274,21 +274,21 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
   return (
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
-        <h2 className="text-3xl font-semibold tracking-tight">{data?.heading}</h2>
-        {data?.subheader && <p className="mt-3 text-muted-foreground">{data.subheader}</p>}
+        <h2 className="text-header tracking-tight">{data?.heading}</h2>
+        {data?.subheader && <p className="mt-3 text-lead text-muted-foreground">{data.subheader}</p>}
 
         {/* Map renders here once its feature branch lands. */}
         <div className="mt-10 rounded-2xl border border-dashed border-border p-6 sm:p-10">
           {teaser?.eyebrow && (
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            <p className="text-eyebrow text-primary">
               {teaser.eyebrow}
             </p>
           )}
           {teaser?.title && (
-            <h3 className="mt-1 text-xl font-semibold tracking-tight">{teaser.title}</h3>
+            <h3 className="mt-1 text-card-title">{teaser.title}</h3>
           )}
           {teaser?.description && (
-            <p className="mt-3 text-muted-foreground">{teaser.description}</p>
+            <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
           )}
           {teaserItems.length > 0 && <List variant="prose" items={teaserItems} className="mt-6" />}
           {teaser?.ctaLabel && (
@@ -307,12 +307,12 @@ export function ContactBand({ id, contact }: { id: string; contact: Landing['con
   return (
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
-        <h2 className="text-3xl font-semibold tracking-tight">{contact?.header}</h2>
+        <h2 className="text-header tracking-tight">{contact?.header}</h2>
         {contact?.subheader && (
-          <p className="mt-3 max-w-2xl text-lg text-foreground/80">{contact.subheader}</p>
+          <p className="mt-3 max-w-2xl text-lead text-foreground/80">{contact.subheader}</p>
         )}
         {contact?.description && (
-          <p className="mt-3 max-w-2xl text-muted-foreground">{contact.description}</p>
+          <p className="mt-3 max-w-2xl text-body text-muted-foreground">{contact.description}</p>
         )}
         {contact?.ctaUrl && contact?.ctaLabel && (
           <Link

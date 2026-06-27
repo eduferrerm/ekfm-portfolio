@@ -45,8 +45,8 @@ export function KeyDecisions({
 
   return (
     <section className="scroll-mt-24">
-      <h2 className="text-3xl font-semibold tracking-tight">{labels.keyDecisions}</h2>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">
+      <h2 className="text-header tracking-tight">{labels.keyDecisions}</h2>
+      <p className="mt-1 text-eyebrow text-primary">
         {subtitle}
       </p>
 
@@ -54,14 +54,14 @@ export function KeyDecisions({
         <div className="rounded-2xl border border-border p-6 sm:p-10">
           <div className="grid gap-10 md:grid-cols-2">
             <div>
-              <h3 className="mb-4 text-xl font-semibold text-blue-500">{decision.title}</h3>
+              <h3 className="mb-4 text-subheader text-label">{decision.title}</h3>
               {decision.description && (
-                <p className="leading-relaxed text-foreground/80">{decision.description}</p>
+                <p className="text-body text-foreground/80">{decision.description}</p>
               )}
             </div>
 
             <div>
-              <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold text-blue-500">
+              <h3 className="mb-4 flex items-center gap-2 text-subheader text-label">
                 {labels.conclusion}{' '}
                 <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
                 <span className="sr-only">

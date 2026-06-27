@@ -38,7 +38,7 @@ export function SiteNav({
         {home && (
           <Link
             href={home.href}
-            className="text-sm uppercase tracking-wide text-muted-foreground transition hover:text-foreground"
+            className="text-menu-main text-muted-foreground transition hover:text-foreground"
           >
             {home.label}
           </Link>
@@ -52,8 +52,8 @@ export function SiteNav({
                 aria-current={sectionActive ? 'page' : undefined}
                 className={
                   sectionActive
-                    ? 'text-sm font-medium uppercase tracking-wide text-foreground underline underline-offset-4'
-                    : 'text-sm uppercase tracking-wide text-muted-foreground transition hover:text-foreground'
+                    ? 'text-menu-main text-foreground underline underline-offset-4'
+                    : 'text-menu-main text-muted-foreground transition hover:text-foreground'
                 }
               >
                 {section.label}
@@ -79,11 +79,11 @@ export function SiteNav({
                             />
                           )}
                           <span className="min-w-0">
-                            <span className="block truncate text-sm font-medium text-foreground">
+                            <span className="block truncate text-ui-bold text-foreground">
                               {item.primary}
                             </span>
                             {item.secondary && (
-                              <span className="block truncate text-xs text-muted-foreground">
+                              <span className="block truncate text-meta text-muted-foreground">
                                 {item.secondary}
                               </span>
                             )}

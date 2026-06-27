@@ -54,7 +54,7 @@ export function DearCompanySection({
     <section id="dear-company" className="scroll-mt-24">
       <div className="grid gap-10 lg:grid-cols-2">
         <div>
-          <h2 className="text-3xl font-semibold tracking-tight text-foreground/70">
+          <h2 className="text-header tracking-tight text-foreground/70">
             Dear {visitor.company}
           </h2>
 
