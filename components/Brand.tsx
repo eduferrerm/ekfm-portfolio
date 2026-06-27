@@ -1,11 +1,14 @@
 import Link from 'next/link'
 
+import { cn } from '@/lib/utils'
+
+import { Logo } from './Logo'
+
 /**
- * Site brand mark, linking home. Currently the text placeholder that matches the
- * design (boxed, primary/lime). Built to take a real logo: pass an inline `<svg>`
- * (use `fill="currentColor"` so it inherits `text-primary`) or any imported asset
- * as `mark` — no next.config/SVGR change is needed for inline SVG. (A
- * CMS-managed SVG rendered via next/image would need `dangerouslyAllowSVG`.)
+ * Site brand mark, linking home — the EKFM `Logo` glyph, lime via `text-primary`
+ * (the mark inherits it through `currentColor`). Pass `mark` to override the glyph
+ * with any other node (the slot is kept for one-off surfaces); otherwise it's the
+ * shared `Logo`.
  */
 export function Brand({
   mark,
@@ -17,12 +20,8 @@ export function Brand({
   href?: string
 }) {
   return (
-    <Link href={href} aria-label="EKFM — home" className={className}>
-      {mark ?? (
-        <span className="rounded border border-primary px-2 py-0.5 text-sm font-bold tracking-widest text-primary">
-          EKFM
-        </span>
-      )}
+    <Link href={href} aria-label="EKFM — home" className={cn('inline-flex text-primary', className)}>
+      {mark ?? <Logo />}
     </Link>
   )
 }
