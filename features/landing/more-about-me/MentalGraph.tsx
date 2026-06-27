@@ -61,17 +61,42 @@ const nodeTypes = { mental: MentalNode }
 // cleaner as a relationship web.
 const defaultEdgeOptions = { type: 'straight' as const }
 
-/** Colour key — the 13 categories with their swatch. Visual only (pointer-events
- * pass through to the graph beneath). */
-function Legend() {
+/**
+ * Category filter chips — also the colour key (each chip carries its category's
+ * colour + node count). Inactive = coloured outline; active = filled + dark label.
+ * Selecting one filters the graph to that category; selecting it again clears.
+ */
+function FilterChips({
+  active,
+  counts,
+  onToggle,
+}: {
+  active: string | null
+  counts: Record<string, number>
+  onToggle: (key: string) => void
+}) {
   return (
-    <div className="pointer-events-none absolute left-3 top-3 grid grid-cols-2 gap-x-3 gap-y-1 rounded-lg border border-border bg-card/85 p-2.5">
-      {CATEGORIES.map((c) => (
-        <div key={c.key} className={cn('flex items-center gap-1.5', c.varClass)}>
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--node)]" />
-          <span className="text-[10px] leading-none text-muted-foreground">{c.label}</span>
-        </div>
-      ))}
+    <div className="flex flex-wrap gap-2 border-b border-border p-3">
+      {CATEGORIES.map((c) => {
+        const on = active === c.key
+        return (
+          <button
+            key={c.key}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onToggle(c.key)}
+            className={cn(
+              'cursor-pointer rounded-full border border-[var(--node)] px-3 py-1 text-meta-bold transition',
+              c.varClass,
+              on
+                ? 'bg-[var(--node)] text-[var(--color-primary-foreground)]'
+                : 'bg-transparent text-[var(--node)] hover:bg-[color-mix(in_oklch,var(--node)_15%,transparent)]',
+            )}
+          >
+            {c.label} ({counts[c.key] ?? 0})
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -82,28 +107,24 @@ type Hover =
   | null
 
 /**
- * The interactive mental-graph map (~400 nodes / ~630 edges). Positions are
+ * The interactive mental-graph map (~400 nodes / ~660 edges). Positions are
  * precomputed (graph.json); this only renders + themes. Reached through
  * MentalGraphClient (`ssr:false`) — the @xyflow/react bundle stays client-only.
  *
- * Tuned for an embedded landing canvas: nodes are fixed (no drag/connect), wheel
- * scroll passes through to the page (zoom via the Controls or pinch), and hovering
- * a node/edge surfaces its detail in a corner panel. Category lives on every node,
- * so a tier/category filter can layer on later without touching the data.
+ * Two ways to cut the busyness, which compose:
+ *  - Category chips (top) filter to a single category (click again to clear).
+ *  - Press-to-focus: clicking a node isolates it + its directly-connected
+ *    neighbours; clicking empty canvas restores. Both auto-zoom to what's shown.
  *
- * Press-to-focus: clicking a node hides everything except it and its directly
- * connected neighbours (+ the edges between), and zooms to that neighbourhood;
- * clicking empty canvas restores the whole graph. Clicking a visible neighbour
- * re-focuses to it, so you can walk the graph.
- *
- * Perf: nodes/edges/handlers are referentially stable so a hover (parent state)
- * never re-renders the canvas — and while nothing is focused the arrays keep their
- * identity, so only a click (discrete) ever pays a re-render. Straight edges +
- * onlyRenderVisibleElements keep the frame cost down. (Dev is heavier than prod.)
+ * Perf: nodes/edges/handlers are referentially stable so a hover never re-renders
+ * the canvas — and with nothing filtered/focused the arrays keep their identity, so
+ * only a discrete click pays a re-render. Straight edges + onlyRenderVisibleElements
+ * keep the frame cost down. (Dev is heavier than the production build.)
  */
 export function MentalGraph() {
   const [hover, setHover] = useState<Hover>(null)
   const [focusedId, setFocusedId] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const rf = useRef<ReactFlowInstance | null>(null)
 
   const baseNodes = useMemo<Node[]>(
@@ -115,7 +136,7 @@ export function MentalGraph() {
     [],
   )
 
-  // Undirected adjacency, built once, for the focus neighbourhood.
+  // Built once: undirected adjacency (focus neighbourhood) + ids per category.
   const adjacency = useMemo(() => {
     const m = new Map<string, Set<string>>()
     const link = (a: string, b: string) => (m.get(a) ?? m.set(a, new Set()).get(a)!).add(b)
@@ -125,37 +146,58 @@ export function MentalGraph() {
     }
     return m
   }, [])
+  const byCategory = useMemo(() => {
+    const m = new Map<string, Set<string>>()
+    for (const n of DATA.nodes) {
+      ;(m.get(n.data.category) ?? m.set(n.data.category, new Set()).get(n.data.category)!).add(n.id)
+    }
+    return m
+  }, [])
+  const counts = useMemo(() => {
+    const o: Record<string, number> = {}
+    byCategory.forEach((s, k) => (o[k] = s.size))
+    return o
+  }, [byCategory])
 
-  // The visible set when focused = the node + its neighbours (null = show all).
-  const keep = useMemo(() => {
-    if (!focusedId) return null
-    const s = new Set<string>([focusedId])
-    adjacency.get(focusedId)?.forEach((id) => s.add(id))
-    return s
-  }, [focusedId, adjacency])
+  // The visible set = category filter ∩ focus neighbourhood (null = show all).
+  const visible = useMemo(() => {
+    if (!activeCategory && !focusedId) return null
+    let set: Set<string> | null = activeCategory ? (byCategory.get(activeCategory) ?? new Set()) : null
+    if (focusedId) {
+      const nb = new Set<string>([focusedId])
+      adjacency.get(focusedId)?.forEach((id) => nb.add(id))
+      set = set ? new Set([...set].filter((id) => nb.has(id))) : nb
+    }
+    return set
+  }, [activeCategory, focusedId, byCategory, adjacency])
 
-  // Toggle `hidden` only when focused; otherwise hand back the stable base arrays
-  // (same refs → no re-render churn for the common, unfocused case).
+  // Toggle `hidden` only when something is filtered/focused; otherwise hand back the
+  // stable base arrays (same refs → no re-render churn for the common case).
   const nodes = useMemo<Node[]>(
-    () => (keep ? baseNodes.map((n) => ({ ...n, hidden: !keep.has(n.id) })) : baseNodes),
-    [keep, baseNodes],
+    () => (visible ? baseNodes.map((n) => ({ ...n, hidden: !visible.has(n.id) })) : baseNodes),
+    [visible, baseNodes],
   )
-  const edges = useMemo<Edge[]>(
-    () =>
-      focusedId
-        ? baseEdges.map((e) => ({ ...e, hidden: e.source !== focusedId && e.target !== focusedId }))
-        : baseEdges,
-    [focusedId, baseEdges],
-  )
+  const edges = useMemo<Edge[]>(() => {
+    if (!visible) return baseEdges
+    return baseEdges.map((e) => {
+      const bothShown = visible.has(e.source) && visible.has(e.target)
+      const focusOk = !focusedId || e.source === focusedId || e.target === focusedId
+      return { ...e, hidden: !(bothShown && focusOk) }
+    })
+  }, [visible, focusedId, baseEdges])
 
-  // Smooth-zoom to the focused neighbourhood, or back to the whole graph on reset.
+  // Smooth-zoom to whatever is shown (filtered/focused subset, or the whole graph).
   useEffect(() => {
     const inst = rf.current
     if (!inst) return
-    if (keep) inst.fitView({ nodes: [...keep].map((id) => ({ id })), padding: 0.4, duration: 400 })
+    if (visible) inst.fitView({ nodes: [...visible].map((id) => ({ id })), padding: 0.3, duration: 400 })
     else inst.fitView({ duration: 400 })
-  }, [keep])
+  }, [visible])
 
+  const onToggleCategory = useCallback((key: string) => {
+    setFocusedId(null)
+    setActiveCategory((a) => (a === key ? null : key))
+  }, [])
   const onNodeClick = useCallback<NodeMouseHandler>((_, n) => setFocusedId(n.id), [])
   const onPaneClick = useCallback(() => setFocusedId(null), [])
 
@@ -170,62 +212,64 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="mental-graph relative h-full w-full [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        defaultEdgeOptions={defaultEdgeOptions}
-        nodeOrigin={[0.5, 0.5]}
-        fitView
-        minZoom={0.05}
-        maxZoom={2}
-        nodesDraggable={false}
-        nodesConnectable={false}
-        edgesFocusable={false}
-        elementsSelectable={false}
-        zoomOnScroll={false}
-        panOnScroll={false}
-        preventScrolling={false}
-        onlyRenderVisibleElements
-        onInit={(inst) => {
-          rf.current = inst
-        }}
-        onNodeClick={onNodeClick}
-        onPaneClick={onPaneClick}
-        onNodeMouseEnter={onNodeEnter}
-        onNodeMouseLeave={clearHover}
-        onEdgeMouseEnter={onEdgeEnter}
-        onEdgeMouseLeave={clearHover}
-      >
-        <Background color="var(--color-muted)" gap={28} size={1} />
-        <Controls showInteractive={false} />
-      </ReactFlow>
+    <div className="flex h-full w-full flex-col">
+      <FilterChips active={activeCategory} counts={counts} onToggle={onToggleCategory} />
 
-      <Legend />
+      <div className="mental-graph relative min-h-0 flex-1 [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
+          nodeOrigin={[0.5, 0.5]}
+          fitView
+          minZoom={0.05}
+          maxZoom={2}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          edgesFocusable={false}
+          elementsSelectable={false}
+          zoomOnScroll={false}
+          panOnScroll={false}
+          preventScrolling={false}
+          onlyRenderVisibleElements
+          onInit={(inst) => {
+            rf.current = inst
+          }}
+          onNodeClick={onNodeClick}
+          onPaneClick={onPaneClick}
+          onNodeMouseEnter={onNodeEnter}
+          onNodeMouseLeave={clearHover}
+          onEdgeMouseEnter={onEdgeEnter}
+          onEdgeMouseLeave={clearHover}
+        >
+          <Background color="var(--color-muted)" gap={28} size={1} />
+          <Controls showInteractive={false} />
+        </ReactFlow>
 
-      <p className="pointer-events-none absolute top-3 right-3 text-[10px] text-muted-foreground">
-        {focusedId ? 'Click empty space to reset' : 'Click a node to isolate its connections'}
-      </p>
+        <p className="pointer-events-none absolute top-3 right-3 text-[10px] text-muted-foreground">
+          {focusedId ? 'Click empty space to reset' : 'Click a node to isolate its connections'}
+        </p>
 
-      {hover && (
-        <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
-          {hover.kind === 'node' ? (
-            <>
-              <p className="text-meta-bold text-foreground">{hover.title}</p>
-              <p className={cn('text-meta', categoryMeta(hover.categoryKey).varClass, 'text-[var(--node)]')}>
-                {categoryMeta(hover.categoryKey).label}
-              </p>
-              <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
-            </>
-          ) : (
-            <>
-              <p className="text-meta-bold text-foreground">{hover.title}</p>
-              <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
-            </>
-          )}
-        </div>
-      )}
+        {hover && (
+          <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
+            {hover.kind === 'node' ? (
+              <>
+                <p className="text-meta-bold text-foreground">{hover.title}</p>
+                <p className={cn('text-meta', categoryMeta(hover.categoryKey).varClass, 'text-[var(--node)]')}>
+                  {categoryMeta(hover.categoryKey).label}
+                </p>
+                <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-meta-bold text-foreground">{hover.title}</p>
+                <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
