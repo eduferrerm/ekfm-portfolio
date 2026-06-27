@@ -33,13 +33,14 @@ export function tierOf(category: string): Tier {
 }
 
 /**
- * Node chip classes per tier — semantic tokens only (lime `--primary`, blue
- * `--selection`, fuchsia `--accent`), tinted fill + solid border + on-tier text.
+ * Per-tier brand colour exposed as a `--node` CSS var (lime `--primary`, blue
+ * `--selection`, fuchsia `--accent`) so the node's rest AND hover styling both
+ * derive from one value — see MentalNode.
  */
-export const TIER_NODE: Record<Tier, string> = {
-  primary: 'border-primary bg-primary/15 text-primary',
-  secondary: 'border-selection bg-selection/15 text-selection',
-  tertiary: 'border-accent bg-accent/15 text-accent',
+export const TIER_VAR: Record<Tier, string> = {
+  primary: '[--node:var(--color-primary)]',
+  secondary: '[--node:var(--color-selection)]',
+  tertiary: '[--node:var(--color-accent)]',
 }
 
 /** On-tier text colour (lime / blue / fuchsia) — for the hover panel + legend. */

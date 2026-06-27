@@ -20,7 +20,7 @@ import '@xyflow/react/dist/style.css'
 import { cn } from '@/lib/utils'
 
 import graph from './graph.json'
-import { TIER_LABEL, TIER_NODE, TIER_TEXT, type Tier, tierOf } from './categoryTier'
+import { TIER_LABEL, TIER_TEXT, TIER_VAR, type Tier, tierOf } from './categoryTier'
 import type { MentalGraphData, MentalNodeData } from './types'
 
 const DATA = graph as MentalGraphData
@@ -29,14 +29,23 @@ const DATA = graph as MentalGraphData
 // These are present-but-invisible (no drag/connect) so the relationships render.
 const HANDLE = 'opacity-0 !pointer-events-none'
 
-/** One concept node — a tinted pill coloured by its category's brand tier. */
+/**
+ * One concept node — a pill coloured by its category's brand tier (`--node`).
+ * Rest: tinted fill + on-tier border/text. Hover (CSS-only, no re-render): the
+ * fill becomes the solid tier colour, the label flips dark, it scales 1.2× and
+ * gets a coloured glow so it pops. The "dim everything else" half is a `:has()`
+ * rule on the wrapper (globals.css) — beyond a Tailwind utility, and xyflow owns
+ * those class names.
+ */
 const MentalNode = memo(function MentalNode({ data }: NodeProps) {
   const d = data as MentalNodeData
   return (
     <div
       className={cn(
-        'rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap',
-        TIER_NODE[tierOf(d.category)],
+        'rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap transition duration-150',
+        'border-[var(--node)] text-[var(--node)] bg-[color-mix(in_oklch,var(--node)_15%,transparent)]',
+        'hover:scale-[1.2] hover:bg-[var(--node)] hover:text-[var(--color-primary-foreground)] hover:shadow-[0_0_20px_-2px_var(--node)]',
+        TIER_VAR[tierOf(d.category)],
       )}
     >
       <Handle type="target" position={Position.Top} isConnectable={false} className={HANDLE} />
@@ -93,7 +102,7 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="relative h-full w-full [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
+    <div className="mental-graph relative h-full w-full [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
       <ReactFlow
         nodes={nodes}
         edges={edges}
