@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 /**
@@ -36,14 +37,14 @@ export function SliderControls({
       role="group"
       aria-label={label}
     >
-      <button
+      <Button
         type="button"
         onClick={() => go(index - 1)}
         disabled={index === 0}
-        className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-40"
+        className="disabled:cursor-not-allowed"
       >
         <span aria-hidden>‹</span> Prev
-      </button>
+      </Button>
 
       <ul className="flex items-center gap-2" aria-hidden>
         {Array.from({ length: count }, (_, i) => (
@@ -61,14 +62,14 @@ export function SliderControls({
         ))}
       </ul>
 
-      <button
+      <Button
         type="button"
         onClick={() => go(index + 1)}
         disabled={index === count - 1}
-        className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-40"
+        className="disabled:cursor-not-allowed"
       >
         Next <span aria-hidden>›</span>
-      </button>
+      </Button>
     </div>
   )
 }

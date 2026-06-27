@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 import type { ShowcaseItem } from './projections'
@@ -33,14 +34,11 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
         />
         {current.label && <figcaption className="sr-only">{current.label}</figcaption>}
         {current.url && (
-          <a
-            href={current.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90"
-          >
-            Visit site <span aria-hidden>›</span>
-          </a>
+          <Button asChild className="absolute bottom-4 right-4 shadow-lg">
+            <a href={current.url} target="_blank" rel="noopener noreferrer">
+              Visit site <span aria-hidden>›</span>
+            </a>
+          </Button>
         )}
       </figure>
 
