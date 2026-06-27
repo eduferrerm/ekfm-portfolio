@@ -3,12 +3,16 @@
 import {
   Background,
   Controls,
+  Handle,
+  Position,
   ReactFlow,
   type Edge,
+  type EdgeMouseHandler,
   type Node,
+  type NodeMouseHandler,
   type NodeProps,
 } from '@xyflow/react'
-import { useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 
 // @xyflow/react ships its own stylesheet; required for nodes/edges to render.
 import '@xyflow/react/dist/style.css'
@@ -21,8 +25,12 @@ import type { MentalGraphData, MentalNodeData } from './types'
 
 const DATA = graph as MentalGraphData
 
+// Edges connect to handles; a custom node with no <Handle> draws no edges at all.
+// These are present-but-invisible (no drag/connect) so the relationships render.
+const HANDLE = 'opacity-0 !pointer-events-none'
+
 /** One concept node — a tinted pill coloured by its category's brand tier. */
-function MentalNode({ data }: NodeProps) {
+const MentalNode = memo(function MentalNode({ data }: NodeProps) {
   const d = data as MentalNodeData
   return (
     <div
@@ -31,12 +39,17 @@ function MentalNode({ data }: NodeProps) {
         TIER_NODE[tierOf(d.category)],
       )}
     >
+      <Handle type="target" position={Position.Top} isConnectable={false} className={HANDLE} />
       {d.label}
+      <Handle type="source" position={Position.Bottom} isConnectable={false} className={HANDLE} />
     </div>
   )
-}
+})
 
 const nodeTypes = { mental: MentalNode }
+// Straight edges are far cheaper than the default bezier at ~630 edges, and read
+// cleaner as a relationship web.
+const defaultEdgeOptions = { type: 'straight' as const }
 
 type Hover =
   | { kind: 'node'; title: string; tier: Tier; body: string }
@@ -52,6 +65,10 @@ type Hover =
  * scroll passes through to the page (zoom via the Controls or pinch), and hovering
  * a node/edge surfaces its detail in a corner panel. Category lives on every node,
  * so a tier/category filter can layer on later without touching the data.
+ *
+ * Perf: nodes/edges/handlers are referentially stable so a hover (parent state)
+ * never re-renders the canvas; straight edges + onlyRenderVisibleElements keep the
+ * frame cost down. (Dev is still heavier than the production build.)
  */
 export function MentalGraph() {
   const [hover, setHover] = useState<Hover>(null)
@@ -65,12 +82,24 @@ export function MentalGraph() {
     [],
   )
 
+  const onNodeEnter = useCallback<NodeMouseHandler>((_, n) => {
+    const d = n.data as MentalNodeData
+    setHover({ kind: 'node', title: d.label, tier: tierOf(d.category), body: d.description })
+  }, [])
+  const onEdgeEnter = useCallback<EdgeMouseHandler>((_, e) => {
+    const rel = (e.data as { relation?: string } | undefined)?.relation
+    if (rel) setHover({ kind: 'edge', title: 'Connection', body: rel })
+  }, [])
+  const clearHover = useCallback(() => setHover(null), [])
+
   return (
     <div className="relative h-full w-full [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        defaultEdgeOptions={defaultEdgeOptions}
+        nodeOrigin={[0.5, 0.5]}
         fitView
         minZoom={0.05}
         maxZoom={2}
@@ -82,16 +111,10 @@ export function MentalGraph() {
         panOnScroll={false}
         preventScrolling={false}
         onlyRenderVisibleElements
-        onNodeMouseEnter={(_, n) => {
-          const d = n.data as MentalNodeData
-          setHover({ kind: 'node', title: d.label, tier: tierOf(d.category), body: d.description })
-        }}
-        onNodeMouseLeave={() => setHover(null)}
-        onEdgeMouseEnter={(_, e) => {
-          const rel = (e.data as { relation?: string } | undefined)?.relation
-          if (rel) setHover({ kind: 'edge', title: 'Connection', body: rel })
-        }}
-        onEdgeMouseLeave={() => setHover(null)}
+        onNodeMouseEnter={onNodeEnter}
+        onNodeMouseLeave={clearHover}
+        onEdgeMouseEnter={onEdgeEnter}
+        onEdgeMouseLeave={clearHover}
       >
         <Background color="var(--color-muted)" gap={28} size={1} />
         <Controls showInteractive={false} />
