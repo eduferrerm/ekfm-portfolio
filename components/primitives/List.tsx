@@ -42,7 +42,7 @@ export function List({ variant, items, className }: ListProps) {
       {items.map((item, i) => (
         <li key={i} className="flex gap-3">
           <span aria-hidden className="mt-1.5 shrink-0">
-            <Chevron direction="right" color="text-primary" className="h-3.5 w-auto" />
+            <Chevron direction="right" color="text-muted-foreground" className="h-3.5 w-auto" />
           </span>
           <p className="leading-relaxed text-foreground/90">{item}</p>
         </li>

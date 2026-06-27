@@ -12,13 +12,13 @@ import { ShowcaseGallery } from './ShowcaseGallery'
 import { experienceBySlug } from './queries'
 import { deepDiveViews, showcaseItems } from './projections'
 
-/** Hardcoded column heading (Responsibilities / Scope / Craft). */
+/**
+ * Column heading (Responsibilities / Scope / Craft). Blue `text-subheader` to match
+ * the portfolio detail sub-heads (Overview / System Design) — section sub-headings
+ * are the `--label` role everywhere; the experience page was the lone grey outlier.
+ */
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="mb-4 text-eyebrow text-muted-foreground">
-      {children}
-    </h3>
-  )
+  return <h3 className="mb-4 text-subheader text-label">{children}</h3>
 }
 
 /**

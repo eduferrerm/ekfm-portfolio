@@ -136,7 +136,7 @@
   font-family: var(--font-condensed);
   font-weight: 500;
   font-size: 1.125rem; /* 18px */
-  line-height: 1; /* 100% */
+  line-height: 1.1; /* 110% */
 }
 @utility text-lead {
   font-family: var(--font-sans);

@@ -71,7 +71,7 @@ const PALETTE: Array<[name: string, swatch: string, dark?: boolean]> = [
 const TYPE: Array<[utility: string, spec: string]> = [
   ['text-header', 'Condensed · Medium 500 · 40 · LH 150%'],
   ['text-subtitle', 'Roboto · 400 · 24 · LH 125%'],
-  ['text-subheader', 'Condensed · Medium 500 · 18 · LH 100%'],
+  ['text-subheader', 'Condensed · Medium 500 · 18 · LH 110%'],
   ['text-lead', 'Roboto · 400 · 18 · LH 150%'],
   ['text-body', 'Roboto · 400 · 16 · LH 150%'],
   ['text-list', 'Roboto · 400 · 14 · LH 100%'],
