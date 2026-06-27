@@ -69,7 +69,7 @@ export function SiteNav({
                           href={item.href}
                           aria-current={itemActive ? 'page' : undefined}
                           className={`flex items-center gap-2 rounded-md p-2 ${
-                            itemActive ? 'border border-primary bg-accent/40' : 'hover:bg-accent/30'
+                            itemActive ? 'border border-primary bg-muted/40' : 'hover:bg-muted/30'
                           }`}
                         >
                           {item.thumbnail && (
