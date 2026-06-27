@@ -86,7 +86,7 @@ function FilterChips({
             aria-pressed={on}
             onClick={() => onToggle(c.key)}
             className={cn(
-              'cursor-pointer rounded-full border border-[var(--node)] px-3 py-1 text-meta-bold transition',
+              'cursor-pointer rounded-full border border-muted-foreground px-3 py-1 text-meta-bold transition',
               c.varClass,
               on
                 ? 'bg-[var(--node)] text-[var(--color-primary-foreground)]'
