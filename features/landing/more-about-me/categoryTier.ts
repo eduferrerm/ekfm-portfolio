@@ -1,14 +1,16 @@
 /**
- * Folds the 13 raw node categories into the three brand tiers that drive node
- * colour on the mental graph (the "group into brand tiers" decision):
+ * Colour + grouping for the mental-graph's 13 node categories.
  *
- *   primary (lime)     — work / tech       engineering · ai · portfolio · product
- *   secondary (blue)   — culture & taste   artist · film · music · genre · game
- *   tertiary (fuchsia) — mind & self       core_concept · philosophy · human_experience · fringe
- *
- * Kept separate from the data so the brand decision lives in code (not baked into
- * graph.json), and so a later category/tier FILTER UI can read the same map. An
- * unknown category falls back to `tertiary` rather than throwing.
+ * Two layers:
+ *  - TIER (3 brand tiers) — the coarse grouping, kept for a future tier filter and
+ *    as documentation of how the categories relate.
+ *  - CATEGORY colour (this is what nodes are painted by) — a 13-colour categorical
+ *    viz scale, each a Tailwind `*-500` token (owner's choice: per-category detail
+ *    over the coarse 3-hue brand). Each category's `varClass` sets the node's
+ *    `--node` CSS var to that token's colour var, so the node's rest + hover styling
+ *    and the legend swatch all read one value (`var(--node)`). Ordered
+ *    work → culture → mind, so the spectrum still loosely tracks the tiers
+ *    (warm → green/cyan → blue/purple).
  */
 export type Tier = 'primary' | 'secondary' | 'tertiary'
 
@@ -32,27 +34,29 @@ export function tierOf(category: string): Tier {
   return CATEGORY_TIER[category] ?? 'tertiary'
 }
 
-/**
- * Per-tier brand colour exposed as a `--node` CSS var (lime `--primary`, blue
- * `--selection`, fuchsia `--accent`) so the node's rest AND hover styling both
- * derive from one value — see MentalNode.
- */
-export const TIER_VAR: Record<Tier, string> = {
-  primary: '[--node:var(--color-primary)]',
-  secondary: '[--node:var(--color-selection)]',
-  tertiary: '[--node:var(--color-accent)]',
-}
+export type CategoryMeta = { key: string; label: string; varClass: string }
 
-/** On-tier text colour (lime / blue / fuchsia) — for the hover panel + legend. */
-export const TIER_TEXT: Record<Tier, string> = {
-  primary: 'text-primary',
-  secondary: 'text-selection',
-  tertiary: 'text-accent',
-}
+// varClass = a STATIC Tailwind arbitrary-property class (the scanner needs the
+// literal) that points --node at a stock Tailwind *-500 colour var.
+export const CATEGORIES: CategoryMeta[] = [
+  { key: 'engineering', label: 'Engineering', varClass: '[--node:var(--color-red-500)]' },
+  { key: 'ai', label: 'AI', varClass: '[--node:var(--color-orange-500)]' },
+  { key: 'portfolio', label: 'Portfolio', varClass: '[--node:var(--color-amber-500)]' },
+  { key: 'product', label: 'Product', varClass: '[--node:var(--color-yellow-500)]' },
+  { key: 'artist', label: 'Artist', varClass: '[--node:var(--color-green-500)]' },
+  { key: 'film', label: 'Film', varClass: '[--node:var(--color-emerald-500)]' },
+  { key: 'game', label: 'Game', varClass: '[--node:var(--color-teal-500)]' },
+  { key: 'music', label: 'Music', varClass: '[--node:var(--color-cyan-500)]' },
+  { key: 'genre', label: 'Genre', varClass: '[--node:var(--color-sky-500)]' },
+  { key: 'human_experience', label: 'Human experience', varClass: '[--node:var(--color-blue-500)]' },
+  { key: 'philosophy', label: 'Philosophy', varClass: '[--node:var(--color-indigo-500)]' },
+  { key: 'core_concept', label: 'Core concept', varClass: '[--node:var(--color-violet-500)]' },
+  { key: 'fringe', label: 'Fringe', varClass: '[--node:var(--color-purple-500)]' },
+]
 
-/** Human label for each tier — for a legend / future filter control. */
-export const TIER_LABEL: Record<Tier, string> = {
-  primary: 'Work & tech',
-  secondary: 'Culture & taste',
-  tertiary: 'Mind & self',
+const BY_KEY = new Map(CATEGORIES.map((c) => [c.key, c]))
+const FALLBACK: CategoryMeta = { key: 'other', label: 'Other', varClass: '[--node:var(--color-slate-400)]' }
+
+export function categoryMeta(key: string): CategoryMeta {
+  return BY_KEY.get(key) ?? FALLBACK
 }
