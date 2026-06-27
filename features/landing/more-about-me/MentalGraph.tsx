@@ -212,8 +212,8 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="flex h-full w-full flex-col bg-slate-950">
-      <div className="mental-graph relative min-h-0 flex-1 [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
+    <div className="flex h-full w-full flex-col bg-card">
+      <div className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
         <ReactFlow
           nodes={nodes}
           edges={edges}
