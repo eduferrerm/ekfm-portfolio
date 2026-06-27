@@ -1,8 +1,10 @@
+import { Search, X } from 'lucide-react'
 import type { Metadata } from 'next'
 
 import { Tag } from '@/components/primitives/Tag'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 
 /**
  * Living specimen of the design-token + type layer (globals.css) and the cva
@@ -178,6 +180,19 @@ export default function DesignSystemPage() {
             <Button size="sm" variant="secondary">
               Small
             </Button>
+            <Button size="icon" variant="ghost" aria-label="Close (icon size)">
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-meta-bold text-foreground">
+            Input · fuchsia focus ring (tab in to see the focus channel)
+          </p>
+          <div className="relative max-w-xs">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search" aria-label="Specimen search" className="pl-9 pr-3" />
           </div>
         </div>
 

@@ -43,20 +43,20 @@ ship, so they are **not** redeclared. `@theme` holds only what TW lacks:
 Roles keep shadcn's variable names (so net-new shadcn components drop in) but point at the stock
 palette, making the palette the SSOT.
 
-| Token | → | Notes |
-|---|---|---|
-| `--background` | slate-900 | page |
-| `--foreground` | slate-300 | body text (lightest stop) |
-| `--card` / `--card-foreground` | slate-800 / slate-300 | elevated surface |
-| `--muted` / `--muted-foreground` | slate-700 / slate-400 | recessed surface / quiet text |
-| `--border` / `--input` | slate-700 | |
-| `--primary` / `--primary-foreground` | lime-200 / slate-900 | primary action / emphasis |
-| `--accent` / `--accent-foreground` | fuchsia-300 / slate-900 | tertiary accent |
-| `--ring` | `var(--accent)` | focus ring |
-| `--selection` | blue-400 | selected state (underline / border / fill) |
-| `--label` | blue-400 | section sub-heading / accent label text |
-| `--feedback` | lime-200 | active-feedback flash |
-| `--scrim` | slate-900/50 | overlay / dim |
+| Token                                | →                       | Notes                                      |
+| ------------------------------------ | ----------------------- | ------------------------------------------ |
+| `--background`                       | slate-900               | page                                       |
+| `--foreground`                       | slate-300               | body text (lightest stop)                  |
+| `--card` / `--card-foreground`       | slate-800 / slate-300   | elevated surface                           |
+| `--muted` / `--muted-foreground`     | slate-700 / slate-400   | recessed surface / quiet text              |
+| `--border` / `--input`               | slate-700               |                                            |
+| `--primary` / `--primary-foreground` | lime-200 / slate-900    | primary action / emphasis                  |
+| `--accent` / `--accent-foreground`   | fuchsia-300 / slate-900 | tertiary accent                            |
+| `--ring`                             | `var(--accent)`         | focus ring                                 |
+| `--selection`                        | blue-400                | selected state (underline / border / fill) |
+| `--label`                            | blue-400                | section sub-heading / accent label text    |
+| `--feedback`                         | lime-200                | active-feedback flash                      |
+| `--scrim`                            | slate-900/50            | overlay / dim                              |
 
 ### Tier 3 — bridge (`@theme inline`)
 
@@ -71,17 +71,17 @@ Nothing in `:root` is reachable only as a raw `var()`.
 Three tiers, each a single stock stop. **Tokens are named by JOB, not by rank** — several jobs can
 share a tier's hue:
 
-| Tier | Hue | Tokens (job-named) |
-|---|---|---|
-| **Primary** (loudest / emphasis) | `lime-200` | `--primary`, `--feedback` |
-| **Secondary** (quieter accent / hierarchy) | `blue-400` | `--selection`, `--label` |
-| **Tertiary** (focus) | `fuchsia-300` | `--accent`, `--ring` |
+| Tier                                       | Hue           | Tokens (job-named)        |
+| ------------------------------------------ | ------------- | ------------------------- |
+| **Primary** (loudest / emphasis)           | `lime-200`    | `--primary`, `--feedback` |
+| **Secondary** (quieter accent / hierarchy) | `blue-400`    | `--selection`, `--label`  |
+| **Tertiary** (focus)                       | `fuchsia-300` | `--accent`, `--ring`      |
 
 **Why job-naming, not rank-naming:** "importance rank" is subjective ("is this lime or blue?"
-has no objective answer), and `secondary` already means a neutral grey *surface* in shadcn. So the
+has no objective answer), and `secondary` already means a neutral grey _surface_ in shadcn. So the
 tier is the **organising story**; the **tokens** devs type are named for what they do. Same way
 lime is both `--primary` (action) and `--feedback` (flash). Blue's two jobs are distinct axes — an
-*interaction state* (`--selection`) vs a *content-hierarchy label* (`--label`) — so they get
+_interaction state_ (`--selection`) vs a _content-hierarchy label_ (`--label`) — so they get
 distinct names even though they share `blue-400`.
 
 **Deliberately dropped** (zero usage; re-add reactively if a stock component needs one):
@@ -98,33 +98,35 @@ size, line-height, transform); the author picks the HTML tag at the call site
 component, no variant→tag map.** Layout/spacing (`mb-6`, `max-w-2xl`) stays as inline utilities;
 never fold it into a type role.
 
-| Utility | Family | Weight | Size | Line-height | Transform |
-|---|---|---|---|---|---|
-| `text-hero-headline` | Condensed | 500 | **clamp 40→103px** | 1.0 | — (natural case) |
-| `text-header` | Condensed | 500 | **clamp 28→40px** | 1.5 | — |
-| `text-subtitle` | Roboto | 400 | 24 | 1.25 | — |
-| `text-subheader` | Condensed | 500 | 18 | 1.0 | — |
-| `text-lead` | Roboto | 400 | 18 | 1.5 | — |
-| `text-body` | Roboto | 400 | 16 | 1.5 | — |
-| `text-list` | Roboto | 400 | 14 | 1.0 | — |
-| `text-ui` / `text-ui-bold` | Roboto | 400 / 700 | 14 | 1.0 | — |
-| `text-card-title` | Roboto | 400 | 24 | 1.0 | — |
-| `text-card-body` | Roboto | 400 | 14 | 1.43 (20/14) | — |
-| `text-eyebrow` | Roboto | 700 | 12 | 1.0 | **uppercase** + 0.1em |
-| `text-hero-list` | Roboto | 400 | 12 | 2.0 | — |
-| `text-menu-subpage` | Condensed | 500 | 24 | 1.0 | **uppercase** |
-| `text-menu-main` | Condensed | 500 | 16 | 1.0 | **uppercase** |
-| `text-meta` / `text-meta-bold` | Roboto | 400 / 700 | 12 | 1.0 | — |
+| Utility                        | Family    | Weight    | Size               | Line-height  | Transform             |
+| ------------------------------ | --------- | --------- | ------------------ | ------------ | --------------------- |
+| `text-hero-headline`           | Condensed | 500       | **clamp 40→103px** | 1.0          | — (natural case)      |
+| `text-header`                  | Condensed | 500       | **clamp 28→40px**  | 1.5          | —                     |
+| `text-subtitle`                | Roboto    | 400       | 24                 | 1.25         | —                     |
+| `text-subheader`               | Condensed | 500       | 18                 | 1.0          | —                     |
+| `text-lead`                    | Roboto    | 400       | 18                 | 1.5          | —                     |
+| `text-body`                    | Roboto    | 400       | 16                 | 1.5          | —                     |
+| `text-list`                    | Roboto    | 400       | 14                 | 1.0          | —                     |
+| `text-ui` / `text-ui-bold`     | Roboto    | 400 / 700 | 14                 | 1.0          | —                     |
+| `text-card-title`              | Roboto    | 400       | 24                 | 1.0          | —                     |
+| `text-card-body`               | Roboto    | 400       | 14                 | 1.43 (20/14) | —                     |
+| `text-eyebrow`                 | Roboto    | 700       | 12                 | 1.0          | **uppercase** + 0.1em |
+| `text-hero-list`               | Roboto    | 400       | 12                 | 2.0          | —                     |
+| `text-menu-subpage`            | Condensed | 500       | 24                 | 1.0          | **uppercase**         |
+| `text-menu-main`               | Condensed | 500       | 16                 | 1.0          | **uppercase**         |
+| `text-meta` / `text-meta-bold` | Roboto    | 400 / 700 | 12                 | 1.0          | —                     |
 
 **Naming collision resolved:** the brand sheet's "primary" type role would clash with the
-auto-generated `text-primary` *colour* utility (TW4 `text-*` comes from both the `--color-*` and
+auto-generated `text-primary` _colour_ utility (TW4 `text-*` comes from both the `--color-*` and
 `--text-*` namespaces), so it is `text-ui` / `text-ui-bold`.
 
 ### Line-heights
+
 Mapped to TW's named `leading-*` vars where they land cleanly (125%→`tight`, 150%→`normal`,
 200%→`loose`); `100%` is literal `1` (TW has no `--leading-none`); `text-card-body` is `1.4286`.
 
 ### Responsive (fluid `clamp()`)
+
 Only the large display roles scale; small text stays fixed (fluid 14px just jitters). `clamp(MIN,
 PREFERRED, MAX)` scales **continuously** with viewport — no breakpoint steps. PREFERRED is written
 `rem + vw` (not pure `vw`) so browser zoom still works.
@@ -133,6 +135,7 @@ PREFERRED, MAX)` scales **continuously** with viewport — no breakpoint steps. 
 - `text-header`: `clamp(1.75rem, 1.44rem + 1.33vw, 2.5rem)` — 28→40px
 
 ### Casing (from the designs, not the sheet labels)
+
 The brand sheet labelled several roles "Capitalized", but the designs show otherwise, and
 `capitalize` would corrupt acronyms ("Website UX Personalisation" → "Ux"):
 
@@ -149,7 +152,7 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 - **Type:** one role class per element (`<h2 class="text-header">`), not a hand-assembled
   `text-3xl font-semibold tracking-tight` stack. If a heading style must change, it changes in one
   `@utility`.
-- **Component variants vs colour roles:** a `<Button variant="primary">` *uses* `--primary`; the
+- **Component variants vs colour roles:** a `<Button variant="primary">` _uses_ `--primary`; the
   variant name is the component's emphasis tier, the colour token is global. Never invent
   per-component colour tokens like `--card-primary`.
 
@@ -159,40 +162,59 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 
 On top of the token + type foundation sits a `cva` (class-variance-authority) + `tailwind-merge`
 component layer. Components consume **semantic utilities only** — variant names are the component's
-emphasis tier; the colour token stays global (`<Button variant="primary">` *uses* `--primary`).
+emphasis tier; the colour token stays global (`<Button variant="primary">` _uses_ `--primary`).
 shadcn-shaped primitives live in `components/ui/`; brand primitives stay in `components/primitives/`.
 Render a control as a link with **`asChild`** (Radix Slot) — the variant classes compose onto the
 child `<Link>`/`<a>`.
 
 ### State → channel model (decoded from the Pressables board)
+
 Three channels are **global**, one is **per-component**:
 
-| State | Channel | Token |
-|---|---|---|
-| **Focused** | fuchsia ring | `ring-ring` (→ `--accent`) — every pressable |
-| **Hover** | lime affordance (fills outline things, inverts the solid one) | `--primary` |
-| **Active: feedback** (momentary press) | lime flash / dim | `--feedback` |
-| **Disabled** | dimmed | opacity |
-| **Active: selection** (persisted "on" / "you are here") | **per-component** | tag → **lime fill** (`--primary`); result-row/nav card → **blue** (`--selection`); nav item → underline |
+| State                                                   | Channel                                                       | Token                                                                                                   |
+| ------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Focused**                                             | fuchsia ring                                                  | `ring-ring` (→ `--accent`) — every pressable                                                            |
+| **Hover**                                               | lime affordance (fills outline things, inverts the solid one) | `--primary`                                                                                             |
+| **Active: feedback** (momentary press)                  | lime flash / dim                                              | `--feedback`                                                                                            |
+| **Disabled**                                            | dimmed                                                        | opacity                                                                                                 |
+| **Active: selection** (persisted "on" / "you are here") | **per-component**                                             | tag → **lime fill** (`--primary`); result-row/nav card → **blue** (`--selection`); nav item → underline |
 
 The selection split is deliberate: **lime = affordance + toggled-on** (a selected filter chip),
 **blue = the current navigation location** (the selected result-row card). The brand brief's
 "tag selected = blue" was overridden by the rendered board (selected chip fills lime).
 
 ### Built components
-- **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md,
-  `asChild`. Consumed by `SliderControls` (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard`
-  (ghost CTA), `DearCompanySection` + `ContactBand` (secondary CTAs).
-- **`Tag`** (`components/primitives/Tag.tsx`) — now `cva`; `selected` fills lime. `tagVariants`
-  exported for a future interactive filter `<button>`.
-- **`Card`** (`components/ui/card.tsx`) — `interactive` (hover edge + focus ring) and `selected`
-  (blue) axes; `asChild`. Consumed by `LandingCard`.
 
-Specimens render live at **`/design-system`** under *Components · cva*.
+- **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md /
+  **icon** (square, wraps a single lucide/Chevron glyph), `asChild`. Consumed by `SliderControls`
+  (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard` (ghost CTA), `DearCompanySection` +
+  `ContactBand` (secondary CTAs), and the **search palette** trigger (secondary, eyebrow label) +
+  mobile back/close (ghost icon, lime at rest per the board). A Button whose label needs a
+  non-default type role wraps the label in a `<span>` (e.g. the trigger's `text-eyebrow`) — twMerge
+  can't dedupe two custom `@utility` roles, so the override never goes on the Button's own
+  `className`. (The palette's Clear / recent-search controls are plain underlined / muted **text
+  links**, not buttons — the board shows no pill there.)
+- **`Input`** (`components/ui/input.tsx`) — `cva` text input; focus is the global fuchsia ring
+  (`ring-ring`), not a lime border. Owns the surface + `text-body` role + the four channels; layout
+  (an icon's `pl-9`) stays at the call site. Consumed by the search palette query field.
+- **`Tag`** (`components/primitives/Tag.tsx`) — `cva`; `selected` fills lime. `tagVariants` is the
+  styling for the search palette's **facet chips** (the interactive `<button>` consumer it was
+  exported for). The board's chips are _outline_ when unselected, so the palette overrides Tag's
+  default grey fill to `bg-transparent` (Tag's own default — a grey-filled chip — is unchanged for
+  its other consumers; making it outline globally is an open question pending the experience board).
+- **`Card`** (`components/ui/card.tsx`) — `interactive` (hover edge + focus ring) and `selected`
+  (blue) axes; `asChild`. Consumed by `LandingCard` and the **search palette**, which nests its
+  content in `Card`s: one _Results_ card for corpus search, one card per _Expectation_ in the
+  visitor (`/dear/[company]`) empty state, over a `bg-background` panel so the cards read as
+  elevated. `SearchResultRow` shares the same `--selection` token for its blue you-are-here state
+  (its compact geometry differs from the Card shell, so it reuses the token, not the component).
+
+Specimens render live at **`/design-system`** under _Components · cva_.
 
 ### Still deferred
-The search palette (`SearchPalette` input/facets, `SearchResultRow` blue selection), `MobileMenu`
-icon buttons, the `Chevron` primitive, and the **landing nav** (hero + sticky reveal) — which wants
-a dedicated **small-nav** type role (it renders smaller than both `menu-*` roles, 16/24px). Open
-type questions: whether the blue sub-heads ("Overview", "Query Params") are sans vs `text-subheader`
-(Condensed), and applying `text-ui-bold` to small bold labels (company name).
+
+`MobileMenu` + `StickyNavReveal` icon buttons (→ Button `size="icon"`), the `Chevron` primitive
+composed onto the layer, and the **landing nav** (hero + sticky reveal) + `SiteNav` active states —
+which want a dedicated **small-nav** type role (it renders smaller than both `menu-*` roles,
+16/24px). Open type questions: whether the blue sub-heads ("Overview", "Query Params") are sans vs
+`text-subheader` (Condensed), and applying `text-ui-bold` to small bold labels (company name).
