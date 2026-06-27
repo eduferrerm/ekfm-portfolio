@@ -43,7 +43,7 @@ const MentalNode = memo(function MentalNode({ data }: NodeProps) {
     <div
       className={cn(
         'rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap transition duration-150',
-        'border-[var(--node)] text-[var(--node)] bg-[color-mix(in_oklch,var(--node)_15%,transparent)]',
+        'border-[var(--node)] text-[var(--node)] bg-[color-mix(in_oklch,var(--node)_22%,var(--color-card))]',
         'hover:scale-[1.2] hover:bg-[var(--node)] hover:text-[var(--color-primary-foreground)] hover:shadow-[0_0_20px_-2px_var(--node)]',
         TIER_VAR[tierOf(d.category)],
       )}
