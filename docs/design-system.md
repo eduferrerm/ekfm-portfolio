@@ -103,7 +103,7 @@ never fold it into a type role.
 | `text-hero-headline`           | Condensed | 500       | **clamp 40→103px** | 1.0          | — (natural case)      |
 | `text-header`                  | Condensed | 500       | **clamp 28→40px**  | 1.5          | —                     |
 | `text-subtitle`                | Roboto    | 400       | 24                 | 1.25         | —                     |
-| `text-subheader`               | Condensed | 500       | 18                 | 1.0          | —                     |
+| `text-subheader`               | Condensed | 500       | 18                 | 1.1          | —                     |
 | `text-lead`                    | Roboto    | 400       | 18                 | 1.5          | —                     |
 | `text-body`                    | Roboto    | 400       | 16                 | 1.5          | —                     |
 | `text-list`                    | Roboto    | 400       | 14                 | 1.0          | —                     |
@@ -162,6 +162,12 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 - **Component variants vs colour roles:** a `<Button variant="primary">` _uses_ `--primary`; the
   variant name is the component's emphasis tier, the colour token is global. Never invent
   per-component colour tokens like `--card-primary`.
+- **Section sub-heads:** a content section sub-heading (Overview, System Design, Query Params,
+  Responsibilities, Scope, Craft…) is always `text-subheader text-label` — blue (`--label`), never
+  grey or a `text-eyebrow`. (The experience detail page was the lone grey outlier; now aligned.)
+- **Chevron markers:** the `Chevron` glyph used as a list/prose bullet is `text-muted-foreground`
+  (grey-400), not lime — lime is reserved for affordances/CTAs. (The over-photo TL;DR band keeps its
+  light `text-white/60` marker; that surface is intentionally off the shared tokens.)
 
 ---
 
