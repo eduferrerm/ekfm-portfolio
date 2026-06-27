@@ -36,26 +36,31 @@ export function tierOf(category: string): Tier {
 
 export type CategoryMeta = { key: string; label: string; varClass: string }
 
-// varClass = a STATIC Tailwind arbitrary-property class (the scanner needs the
-// literal) that points --node at a stock Tailwind *-500 colour var.
+// varClass = STATIC Tailwind arbitrary-property classes (the scanner needs the
+// literals) setting --node to the stock *-500 token (loud — node fill, selected
+// chip) and --node-soft to the *-200 token (quiet — chip label at rest).
 export const CATEGORIES: CategoryMeta[] = [
-  { key: 'engineering', label: 'Engineering', varClass: '[--node:var(--color-red-500)]' },
-  { key: 'ai', label: 'AI', varClass: '[--node:var(--color-orange-500)]' },
-  { key: 'portfolio', label: 'Portfolio', varClass: '[--node:var(--color-amber-500)]' },
-  { key: 'product', label: 'Product', varClass: '[--node:var(--color-yellow-500)]' },
-  { key: 'artist', label: 'Artist', varClass: '[--node:var(--color-green-500)]' },
-  { key: 'film', label: 'Film', varClass: '[--node:var(--color-emerald-500)]' },
-  { key: 'game', label: 'Game', varClass: '[--node:var(--color-teal-500)]' },
-  { key: 'music', label: 'Music', varClass: '[--node:var(--color-cyan-500)]' },
-  { key: 'genre', label: 'Genre', varClass: '[--node:var(--color-sky-500)]' },
-  { key: 'human_experience', label: 'Human experience', varClass: '[--node:var(--color-blue-500)]' },
-  { key: 'philosophy', label: 'Philosophy', varClass: '[--node:var(--color-indigo-500)]' },
-  { key: 'core_concept', label: 'Core concept', varClass: '[--node:var(--color-violet-500)]' },
-  { key: 'fringe', label: 'Fringe', varClass: '[--node:var(--color-purple-500)]' },
+  { key: 'engineering', label: 'Engineering', varClass: '[--node:var(--color-red-500)] [--node-soft:var(--color-red-200)]' },
+  { key: 'ai', label: 'AI', varClass: '[--node:var(--color-orange-500)] [--node-soft:var(--color-orange-200)]' },
+  { key: 'portfolio', label: 'Portfolio', varClass: '[--node:var(--color-amber-500)] [--node-soft:var(--color-amber-200)]' },
+  { key: 'product', label: 'Product', varClass: '[--node:var(--color-yellow-500)] [--node-soft:var(--color-yellow-200)]' },
+  { key: 'artist', label: 'Artist', varClass: '[--node:var(--color-green-500)] [--node-soft:var(--color-green-200)]' },
+  { key: 'film', label: 'Film', varClass: '[--node:var(--color-emerald-500)] [--node-soft:var(--color-emerald-200)]' },
+  { key: 'game', label: 'Game', varClass: '[--node:var(--color-teal-500)] [--node-soft:var(--color-teal-200)]' },
+  { key: 'music', label: 'Music', varClass: '[--node:var(--color-cyan-500)] [--node-soft:var(--color-cyan-200)]' },
+  { key: 'genre', label: 'Genre', varClass: '[--node:var(--color-sky-500)] [--node-soft:var(--color-sky-200)]' },
+  { key: 'human_experience', label: 'Human experience', varClass: '[--node:var(--color-blue-500)] [--node-soft:var(--color-blue-200)]' },
+  { key: 'philosophy', label: 'Philosophy', varClass: '[--node:var(--color-indigo-500)] [--node-soft:var(--color-indigo-200)]' },
+  { key: 'core_concept', label: 'Core concept', varClass: '[--node:var(--color-violet-500)] [--node-soft:var(--color-violet-200)]' },
+  { key: 'fringe', label: 'Fringe', varClass: '[--node:var(--color-purple-500)] [--node-soft:var(--color-purple-200)]' },
 ]
 
 const BY_KEY = new Map(CATEGORIES.map((c) => [c.key, c]))
-const FALLBACK: CategoryMeta = { key: 'other', label: 'Other', varClass: '[--node:var(--color-slate-400)]' }
+const FALLBACK: CategoryMeta = {
+  key: 'other',
+  label: 'Other',
+  varClass: '[--node:var(--color-slate-400)] [--node-soft:var(--color-slate-200)]',
+}
 
 export function categoryMeta(key: string): CategoryMeta {
   return BY_KEY.get(key) ?? FALLBACK
