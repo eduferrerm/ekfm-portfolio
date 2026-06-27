@@ -76,7 +76,7 @@ function FilterChips({
   onToggle: (key: string) => void
 }) {
   return (
-    <div className="flex flex-wrap gap-2 border-b border-border p-3">
+    <div className="flex flex-wrap justify-center gap-2 p-6">
       {CATEGORIES.map((c) => {
         const on = active === c.key
         return (
@@ -212,7 +212,7 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col bg-gradient-surface">
       <FilterChips active={activeCategory} counts={counts} onToggle={onToggleCategory} />
 
       <div className="mental-graph relative min-h-0 flex-1 [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
