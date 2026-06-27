@@ -3,8 +3,8 @@
     {
       "id": "system_thinking",
       "position": {
-        "x": 28,
-        "y": 558
+        "x": 45,
+        "y": 480
       },
       "data": {
         "label": "System Thinking",
@@ -15,8 +15,8 @@
     {
       "id": "human_consciousness",
       "position": {
-        "x": -163,
-        "y": 109
+        "x": -208,
+        "y": 122
       },
       "data": {
         "label": "Human Consciousness",
@@ -27,8 +27,8 @@
     {
       "id": "symbolism",
       "position": {
-        "x": -217,
-        "y": 272
+        "x": -252,
+        "y": 167
       },
       "data": {
         "label": "Symbolism",
@@ -39,8 +39,8 @@
     {
       "id": "emotional_integration",
       "position": {
-        "x": -161,
-        "y": 65
+        "x": -144,
+        "y": 31
       },
       "data": {
         "label": "Emotional Integration",
@@ -51,8 +51,8 @@
     {
       "id": "recursive_learning",
       "position": {
-        "x": 57,
-        "y": 309
+        "x": 15,
+        "y": 260
       },
       "data": {
         "label": "Recursive Learning",
@@ -63,8 +63,8 @@
     {
       "id": "wonder",
       "position": {
-        "x": -94,
-        "y": -27
+        "x": -101,
+        "y": -56
       },
       "data": {
         "label": "Wonder",
@@ -75,8 +75,8 @@
     {
       "id": "awe",
       "position": {
-        "x": -121,
-        "y": -167
+        "x": -74,
+        "y": -267
       },
       "data": {
         "label": "Awe",
@@ -87,8 +87,8 @@
     {
       "id": "identity_through_craft",
       "position": {
-        "x": -66,
-        "y": 201
+        "x": -23,
+        "y": 129
       },
       "data": {
         "label": "Identity Through Craft",
@@ -99,8 +99,8 @@
     {
       "id": "creative_systems",
       "position": {
-        "x": 85,
-        "y": 476
+        "x": 23,
+        "y": 422
       },
       "data": {
         "label": "Creative Systems",
@@ -111,8 +111,8 @@
     {
       "id": "observation_as_superpower",
       "position": {
-        "x": -130,
-        "y": 266
+        "x": -192,
+        "y": 253
       },
       "data": {
         "label": "Observation as a Superpower",
@@ -123,8 +123,8 @@
     {
       "id": "human_meaning_making",
       "position": {
-        "x": -88,
-        "y": 17
+        "x": -101,
+        "y": -12
       },
       "data": {
         "label": "Human Meaning-Making",
@@ -136,7 +136,7 @@
       "id": "honesty",
       "position": {
         "x": -199,
-        "y": 201
+        "y": 165
       },
       "data": {
         "label": "Honesty",
@@ -147,8 +147,8 @@
     {
       "id": "complexity_theory",
       "position": {
-        "x": 55,
-        "y": 444
+        "x": 111,
+        "y": 377
       },
       "data": {
         "label": "Complexity Theory",
@@ -159,8 +159,8 @@
     {
       "id": "pattern_recognition",
       "position": {
-        "x": -260,
-        "y": 309
+        "x": -270,
+        "y": 310
       },
       "data": {
         "label": "Pattern Recognition",
@@ -171,8 +171,8 @@
     {
       "id": "emergent_behavior",
       "position": {
-        "x": 102,
-        "y": 546
+        "x": 160,
+        "y": 456
       },
       "data": {
         "label": "Emergent Behavior",
@@ -183,8 +183,8 @@
     {
       "id": "music_composition",
       "position": {
-        "x": 1005,
-        "y": -53
+        "x": 135,
+        "y": 194
       },
       "data": {
         "label": "Music Composition",
@@ -195,8 +195,8 @@
     {
       "id": "songwriting",
       "position": {
-        "x": -57,
-        "y": 152
+        "x": -70,
+        "y": 98
       },
       "data": {
         "label": "Songwriting",
@@ -207,8 +207,8 @@
     {
       "id": "emotional_storytelling_through_music",
       "position": {
-        "x": 97,
-        "y": 153
+        "x": 100,
+        "y": 168
       },
       "data": {
         "label": "Emotional Storytelling Through Music",
@@ -219,8 +219,8 @@
     {
       "id": "introspection",
       "position": {
-        "x": -200,
-        "y": 86
+        "x": -233,
+        "y": 38
       },
       "data": {
         "label": "Introspection",
@@ -231,8 +231,8 @@
     {
       "id": "product_thinking",
       "position": {
-        "x": -180,
-        "y": 595
+        "x": -3,
+        "y": 588
       },
       "data": {
         "label": "Product Thinking",
@@ -243,8 +243,8 @@
     {
       "id": "ai_assisted_creativity",
       "position": {
-        "x": 68,
-        "y": 402
+        "x": 25,
+        "y": 378
       },
       "data": {
         "label": "AI-Assisted Creativity",
@@ -255,8 +255,8 @@
     {
       "id": "frontend_architecture",
       "position": {
-        "x": 93,
-        "y": 689
+        "x": -105,
+        "y": 655
       },
       "data": {
         "label": "Frontend Architecture",
@@ -267,8 +267,8 @@
     {
       "id": "symbolic_lyricism",
       "position": {
-        "x": -170,
-        "y": 283
+        "x": -158,
+        "y": 180
       },
       "data": {
         "label": "Symbolic Lyricism",
@@ -279,8 +279,8 @@
     {
       "id": "mysticism",
       "position": {
-        "x": -336,
-        "y": 91
+        "x": -379,
+        "y": 100
       },
       "data": {
         "label": "Mysticism",
@@ -291,8 +291,8 @@
     {
       "id": "deep_conversations",
       "position": {
-        "x": -98,
-        "y": 167
+        "x": -123,
+        "y": 131
       },
       "data": {
         "label": "Deep Conversations",
@@ -303,8 +303,8 @@
     {
       "id": "radical_honesty",
       "position": {
-        "x": 991,
-        "y": 41
+        "x": -26,
+        "y": -76
       },
       "data": {
         "label": "Radical Honesty",
@@ -315,8 +315,8 @@
     {
       "id": "building_things_that_feel_alive",
       "position": {
-        "x": 31,
-        "y": 156
+        "x": 61,
+        "y": 102
       },
       "data": {
         "label": "Building Things That Feel Alive",
@@ -327,8 +327,8 @@
     {
       "id": "performance_over_perfection",
       "position": {
-        "x": -14,
-        "y": 200
+        "x": -22,
+        "y": 215
       },
       "data": {
         "label": "Performance Over Perfection",
@@ -339,8 +339,8 @@
     {
       "id": "atmospheric_production",
       "position": {
-        "x": 95,
-        "y": 45
+        "x": 20,
+        "y": -13
       },
       "data": {
         "label": "Atmospheric Production",
@@ -351,8 +351,8 @@
     {
       "id": "fingerpicked_nylon_guitar",
       "position": {
-        "x": 983,
-        "y": 128
+        "x": -328,
+        "y": -263
       },
       "data": {
         "label": "Fingerpicked Nylon Guitar",
@@ -363,8 +363,8 @@
     {
       "id": "piano_voicings",
       "position": {
-        "x": 941,
-        "y": 315
+        "x": 477,
+        "y": 152
       },
       "data": {
         "label": "Piano Voicings",
@@ -375,8 +375,8 @@
     {
       "id": "modal_interchange",
       "position": {
-        "x": 142,
-        "y": 230
+        "x": 139,
+        "y": 143
       },
       "data": {
         "label": "Modal Interchange",
@@ -387,8 +387,8 @@
     {
       "id": "rhythmic_complexity",
       "position": {
-        "x": 364,
-        "y": 458
+        "x": 387,
+        "y": 391
       },
       "data": {
         "label": "Rhythmic Complexity",
@@ -399,8 +399,8 @@
     {
       "id": "polyrhythms",
       "position": {
-        "x": 193,
-        "y": 432
+        "x": 200,
+        "y": 304
       },
       "data": {
         "label": "Polyrhythms",
@@ -411,8 +411,8 @@
     {
       "id": "vocal_layering",
       "position": {
-        "x": 75,
-        "y": 105
+        "x": 68,
+        "y": 58
       },
       "data": {
         "label": "Vocal Layering",
@@ -423,8 +423,8 @@
     {
       "id": "ambient_textures",
       "position": {
-        "x": 207,
-        "y": 54
+        "x": 156,
+        "y": 5
       },
       "data": {
         "label": "Ambient Textures",
@@ -435,8 +435,8 @@
     {
       "id": "heavy_but_melodic",
       "position": {
-        "x": 962,
-        "y": 218
+        "x": 275,
+        "y": 381
       },
       "data": {
         "label": "Heavy-but-Melodic Music",
@@ -447,8 +447,8 @@
     {
       "id": "live_performance_design",
       "position": {
-        "x": 65,
-        "y": 238
+        "x": 20,
+        "y": 120
       },
       "data": {
         "label": "Live Performance Design",
@@ -459,8 +459,8 @@
     {
       "id": "album_sequencing",
       "position": {
-        "x": 34,
-        "y": 347
+        "x": -20,
+        "y": 285
       },
       "data": {
         "label": "Album Sequencing",
@@ -471,8 +471,8 @@
     {
       "id": "alliteration_in_lyrics",
       "position": {
-        "x": -135,
-        "y": 310
+        "x": -159,
+        "y": 224
       },
       "data": {
         "label": "Alliteration in Lyrics",
@@ -483,8 +483,8 @@
     {
       "id": "sound_design",
       "position": {
-        "x": 176,
-        "y": 146
+        "x": 124,
+        "y": 86
       },
       "data": {
         "label": "Sound Design",
@@ -495,8 +495,8 @@
     {
       "id": "music_as_medicine",
       "position": {
-        "x": -129,
-        "y": 0
+        "x": -100,
+        "y": 32
       },
       "data": {
         "label": "Music as Medicine",
@@ -507,8 +507,8 @@
     {
       "id": "music_as_identity",
       "position": {
-        "x": -108,
-        "y": 90
+        "x": -15,
+        "y": 26
       },
       "data": {
         "label": "Music as Identity",
@@ -519,8 +519,8 @@
     {
       "id": "sonic_symbolism",
       "position": {
-        "x": -38,
-        "y": 236
+        "x": -97,
+        "y": 172
       },
       "data": {
         "label": "Sonic Symbolism",
@@ -531,8 +531,8 @@
     {
       "id": "guitar_tone_shaping",
       "position": {
-        "x": 249,
-        "y": 40
+        "x": 200,
+        "y": -1
       },
       "data": {
         "label": "Guitar Tone Shaping",
@@ -543,8 +543,8 @@
     {
       "id": "re_amping",
       "position": {
-        "x": 339,
-        "y": 129
+        "x": 309,
+        "y": 187
       },
       "data": {
         "label": "Re-amping",
@@ -555,8 +555,8 @@
     {
       "id": "mixing",
       "position": {
-        "x": 240,
-        "y": 83
+        "x": 184,
+        "y": 40
       },
       "data": {
         "label": "Mixing",
@@ -567,8 +567,8 @@
     {
       "id": "mastering",
       "position": {
-        "x": 334,
-        "y": 173
+        "x": 332,
+        "y": 149
       },
       "data": {
         "label": "Mastering",
@@ -579,8 +579,8 @@
     {
       "id": "deftones_inspired_contrast",
       "position": {
-        "x": 196,
-        "y": 12
+        "x": 173,
+        "y": -36
       },
       "data": {
         "label": "Deftones-Inspired Contrast",
@@ -591,8 +591,8 @@
     {
       "id": "tension_beauty_coexistence",
       "position": {
-        "x": 123,
-        "y": 104
+        "x": 105,
+        "y": 29
       },
       "data": {
         "label": "Tension and Beauty Coexistence",
@@ -603,8 +603,8 @@
     {
       "id": "goosebump_inducing_resolution",
       "position": {
-        "x": 47,
-        "y": 42
+        "x": 36,
+        "y": 28
       },
       "data": {
         "label": "Goosebump-Inducing Resolution",
@@ -615,8 +615,8 @@
     {
       "id": "transformer_models",
       "position": {
-        "x": -86,
-        "y": 259
+        "x": -172,
+        "y": 292
       },
       "data": {
         "label": "Transformer Models",
@@ -627,8 +627,8 @@
     {
       "id": "embeddings",
       "position": {
-        "x": -83,
-        "y": 501
+        "x": -137,
+        "y": 481
       },
       "data": {
         "label": "Embeddings",
@@ -639,8 +639,8 @@
     {
       "id": "attention_mechanisms",
       "position": {
-        "x": 98,
-        "y": 434
+        "x": 105,
+        "y": 451
       },
       "data": {
         "label": "Attention Mechanisms",
@@ -651,8 +651,8 @@
     {
       "id": "positional_encoding",
       "position": {
-        "x": 101,
-        "y": 314
+        "x": 48,
+        "y": 341
       },
       "data": {
         "label": "Positional Encoding",
@@ -663,8 +663,8 @@
     {
       "id": "synthetic_memory",
       "position": {
-        "x": -114,
-        "y": 225
+        "x": -131,
+        "y": 276
       },
       "data": {
         "label": "Synthetic Memory",
@@ -675,8 +675,8 @@
     {
       "id": "cognitive_architectures",
       "position": {
-        "x": -79,
-        "y": 376
+        "x": -69,
+        "y": 381
       },
       "data": {
         "label": "Cognitive Architectures",
@@ -687,8 +687,8 @@
     {
       "id": "ai_alignment",
       "position": {
-        "x": -249,
-        "y": 242
+        "x": -248,
+        "y": 243
       },
       "data": {
         "label": "AI Alignment",
@@ -699,8 +699,8 @@
     {
       "id": "ai_product_design",
       "position": {
-        "x": -272,
-        "y": 531
+        "x": -138,
+        "y": 544
       },
       "data": {
         "label": "AI Product Design",
@@ -711,8 +711,8 @@
     {
       "id": "agentic_systems",
       "position": {
-        "x": 29,
-        "y": 514
+        "x": 126,
+        "y": 496
       },
       "data": {
         "label": "Agentic Systems",
@@ -723,8 +723,8 @@
     {
       "id": "autonomous_agents",
       "position": {
-        "x": 219,
-        "y": 537
+        "x": 318,
+        "y": 582
       },
       "data": {
         "label": "Autonomous Agents",
@@ -735,8 +735,8 @@
     {
       "id": "prompt_engineering",
       "position": {
-        "x": -10,
-        "y": 346
+        "x": -43,
+        "y": 333
       },
       "data": {
         "label": "Prompt Engineering",
@@ -747,8 +747,8 @@
     {
       "id": "guardrails_for_ai_systems",
       "position": {
-        "x": -148,
-        "y": 446
+        "x": -87,
+        "y": 444
       },
       "data": {
         "label": "Guardrails for AI Systems",
@@ -759,8 +759,8 @@
     {
       "id": "ai_workflows",
       "position": {
-        "x": 270,
-        "y": 600
+        "x": 284,
+        "y": 610
       },
       "data": {
         "label": "AI Workflows",
@@ -771,8 +771,8 @@
     {
       "id": "ai_assisted_engineering",
       "position": {
-        "x": 777,
-        "y": 645
+        "x": 310,
+        "y": 539
       },
       "data": {
         "label": "AI-Assisted Engineering",
@@ -783,8 +783,8 @@
     {
       "id": "learning_by_building",
       "position": {
-        "x": 233,
-        "y": 352
+        "x": 202,
+        "y": 358
       },
       "data": {
         "label": "Learning by Building",
@@ -795,8 +795,8 @@
     {
       "id": "recursive_understanding",
       "position": {
-        "x": 111,
-        "y": 392
+        "x": 68,
+        "y": 384
       },
       "data": {
         "label": "Recursive Understanding",
@@ -807,8 +807,8 @@
     {
       "id": "metaphor_driven_learning",
       "position": {
-        "x": 81,
-        "y": 360
+        "x": 67,
+        "y": 428
       },
       "data": {
         "label": "Metaphor-Driven Learning",
@@ -819,8 +819,8 @@
     {
       "id": "human_ai_interaction",
       "position": {
-        "x": -305,
-        "y": 409
+        "x": -252,
+        "y": 416
       },
       "data": {
         "label": "Human-AI Interaction",
@@ -831,8 +831,8 @@
     {
       "id": "consciousness_and_technology",
       "position": {
-        "x": 871,
-        "y": 492
+        "x": -32,
+        "y": 172
       },
       "data": {
         "label": "Consciousness and Technology",
@@ -843,8 +843,8 @@
     {
       "id": "llm_systems",
       "position": {
-        "x": 622,
-        "y": 868
+        "x": 276,
+        "y": 567
       },
       "data": {
         "label": "LLM Systems",
@@ -855,8 +855,8 @@
     {
       "id": "frontend_performance",
       "position": {
-        "x": 332,
-        "y": 828
+        "x": 88,
+        "y": 891
       },
       "data": {
         "label": "Frontend Performance",
@@ -867,8 +867,8 @@
     {
       "id": "browser_internals",
       "position": {
-        "x": 212,
-        "y": 724
+        "x": -98,
+        "y": 782
       },
       "data": {
         "label": "Browser Internals",
@@ -879,8 +879,8 @@
     {
       "id": "chrome_devtools",
       "position": {
-        "x": 452,
-        "y": 813
+        "x": 206,
+        "y": 910
       },
       "data": {
         "label": "Chrome DevTools",
@@ -891,8 +891,8 @@
     {
       "id": "flame_charts",
       "position": {
-        "x": 423,
-        "y": 892
+        "x": 207,
+        "y": 954
       },
       "data": {
         "label": "Flame Charts",
@@ -903,8 +903,8 @@
     {
       "id": "rendering_pipelines",
       "position": {
-        "x": 218,
-        "y": 825
+        "x": -21,
+        "y": 834
       },
       "data": {
         "label": "Rendering Pipelines",
@@ -915,8 +915,8 @@
     {
       "id": "event_loops",
       "position": {
-        "x": 246,
-        "y": 790
+        "x": 11,
+        "y": 804
       },
       "data": {
         "label": "Event Loops",
@@ -927,8 +927,8 @@
     {
       "id": "gpu_compositing",
       "position": {
-        "x": 448,
-        "y": 856
+        "x": 148,
+        "y": 988
       },
       "data": {
         "label": "GPU Compositing",
@@ -939,8 +939,8 @@
     {
       "id": "memory_profiling",
       "position": {
-        "x": 346,
-        "y": 931
+        "x": 164,
+        "y": 947
       },
       "data": {
         "label": "Memory Profiling",
@@ -951,8 +951,8 @@
     {
       "id": "network_waterfalls",
       "position": {
-        "x": 388,
-        "y": 919
+        "x": 102,
+        "y": 992
       },
       "data": {
         "label": "Network Waterfalls",
@@ -963,8 +963,8 @@
     {
       "id": "caching_strategies",
       "position": {
-        "x": 249,
-        "y": 747
+        "x": -55,
+        "y": 773
       },
       "data": {
         "label": "Caching Strategies",
@@ -975,8 +975,8 @@
     {
       "id": "cdn_architecture",
       "position": {
-        "x": 129,
-        "y": 804
+        "x": -69,
+        "y": 814
       },
       "data": {
         "label": "CDN Architecture",
@@ -987,8 +987,8 @@
     {
       "id": "ssr",
       "position": {
-        "x": 207,
-        "y": 768
+        "x": -111,
+        "y": 826
       },
       "data": {
         "label": "Server-Side Rendering",
@@ -999,8 +999,8 @@
     {
       "id": "isr",
       "position": {
-        "x": 165,
-        "y": 779
+        "x": -154,
+        "y": 834
       },
       "data": {
         "label": "Incremental Static Regeneration",
@@ -1011,8 +1011,8 @@
     {
       "id": "hydration_strategies",
       "position": {
-        "x": 168,
-        "y": 823
+        "x": -140,
+        "y": 793
       },
       "data": {
         "label": "Hydration Strategies",
@@ -1023,8 +1023,8 @@
     {
       "id": "design_systems",
       "position": {
-        "x": 16,
-        "y": 656
+        "x": -197,
+        "y": 564
       },
       "data": {
         "label": "Design Systems",
@@ -1035,8 +1035,8 @@
     {
       "id": "token_based_theming",
       "position": {
-        "x": 132,
-        "y": 621
+        "x": -90,
+        "y": 555
       },
       "data": {
         "label": "Token-Based Theming",
@@ -1047,8 +1047,8 @@
     {
       "id": "algorithmic_ui_theming",
       "position": {
-        "x": -164,
-        "y": 405
+        "x": -313,
+        "y": 321
       },
       "data": {
         "label": "Algorithmic UI Theming",
@@ -1059,8 +1059,8 @@
     {
       "id": "dynamic_color_systems",
       "position": {
-        "x": -7,
-        "y": 804
+        "x": -341,
+        "y": 657
       },
       "data": {
         "label": "Dynamic Color Systems",
@@ -1071,8 +1071,8 @@
     {
       "id": "ux_engineering",
       "position": {
-        "x": -172,
-        "y": 490
+        "x": -312,
+        "y": 451
       },
       "data": {
         "label": "UX Engineering",
@@ -1083,8 +1083,8 @@
     {
       "id": "accessibility",
       "position": {
-        "x": -42,
-        "y": 694
+        "x": -257,
+        "y": 615
       },
       "data": {
         "label": "Accessibility",
@@ -1095,8 +1095,8 @@
     {
       "id": "engineering_judgment",
       "position": {
-        "x": -212,
-        "y": 440
+        "x": -172,
+        "y": 454
       },
       "data": {
         "label": "Engineering Judgment",
@@ -1107,8 +1107,8 @@
     {
       "id": "tradeoff_analysis",
       "position": {
-        "x": -257,
-        "y": 468
+        "x": -51,
+        "y": 469
       },
       "data": {
         "label": "Tradeoff Analysis",
@@ -1119,8 +1119,8 @@
     {
       "id": "system_design",
       "position": {
-        "x": -508,
-        "y": 878
+        "x": -184,
+        "y": 801
       },
       "data": {
         "label": "System Design",
@@ -1131,8 +1131,8 @@
     {
       "id": "event_driven_architecture",
       "position": {
-        "x": 121,
-        "y": 506
+        "x": 201,
+        "y": 479
       },
       "data": {
         "label": "Event-Driven Architecture",
@@ -1143,8 +1143,8 @@
     {
       "id": "semantic_architecture",
       "position": {
-        "x": -68,
-        "y": 729
+        "x": -143,
+        "y": 628
       },
       "data": {
         "label": "Semantic Architecture",
@@ -1155,8 +1155,8 @@
     {
       "id": "domain_modeling",
       "position": {
-        "x": 15,
-        "y": 612
+        "x": -14,
+        "y": 545
       },
       "data": {
         "label": "Domain Modeling",
@@ -1167,8 +1167,8 @@
     {
       "id": "product_roadmapping",
       "position": {
-        "x": -236,
-        "y": 725
+        "x": 129,
+        "y": 718
       },
       "data": {
         "label": "Product Roadmapping",
@@ -1179,8 +1179,8 @@
     {
       "id": "operational_maturity",
       "position": {
-        "x": -312,
-        "y": 678
+        "x": 90,
+        "y": 694
       },
       "data": {
         "label": "Operational Maturity",
@@ -1191,8 +1191,8 @@
     {
       "id": "component_systems",
       "position": {
-        "x": 101,
-        "y": 590
+        "x": -170,
+        "y": 510
       },
       "data": {
         "label": "Component Systems",
@@ -1203,8 +1203,8 @@
     {
       "id": "performance_debugging",
       "position": {
-        "x": 57,
-        "y": 596
+        "x": -59,
+        "y": 619
       },
       "data": {
         "label": "Performance Debugging",
@@ -1215,8 +1215,8 @@
     {
       "id": "portfolio_as_product",
       "position": {
-        "x": -123,
-        "y": 482
+        "x": -26,
+        "y": 375
       },
       "data": {
         "label": "Portfolio as Product",
@@ -1227,8 +1227,8 @@
     {
       "id": "interactive_portfolios",
       "position": {
-        "x": -35,
-        "y": 382
+        "x": 136,
+        "y": 300
       },
       "data": {
         "label": "Interactive Portfolios",
@@ -1239,8 +1239,8 @@
     {
       "id": "personalized_ux",
       "position": {
-        "x": -242,
-        "y": 622
+        "x": 59,
+        "y": 522
       },
       "data": {
         "label": "Personalized UX",
@@ -1251,8 +1251,8 @@
     {
       "id": "visitor_token_systems",
       "position": {
-        "x": -224,
-        "y": 582
+        "x": 102,
+        "y": 533
       },
       "data": {
         "label": "Visitor Token Systems",
@@ -1263,8 +1263,8 @@
     {
       "id": "command_palettes",
       "position": {
-        "x": -304,
-        "y": 561
+        "x": 31,
+        "y": 556
       },
       "data": {
         "label": "Command Palettes",
@@ -1275,8 +1275,8 @@
     {
       "id": "graph_based_interfaces",
       "position": {
-        "x": -40,
-        "y": 650
+        "x": -46,
+        "y": 577
       },
       "data": {
         "label": "Graph-Based Interfaces",
@@ -1287,8 +1287,8 @@
     {
       "id": "cognitive_mapping",
       "position": {
-        "x": -117,
-        "y": 786
+        "x": -11,
+        "y": 717
       },
       "data": {
         "label": "Cognitive Mapping",
@@ -1299,8 +1299,8 @@
     {
       "id": "experience_visualization",
       "position": {
-        "x": -140,
-        "y": 636
+        "x": 16,
+        "y": 514
       },
       "data": {
         "label": "Experience Visualization",
@@ -1311,8 +1311,8 @@
     {
       "id": "storybook",
       "position": {
-        "x": -28,
-        "y": 476
+        "x": -176,
+        "y": 336
       },
       "data": {
         "label": "Storybook",
@@ -1323,8 +1323,8 @@
     {
       "id": "visual_storytelling",
       "position": {
-        "x": -82,
-        "y": 303
+        "x": -113,
+        "y": 88
       },
       "data": {
         "label": "Visual Storytelling",
@@ -1335,8 +1335,8 @@
     {
       "id": "motion_design",
       "position": {
-        "x": 36,
-        "y": 271
+        "x": 22,
+        "y": 213
       },
       "data": {
         "label": "Motion Design",
@@ -1347,8 +1347,8 @@
     {
       "id": "subtle_animation_systems",
       "position": {
-        "x": 13,
-        "y": 308
+        "x": 62,
+        "y": 191
       },
       "data": {
         "label": "Subtle Animation Systems",
@@ -1359,8 +1359,8 @@
     {
       "id": "shader_effects",
       "position": {
-        "x": 106,
-        "y": 255
+        "x": 62,
+        "y": 146
       },
       "data": {
         "label": "Shader Effects",
@@ -1371,8 +1371,8 @@
     {
       "id": "three_js",
       "position": {
-        "x": 6,
-        "y": 239
+        "x": -64,
+        "y": 202
       },
       "data": {
         "label": "Three.js",
@@ -1383,8 +1383,8 @@
     {
       "id": "canvas_rendering",
       "position": {
-        "x": -17,
-        "y": 277
+        "x": -65,
+        "y": 142
       },
       "data": {
         "label": "Canvas Rendering",
@@ -1395,8 +1395,8 @@
     {
       "id": "recruiter_experience_psychology",
       "position": {
-        "x": -216,
-        "y": 484
+        "x": -131,
+        "y": 438
       },
       "data": {
         "label": "Recruiter Experience Psychology",
@@ -1407,8 +1407,8 @@
     {
       "id": "interview_storytelling",
       "position": {
-        "x": -136,
-        "y": 144
+        "x": -114,
+        "y": 223
       },
       "data": {
         "label": "Interview Storytelling",
@@ -1419,8 +1419,8 @@
     {
       "id": "project_does_the_talking",
       "position": {
-        "x": -123,
-        "y": 372
+        "x": 28,
+        "y": 302
       },
       "data": {
         "label": "Project Does the Talking",
@@ -1431,8 +1431,8 @@
     {
       "id": "mayan_tzolkin",
       "position": {
-        "x": -245,
-        "y": -63
+        "x": -247,
+        "y": -102
       },
       "data": {
         "label": "Mayan Tzolk'in",
@@ -1443,8 +1443,8 @@
     {
       "id": "sufism",
       "position": {
-        "x": -318,
-        "y": 177
+        "x": -333,
+        "y": 191
       },
       "data": {
         "label": "Sufism",
@@ -1455,8 +1455,8 @@
     {
       "id": "rosicrucian_ideas",
       "position": {
-        "x": -352,
-        "y": 278
+        "x": -426,
+        "y": 152
       },
       "data": {
         "label": "Rosicrucian Ideas",
@@ -1467,8 +1467,8 @@
     {
       "id": "freemasonry",
       "position": {
-        "x": -379,
-        "y": 242
+        "x": -421,
+        "y": 195
       },
       "data": {
         "label": "Freemasonry",
@@ -1479,8 +1479,8 @@
     {
       "id": "spiritual_philosophy",
       "position": {
-        "x": -290,
-        "y": 125
+        "x": -320,
+        "y": 108
       },
       "data": {
         "label": "Spiritual Philosophy",
@@ -1491,8 +1491,8 @@
     {
       "id": "synchronicity",
       "position": {
-        "x": -291,
-        "y": 221
+        "x": -328,
+        "y": 235
       },
       "data": {
         "label": "Synchronicity",
@@ -1503,8 +1503,8 @@
     {
       "id": "sacred_geometry",
       "position": {
-        "x": -217,
-        "y": 45
+        "x": -248,
+        "y": -3
       },
       "data": {
         "label": "Sacred Geometry",
@@ -1515,8 +1515,8 @@
     {
       "id": "geometric_harmony",
       "position": {
-        "x": -244,
-        "y": 80
+        "x": -287,
+        "y": -46
       },
       "data": {
         "label": "Geometric Harmony",
@@ -1527,8 +1527,8 @@
     {
       "id": "the_unknown",
       "position": {
-        "x": -287,
-        "y": 71
+        "x": -304,
+        "y": 67
       },
       "data": {
         "label": "The Unknown",
@@ -1539,8 +1539,8 @@
     {
       "id": "mysteries",
       "position": {
-        "x": -201,
-        "y": -132
+        "x": -166,
+        "y": -193
       },
       "data": {
         "label": "Mysteries",
@@ -1551,8 +1551,8 @@
     {
       "id": "ancient_symbolism",
       "position": {
-        "x": -335,
-        "y": 237
+        "x": -393,
+        "y": 230
       },
       "data": {
         "label": "Ancient Symbolism",
@@ -1563,8 +1563,8 @@
     {
       "id": "mythology",
       "position": {
-        "x": -227,
-        "y": 166
+        "x": -277,
+        "y": 32
       },
       "data": {
         "label": "Mythology",
@@ -1575,8 +1575,8 @@
     {
       "id": "religious_symbolism",
       "position": {
-        "x": -202,
-        "y": 130
+        "x": -260,
+        "y": 73
       },
       "data": {
         "label": "Religious Symbolism",
@@ -1587,8 +1587,8 @@
     {
       "id": "the_psychology_of_grief",
       "position": {
-        "x": -206,
-        "y": -11
+        "x": -209,
+        "y": -26
       },
       "data": {
         "label": "The Psychology of Grief",
@@ -1599,8 +1599,8 @@
     {
       "id": "longing_as_fuel",
       "position": {
-        "x": -122,
-        "y": 44
+        "x": -171,
+        "y": -4
       },
       "data": {
         "label": "Longing as Fuel",
@@ -1611,8 +1611,8 @@
     {
       "id": "darkness_as_metaphor",
       "position": {
-        "x": -38,
-        "y": 38
+        "x": -57,
+        "y": 12
       },
       "data": {
         "label": "Darkness as Metaphor",
@@ -1623,8 +1623,8 @@
     {
       "id": "emotional_intelligence",
       "position": {
-        "x": -285,
-        "y": 362
+        "x": -351,
+        "y": 359
       },
       "data": {
         "label": "Emotional Intelligence",
@@ -1635,8 +1635,8 @@
     {
       "id": "acceptance_through_motion",
       "position": {
-        "x": -272,
-        "y": -29
+        "x": -216,
+        "y": 79
       },
       "data": {
         "label": "Acceptance Through Motion",
@@ -1647,8 +1647,8 @@
     {
       "id": "conscious_reintegration",
       "position": {
-        "x": -246,
-        "y": 8
+        "x": -189,
+        "y": 37
       },
       "data": {
         "label": "Conscious Reintegration",
@@ -1659,8 +1659,8 @@
     {
       "id": "api_orchestration",
       "position": {
-        "x": 229,
-        "y": 617
+        "x": 249,
+        "y": 637
       },
       "data": {
         "label": "API Orchestration",
@@ -1671,7 +1671,7 @@
     {
       "id": "workflow_automation",
       "position": {
-        "x": 165,
+        "x": 168,
         "y": 508
       },
       "data": {
@@ -1683,8 +1683,8 @@
     {
       "id": "founder_operations",
       "position": {
-        "x": -73,
-        "y": 621
+        "x": 201,
+        "y": 638
       },
       "data": {
         "label": "Founder Operations",
@@ -1695,8 +1695,8 @@
     {
       "id": "ownership_culture",
       "position": {
-        "x": -210,
-        "y": 350
+        "x": -72,
+        "y": 300
       },
       "data": {
         "label": "Ownership Culture",
@@ -1707,8 +1707,8 @@
     {
       "id": "ai_enabled_business_systems",
       "position": {
-        "x": 85,
-        "y": 631
+        "x": 239,
+        "y": 591
       },
       "data": {
         "label": "AI-Enabled Business Systems",
@@ -1719,8 +1719,8 @@
     {
       "id": "product_scoping",
       "position": {
-        "x": -206,
-        "y": 647
+        "x": 113,
+        "y": 651
       },
       "data": {
         "label": "Product Scoping",
@@ -1731,8 +1731,8 @@
     {
       "id": "mvp_thinking",
       "position": {
-        "x": -65,
-        "y": 562
+        "x": 121,
+        "y": 573
       },
       "data": {
         "label": "MVP Thinking",
@@ -1743,8 +1743,8 @@
     {
       "id": "operational_clarity",
       "position": {
-        "x": -268,
-        "y": 586
+        "x": 82,
+        "y": 593
       },
       "data": {
         "label": "Operational Clarity",
@@ -1755,8 +1755,8 @@
     {
       "id": "rainy_atmospheres",
       "position": {
-        "x": -76,
-        "y": 59
+        "x": -139,
+        "y": -34
       },
       "data": {
         "label": "Rainy Atmospheres",
@@ -1767,8 +1767,8 @@
     {
       "id": "nature",
       "position": {
-        "x": -174,
-        "y": -97
+        "x": -127,
+        "y": -174
       },
       "data": {
         "label": "Nature",
@@ -1779,8 +1779,8 @@
     {
       "id": "great_cafes",
       "position": {
-        "x": -11,
-        "y": 102
+        "x": -60,
+        "y": 56
       },
       "data": {
         "label": "Great Cafés",
@@ -1791,8 +1791,8 @@
     {
       "id": "japanese_food",
       "position": {
-        "x": 164,
-        "y": -288
+        "x": -260,
+        "y": -345
       },
       "data": {
         "label": "Japanese Food",
@@ -1803,8 +1803,8 @@
     {
       "id": "movies_that_take_you_far_away",
       "position": {
-        "x": -830,
-        "y": 505
+        "x": -9,
+        "y": -354
       },
       "data": {
         "label": "Movies That Take You Far Away",
@@ -1815,8 +1815,8 @@
     {
       "id": "cinematic_experiences",
       "position": {
-        "x": -65,
-        "y": 102
+        "x": -40,
+        "y": -189
       },
       "data": {
         "label": "Cinematic Experiences",
@@ -1827,8 +1827,8 @@
     {
       "id": "podcasts",
       "position": {
-        "x": 86,
-        "y": 199
+        "x": 77,
+        "y": 232
       },
       "data": {
         "label": "Podcasts",
@@ -1839,8 +1839,8 @@
     {
       "id": "youtube_rabbit_holes",
       "position": {
-        "x": -138,
-        "y": 188
+        "x": -166,
+        "y": 136
       },
       "data": {
         "label": "YouTube Rabbit Holes",
@@ -1851,8 +1851,8 @@
     {
       "id": "gaming",
       "position": {
-        "x": 372,
-        "y": -430
+        "x": 587,
+        "y": -454
       },
       "data": {
         "label": "Gaming",
@@ -1863,8 +1863,8 @@
     {
       "id": "fps_games",
       "position": {
-        "x": 418,
-        "y": -556
+        "x": 694,
+        "y": -523
       },
       "data": {
         "label": "FPS Games",
@@ -1875,8 +1875,8 @@
     {
       "id": "rpgs",
       "position": {
-        "x": 314,
-        "y": -263
+        "x": 467,
+        "y": -273
       },
       "data": {
         "label": "RPGs",
@@ -1887,8 +1887,8 @@
     {
       "id": "jrpgs",
       "position": {
-        "x": -898,
-        "y": 413
+        "x": 653,
+        "y": -508
       },
       "data": {
         "label": "JRPGs",
@@ -1899,8 +1899,8 @@
     {
       "id": "fitboxing",
       "position": {
-        "x": -424,
-        "y": -73
+        "x": -339,
+        "y": 147
       },
       "data": {
         "label": "Fitboxing",
@@ -1911,8 +1911,8 @@
     {
       "id": "paintball",
       "position": {
-        "x": 385,
-        "y": -717
+        "x": 828,
+        "y": -546
       },
       "data": {
         "label": "Paintball",
@@ -1923,8 +1923,8 @@
     {
       "id": "exploration",
       "position": {
-        "x": 17,
-        "y": -141
+        "x": 79,
+        "y": -115
       },
       "data": {
         "label": "Exploration",
@@ -1936,7 +1936,7 @@
       "id": "quiet_spaces",
       "position": {
         "x": -175,
-        "y": 164
+        "y": 93
       },
       "data": {
         "label": "Quiet Spaces",
@@ -1947,8 +1947,8 @@
     {
       "id": "parks",
       "position": {
-        "x": -953,
-        "y": 270
+        "x": -244,
+        "y": -56
       },
       "data": {
         "label": "Parks",
@@ -1959,8 +1959,8 @@
     {
       "id": "emotional_ambiance",
       "position": {
-        "x": 4,
-        "y": 52
+        "x": 22,
+        "y": -59
       },
       "data": {
         "label": "Emotional Ambiance",
@@ -1971,8 +1971,8 @@
     {
       "id": "memory_linked_places",
       "position": {
-        "x": -137,
-        "y": -70
+        "x": -148,
+        "y": -100
       },
       "data": {
         "label": "Memory-Linked Places",
@@ -1983,8 +1983,8 @@
     {
       "id": "somber_beauty",
       "position": {
-        "x": -43,
-        "y": -13
+        "x": -58,
+        "y": -45
       },
       "data": {
         "label": "Somber Beauty",
@@ -1995,8 +1995,8 @@
     {
       "id": "dreamlike_environments",
       "position": {
-        "x": 61,
-        "y": -71
+        "x": -39,
+        "y": -145
       },
       "data": {
         "label": "Dreamlike Environments",
@@ -2007,8 +2007,8 @@
     {
       "id": "react",
       "position": {
-        "x": 132,
-        "y": 848
+        "x": -170,
+        "y": 760
       },
       "data": {
         "label": "React",
@@ -2019,8 +2019,8 @@
     {
       "id": "typescript",
       "position": {
-        "x": 92,
-        "y": 829
+        "x": -199,
+        "y": 727
       },
       "data": {
         "label": "TypeScript",
@@ -2031,8 +2031,8 @@
     {
       "id": "nextjs",
       "position": {
-        "x": 50,
-        "y": 840
+        "x": -240,
+        "y": 711
       },
       "data": {
         "label": "Next.js",
@@ -2043,8 +2043,8 @@
     {
       "id": "xaml_systems",
       "position": {
-        "x": -890,
-        "y": 321
+        "x": -326,
+        "y": 616
       },
       "data": {
         "label": "XAML Systems",
@@ -2055,8 +2055,8 @@
     {
       "id": "viewmodel_architecture",
       "position": {
-        "x": -925,
-        "y": 138
+        "x": -227,
+        "y": 810
       },
       "data": {
         "label": "ViewModel Architecture",
@@ -2067,8 +2067,8 @@
     {
       "id": "git_workflows",
       "position": {
-        "x": -998,
-        "y": 31
+        "x": -295,
+        "y": 738
       },
       "data": {
         "label": "Git Workflows",
@@ -2079,8 +2079,8 @@
     {
       "id": "gitflow",
       "position": {
-        "x": -992,
-        "y": 162
+        "x": -447,
+        "y": 775
       },
       "data": {
         "label": "GitFlow",
@@ -2091,8 +2091,8 @@
     {
       "id": "vs_code_workflows",
       "position": {
-        "x": -926,
-        "y": 7
+        "x": -254,
+        "y": 753
       },
       "data": {
         "label": "VS Code Workflows",
@@ -2103,8 +2103,8 @@
     {
       "id": "terminal_workflows",
       "position": {
-        "x": -915,
-        "y": -177
+        "x": -213,
+        "y": 768
       },
       "data": {
         "label": "Terminal Workflows",
@@ -2115,8 +2115,8 @@
     {
       "id": "analytics_instrumentation",
       "position": {
-        "x": -280,
-        "y": 729
+        "x": 93,
+        "y": 748
       },
       "data": {
         "label": "Analytics Instrumentation",
@@ -2127,8 +2127,8 @@
     {
       "id": "posthog",
       "position": {
-        "x": -969,
-        "y": -81
+        "x": 52,
+        "y": 727
       },
       "data": {
         "label": "PostHog",
@@ -2139,8 +2139,8 @@
     {
       "id": "naming_systems",
       "position": {
-        "x": -3,
-        "y": 745
+        "x": -171,
+        "y": 662
       },
       "data": {
         "label": "Naming Systems",
@@ -2151,8 +2151,8 @@
     {
       "id": "semantic_utilities",
       "position": {
-        "x": 47,
-        "y": 783
+        "x": -135,
+        "y": 732
       },
       "data": {
         "label": "Semantic Utilities",
@@ -2163,8 +2163,8 @@
     {
       "id": "component_extraction",
       "position": {
-        "x": 67,
-        "y": 743
+        "x": -211,
+        "y": 642
       },
       "data": {
         "label": "Component Extraction",
@@ -2175,8 +2175,8 @@
     {
       "id": "design_token_export_systems",
       "position": {
-        "x": -50,
-        "y": 794
+        "x": -370,
+        "y": 623
       },
       "data": {
         "label": "Design Token Export Systems",
@@ -2187,8 +2187,8 @@
     {
       "id": "noesis_ui",
       "position": {
-        "x": -977,
-        "y": -202
+        "x": -354,
+        "y": 582
       },
       "data": {
         "label": "Noesis UI",
@@ -2199,8 +2199,8 @@
     {
       "id": "ufo_uap_discussions",
       "position": {
-        "x": -474,
-        "y": 178
+        "x": -508,
+        "y": 156
       },
       "data": {
         "label": "UFO/UAP Discussions",
@@ -2211,8 +2211,8 @@
     {
       "id": "disclosure_history",
       "position": {
-        "x": -632,
-        "y": 212
+        "x": -679,
+        "y": 185
       },
       "data": {
         "label": "Disclosure History",
@@ -2223,8 +2223,8 @@
     {
       "id": "historical_anomalies",
       "position": {
-        "x": -494,
-        "y": 311
+        "x": -546,
+        "y": 250
       },
       "data": {
         "label": "Historical Anomalies",
@@ -2235,8 +2235,8 @@
     {
       "id": "conspiracy_theories",
       "position": {
-        "x": -507,
-        "y": 269
+        "x": -531,
+        "y": 292
       },
       "data": {
         "label": "Conspiracy Theories",
@@ -2247,8 +2247,8 @@
     {
       "id": "bob_lazar_claims",
       "position": {
-        "x": -633,
-        "y": 168
+        "x": -679,
+        "y": 141
       },
       "data": {
         "label": "Bob Lazar Claims",
@@ -2259,8 +2259,8 @@
     {
       "id": "gravity_manipulation_theories",
       "position": {
-        "x": -583,
-        "y": 233
+        "x": -631,
+        "y": 198
       },
       "data": {
         "label": "Gravity Manipulation Theories",
@@ -2271,8 +2271,8 @@
     {
       "id": "physics_beyond_public_understanding",
       "position": {
-        "x": -445,
-        "y": 252
+        "x": -489,
+        "y": 226
       },
       "data": {
         "label": "Physics Beyond Public Understanding",
@@ -2283,8 +2283,8 @@
     {
       "id": "ancient_depictions_of_anomalies",
       "position": {
-        "x": -557,
-        "y": 269
+        "x": -603,
+        "y": 232
       },
       "data": {
         "label": "Ancient Depictions of Anomalies",
@@ -2295,8 +2295,8 @@
     {
       "id": "consciousness_related_phenomena",
       "position": {
-        "x": -333,
-        "y": 135
+        "x": -383,
+        "y": 145
       },
       "data": {
         "label": "Consciousness-Related Phenomena",
@@ -2307,8 +2307,8 @@
     {
       "id": "speculative_cosmology",
       "position": {
-        "x": -177,
-        "y": 239
+        "x": -201,
+        "y": 209
       },
       "data": {
         "label": "Speculative Cosmology",
@@ -2319,8 +2319,8 @@
     {
       "id": "symbolic_archaeology",
       "position": {
-        "x": -417,
-        "y": 302
+        "x": -453,
+        "y": 250
       },
       "data": {
         "label": "Symbolic Archaeology",
@@ -2331,8 +2331,8 @@
     {
       "id": "hidden_history_narratives",
       "position": {
-        "x": -521,
-        "y": 225
+        "x": -554,
+        "y": 207
       },
       "data": {
         "label": "Hidden History Narratives",
@@ -2343,8 +2343,8 @@
     {
       "id": "fringe_epistemology",
       "position": {
-        "x": -358,
-        "y": 200
+        "x": -377,
+        "y": 189
       },
       "data": {
         "label": "Fringe Epistemology",
@@ -2355,8 +2355,8 @@
     {
       "id": "perception_vs_reality",
       "position": {
-        "x": -246,
-        "y": 127
+        "x": -283,
+        "y": 132
       },
       "data": {
         "label": "Perception vs Reality",
@@ -2367,8 +2367,8 @@
     {
       "id": "meshuggah",
       "position": {
-        "x": 192,
-        "y": 640
+        "x": 301,
+        "y": 346
       },
       "data": {
         "label": "Meshuggah",
@@ -2379,8 +2379,8 @@
     {
       "id": "periphery",
       "position": {
-        "x": 346,
-        "y": 604
+        "x": 274,
+        "y": 312
       },
       "data": {
         "label": "Periphery",
@@ -2391,8 +2391,8 @@
     {
       "id": "animals_as_leaders",
       "position": {
-        "x": 367,
-        "y": 564
+        "x": 24,
+        "y": 169
       },
       "data": {
         "label": "Animals as Leaders",
@@ -2403,8 +2403,8 @@
     {
       "id": "karmanjakah",
       "position": {
-        "x": 323,
-        "y": 567
+        "x": -87,
+        "y": 341
       },
       "data": {
         "label": "Karmanjakah",
@@ -2415,8 +2415,8 @@
     {
       "id": "ions",
       "position": {
-        "x": 464,
-        "y": 3
+        "x": 184,
+        "y": -203
       },
       "data": {
         "label": "Ions",
@@ -2427,8 +2427,8 @@
     {
       "id": "jeff_loomis",
       "position": {
-        "x": 247,
-        "y": 666
+        "x": -21,
+        "y": 418
       },
       "data": {
         "label": "Jeff Loomis",
@@ -2439,8 +2439,8 @@
     {
       "id": "spiritbox",
       "position": {
-        "x": -552,
-        "y": -366
+        "x": -802,
+        "y": -197
       },
       "data": {
         "label": "Spiritbox",
@@ -2451,8 +2451,8 @@
     {
       "id": "skyharbor",
       "position": {
-        "x": 280,
-        "y": 558
+        "x": 4,
+        "y": 339
       },
       "data": {
         "label": "Skyharbor",
@@ -2463,8 +2463,8 @@
     {
       "id": "deftones",
       "position": {
-        "x": -152,
-        "y": -215
+        "x": -373,
+        "y": -133
       },
       "data": {
         "label": "Deftones",
@@ -2475,8 +2475,8 @@
     {
       "id": "fear_factory",
       "position": {
-        "x": -525,
-        "y": -401
+        "x": -817,
+        "y": -238
       },
       "data": {
         "label": "Fear Factory",
@@ -2487,8 +2487,8 @@
     {
       "id": "glassjaw",
       "position": {
-        "x": -547,
-        "y": -439
+        "x": -776,
+        "y": -252
       },
       "data": {
         "label": "Glassjaw",
@@ -2499,8 +2499,8 @@
     {
       "id": "tennyson",
       "position": {
-        "x": 492,
-        "y": -31
+        "x": 301,
+        "y": -234
       },
       "data": {
         "label": "Tennyson",
@@ -2511,8 +2511,8 @@
     {
       "id": "anomalie",
       "position": {
-        "x": 486,
-        "y": -75
+        "x": 258,
+        "y": -244
       },
       "data": {
         "label": "Anomalie",
@@ -2523,8 +2523,8 @@
     {
       "id": "athletic_progression",
       "position": {
-        "x": 449,
-        "y": -40
+        "x": 228,
+        "y": -198
       },
       "data": {
         "label": "Athletic Progression",
@@ -2535,8 +2535,8 @@
     {
       "id": "yussef_dayes",
       "position": {
-        "x": 520,
-        "y": 280
+        "x": 506,
+        "y": 120
       },
       "data": {
         "label": "Yussef Dayes",
@@ -2547,8 +2547,8 @@
     {
       "id": "wilco",
       "position": {
-        "x": -488,
-        "y": -508
+        "x": -699,
+        "y": -454
       },
       "data": {
         "label": "Wilco",
@@ -2559,8 +2559,8 @@
     {
       "id": "tv_girl",
       "position": {
-        "x": -492,
-        "y": -754
+        "x": -324,
+        "y": -624
       },
       "data": {
         "label": "TV Girl",
@@ -2571,8 +2571,8 @@
     {
       "id": "tomita_lab",
       "position": {
-        "x": 243,
-        "y": -256
+        "x": -303,
+        "y": -349
       },
       "data": {
         "label": "Tomita Lab",
@@ -2583,8 +2583,8 @@
     {
       "id": "thundercat",
       "position": {
-        "x": 555,
-        "y": 387
+        "x": 444,
+        "y": 123
       },
       "data": {
         "label": "Thundercat",
@@ -2595,8 +2595,8 @@
     {
       "id": "hed_pe",
       "position": {
-        "x": -489,
-        "y": -457
+        "x": -796,
+        "y": -291
       },
       "data": {
         "label": "Hed PE",
@@ -2607,8 +2607,8 @@
     {
       "id": "tennis",
       "position": {
-        "x": -452,
-        "y": -788
+        "x": -281,
+        "y": -636
       },
       "data": {
         "label": "Tennis",
@@ -2619,8 +2619,8 @@
     {
       "id": "sun_kil_moon",
       "position": {
-        "x": -374,
-        "y": -185
+        "x": -454,
+        "y": -177
       },
       "data": {
         "label": "Sun Kil Moon",
@@ -2631,8 +2631,8 @@
     {
       "id": "sondre_lerche",
       "position": {
-        "x": -491,
-        "y": -65
+        "x": -409,
+        "y": -227
       },
       "data": {
         "label": "Sondre Lerche",
@@ -2643,8 +2643,8 @@
     {
       "id": "snail_mail",
       "position": {
-        "x": -614,
-        "y": -796
+        "x": -383,
+        "y": -551
       },
       "data": {
         "label": "Snail Mail",
@@ -2655,8 +2655,8 @@
     {
       "id": "shadow_community",
       "position": {
-        "x": -317,
-        "y": -854
+        "x": -173,
+        "y": -536
       },
       "data": {
         "label": "Shadow Community",
@@ -2667,8 +2667,8 @@
     {
       "id": "sean_ono_lennon",
       "position": {
-        "x": -629,
-        "y": -390
+        "x": -775,
+        "y": -427
       },
       "data": {
         "label": "Sean Ono Lennon",
@@ -2679,8 +2679,8 @@
     {
       "id": "samara_cyn",
       "position": {
-        "x": 520,
-        "y": 360
+        "x": 478,
+        "y": 43
       },
       "data": {
         "label": "Samara Cyn",
@@ -2691,8 +2691,8 @@
     {
       "id": "sam_gellaitry",
       "position": {
-        "x": 402,
-        "y": -79
+        "x": 171,
+        "y": -245
       },
       "data": {
         "label": "Sam Gellaitry",
@@ -2703,8 +2703,8 @@
     {
       "id": "radiohead",
       "position": {
-        "x": -525,
-        "y": -484
+        "x": -763,
+        "y": -384
       },
       "data": {
         "label": "Radiohead",
@@ -2715,8 +2715,8 @@
     {
       "id": "post_malone",
       "position": {
-        "x": -838,
-        "y": -609
+        "x": -52,
+        "y": -559
       },
       "data": {
         "label": "Post Malone",
@@ -2727,8 +2727,8 @@
     {
       "id": "photay",
       "position": {
-        "x": 444,
-        "y": -90
+        "x": 140,
+        "y": -214
       },
       "data": {
         "label": "Photay",
@@ -2739,8 +2739,8 @@
     {
       "id": "oren_lavie",
       "position": {
-        "x": -529,
-        "y": -88
+        "x": -454,
+        "y": -133
       },
       "data": {
         "label": "Oren Lavie",
@@ -2751,8 +2751,8 @@
     {
       "id": "mt_marcy",
       "position": {
-        "x": -530,
-        "y": -44
+        "x": -411,
+        "y": -183
       },
       "data": {
         "label": "Mt. Marcy",
@@ -2763,8 +2763,8 @@
     {
       "id": "moonchild",
       "position": {
-        "x": 558,
-        "y": 259
+        "x": 464,
+        "y": 84
       },
       "data": {
         "label": "Moonchild",
@@ -2775,8 +2775,8 @@
     {
       "id": "mild_high_club",
       "position": {
-        "x": -588,
-        "y": -761
+        "x": -350,
+        "y": -589
       },
       "data": {
         "label": "Mild High Club",
@@ -2787,8 +2787,8 @@
     {
       "id": "mac_miller",
       "position": {
-        "x": -833,
-        "y": -547
+        "x": -16,
+        "y": -534
       },
       "data": {
         "label": "Mac Miller",
@@ -2799,8 +2799,8 @@
     {
       "id": "the_last_shadow_puppets",
       "position": {
-        "x": -590,
-        "y": -468
+        "x": -731,
+        "y": -424
       },
       "data": {
         "label": "The Last Shadow Puppets",
@@ -2811,8 +2811,8 @@
     {
       "id": "lamp",
       "position": {
-        "x": 208,
-        "y": -283
+        "x": -247,
+        "y": -387
       },
       "data": {
         "label": "Lamp",
@@ -2823,8 +2823,8 @@
     {
       "id": "kirinji",
       "position": {
-        "x": 130,
-        "y": -315
+        "x": -291,
+        "y": -391
       },
       "data": {
         "label": "KIRINJI",
@@ -2835,8 +2835,8 @@
     {
       "id": "king_krule",
       "position": {
-        "x": -608,
-        "y": -428
+        "x": -741,
+        "y": -467
       },
       "data": {
         "label": "King Krule",
@@ -2847,8 +2847,8 @@
     {
       "id": "kendrick_lamar",
       "position": {
-        "x": -791,
-        "y": -522
+        "x": -80,
+        "y": -525
       },
       "data": {
         "label": "Kendrick Lamar",
@@ -2859,8 +2859,8 @@
     {
       "id": "kazuki_isogai",
       "position": {
-        "x": 249,
-        "y": -300
+        "x": -224,
+        "y": -424
       },
       "data": {
         "label": "Kazuki Isogai",
@@ -2871,8 +2871,8 @@
     {
       "id": "kali_uchis",
       "position": {
-        "x": -764,
-        "y": -676
+        "x": -96,
+        "y": -566
       },
       "data": {
         "label": "Kali Uchis",
@@ -2883,8 +2883,8 @@
     {
       "id": "jeff_tweedy",
       "position": {
-        "x": -465,
-        "y": -236
+        "x": -511,
+        "y": -281
       },
       "data": {
         "label": "Jeff Tweedy",
@@ -2895,8 +2895,8 @@
     {
       "id": "jay_som",
       "position": {
-        "x": -436,
-        "y": -831
+        "x": -427,
+        "y": -547
       },
       "data": {
         "label": "Jay Som",
@@ -2907,8 +2907,8 @@
     {
       "id": "japanese_breakfast",
       "position": {
-        "x": -446,
-        "y": -874
+        "x": -394,
+        "y": -594
       },
       "data": {
         "label": "Japanese Breakfast",
@@ -2919,8 +2919,8 @@
     {
       "id": "jacob_collier",
       "position": {
-        "x": 573,
-        "y": 347
+        "x": 507,
+        "y": 76
       },
       "data": {
         "label": "Jacob Collier",
@@ -2931,8 +2931,8 @@
     {
       "id": "van_dyke_parks",
       "position": {
-        "x": -261,
-        "y": -813
+        "x": -145,
+        "y": -573
       },
       "data": {
         "label": "Van Dyke Parks",
@@ -2943,8 +2943,8 @@
     {
       "id": "silverchair",
       "position": {
-        "x": -316,
-        "y": -327
+        "x": -512,
+        "y": -211
       },
       "data": {
         "label": "Silverchair",
@@ -2955,8 +2955,8 @@
     {
       "id": "homeshake",
       "position": {
-        "x": -546,
-        "y": -746
+        "x": -437,
+        "y": -590
       },
       "data": {
         "label": "HOMESHAKE",
@@ -2967,8 +2967,8 @@
     {
       "id": "hiatus_kaiyote",
       "position": {
-        "x": 577,
-        "y": 299
+        "x": 447,
+        "y": 11
       },
       "data": {
         "label": "Hiatus Kaiyote",
@@ -2979,8 +2979,8 @@
     {
       "id": "gustavo_cerati",
       "position": {
-        "x": -231,
-        "y": -954
+        "x": -189,
+        "y": -576
       },
       "data": {
         "label": "Gustavo Cerati",
@@ -2991,8 +2991,8 @@
     {
       "id": "giraffage",
       "position": {
-        "x": 512,
-        "y": 8
+        "x": 215,
+        "y": -240
       },
       "data": {
         "label": "Giraffage",
@@ -3003,8 +3003,8 @@
     {
       "id": "flyte",
       "position": {
-        "x": -613,
-        "y": -841
+        "x": -411,
+        "y": -634
       },
       "data": {
         "label": "Flyte",
@@ -3015,8 +3015,8 @@
     {
       "id": "ethan_french",
       "position": {
-        "x": -451,
-        "y": -130
+        "x": -467,
+        "y": -219
       },
       "data": {
         "label": "Ethan French",
@@ -3027,8 +3027,8 @@
     {
       "id": "erykah_badu",
       "position": {
-        "x": 538,
-        "y": 320
+        "x": 433,
+        "y": 53
       },
       "data": {
         "label": "Erykah Badu",
@@ -3039,8 +3039,8 @@
     {
       "id": "eloise",
       "position": {
-        "x": -520,
-        "y": -912
+        "x": -368,
+        "y": -629
       },
       "data": {
         "label": "Eloise",
@@ -3051,8 +3051,8 @@
     {
       "id": "dr_dog",
       "position": {
-        "x": -564,
-        "y": -504
+        "x": -690,
+        "y": -498
       },
       "data": {
         "label": "Dr. Dog",
@@ -3063,8 +3063,8 @@
     {
       "id": "dent_may",
       "position": {
-        "x": -579,
-        "y": -890
+        "x": -313,
+        "y": -667
       },
       "data": {
         "label": "Dent May",
@@ -3075,8 +3075,8 @@
     {
       "id": "cornelius",
       "position": {
-        "x": 214,
-        "y": -327
+        "x": -208,
+        "y": -365
       },
       "data": {
         "label": "Cornelius",
@@ -3087,8 +3087,8 @@
     {
       "id": "cero",
       "position": {
-        "x": 170,
-        "y": -332
+        "x": -182,
+        "y": -411
       },
       "data": {
         "label": "cero",
@@ -3099,8 +3099,8 @@
     {
       "id": "cafune",
       "position": {
-        "x": -475,
-        "y": -908
+        "x": -356,
+        "y": -672
       },
       "data": {
         "label": "Cafuné",
@@ -3111,8 +3111,8 @@
     {
       "id": "bonobo",
       "position": {
-        "x": 484,
-        "y": 42
+        "x": 271,
+        "y": -202
       },
       "data": {
         "label": "Bonobo",
@@ -3123,8 +3123,8 @@
     {
       "id": "bobbing",
       "position": {
-        "x": -528,
-        "y": -132
+        "x": -362,
+        "y": -292
       },
       "data": {
         "label": "Bobbing",
@@ -3135,8 +3135,8 @@
     {
       "id": "blah_blah_blah",
       "position": {
-        "x": -490,
-        "y": -109
+        "x": -368,
+        "y": -245
       },
       "data": {
         "label": "Blah Blah Blah",
@@ -3147,8 +3147,8 @@
     {
       "id": "billie_marten",
       "position": {
-        "x": -450,
-        "y": -174
+        "x": -442,
+        "y": -255
       },
       "data": {
         "label": "Billie Marten",
@@ -3159,8 +3159,8 @@
     {
       "id": "phoebe_bridgers",
       "position": {
-        "x": -489,
-        "y": -153
+        "x": -402,
+        "y": -273
       },
       "data": {
         "label": "Phoebe Bridgers",
@@ -3171,8 +3171,8 @@
     {
       "id": "nirvana",
       "position": {
-        "x": -171,
-        "y": -333
+        "x": -285,
+        "y": -289
       },
       "data": {
         "label": "Nirvana",
@@ -3183,8 +3183,8 @@
     {
       "id": "foo_fighters",
       "position": {
-        "x": -261,
-        "y": -288
+        "x": -169,
+        "y": -290
       },
       "data": {
         "label": "Foo Fighters",
@@ -3195,8 +3195,8 @@
     {
       "id": "pearl_jam",
       "position": {
-        "x": -214,
-        "y": -306
+        "x": -241,
+        "y": -293
       },
       "data": {
         "label": "Pearl Jam",
@@ -3207,8 +3207,8 @@
     {
       "id": "alice_in_chains",
       "position": {
-        "x": -251,
-        "y": -331
+        "x": -170,
+        "y": -345
       },
       "data": {
         "label": "Alice in Chains",
@@ -3219,8 +3219,8 @@
     {
       "id": "stone_temple_pilots",
       "position": {
-        "x": -212,
-        "y": -350
+        "x": -204,
+        "y": -317
       },
       "data": {
         "label": "Stone Temple Pilots",
@@ -3231,8 +3231,8 @@
     {
       "id": "big_fish",
       "position": {
-        "x": -279,
-        "y": -91
+        "x": -297,
+        "y": -181
       },
       "data": {
         "label": "Big Fish",
@@ -3243,8 +3243,8 @@
     {
       "id": "the_legend_of_1900",
       "position": {
-        "x": -144,
-        "y": -129
+        "x": -275,
+        "y": -219
       },
       "data": {
         "label": "The Legend of 1900",
@@ -3255,8 +3255,8 @@
     {
       "id": "kill_bill",
       "position": {
-        "x": -249,
-        "y": -123
+        "x": -334,
+        "y": -152
       },
       "data": {
         "label": "Kill Bill",
@@ -3267,8 +3267,8 @@
     {
       "id": "inglourious_basterds",
       "position": {
-        "x": -309,
-        "y": -55
+        "x": -340,
+        "y": -104
       },
       "data": {
         "label": "Inglourious Basterds",
@@ -3279,8 +3279,8 @@
     {
       "id": "once_upon_a_time_in_hollywood",
       "position": {
-        "x": -292,
-        "y": -133
+        "x": -338,
+        "y": -196
       },
       "data": {
         "label": "Once Upon a Time in Hollywood",
@@ -3291,8 +3291,8 @@
     {
       "id": "the_phoenician_scheme",
       "position": {
-        "x": -323,
-        "y": -97
+        "x": -381,
+        "y": -90
       },
       "data": {
         "label": "The Phoenician Scheme",
@@ -3303,8 +3303,8 @@
     {
       "id": "the_life_aquatic",
       "position": {
-        "x": -232,
-        "y": -163
+        "x": -218,
+        "y": -240
       },
       "data": {
         "label": "The Life Aquatic with Steve Zissou",
@@ -3315,8 +3315,8 @@
     {
       "id": "ace_ventura",
       "position": {
-        "x": 180,
-        "y": -884
+        "x": 102,
+        "y": -675
       },
       "data": {
         "label": "Ace Ventura: When Nature Calls",
@@ -3327,8 +3327,8 @@
     {
       "id": "road_trip",
       "position": {
-        "x": 98,
-        "y": -865
+        "x": -54,
+        "y": -677
       },
       "data": {
         "label": "Road Trip",
@@ -3339,8 +3339,8 @@
     {
       "id": "eurotrip",
       "position": {
-        "x": 142,
-        "y": -863
+        "x": 59,
+        "y": -667
       },
       "data": {
         "label": "EuroTrip",
@@ -3351,8 +3351,8 @@
     {
       "id": "shaun_of_the_dead",
       "position": {
-        "x": 53,
-        "y": -875
+        "x": 117,
+        "y": -716
       },
       "data": {
         "label": "Shaun of the Dead",
@@ -3363,8 +3363,8 @@
     {
       "id": "hot_fuzz",
       "position": {
-        "x": 219,
-        "y": -977
+        "x": 74,
+        "y": -708
       },
       "data": {
         "label": "Hot Fuzz",
@@ -3375,8 +3375,8 @@
     {
       "id": "the_worlds_end",
       "position": {
-        "x": 4,
-        "y": -916
+        "x": 31,
+        "y": -701
       },
       "data": {
         "label": "The World's End",
@@ -3387,8 +3387,8 @@
     {
       "id": "paul",
       "position": {
-        "x": 217,
-        "y": -908
+        "x": -10,
+        "y": -684
       },
       "data": {
         "label": "Paul",
@@ -3399,8 +3399,8 @@
     {
       "id": "american_pie",
       "position": {
-        "x": 52,
-        "y": -993
+        "x": -82,
+        "y": -710
       },
       "data": {
         "label": "American Pie",
@@ -3411,8 +3411,8 @@
     {
       "id": "rush_hour",
       "position": {
-        "x": 469,
-        "y": -952
+        "x": 236,
+        "y": -515
       },
       "data": {
         "label": "Rush Hour",
@@ -3423,8 +3423,8 @@
     {
       "id": "jackass",
       "position": {
-        "x": 17,
-        "y": -958
+        "x": -39,
+        "y": -718
       },
       "data": {
         "label": "Jackass",
@@ -3435,8 +3435,8 @@
     {
       "id": "south_park_blu",
       "position": {
-        "x": 187,
-        "y": -1007
+        "x": -67,
+        "y": -752
       },
       "data": {
         "label": "South Park: Bigger Longer & Uncut",
@@ -3447,8 +3447,8 @@
     {
       "id": "anchorman",
       "position": {
-        "x": 9,
-        "y": -1001
+        "x": 46,
+        "y": -742
       },
       "data": {
         "label": "Anchorman",
@@ -3459,8 +3459,8 @@
     {
       "id": "step_brothers",
       "position": {
-        "x": 107,
-        "y": -1038
+        "x": 2,
+        "y": -734
       },
       "data": {
         "label": "Step Brothers",
@@ -3471,8 +3471,8 @@
     {
       "id": "talladega_nights",
       "position": {
-        "x": 48,
-        "y": -919
+        "x": 61,
+        "y": -783
       },
       "data": {
         "label": "Talladega Nights",
@@ -3483,8 +3483,8 @@
     {
       "id": "pineapple_express",
       "position": {
-        "x": 151,
-        "y": -1033
+        "x": 89,
+        "y": -750
       },
       "data": {
         "label": "Pineapple Express",
@@ -3495,8 +3495,8 @@
     {
       "id": "the_interview",
       "position": {
-        "x": 62,
-        "y": -1035
+        "x": 17,
+        "y": -776
       },
       "data": {
         "label": "The Interview",
@@ -3507,8 +3507,8 @@
     {
       "id": "this_is_the_end",
       "position": {
-        "x": 191,
-        "y": -944
+        "x": -26,
+        "y": -768
       },
       "data": {
         "label": "This Is the End",
@@ -3519,8 +3519,8 @@
     {
       "id": "what_dreams_may_come",
       "position": {
-        "x": 15,
-        "y": -232
+        "x": -7,
+        "y": -266
       },
       "data": {
         "label": "What Dreams May Come",
@@ -3531,8 +3531,8 @@
     {
       "id": "the_matrix",
       "position": {
-        "x": -541,
-        "y": 139
+        "x": -601,
+        "y": 121
       },
       "data": {
         "label": "The Matrix",
@@ -3543,8 +3543,8 @@
     {
       "id": "altered_carbon",
       "position": {
-        "x": -123,
-        "y": -261
+        "x": 101,
+        "y": -179
       },
       "data": {
         "label": "Altered Carbon",
@@ -3555,8 +3555,8 @@
     {
       "id": "the_mummy",
       "position": {
-        "x": -132,
-        "y": -560
+        "x": 156,
+        "y": -645
       },
       "data": {
         "label": "The Mummy",
@@ -3567,8 +3567,8 @@
     {
       "id": "avengers_endgame",
       "position": {
-        "x": -146,
-        "y": -602
+        "x": 184,
+        "y": -610
       },
       "data": {
         "label": "Avengers: Endgame",
@@ -3579,8 +3579,8 @@
     {
       "id": "gattaca",
       "position": {
-        "x": -79,
-        "y": -255
+        "x": 129,
+        "y": -129
       },
       "data": {
         "label": "Gattaca",
@@ -3591,8 +3591,8 @@
     {
       "id": "arrival",
       "position": {
-        "x": -47,
-        "y": -225
+        "x": 144,
+        "y": -170
       },
       "data": {
         "label": "Arrival",
@@ -3603,8 +3603,8 @@
     {
       "id": "oceans_eleven",
       "position": {
-        "x": 450,
-        "y": -893
+        "x": 282,
+        "y": -481
       },
       "data": {
         "label": "Ocean's Eleven",
@@ -3615,8 +3615,8 @@
     {
       "id": "v_for_vendetta",
       "position": {
-        "x": 230,
-        "y": 269
+        "x": 278,
+        "y": 219
       },
       "data": {
         "label": "V for Vendetta",
@@ -3627,8 +3627,8 @@
     {
       "id": "identity",
       "position": {
-        "x": -567,
-        "y": 104
+        "x": -601,
+        "y": 77
       },
       "data": {
         "label": "Identity",
@@ -3639,8 +3639,8 @@
     {
       "id": "the_ninth_gate",
       "position": {
-        "x": 245,
-        "y": -134
+        "x": 269,
+        "y": -157
       },
       "data": {
         "label": "The Ninth Gate",
@@ -3651,8 +3651,8 @@
     {
       "id": "unbreakable",
       "position": {
-        "x": -85,
-        "y": -574
+        "x": 172,
+        "y": -686
       },
       "data": {
         "label": "Unbreakable",
@@ -3663,8 +3663,8 @@
     {
       "id": "the_blair_witch_project",
       "position": {
-        "x": 97,
-        "y": -177
+        "x": 92,
+        "y": -298
       },
       "data": {
         "label": "The Blair Witch Project",
@@ -3675,8 +3675,8 @@
     {
       "id": "vanilla_sky",
       "position": {
-        "x": -549,
-        "y": 64
+        "x": -598,
+        "y": 33
       },
       "data": {
         "label": "Vanilla Sky",
@@ -3687,8 +3687,8 @@
     {
       "id": "the_fifth_element",
       "position": {
-        "x": 3,
-        "y": -560
+        "x": 216,
+        "y": -692
       },
       "data": {
         "label": "The Fifth Element",
@@ -3699,8 +3699,8 @@
     {
       "id": "close_encounters",
       "position": {
-        "x": -493,
-        "y": 54
+        "x": -528,
+        "y": -7
       },
       "data": {
         "label": "Close Encounters of the Third Kind",
@@ -3711,8 +3711,8 @@
     {
       "id": "the_fourth_kind",
       "position": {
-        "x": -488,
-        "y": 10
+        "x": -544,
+        "y": 34
       },
       "data": {
         "label": "The Fourth Kind",
@@ -3723,8 +3723,8 @@
     {
       "id": "ai_artificial_intelligence",
       "position": {
-        "x": -96,
-        "y": -296
+        "x": 22,
+        "y": -299
       },
       "data": {
         "label": "A.I. Artificial Intelligence",
@@ -3735,8 +3735,8 @@
     {
       "id": "metropolis",
       "position": {
-        "x": -52,
-        "y": -289
+        "x": 36,
+        "y": -258
       },
       "data": {
         "label": "Metropolis",
@@ -3747,8 +3747,8 @@
     {
       "id": "dune",
       "position": {
-        "x": -72,
-        "y": -347
+        "x": 72,
+        "y": -373
       },
       "data": {
         "label": "Dune",
@@ -3759,8 +3759,8 @@
     {
       "id": "independence_day",
       "position": {
-        "x": -104,
-        "y": -614
+        "x": 243,
+        "y": -658
       },
       "data": {
         "label": "Independence Day",
@@ -3771,8 +3771,8 @@
     {
       "id": "terminator_2",
       "position": {
-        "x": -58,
-        "y": -608
+        "x": 266,
+        "y": -620
       },
       "data": {
         "label": "Terminator 2",
@@ -3783,8 +3783,8 @@
     {
       "id": "war_of_the_worlds",
       "position": {
-        "x": -42,
-        "y": -567
+        "x": 227,
+        "y": -601
       },
       "data": {
         "label": "War of the Worlds",
@@ -3795,8 +3795,8 @@
     {
       "id": "the_others",
       "position": {
-        "x": 171,
-        "y": -107
+        "x": 218,
+        "y": -284
       },
       "data": {
         "label": "The Others",
@@ -3807,8 +3807,8 @@
     {
       "id": "signs",
       "position": {
-        "x": 140,
-        "y": -182
+        "x": 131,
+        "y": -278
       },
       "data": {
         "label": "Signs",
@@ -3819,8 +3819,8 @@
     {
       "id": "the_village",
       "position": {
-        "x": 182,
-        "y": -149
+        "x": 215,
+        "y": -101
       },
       "data": {
         "label": "The Village",
@@ -3831,8 +3831,8 @@
     {
       "id": "her",
       "position": {
-        "x": -10,
-        "y": -303
+        "x": 184,
+        "y": -153
       },
       "data": {
         "label": "Her",
@@ -3843,8 +3843,8 @@
     {
       "id": "constantine",
       "position": {
-        "x": 183,
-        "y": -193
+        "x": 174,
+        "y": -289
       },
       "data": {
         "label": "Constantine",
@@ -3855,8 +3855,8 @@
     {
       "id": "the_ring",
       "position": {
-        "x": 114,
-        "y": -217
+        "x": 227,
+        "y": -143
       },
       "data": {
         "label": "The Ring",
@@ -3867,8 +3867,8 @@
     {
       "id": "john_wick",
       "position": {
-        "x": 600,
-        "y": -867
+        "x": 279,
+        "y": -525
       },
       "data": {
         "label": "John Wick",
@@ -3879,8 +3879,8 @@
     {
       "id": "dracula",
       "position": {
-        "x": 224,
-        "y": 153
+        "x": 286,
+        "y": 149
       },
       "data": {
         "label": "Dracula",
@@ -3891,8 +3891,8 @@
     {
       "id": "sleepy_hollow",
       "position": {
-        "x": 211,
-        "y": 229
+        "x": 262,
+        "y": 112
       },
       "data": {
         "label": "Sleepy Hollow",
@@ -3903,8 +3903,8 @@
     {
       "id": "frankenstein_del_toro",
       "position": {
-        "x": 196,
-        "y": 188
+        "x": 309,
+        "y": 111
       },
       "data": {
         "label": "Frankenstein",
@@ -3915,8 +3915,8 @@
     {
       "id": "interstellar",
       "position": {
-        "x": -19,
-        "y": -260
+        "x": 80,
+        "y": -255
       },
       "data": {
         "label": "Interstellar",
@@ -3927,8 +3927,8 @@
     {
       "id": "lord_of_the_rings",
       "position": {
-        "x": -14,
-        "y": -601
+        "x": 200,
+        "y": -651
       },
       "data": {
         "label": "Lord of the Rings",
@@ -3939,8 +3939,8 @@
     {
       "id": "the_conjuring",
       "position": {
-        "x": 221,
-        "y": -171
+        "x": 311,
+        "y": -182
       },
       "data": {
         "label": "The Conjuring",
@@ -3951,8 +3951,8 @@
     {
       "id": "zelda_ocarina_of_time",
       "position": {
-        "x": 908,
-        "y": -464
+        "x": 521,
+        "y": -679
       },
       "data": {
         "label": "Zelda: Ocarina of Time",
@@ -3963,8 +3963,8 @@
     {
       "id": "zelda_majoras_mask",
       "position": {
-        "x": 790,
-        "y": -484
+        "x": 542,
+        "y": -724
       },
       "data": {
         "label": "Zelda: Majora's Mask",
@@ -3975,8 +3975,8 @@
     {
       "id": "mortal_kombat_3",
       "position": {
-        "x": 860,
-        "y": -444
+        "x": 565,
+        "y": -687
       },
       "data": {
         "label": "Mortal Kombat 3",
@@ -3987,8 +3987,8 @@
     {
       "id": "doom",
       "position": {
-        "x": 416,
-        "y": -750
+        "x": 780,
+        "y": -704
       },
       "data": {
         "label": "Doom",
@@ -3999,8 +3999,8 @@
     {
       "id": "duke_nukem_3d",
       "position": {
-        "x": 504,
-        "y": -750
+        "x": 753,
+        "y": -738
       },
       "data": {
         "label": "Duke Nukem 3D",
@@ -4011,8 +4011,8 @@
     {
       "id": "super_mario_64",
       "position": {
-        "x": 772,
-        "y": -552
+        "x": 629,
+        "y": -728
       },
       "data": {
         "label": "Super Mario 64",
@@ -4023,8 +4023,8 @@
     {
       "id": "age_of_empires_ii",
       "position": {
-        "x": 792,
-        "y": -595
+        "x": 652,
+        "y": -681
       },
       "data": {
         "label": "Age of Empires II",
@@ -4035,8 +4035,8 @@
     {
       "id": "banjo_kazooie",
       "position": {
-        "x": 882,
-        "y": -600
+        "x": 586,
+        "y": -732
       },
       "data": {
         "label": "Banjo-Kazooie",
@@ -4047,8 +4047,8 @@
     {
       "id": "mario_kart",
       "position": {
-        "x": 832,
-        "y": -614
+        "x": 678,
+        "y": -632
       },
       "data": {
         "label": "Mario Kart",
@@ -4059,8 +4059,8 @@
     {
       "id": "diddy_kong_racing",
       "position": {
-        "x": 927,
-        "y": -523
+        "x": 609,
+        "y": -689
       },
       "data": {
         "label": "Diddy Kong Racing",
@@ -4071,8 +4071,8 @@
     {
       "id": "final_fantasy_vii",
       "position": {
-        "x": 323,
-        "y": -204
+        "x": 412,
+        "y": -220
       },
       "data": {
         "label": "Final Fantasy VII",
@@ -4083,8 +4083,8 @@
     {
       "id": "devil_may_cry",
       "position": {
-        "x": 486,
-        "y": -458
+        "x": 612,
+        "y": -363
       },
       "data": {
         "label": "Devil May Cry",
@@ -4095,8 +4095,8 @@
     {
       "id": "halo",
       "position": {
-        "x": 527,
-        "y": -696
+        "x": 732,
+        "y": -700
       },
       "data": {
         "label": "Halo",
@@ -4107,8 +4107,8 @@
     {
       "id": "gears_of_war",
       "position": {
-        "x": 460,
-        "y": -760
+        "x": 864,
+        "y": -623
       },
       "data": {
         "label": "Gears of War",
@@ -4119,8 +4119,8 @@
     {
       "id": "god_of_war_ragnarok",
       "position": {
-        "x": 447,
-        "y": -438
+        "x": 647,
+        "y": -285
       },
       "data": {
         "label": "God of War Ragnarök",
@@ -4131,8 +4131,8 @@
     {
       "id": "call_of_duty",
       "position": {
-        "x": 566,
-        "y": -676
+        "x": 848,
+        "y": -668
       },
       "data": {
         "label": "Call of Duty",
@@ -4143,8 +4143,8 @@
     {
       "id": "persona_5",
       "position": {
-        "x": 346,
-        "y": -167
+        "x": 428,
+        "y": -158
       },
       "data": {
         "label": "Persona 5",
@@ -4155,8 +4155,8 @@
     {
       "id": "overwatch",
       "position": {
-        "x": 550,
-        "y": -734
+        "x": 859,
+        "y": -578
       },
       "data": {
         "label": "Overwatch",
@@ -4167,8 +4167,8 @@
     {
       "id": "baldurs_gate_3",
       "position": {
-        "x": 357,
-        "y": -12
+        "x": 491,
+        "y": -69
       },
       "data": {
         "label": "Baldur's Gate 3",
@@ -4179,8 +4179,8 @@
     {
       "id": "elden_ring",
       "position": {
-        "x": 404,
-        "y": 160
+        "x": 407,
+        "y": 268
       },
       "data": {
         "label": "Elden Ring",
@@ -4191,8 +4191,8 @@
     {
       "id": "sekiro",
       "position": {
-        "x": 442,
-        "y": 183
+        "x": 422,
+        "y": 226
       },
       "data": {
         "label": "Sekiro",
@@ -4203,8 +4203,8 @@
     {
       "id": "death_stranding",
       "position": {
-        "x": -5,
-        "y": 9
+        "x": -15,
+        "y": 72
       },
       "data": {
         "label": "Death Stranding",
@@ -4215,8 +4215,8 @@
     {
       "id": "death_stranding_2",
       "position": {
-        "x": 365,
-        "y": -56
+        "x": 511,
+        "y": -30
       },
       "data": {
         "label": "Death Stranding 2",
@@ -4227,8 +4227,8 @@
     {
       "id": "ghost_of_tsushima",
       "position": {
-        "x": 439,
-        "y": -482
+        "x": 681,
+        "y": -217
       },
       "data": {
         "label": "Ghost of Tsushima",
@@ -4239,8 +4239,8 @@
     {
       "id": "ghost_of_yotei",
       "position": {
-        "x": 527,
-        "y": -345
+        "x": 684,
+        "y": -261
       },
       "data": {
         "label": "Ghost of Yōtei",
@@ -4251,8 +4251,8 @@
     {
       "id": "zelda_botw",
       "position": {
-        "x": 490,
-        "y": -369
+        "x": 644,
+        "y": -241
       },
       "data": {
         "label": "Zelda: Breath of the Wild",
@@ -4263,8 +4263,8 @@
     {
       "id": "zelda_totk",
       "position": {
-        "x": 529,
-        "y": -389
+        "x": 619,
+        "y": -319
       },
       "data": {
         "label": "Zelda: Tears of the Kingdom",
@@ -4275,8 +4275,8 @@
     {
       "id": "the_outer_worlds_2",
       "position": {
-        "x": 401,
-        "y": -16
+        "x": 530,
+        "y": 10
       },
       "data": {
         "label": "The Outer Worlds 2",
@@ -4287,8 +4287,8 @@
     {
       "id": "lost_odyssey",
       "position": {
-        "x": 351,
-        "y": -238
+        "x": 472,
+        "y": -159
       },
       "data": {
         "label": "Lost Odyssey",
@@ -4299,8 +4299,8 @@
     {
       "id": "final_fantasy_vii_rebirth",
       "position": {
-        "x": 390,
-        "y": -160
+        "x": 455,
+        "y": -119
       },
       "data": {
         "label": "Final Fantasy VII Rebirth",
@@ -4311,8 +4311,8 @@
     {
       "id": "metaphor_refantazio",
       "position": {
-        "x": 374,
-        "y": -201
+        "x": 449,
+        "y": -197
       },
       "data": {
         "label": "Metaphor: ReFantazio",
@@ -4323,8 +4323,8 @@
     {
       "id": "arc_raiders",
       "position": {
-        "x": 544,
-        "y": -637
+        "x": 824,
+        "y": -705
       },
       "data": {
         "label": "ARC Raiders",
@@ -4335,8 +4335,8 @@
     {
       "id": "cyberpunk_2077",
       "position": {
-        "x": 482,
-        "y": -412
+        "x": 659,
+        "y": -339
       },
       "data": {
         "label": "Cyberpunk 2077",
@@ -4347,8 +4347,8 @@
     {
       "id": "wizard_with_a_gun",
       "position": {
-        "x": 866,
-        "y": -207
+        "x": 936,
+        "y": -166
       },
       "data": {
         "label": "Wizard with a Gun",
@@ -4359,8 +4359,8 @@
     {
       "id": "bloomtown",
       "position": {
-        "x": 838,
-        "y": -241
+        "x": 941,
+        "y": -122
       },
       "data": {
         "label": "Bloomtown",
@@ -4371,8 +4371,8 @@
     {
       "id": "assassins_creed_iv",
       "position": {
-        "x": 522,
-        "y": -432
+        "x": 686,
+        "y": -305
       },
       "data": {
         "label": "Assassin's Creed IV: Black Flag",
@@ -4383,8 +4383,8 @@
     {
       "id": "sea_of_stars",
       "position": {
-        "x": 530,
-        "y": -161
+        "x": 603,
+        "y": -122
       },
       "data": {
         "label": "Sea of Stars",
@@ -4395,8 +4395,8 @@
     {
       "id": "lies_of_p",
       "position": {
-        "x": 392,
-        "y": 214
+        "x": 438,
+        "y": 185
       },
       "data": {
         "label": "Lies of P",
@@ -4407,8 +4407,8 @@
     {
       "id": "the_first_berserker_khazan",
       "position": {
-        "x": 434,
-        "y": 226
+        "x": 466,
+        "y": 219
       },
       "data": {
         "label": "The First Berserker: Khazan",
@@ -4419,8 +4419,8 @@
     {
       "id": "clair_obscur",
       "position": {
-        "x": -5,
-        "y": -35
+        "x": -24,
+        "y": -17
       },
       "data": {
         "label": "Clair Obscur: Expedition 33",
@@ -4431,8 +4431,8 @@
     {
       "id": "dave_the_diver",
       "position": {
-        "x": 866,
-        "y": -163
+        "x": 909,
+        "y": -201
       },
       "data": {
         "label": "Dave the Diver",
@@ -4443,8 +4443,8 @@
     {
       "id": "black_myth_wukong",
       "position": {
-        "x": 402,
-        "y": 256
+        "x": 451,
+        "y": 261
       },
       "data": {
         "label": "Black Myth: Wukong",
@@ -4455,8 +4455,8 @@
     {
       "id": "for_the_king",
       "position": {
-        "x": 848,
-        "y": -123
+        "x": 925,
+        "y": -78
       },
       "data": {
         "label": "For the King",
@@ -4467,8 +4467,8 @@
     {
       "id": "djent_progressive_metal",
       "position": {
-        "x": 177,
-        "y": 551
+        "x": 99,
+        "y": 275
       },
       "data": {
         "label": "Djent / Progressive Metal",
@@ -4479,8 +4479,8 @@
     {
       "id": "alt_metal_post_hardcore",
       "position": {
-        "x": -409,
-        "y": -398
+        "x": -680,
+        "y": -222
       },
       "data": {
         "label": "Alt Metal / Post-Hardcore",
@@ -4491,8 +4491,8 @@
     {
       "id": "grunge",
       "position": {
-        "x": -171,
-        "y": -164
+        "x": -205,
+        "y": -147
       },
       "data": {
         "label": "Grunge",
@@ -4503,8 +4503,8 @@
     {
       "id": "jazz_neo_soul",
       "position": {
-        "x": 391,
-        "y": 339
+        "x": 286,
+        "y": 74
       },
       "data": {
         "label": "Jazz / Neo-Soul",
@@ -4515,8 +4515,8 @@
     {
       "id": "electronic_future_beats",
       "position": {
-        "x": 312,
-        "y": 28
+        "x": 176,
+        "y": -80
       },
       "data": {
         "label": "Electronic / Future Beats",
@@ -4527,8 +4527,8 @@
     {
       "id": "indie_pop_dream_pop",
       "position": {
-        "x": -527,
-        "y": -830
+        "x": -286,
+        "y": -491
       },
       "data": {
         "label": "Indie Pop / Dream Pop",
@@ -4539,8 +4539,8 @@
     {
       "id": "art_rock",
       "position": {
-        "x": -491,
-        "y": -374
+        "x": -653,
+        "y": -364
       },
       "data": {
         "label": "Art Rock",
@@ -4551,8 +4551,8 @@
     {
       "id": "orchestral_art_pop",
       "position": {
-        "x": -252,
-        "y": -887
+        "x": -104,
+        "y": -396
       },
       "data": {
         "label": "Orchestral Art Pop",
@@ -4563,8 +4563,8 @@
     {
       "id": "japanese_pop_city_pop",
       "position": {
-        "x": 139,
-        "y": -138
+        "x": -112,
+        "y": -245
       },
       "data": {
         "label": "Japanese Pop / City Pop",
@@ -4575,8 +4575,8 @@
     {
       "id": "hip_hop_rnb",
       "position": {
-        "x": -765,
-        "y": -600
+        "x": -47,
+        "y": -400
       },
       "data": {
         "label": "Hip-Hop / R&B",
@@ -4587,8 +4587,8 @@
     {
       "id": "folk_singer_songwriter",
       "position": {
-        "x": -351,
-        "y": -41
+        "x": -285,
+        "y": -124
       },
       "data": {
         "label": "Folk / Singer-Songwriter",
@@ -4599,8 +4599,8 @@
     {
       "id": "existential_sci_fi",
       "position": {
-        "x": -75,
-        "y": -110
+        "x": -6,
+        "y": -115
       },
       "data": {
         "label": "Existential Sci-Fi",
@@ -4611,8 +4611,8 @@
     {
       "id": "simulation_reality",
       "position": {
-        "x": -380,
-        "y": 116
+        "x": -424,
+        "y": 108
       },
       "data": {
         "label": "Simulation / Reality",
@@ -4623,8 +4623,8 @@
     {
       "id": "myth_spectacle",
       "position": {
-        "x": -87,
-        "y": -466
+        "x": 117,
+        "y": -528
       },
       "data": {
         "label": "Myth and Spectacle",
@@ -4635,8 +4635,8 @@
     {
       "id": "paranormal_horror",
       "position": {
-        "x": 76,
-        "y": -29
+        "x": 37,
+        "y": -100
       },
       "data": {
         "label": "Paranormal Horror",
@@ -4647,8 +4647,8 @@
     {
       "id": "gothic_dark_fantasy",
       "position": {
-        "x": 42,
-        "y": 200
+        "x": 99,
+        "y": 124
       },
       "data": {
         "label": "Gothic Dark Fantasy",
@@ -4659,8 +4659,8 @@
     {
       "id": "auteur_cinema",
       "position": {
-        "x": -171,
-        "y": 23
+        "x": -192,
+        "y": -103
       },
       "data": {
         "label": "Auteur Cinema",
@@ -4671,8 +4671,8 @@
     {
       "id": "comedy_chaos",
       "position": {
-        "x": 114,
-        "y": -950
+        "x": 20,
+        "y": -584
       },
       "data": {
         "label": "Comedy and Chaos",
@@ -4683,8 +4683,8 @@
     {
       "id": "action_thriller",
       "position": {
-        "x": 529,
-        "y": -901
+        "x": 139,
+        "y": -407
       },
       "data": {
         "label": "Action Thriller",
@@ -4695,8 +4695,8 @@
     {
       "id": "ufo_contact_cinema",
       "position": {
-        "x": -325,
-        "y": 48
+        "x": -358,
+        "y": 44
       },
       "data": {
         "label": "UFO Contact Cinema",
@@ -4708,7 +4708,7 @@
       "id": "soulslike",
       "position": {
         "x": 239,
-        "y": 195
+        "y": 156
       },
       "data": {
         "label": "Soulslike",
@@ -4719,8 +4719,8 @@
     {
       "id": "jrpg",
       "position": {
-        "x": 214,
-        "y": -102
+        "x": 284,
+        "y": -110
       },
       "data": {
         "label": "JRPG",
@@ -4731,8 +4731,8 @@
     {
       "id": "open_world_action",
       "position": {
-        "x": 372,
-        "y": -366
+        "x": 528,
+        "y": -262
       },
       "data": {
         "label": "Open World Action",
@@ -4743,8 +4743,8 @@
     {
       "id": "atmospheric_narrative",
       "position": {
-        "x": 215,
-        "y": -32
+        "x": 311,
+        "y": -24
       },
       "data": {
         "label": "Atmospheric Narrative",
@@ -4755,8 +4755,8 @@
     {
       "id": "fps_arena",
       "position": {
-        "x": 461,
-        "y": -670
+        "x": 776,
+        "y": -618
       },
       "data": {
         "label": "FPS / Arena Shooter",
@@ -4767,8 +4767,8 @@
     {
       "id": "classic_n64_era",
       "position": {
-        "x": 851,
-        "y": -528
+        "x": 598,
+        "y": -605
       },
       "data": {
         "label": "Classic N64 Era",
@@ -4779,13 +4779,25 @@
     {
       "id": "indie_cozy",
       "position": {
-        "x": 763,
-        "y": -179
+        "x": 839,
+        "y": -128
       },
       "data": {
         "label": "Indie / Cozy",
         "category": "genre",
         "description": "Indie games defined by low stakes and charm"
+      }
+    },
+    {
+      "id": "music",
+      "position": {
+        "x": -58,
+        "y": -106
+      },
+      "data": {
+        "label": "Music",
+        "category": "music",
+        "description": "Genres and craft — the thread through how I feel"
       }
     }
   ],
@@ -9812,6 +9824,254 @@
       "target": "indie_cozy",
       "data": {
         "relation": "roguelike strategy RPG"
+      }
+    },
+    {
+      "id": "e-628",
+      "source": "music",
+      "target": "indie_pop_dream_pop",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-629",
+      "source": "music",
+      "target": "hip_hop_rnb",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-630",
+      "source": "music",
+      "target": "orchestral_art_pop",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-631",
+      "source": "music",
+      "target": "folk_singer_songwriter",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-632",
+      "source": "music",
+      "target": "djent_progressive_metal",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-633",
+      "source": "music",
+      "target": "jazz_neo_soul",
+      "data": {
+        "relation": "a genre I keep coming back to"
+      }
+    },
+    {
+      "id": "e-634",
+      "source": "music",
+      "target": "music_as_identity",
+      "data": {
+        "relation": "what music means to me"
+      }
+    },
+    {
+      "id": "e-635",
+      "source": "music",
+      "target": "songwriting",
+      "data": {
+        "relation": "the craft I care about"
+      }
+    },
+    {
+      "id": "e-636",
+      "source": "music_composition",
+      "target": "songwriting",
+      "data": {
+        "relation": "the craft behind it"
+      }
+    },
+    {
+      "id": "e-637",
+      "source": "piano_voicings",
+      "target": "jazz_neo_soul",
+      "data": {
+        "relation": "harmony I gravitate to"
+      }
+    },
+    {
+      "id": "e-638",
+      "source": "fingerpicked_nylon_guitar",
+      "target": "folk_singer_songwriter",
+      "data": {
+        "relation": "the sound I play"
+      }
+    },
+    {
+      "id": "e-639",
+      "source": "heavy_but_melodic",
+      "target": "djent_progressive_metal",
+      "data": {
+        "relation": "the balance I chase"
+      }
+    },
+    {
+      "id": "e-640",
+      "source": "comedy_chaos",
+      "target": "cinematic_experiences",
+      "data": {
+        "relation": "films as comfort"
+      }
+    },
+    {
+      "id": "e-641",
+      "source": "action_thriller",
+      "target": "cinematic_experiences",
+      "data": {
+        "relation": "popcorn watches"
+      }
+    },
+    {
+      "id": "e-642",
+      "source": "classic_n64_era",
+      "target": "gaming",
+      "data": {
+        "relation": "where it started"
+      }
+    },
+    {
+      "id": "e-643",
+      "source": "system_design",
+      "target": "frontend_architecture",
+      "data": {
+        "relation": "the structural layer"
+      }
+    },
+    {
+      "id": "e-644",
+      "source": "viewmodel_architecture",
+      "target": "frontend_architecture",
+      "data": {
+        "relation": "a UI architecture pattern"
+      }
+    },
+    {
+      "id": "e-645",
+      "source": "xaml_systems",
+      "target": "design_systems",
+      "data": {
+        "relation": "UI framework work"
+      }
+    },
+    {
+      "id": "e-646",
+      "source": "noesis_ui",
+      "target": "design_systems",
+      "data": {
+        "relation": "a UI framework"
+      }
+    },
+    {
+      "id": "e-647",
+      "source": "posthog",
+      "target": "product_thinking",
+      "data": {
+        "relation": "product analytics"
+      }
+    },
+    {
+      "id": "e-648",
+      "source": "git_workflows",
+      "target": "frontend_architecture",
+      "data": {
+        "relation": "daily build workflow"
+      }
+    },
+    {
+      "id": "e-649",
+      "source": "gitflow",
+      "target": "git_workflows",
+      "data": {
+        "relation": "a branching model"
+      }
+    },
+    {
+      "id": "e-650",
+      "source": "vs_code_workflows",
+      "target": "frontend_architecture",
+      "data": {
+        "relation": "my editor setup"
+      }
+    },
+    {
+      "id": "e-651",
+      "source": "terminal_workflows",
+      "target": "frontend_architecture",
+      "data": {
+        "relation": "shell-driven dev"
+      }
+    },
+    {
+      "id": "e-652",
+      "source": "llm_systems",
+      "target": "agentic_systems",
+      "data": {
+        "relation": "the models behind agents"
+      }
+    },
+    {
+      "id": "e-653",
+      "source": "ai_assisted_engineering",
+      "target": "agentic_systems",
+      "data": {
+        "relation": "AI in my workflow"
+      }
+    },
+    {
+      "id": "e-654",
+      "source": "consciousness_and_technology",
+      "target": "human_consciousness",
+      "data": {
+        "relation": "tech meets mind"
+      }
+    },
+    {
+      "id": "e-655",
+      "source": "radical_honesty",
+      "target": "emotional_integration",
+      "data": {
+        "relation": "how I relate"
+      }
+    },
+    {
+      "id": "e-656",
+      "source": "movies_that_take_you_far_away",
+      "target": "cinematic_experiences",
+      "data": {
+        "relation": "escapist films"
+      }
+    },
+    {
+      "id": "e-657",
+      "source": "jrpgs",
+      "target": "gaming",
+      "data": {
+        "relation": "a genre I sink into"
+      }
+    },
+    {
+      "id": "e-658",
+      "source": "parks",
+      "target": "emotional_integration",
+      "data": {
+        "relation": "nature where I recenter and ease my mind"
       }
     }
   ]
