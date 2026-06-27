@@ -13,7 +13,7 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
   return (
     <Link
       href={card.href}
-      className="group flex flex-col gap-4 rounded-2xl border border-border bg-secondary/30 p-6 transition hover:border-primary/50"
+      className="group flex flex-col gap-4 rounded-2xl border border-border bg-card/30 p-6 transition hover:border-primary/50"
     >
       {card.image && (
         <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500">
