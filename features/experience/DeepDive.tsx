@@ -42,20 +42,20 @@ export function DeepDive({
 
   return (
     <section className="scroll-mt-24">
-      <h2 className="text-3xl font-semibold tracking-tight">{heading}</h2>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>
+      <h2 className="text-header tracking-tight">{heading}</h2>
+      <p className="mt-1 text-eyebrow text-primary">{eyebrow}</p>
 
       <div className="mt-6 flex flex-col gap-6">
         <div className="rounded-2xl border border-border p-6 sm:p-10">
           <div className="grid gap-10 md:grid-cols-2">
             <div>
-              <h3 className="mb-4 text-xl font-semibold text-blue-500">{entry.title}</h3>
+              <h3 className="mb-4 text-subheader text-label">{entry.title}</h3>
               {entry.description && (
-                <p className="leading-relaxed text-foreground/80">{entry.description}</p>
+                <p className="text-body text-foreground/80">{entry.description}</p>
               )}
             </div>
             <div>
-              <h3 className="mb-4 text-xl font-semibold text-blue-500">Details</h3>
+              <h3 className="mb-4 text-subheader text-label">Details</h3>
               <List variant="prose" items={entry.details} />
             </div>
           </div>

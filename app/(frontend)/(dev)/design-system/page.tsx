@@ -37,8 +37,9 @@ const ROLES: Array<[name: string, value: string, swatch: string, dark?: boolean]
 
 // ── Interaction state tokens (Tier 2) ─────────────────────────────────────────
 const STATE: Array<[name: string, value: string, swatch: string, dark?: boolean]> = [
-  ['selection', 'blue-400', 'bg-selection', true],
-  ['feedback', 'lime-200', 'bg-feedback', true],
+  ['selection', 'blue-400 (secondary)', 'bg-selection', true],
+  ['label', 'blue-400 (secondary)', 'bg-label', true],
+  ['feedback', 'lime-200 (primary)', 'bg-feedback', true],
   ['scrim', 'slate-900/50', 'bg-scrim'],
 ]
 
@@ -105,6 +106,12 @@ export default function DesignSystemPage() {
           The CSS foundation: semantic color roles, palette primitives, state tokens, the surface
           gradient, and the semantic type scale. Components consume these utilities — never raw
           primitives or vars.
+        </p>
+        <p className="text-body text-muted-foreground">
+          Three brand tiers: <span className="text-primary">primary / lime</span> (emphasis),{' '}
+          <span className="text-label">secondary / blue</span> (selection &amp; labels),{' '}
+          <span className="text-accent">tertiary / fuchsia</span> (focus). Tokens are named by job
+          and share a tier&apos;s hue.
         </p>
       </header>
 

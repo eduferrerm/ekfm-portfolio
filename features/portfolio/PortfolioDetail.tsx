@@ -13,7 +13,7 @@ import { decisionViews, keyDecisionsSubtitle, relatedItems } from './projections
 
 /** Hardcoded blue section heading (Overview / System Design / Relevant content). */
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <h2 className="mb-6 text-lg font-semibold text-blue-500">{children}</h2>
+  return <h2 className="mb-6 text-subheader text-label">{children}</h2>
 }
 
 /**
@@ -43,11 +43,11 @@ export async function PortfolioDetail({ slug, scope = '' }: { slug: string; scop
   return (
     <article className="space-y-16">
       <header className="space-y-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+        <p className="text-eyebrow text-primary">
           {item.eyebrow}
         </p>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{item.title}</h1>
-        {item.summary && <p className="max-w-2xl text-lg text-muted-foreground">{item.summary}</p>}
+        <h1 className="text-hero-headline">{item.title}</h1>
+        {item.summary && <p className="max-w-2xl text-lead text-muted-foreground">{item.summary}</p>}
         {tags.length > 0 && <List variant="tag" items={tags} />}
         <hr className="border-border" />
       </header>

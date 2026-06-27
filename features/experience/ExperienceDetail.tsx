@@ -15,7 +15,7 @@ import { deepDiveViews, showcaseItems } from './projections'
 /** Hardcoded column heading (Responsibilities / Scope / Craft). */
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+    <h3 className="mb-4 text-eyebrow text-muted-foreground">
       {children}
     </h3>
   )
@@ -50,11 +50,11 @@ export async function ExperienceDetail({ slug }: { slug: string }) {
         <div className="flex items-center gap-3">
           {logo && <MediaImage media={logo} className="h-10 w-auto" />}
           <div>
-            <p className="font-semibold">{exp.company}</p>
-            <p className="text-sm text-muted-foreground">{yearRange(exp)}</p>
+            <p className="text-ui-bold">{exp.company}</p>
+            <p className="text-meta text-muted-foreground">{yearRange(exp)}</p>
           </div>
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{exp.role}</h1>
+        <h1 className="text-hero-headline">{exp.role}</h1>
       </header>
 
       {gallery.length > 0 && <ShowcaseGallery items={gallery} />}
@@ -71,7 +71,7 @@ export async function ExperienceDetail({ slug }: { slug: string }) {
             <SectionLabel>{labels.scope}</SectionLabel>
             <ul className="space-y-3">
               {scope.map((s, i) => (
-                <li key={i} className="leading-relaxed text-foreground/90">
+                <li key={i} className="text-body text-foreground/90">
                   {s}
                 </li>
               ))}

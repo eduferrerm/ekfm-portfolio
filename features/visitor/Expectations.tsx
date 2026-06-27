@@ -66,24 +66,24 @@ export function Expectations({
           <MediaImage media={logo} className="h-full w-full object-cover" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-primary">{labels.expectations}</p>
-          <p className="truncate text-xs text-muted-foreground">{role}</p>
+          <p className="text-ui-bold text-primary">{labels.expectations}</p>
+          <p className="truncate text-meta text-muted-foreground">{role}</p>
         </div>
-        <span className="text-xs font-semibold text-primary">
+        <span className="text-meta-bold text-primary">
           {index + 1}/{expectations.length}
         </span>
       </div>
 
-      <p className="text-lg leading-relaxed text-foreground/90">{view.expectation}</p>
+      <p className="text-lead text-foreground/90">{view.expectation}</p>
 
       <div>
-        <h3 className="mb-3 text-sm font-semibold text-primary">{labels.reply}</h3>
+        <h3 className="mb-3 text-subheader text-label">{labels.reply}</h3>
         {/* One prose body flowed into two balanced columns — no break-inside
             guard, so any length splits to halve the height and keep the slide
             controls in view. */}
         <div className="gap-x-8 sm:columns-2 [&>p]:mb-4 [&>p:last-child]:mb-0">
           {view.replyParagraphs.map((text, i) => (
-            <p key={i} className="leading-relaxed text-foreground/80">
+            <p key={i} className="text-body text-foreground/80">
               {text}
             </p>
           ))}
@@ -92,7 +92,7 @@ export function Expectations({
 
       {view.items.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-blue-500">{labels.relevantContent}</h3>
+          <h3 className="mb-3 text-subheader text-label">{labels.relevantContent}</h3>
           <ul className="grid gap-3 sm:grid-cols-2">
             {view.items.map((item) => (
               <li key={item.href}>
@@ -101,8 +101,8 @@ export function Expectations({
                     <MediaImage media={item.thumbnail} className="h-full w-full object-cover" />
                   </span>
                   <span className="flex min-w-0 flex-col">
-                    <span className="text-xs text-muted-foreground">{item.title}</span>
-                    <span className="truncate text-sm font-medium group-hover:underline">
+                    <span className="text-meta text-muted-foreground">{item.title}</span>
+                    <span className="truncate text-ui-bold group-hover:underline">
                       {item.metadata}
                     </span>
                   </span>

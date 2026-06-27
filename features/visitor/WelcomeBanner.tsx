@@ -61,8 +61,8 @@ export function WelcomeBanner({
             <MediaImage media={logo} className="h-full w-full object-cover" />
           </span>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">Welcome {company}</p>
-            {greeting && <p className="truncate text-xs opacity-80">{greeting}</p>}
+            <p className="truncate text-ui-bold">Welcome {company}</p>
+            {greeting && <p className="truncate text-meta opacity-80">{greeting}</p>}
           </div>
         </div>
       </Container>

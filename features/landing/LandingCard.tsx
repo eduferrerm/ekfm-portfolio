@@ -22,11 +22,11 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
       )}
       <div>
         {card.eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="text-eyebrow text-primary">
             {card.eyebrow}
           </p>
         )}
-        <h3 className="mt-1 text-lg font-semibold tracking-tight">{card.title}</h3>
+        <h3 className="mt-1 text-card-title">{card.title}</h3>
       </div>
       {card.tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
