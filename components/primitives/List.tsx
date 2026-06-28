@@ -15,7 +15,8 @@ import { Tag } from './Tag'
  * section by checking length themselves or letting this no-op.
  */
 type ListProps = {
-  variant: 'prose' | 'tag'
+  variant: 'prose' | 'tag' | 'text'
+  // `text` is a simple vertical list of plain strings, no chevrons or tags
   // `prose` accepts rich nodes (e.g. a paragraph with a highlighted span); `tag`
   // callers still pass plain strings.
   items: React.ReactNode[]
@@ -25,28 +26,39 @@ type ListProps = {
 export function List({ variant, items, className }: ListProps) {
   if (items.length === 0) return null
 
-  if (variant === 'tag') {
-    return (
-      <ul className={cn('flex flex-wrap gap-2', className)}>
-        {items.map((item, i) => (
-          <li key={i}>
-            <Tag>{item}</Tag>
-          </li>
-        ))}
-      </ul>
-    )
+  switch (variant) {
+    case 'prose':
+      return (
+        <ul className={cn('space-y-6', className)}>
+          {items.map((item, i) => (
+            <li key={i} className="flex gap-3">
+              <span aria-hidden className="mt-1.5 shrink-0">
+                <Chevron direction="right" color="text-muted-foreground" className="h-3.5 w-auto" />
+              </span>
+              <p className="leading-relaxed text-foreground/90">{item}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    case 'tag':
+      return (
+        <ul className={cn('flex flex-wrap gap-2', className)}>
+          {items.map((item, i) => (
+            <li key={i}>
+              <Tag>{item}</Tag>
+            </li>
+          ))}
+        </ul>
+      )
+    case 'text':
+      return (
+        <ul className={cn('space-y-2 flex flex-wrap', className)}>
+          {items.map((item, i) => (
+            <li key={i} className="text-foreground/90 w-[50%] md:w-[25%]">
+              {item}
+            </li>
+          ))}
+        </ul>
+      )
   }
-
-  return (
-    <ul className={cn('space-y-6', className)}>
-      {items.map((item, i) => (
-        <li key={i} className="flex gap-3">
-          <span aria-hidden className="mt-1.5 shrink-0">
-            <Chevron direction="right" color="text-muted-foreground" className="h-3.5 w-auto" />
-          </span>
-          <p className="leading-relaxed text-foreground/90">{item}</p>
-        </li>
-      ))}
-    </ul>
-  )
 }

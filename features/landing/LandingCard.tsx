@@ -15,16 +15,18 @@ import type { LandingCardData } from './projections'
  */
 export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabel: string }) {
   return (
-    <Card asChild interactive className="group flex flex-col gap-4">
+    <Card asChild interactive className="group flex flex-col gap-4 w-65 lg:w-70">
       <Link href={card.href}>
         {card.image && (
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
             <MediaImage media={card.image} className="h-full w-full object-cover" />
           </span>
         )}
-        <div>
-          {card.eyebrow && <p className="text-eyebrow text-primary">{card.eyebrow}</p>}
-          <h3 className="mt-1 text-card-title">{card.title}</h3>
+        <div className="mb-4">
+          {card.eyebrow && (
+            <p className="text-eyebrow text-muted-foreground mb-2">{card.eyebrow}</p>
+          )}
+          <h3 className="text-card-title">{card.title}</h3>
         </div>
         {card.tags.length > 0 && (
           <div className="flex flex-wrap gap-2">

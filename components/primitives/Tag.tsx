@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
  * an interactive filter `<button>` can reuse the styling.
  */
 const tagVariants = cva(
-  'inline-flex items-center rounded-full border px-3 py-1 text-ui transition',
+  'inline-flex items-center rounded-sm border px-2 py-[6px] text-ui transition',
   {
     variants: {
       selected: {

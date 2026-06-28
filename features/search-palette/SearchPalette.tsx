@@ -395,7 +395,7 @@ export function SearchPalette({
         {/* Eyebrow type role via a child span — Button bakes `text-ui` into its
             base, and twMerge can't dedupe two custom @utility roles, so the role
             override lives on the label element, not the Button className. */}
-        <span className="text-eyebrow">Search</span>
+        <span className="text-nav">Search</span>
       </Button>
       {mounted && open && createPortal(overlay, document.body)}
     </>
