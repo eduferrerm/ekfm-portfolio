@@ -122,7 +122,7 @@
 /* — General — */
 @utility text-header {
   font-family: var(--font-condensed);
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(1.75rem, 1.44rem + 1.33vw, 2.5rem); /* fluid 28 → 40px */
   line-height: var(--leading-normal); /* 150% */
 }
@@ -134,7 +134,7 @@
 }
 @utility text-subheader {
   font-family: var(--font-condensed);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 1.125rem; /* 18px */
   line-height: 1.1; /* 110% */
 }
@@ -158,11 +158,9 @@
 }
 @utility text-eyebrow {
   font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 0.75rem; /* 12px */
+  font-weight: 500;
+  font-size: 1rem; /* 16px */
   line-height: 1; /* 100% */
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 
 /* — Hero — */
@@ -194,7 +192,7 @@
 /* The main nav — hero + sticky header navbar. */
 @utility text-nav {
   font-family: var(--font-condensed);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 1rem; /* 16px */
   line-height: 1; /* 100% */
   text-transform: uppercase;

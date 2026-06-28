@@ -104,19 +104,19 @@ never fold it into a type role.
 | Utility                        | Family    | Weight    | Size               | Line-height  | Transform             |
 | ------------------------------ | --------- | --------- | ------------------ | ------------ | --------------------- |
 | `text-hero-headline`           | Condensed | 500       | **clamp 40→103px** | 1.0          | — (natural case)      |
-| `text-header`                  | Condensed | 500       | **clamp 28→40px**  | 1.5          | —                     |
+| `text-header`                  | Condensed | 400       | **clamp 28→40px**  | 1.5          | —                     |
 | `text-subtitle`                | Roboto    | 400       | 24                 | 1.25         | —                     |
-| `text-subheader`               | Condensed | 500       | 18                 | 1.1          | —                     |
+| `text-subheader`               | Condensed | 400       | 18                 | 1.1          | —                     |
 | `text-lead`                    | Roboto    | 400       | 18                 | 1.5          | —                     |
 | `text-body`                    | Roboto    | 400       | 16                 | 1.5          | —                     |
 | `text-list`                    | Roboto    | 400       | 14                 | 1.0          | —                     |
 | `text-ui` / `text-ui-bold`     | Roboto    | 400 / 700 | 14                 | 1.0          | —                     |
 | `text-card-title`              | Roboto    | 400       | 24                 | 1.0          | —                     |
 | `text-card-body`               | Roboto    | 400       | 14                 | 1.43 (20/14) | —                     |
-| `text-eyebrow`                 | Roboto    | 700       | 12                 | 1.0          | **uppercase** + 0.1em |
+| `text-eyebrow`                 | Roboto    | 500       | 16                 | 1.0          | —                     |
 | `text-hero-list`               | Roboto    | 400       | 12                 | 2.0          | —                     |
 | `text-aside`                   | Condensed | 500       | 24                 | 1.0          | **uppercase**         |
-| `text-nav`                     | Condensed | 500       | 16                 | 1.0          | **uppercase**         |
+| `text-nav`                     | Condensed | 400       | 16                 | 1.0          | **uppercase**         |
 | `text-meta` / `text-meta-bold` | Roboto    | 400 / 700 | 12                 | 1.0          | —                     |
 
 **Naming collision resolved:** the brand sheet's "primary" type role would clash with the
@@ -144,9 +144,11 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 
 - **Page titles** (`text-hero-headline`) keep **natural case** — no transform. The landing hero
   applies `uppercase` at the call site.
-- **Nav** (`text-nav` = main nav: hero + sticky header; `text-aside` = inner-page side rail) and
-  **eyebrows** (`text-eyebrow`) bake in **uppercase**. (These are the brand sheet's "Menu" group,
-  renamed by surface — `main`→`nav`, `subpage`→`aside` — for semantic salience.)
+- **Nav** (`text-nav` = main nav: hero + sticky header; `text-aside` = inner-page side rail) bakes
+  in **uppercase**. (These are the brand sheet's "Menu" group, renamed by surface — `main`→`nav`,
+  `subpage`→`aside` — for semantic salience.)
+- **Eyebrows** (`text-eyebrow`) are **natural case** (sentence/title as authored) — the earlier
+  uppercase + letter-spaced 12px treatment was dropped for a quieter 16px medium label.
 
 ---
 
@@ -204,11 +206,11 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
 - **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md /
   **icon** (square, wraps a single lucide/Chevron glyph), `asChild`. Consumed by `SliderControls`
   (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard` (ghost CTA), `DearCompanySection` +
-  `ContactBand` (secondary CTAs), the **search palette** trigger (secondary, eyebrow label) +
+  `ContactBand` (secondary CTAs), the **search palette** trigger (secondary, `text-nav` label) +
   mobile back/close (ghost icon, lime at rest per the board), and the **nav** (`MobileMenu` MENU
   trigger; hamburger / close on `StickyNavReveal` + `MobileMenu` as ghost icons). A Button whose
   label needs a non-default type role puts the role on a child `<span>` (e.g. the trigger's
-  `text-eyebrow`) to scope it to the label text. (The palette's Clear / recent-search controls are
+  `text-nav`) to scope it to the label text. (The palette's Clear / recent-search controls are
   plain underlined / muted **text links**, not buttons — the board shows no pill there.)
 - **`Input`** (`components/ui/input.tsx`) — `cva` text input; focus is the global fuchsia ring
   (`ring-ring`), not a lime border. Owns the surface + `text-body` role + the four channels; layout

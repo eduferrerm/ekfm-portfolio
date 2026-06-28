@@ -20,7 +20,7 @@ export function Logo({ className }: { className?: string }) {
       fill="currentColor"
       aria-hidden
       xmlns="http://www.w3.org/2000/svg"
-      className={cn('block h-[1.625em] w-auto', className)}
+      className={cn('h-[1.625em] w-auto', className)}
     >
       <path d="M60.5371 9L62.332 14.5957L64.1279 9H66.6738V17.043H64.7295V15.165L64.918 11.3203L62.9736 17.043H61.6914L59.7441 11.3174L59.9346 15.165V17.043H57.9961V9H60.5371Z" />
       <path d="M49.1084 9V10.4971H45.667V12.3477H48.7939V13.8389H45.667V17.043H43.7285V9H49.1084Z" />

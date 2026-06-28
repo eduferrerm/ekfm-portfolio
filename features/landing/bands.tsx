@@ -20,7 +20,7 @@ const BAND_SPACING = 'py-20'
 
 /** Small uppercase band sub-label ("Drive", "Craft", "Dive into"). */
 function BandLabel({ children }: { children: React.ReactNode }) {
-  return <h3 className="mb-4 text-eyebrow text-muted-foreground">{children}</h3>
+  return <h3 className="mb-10 text-subheader text-muted-foreground">{children}</h3>
 }
 
 /**
@@ -58,7 +58,7 @@ export function HeroBand({
       <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
-          <h1 className="text-hero-headline uppercase">{hero?.title}</h1>
+          <h1 className="text-hero-headline uppercase text-muted">{hero?.title}</h1>
           {navItems.length > 0 && (
             <div {...{ [HERO_NAV_ATTR]: '' }}>
               <NavList
@@ -70,30 +70,30 @@ export function HeroBand({
               />
             </div>
           )}
+          <div className="animate-bounce mb-20">
+            <Chevron direction="down" color="text-primary" className="h-12" />
+          </div>
         </Container>
-        <span className="animate-bounce">
-          <Chevron direction="down" color="text-muted-foreground" />
-        </span>
-        {(drive || craftAndScope.length > 0) && (
-          <Container>
-            <div className="grid gap-10 sm:grid-cols-2">
+        <Container>
+          {(drive || craftAndScope.length > 0) && (
+            <div className="flex items-start gap-22.5">
               {drive && (
-                <div>
+                <div className="max-w-62.5">
                   {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
                   {/* Plain prose block; `whitespace-pre-line` honours any line
                       breaks the author types in the textarea. */}
-                  <p className="whitespace-pre-line text-body text-foreground/90">{drive}</p>
+                  <p className="whitespace-pre-line text-lead text-foreground/90">{drive}</p>
                 </div>
               )}
               {craftAndScope.length > 0 && (
                 <div>
                   {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-                  <List variant="tag" items={craftAndScope} />
+                  <List variant="text" items={craftAndScope} />
                 </div>
               )}
             </div>
-          </Container>
-        )}
+          )}
+        </Container>
       </div>
     </section>
   )
@@ -186,7 +186,7 @@ export function TldrBand({
             <div className="space-y-12">
               {blocks.map((block, i) => (
                 <div key={block.id ?? i}>
-                  <h3 className="mb-4 text-eyebrow text-white/60">{block.title}</h3>
+                  <h3 className="mb-10 text-subheader text-primary">{block.title}</h3>
                   <ul className="space-y-6">
                     {proseLines(block.body)
                       .map(fillYears)
@@ -234,10 +234,8 @@ export function LandingSectionBand({
   return (
     <section id={id} className="scroll-mt-24">
       <Container className={BAND_SPACING}>
-        <h2 className="text-header tracking-tight">{section?.heading}</h2>
-        {section?.subheader && (
-          <p className="mt-3 max-w-2xl text-lead text-muted-foreground">{section.subheader}</p>
-        )}
+        <h2 className="text-header tracking-tight text-muted-foreground">{section?.heading}</h2>
+        {section?.subheader && <p className="mt-3 max-w-2xl text-lead">{section.subheader}</p>}
 
         <div className="mt-10 grid gap-10">
           {diveItems.length > 0 && (
