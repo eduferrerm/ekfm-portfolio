@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react'
  *  band lights up when it's prominently in view, not only when its top reaches the
  *  very top — otherwise the first band after the tall hero activates a beat late.
  *  Floored at 120px so it always clears the sticky nav and a clicked `#slug` anchor
- *  (which settles at scroll-mt-24 = 96px) is immediately current on short viewports. */
+ *  (which settles at scroll-padding-top = var(--header-h), ≤ 80px) is immediately
+ *  current on short viewports. */
 const ACTIVATION_RATIO = 0.33
 const ACTIVATION_MIN = 120
 const activationLine = () => Math.max(ACTIVATION_MIN, window.innerHeight * ACTIVATION_RATIO)

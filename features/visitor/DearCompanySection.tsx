@@ -52,14 +52,12 @@ export function DearCompanySection({
   const jobPostLabel = content.constants?.jobPost || 'Job Post Here'
 
   return (
-    <section id="dear-company" className="scroll-mt-24">
+    <section id="dear-company">
       <div className="grid gap-10 lg:grid-cols-2">
         <div>
-          <h2 className="text-header tracking-tight text-foreground/70">
-            Dear {visitor.company}
-          </h2>
+          <h2 className="text-header tracking-tight text-foreground/70">Dear {visitor.company}</h2>
 
-          <List variant="prose" items={intro} className="mt-6" />
+          <List variant="prose" items={intro} className="mt-6" chevronColor="text-label" />
 
           <Button asChild variant="secondary" className="mt-8">
             <Link href={visitor.jobPostUrl} target="_blank" rel="noopener noreferrer">

@@ -53,9 +53,9 @@ export function HeroBand({
   return (
     <section className="relative">
       {banner}
-      {/* The whole hero is ONE viewport (minus the sticky nav, ~3.5rem): wordmark,
+      {/* The whole hero is ONE viewport (minus the sticky nav, var(--header-h)): wordmark,
           title, in-hero nav, chevron, and the Drive/Craft grid all share this block. */}
-      <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-10 py-10">
+      <div className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
           <h1 className="text-hero-headline uppercase text-muted">{hero?.title}</h1>
@@ -88,7 +88,7 @@ export function HeroBand({
               {craftAndScope.length > 0 && (
                 <div>
                   {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-                  <List variant="text" items={craftAndScope} />
+                  <List variant="text" items={craftAndScope} itemsClassName="w-[50%] md:w-[25%]" />
                 </div>
               )}
             </div>
@@ -114,8 +114,8 @@ const TLDR_BG = {
  *
  * Pinned scroll-through, pure CSS (no scroll-jacking): the section is taller than
  * the viewport; the background is a sticky layer offset to the navbar's bottom
- * (`top-[3.5rem]`) that locks the instant the section's top reaches that border
- * and HOLDS while the copy column — pulled up over it with `-mt-[calc(100vh-3.5rem)]`
+ * (`top-[var(--header-h)]`) that locks the instant the section's top reaches that
+ * border and HOLDS while the copy column — pulled up with `-mt-[calc(100vh_-_var(--header-h))]`
  * — scrolls past, then sticky releases on its own as the section ends and normal
  * scrolling resumes. The band stays a server component because the effect is
  * layout-only.
@@ -147,10 +147,10 @@ export function TldrBand({
   const subtitle = tldr?.subtitle ? fillYears(tldr.subtitle) : ''
 
   return (
-    <section id={id} className="relative isolate w-full scroll-mt-24">
+    <section id={id} className="relative isolate w-full">
       {/* Pinned, full-bleed background. `isolate` keeps the `-z-10` layer behind
           the copy but in front of the page, never escaping behind <body>. */}
-      <div className="sticky top-[3.5rem] -z-10 h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+      <div className="sticky top-(--header-h) -z-10 h-[calc(100vh-var(--header-h))] w-full overflow-hidden">
         <picture>
           <source media="(max-width: 767px)" srcSet={TLDR_BG.mobile} />
           <source media="(max-width: 1023px)" srcSet={TLDR_BG.tablet} />
@@ -174,8 +174,8 @@ export function TldrBand({
           as an intro before the copy scrolls in and an outro after it leaves. The
           column is what makes the section taller than the viewport, driving the
           scroll-through. */}
-      <div className="relative -mt-[calc(100vh-3.5rem)]">
-        <Container className="flex min-h-[calc(100vh-3.5rem)] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
+      <div className="relative -mt-[calc(100vh-var(--header-h))]">
+        <Container className="flex min-h-[calc(100vh-var(--header-h))] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
           <div className="max-w-[60vw] md:max-w-sm">
             {greeting && <h2 className="mb-6 text-header tracking-tight">{greeting}</h2>}
             {subtitle && (
@@ -232,7 +232,7 @@ export function LandingSectionBand({
   const diveItems = proseLines(section?.diveInto?.items)
 
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight text-muted-foreground">{section?.heading}</h2>
         {section?.subheader && <p className="mt-3 max-w-2xl text-lead">{section.subheader}</p>}
@@ -241,7 +241,7 @@ export function LandingSectionBand({
           {diveItems.length > 0 && (
             <div>
               {section?.diveInto?.subheader && <BandLabel>{section.diveInto.subheader}</BandLabel>}
-              <List variant="prose" items={diveItems} />
+              <List variant="prose" items={diveItems} chevronColor="text-label" />
             </div>
           )}
           {cards.length > 0 && (
@@ -267,7 +267,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
   const teaserItems = proseLines(teaser?.items)
 
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight">{data?.heading}</h2>
         {data?.subheader && (
@@ -281,25 +281,32 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
           <MentalGraphClient />
         </div>
 
-        <div className="mt-6 rounded-2xl border border-dashed border-border p-6 sm:p-10">
-          {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
-          {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
-          {teaser?.description && (
-            <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
-          )}
-          {teaserItems.length > 0 && <List variant="prose" items={teaserItems} className="mt-6" />}
-          {teaser?.ctaLabel && (
-            <Button
-              asChild
-              variant="ghost"
-              size="sm"
-              chevron="end"
-              chevronColor="text-primary"
-              className="mt-8 border-foreground text-foreground"
-            >
-              <span>{teaser.ctaLabel}</span>
-            </Button>
-          )}
+        <div className="mt-6 rounded-2xl border border-border p-6 sm:p-10 flex flex-wrap items-center">
+          <div className="w-[50%]">
+            {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
+            {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
+            {teaser?.description && (
+              <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
+            )}
+          </div>
+          <div className="flex flex-wrap md:w-[50%]">
+            {teaserItems.length > 0 && (
+              <List
+                variant="prose"
+                items={teaserItems}
+                className="mt-6 flex flex-wrap gap-2 md:p-2"
+                itemsClassName="md:w-[45%]"
+                chevronColor="text-label"
+              />
+            )}
+          </div>
+          <div>
+            {teaser?.ctaLabel && (
+              <Button asChild variant="secondary" className="mt-8">
+                <span>{teaser.ctaLabel}</span>
+              </Button>
+            )}
+          </div>
         </div>
       </Container>
     </section>
@@ -309,7 +316,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
 /** Contact — closing band with a CTA out (the LinkedIn link in the mock). */
 export function ContactBand({ id, contact }: { id: string; contact: Landing['contact'] }) {
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight">{contact?.header}</h2>
         {contact?.subheader && (

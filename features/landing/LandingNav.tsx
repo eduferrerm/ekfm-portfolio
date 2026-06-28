@@ -30,7 +30,7 @@ export function LandingNav({
   return (
     <nav
       aria-label="Primary"
-      className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur h-18 lg:h-20 flex items-center"
+      className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur h-[var(--header-h)] flex items-center"
     >
       <Container className="flex items-center py-3">
         <StickyNavReveal

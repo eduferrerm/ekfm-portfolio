@@ -21,16 +21,17 @@ export function PreviewComponents() {
       </p>
 
       <div className="flex flex-col gap-3">
-        <p className="text-meta-bold text-foreground">Button · primary / secondary / ghost</p>
+        <p className="text-meta-bold text-foreground">
+          Button · primary / secondary / ghost (icon-only)
+        </p>
         <div className="flex flex-wrap items-center gap-4">
           <Button>Primary</Button>
           <Button variant="secondary">Secondary</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button disabled>Disabled</Button>
           <Button size="sm" variant="secondary">
             Small
           </Button>
-          <Button size="icon" variant="ghost" aria-label="Close (icon size)">
+          <Button disabled>Disabled</Button>
+          <Button size="icon" variant="ghost" aria-label="Ghost (icon-only chrome)">
             <X className="h-5 w-5" />
           </Button>
         </div>
@@ -38,20 +39,13 @@ export function PreviewComponents() {
 
       <div className="flex flex-col gap-3">
         <p className="text-meta-bold text-foreground">
-          Button · chevron (start / end; colour the glyph independently of the label)
+          Button · chevron (secondary CTAs auto-carry an end glyph that tracks the label;
+          chevron / chevronColor override)
         </p>
         <div className="flex flex-wrap items-center gap-4">
           <Button chevron="start">Back</Button>
           <Button chevron="end">Next</Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            chevron="end"
-            chevronColor="text-primary"
-            className="border-foreground text-foreground"
-          >
-            Explore (card CTA)
-          </Button>
+          <Button variant="secondary">Feature Details</Button>
         </div>
       </div>
 
