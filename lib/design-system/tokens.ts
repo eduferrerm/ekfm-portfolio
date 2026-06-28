@@ -74,14 +74,15 @@ const roles: DSThemeColor[] = [
   { name: 'accent', cssVar: '--accent', swatch: 'bg-accent', dark: true },
   { name: 'accent-foreground', cssVar: '--accent-foreground', swatch: 'bg-accent-foreground' },
   { name: 'ring', cssVar: '--ring', swatch: 'bg-ring', dark: true },
+  { name: 'label', cssVar: '--label', swatch: 'bg-label', dark: true },
 ]
 
-/** Tier 2 interaction-state tokens. */
+/** Tier 2 interaction-state tokens (+ the overlay wash). `label` is NOT here — it's
+ *  a persistent text-colour role, not a state, so it lives in `roles`. */
 const states: DSThemeColor[] = [
   { name: 'selection', cssVar: '--selection', swatch: 'bg-selection', dark: true },
-  { name: 'label', cssVar: '--label', swatch: 'bg-label', dark: true },
   { name: 'feedback', cssVar: '--feedback', swatch: 'bg-feedback', dark: true },
-  { name: 'scrim', cssVar: '--scrim', swatch: 'bg-scrim' },
+  { name: 'overlay', cssVar: '--overlay', swatch: 'bg-overlay' },
 ]
 
 /** Tier 1 raw palette primitives — the stock stops + alpha tints + gradient the

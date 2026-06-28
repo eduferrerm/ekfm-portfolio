@@ -126,7 +126,7 @@ const TLDR_BG = {
  * exception to the `raw-<img>→next/image-only` rule: next/image can't swap aspect
  * ratio per breakpoint, and a decorative full-bleed background is the canonical
  * <picture> case. Each crop is composed to keep the copy clear of the subject, so
- * no scrim is needed at any breakpoint; the copy is explicitly light (not the
+ * no overlay/dimming is needed at any breakpoint; the copy is explicitly light (not the
  * shared foreground tokens) because the photo is dark and the site is light-themed.
  */
 export function TldrBand({
