@@ -10,26 +10,34 @@ import { cn } from '@/lib/utils'
  *
  * - **focus** is global — fuchsia ring (`ring-ring` → --accent) on every variant.
  * - **active (press) feedback** is global — a lime flash / dim.
- * - **hover** uses lime (--primary) as the affordance: it *fills* outline buttons
- *   and *inverts* the solid one. Per the board, the primary pill trades its lime
- *   fill for a lime outline on hover; secondary/ghost gain a lime edge/fill.
+ * - **hover**: primary (lime fill) trades its fill for a lime outline + lime label;
+ *   secondary turns its slate outline + label lime; ghost — now icon-only chrome —
+ *   grows a lime edge.
+ * - **press** (active): primary flashes a faint lime fill (--feedback/20);
+ *   secondary fills lime with a dark (--primary-foreground) label + chevron.
  *
  * Colour comes only from semantic roles (--primary/--border/--ring …), never raw
  * stops or vars. Render as a link with `asChild` (Radix Slot): the variant
  * classes compose onto the child `<Link>`/`<a>`.
  */
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full border text-ui transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 aria-disabled:pointer-events-none aria-disabled:opacity-40',
+  'group/btn inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full border text-ui transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 aria-disabled:pointer-events-none aria-disabled:opacity-40',
   {
     variants: {
       variant: {
-        // Loudest. Default lime fill; hover inverts to a lime outline; press dims.
+        // Loudest. Lime fill + dark label/chevron; hover empties to a lime outline;
+        // press flashes a faint lime fill (--feedback at 20%). md auto-carries an
+        // end chevron (see Button) coloured by the label (text-current).
         primary:
-          'border-transparent bg-primary text-primary-foreground hover:border-primary hover:bg-transparent hover:text-primary active:opacity-60',
-        // Quieter outline that fills lime on hover; press uses the feedback flash.
+          'border-transparent bg-primary text-primary-foreground hover:border-primary hover:bg-transparent hover:text-primary active:bg-feedback/20 active:text-primary-foreground',
+        // Slate-300 outline + label, lime chevron; hover turns outline + label lime;
+        // press fills lime with a dark (--primary-foreground) label/chevron. md
+        // auto-carries an end chevron (see Button) held in text-primary, dark on press.
         secondary:
-          'border-border bg-transparent text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground active:bg-feedback active:text-primary-foreground',
-        // Faint text that grows a lime edge on hover (e.g. "Feature Details").
+          'border-foreground bg-transparent text-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground',
+        // Icon-only chrome (hamburger / back / close): transparent, glyph carried in
+        // text-primary by the caller, hover grows a lime edge. No longer used for
+        // text CTAs — those are `secondary` now.
         ghost:
           'border-transparent bg-transparent text-muted-foreground hover:border-primary hover:text-primary active:opacity-60',
       },
@@ -55,9 +63,15 @@ export type ButtonProps = React.ComponentProps<'button'> &
      * Place the `Chevron` glyph before (`start`, points left) or after (`end`,
      * points right) the label — e.g. Prev/Next sliders, card CTAs. Composes
      * through `asChild` (the glyph lands inside the child `<Link>`/`<a>`/`<span>`).
+     *
+     * `secondary` text CTAs (md size) get a trailing chevron by default — pass
+     * `chevron` only to override (e.g. `start`).
      */
     chevron?: 'start' | 'end'
-    /** Tailwind text-color utility for the chevron; defaults to the label colour. */
+    /**
+     * Tailwind text-color utility for the chevron; defaults to `text-current`, so
+     * the glyph inherits — and animates with — the label colour through hover.
+     */
     chevronColor?: string
   }
 
@@ -67,23 +81,40 @@ export function Button({
   size,
   asChild = false,
   chevron,
-  chevronColor = 'text-current',
+  chevronColor,
   children,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot : 'button'
-  const glyph = chevron && (
+  const resolvedVariant = variant ?? 'primary'
+  const resolvedSize = size ?? 'md'
+  // primary + secondary text buttons (md) carry a trailing chevron by default; the
+  // sm/icon triggers (Menu, search, chrome glyphs) stay glyph-free. Explicit wins.
+  const placement =
+    chevron ??
+    ((resolvedVariant === 'primary' || resolvedVariant === 'secondary') && resolvedSize === 'md'
+      ? 'end'
+      : undefined)
+  // Secondary's glyph is the blue label token (white on press); every other variant
+  // inherits the label colour (text-current) so the glyph tracks it through hover.
+  const glyphColor =
+    chevronColor ??
+    (resolvedVariant === 'secondary'
+      ? 'text-primary group-active/btn:text-primary-foreground'
+      : 'text-current')
+  const glyph = placement && (
     <Chevron
-      direction={chevron === 'start' ? 'left' : 'right'}
-      color={chevronColor}
-      className="h-3.5 w-auto"
+      direction={placement === 'start' ? 'left' : 'right'}
+      color={glyphColor}
+      // `transition` so the glyph's fill (currentColor) eases with the label.
+      className="h-3.5 w-auto transition"
     />
   )
   return (
     <Comp className={cn(buttonVariants({ variant, size }), className)} {...props}>
-      {chevron === 'start' && glyph}
+      {placement === 'start' && glyph}
       <Slottable>{children}</Slottable>
-      {chevron === 'end' && glyph}
+      {placement === 'end' && glyph}
     </Comp>
   )
 }

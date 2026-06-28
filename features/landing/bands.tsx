@@ -88,7 +88,7 @@ export function HeroBand({
               {craftAndScope.length > 0 && (
                 <div>
                   {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-                  <List variant="text" items={craftAndScope} />
+                  <List variant="text" items={craftAndScope} itemsClassName="w-[50%] md:w-[25%]" />
                 </div>
               )}
             </div>
@@ -150,7 +150,7 @@ export function TldrBand({
     <section id={id} className="relative isolate w-full">
       {/* Pinned, full-bleed background. `isolate` keeps the `-z-10` layer behind
           the copy but in front of the page, never escaping behind <body>. */}
-      <div className="sticky top-[var(--header-h)] -z-10 h-[calc(100vh_-_var(--header-h))] w-full overflow-hidden">
+      <div className="sticky top-(--header-h) -z-10 h-[calc(100vh-var(--header-h))] w-full overflow-hidden">
         <picture>
           <source media="(max-width: 767px)" srcSet={TLDR_BG.mobile} />
           <source media="(max-width: 1023px)" srcSet={TLDR_BG.tablet} />
@@ -174,8 +174,8 @@ export function TldrBand({
           as an intro before the copy scrolls in and an outro after it leaves. The
           column is what makes the section taller than the viewport, driving the
           scroll-through. */}
-      <div className="relative -mt-[calc(100vh_-_var(--header-h))]">
-        <Container className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
+      <div className="relative -mt-[calc(100vh-var(--header-h))]">
+        <Container className="flex min-h-[calc(100vh-var(--header-h))] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
           <div className="max-w-[60vw] md:max-w-sm">
             {greeting && <h2 className="mb-6 text-header tracking-tight">{greeting}</h2>}
             {subtitle && (
@@ -241,7 +241,7 @@ export function LandingSectionBand({
           {diveItems.length > 0 && (
             <div>
               {section?.diveInto?.subheader && <BandLabel>{section.diveInto.subheader}</BandLabel>}
-              <List variant="prose" items={diveItems} />
+              <List variant="prose" items={diveItems} chevronColor="text-label" />
             </div>
           )}
           {cards.length > 0 && (
@@ -281,25 +281,32 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
           <MentalGraphClient />
         </div>
 
-        <div className="mt-6 rounded-2xl border border-dashed border-border p-6 sm:p-10">
-          {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
-          {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
-          {teaser?.description && (
-            <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
-          )}
-          {teaserItems.length > 0 && <List variant="prose" items={teaserItems} className="mt-6" />}
-          {teaser?.ctaLabel && (
-            <Button
-              asChild
-              variant="ghost"
-              size="md"
-              chevron="end"
-              chevronColor="text-primary"
-              className="mt-8 border-foreground text-foreground"
-            >
-              <span>{teaser.ctaLabel}</span>
-            </Button>
-          )}
+        <div className="mt-6 rounded-2xl border border-border p-6 sm:p-10 flex flex-wrap items-center">
+          <div className="w-[50%]">
+            {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
+            {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
+            {teaser?.description && (
+              <p className="mt-3 text-body text-muted-foreground">{teaser.description}</p>
+            )}
+          </div>
+          <div className="flex flex-wrap md:w-[50%]">
+            {teaserItems.length > 0 && (
+              <List
+                variant="prose"
+                items={teaserItems}
+                className="mt-6 flex flex-wrap gap-2 md:p-2"
+                itemsClassName="md:w-[45%]"
+                chevronColor="text-label"
+              />
+            )}
+          </div>
+          <div>
+            {teaser?.ctaLabel && (
+              <Button asChild variant="secondary" className="mt-8">
+                <span>{teaser.ctaLabel}</span>
+              </Button>
+            )}
+          </div>
         </div>
       </Container>
     </section>

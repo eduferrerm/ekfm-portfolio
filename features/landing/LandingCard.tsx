@@ -15,7 +15,7 @@ import type { LandingCardData } from './projections'
  */
 export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabel: string }) {
   return (
-    <Card asChild interactive className="group flex flex-col gap-4 w-65 lg:w-70 bg-card">
+    <Card asChild interactive className="group flex flex-col gap-4 w-65 lg:w-82.5 bg-card">
       <Link href={card.href}>
         {card.image && (
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
@@ -35,14 +35,7 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
             ))}
           </div>
         )}
-        <Button
-          asChild
-          variant="ghost"
-          size="md"
-          chevron="end"
-          chevronColor="text-primary"
-          className="mt-auto w-fit border-foreground text-foreground group-hover:border-primary group-hover:text-primary"
-        >
+        <Button asChild variant="secondary" className="mt-auto w-fit">
           <span>{ctaLabel}</span>
         </Button>
       </Link>
