@@ -60,7 +60,7 @@ palette, making the palette the SSOT.
 | `--selection`                        | blue-400                | selected state (underline / border / fill) |
 | `--label`                            | blue-400                | section sub-heading / accent label text    |
 | `--feedback`                         | lime-200                | active-feedback flash                      |
-| `--scrim`                            | slate-900/50            | overlay / dim                              |
+| `--overlay`                          | slate-900/50            | dim wash behind modals / menus             |
 
 ### Tier 3 — bridge (`@theme inline`)
 

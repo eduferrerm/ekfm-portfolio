@@ -65,7 +65,7 @@
   --ring: var(--accent); /* focus ring */
 
   /* Neutral overlay */
-  --scrim: var(--color-slate-900-50); /* overlay / dim surface */
+  --overlay: var(--color-slate-900-50); /* dim wash behind modals / menus */
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@
   --color-selection: var(--selection);
   --color-label: var(--label);
   --color-feedback: var(--feedback);
-  --color-scrim: var(--scrim);
+  --color-overlay: var(--overlay);
 }
 
 /* Brand surface gradient, exposed as a clean utility (no raw var() at call site). */
