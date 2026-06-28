@@ -289,9 +289,16 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
           )}
           {teaserItems.length > 0 && <List variant="prose" items={teaserItems} className="mt-6" />}
           {teaser?.ctaLabel && (
-            <span className="mt-8 inline-flex w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium text-muted-foreground">
-              {teaser.ctaLabel}
-            </span>
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              chevron="end"
+              chevronColor="text-primary"
+              className="mt-8 border-foreground text-foreground"
+            >
+              <span>{teaser.ctaLabel}</span>
+            </Button>
           )}
         </div>
       </Container>

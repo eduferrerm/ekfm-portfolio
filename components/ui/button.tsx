@@ -1,6 +1,7 @@
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
+import { Chevron } from '@/components/primitives/Chevron'
 import { cn } from '@/lib/utils'
 
 /**
@@ -50,11 +51,41 @@ export type ButtonProps = React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     /** Render the child element (e.g. `<Link>`/`<a>`) with the button styling. */
     asChild?: boolean
+    /**
+     * Place the `Chevron` glyph before (`start`, points left) or after (`end`,
+     * points right) the label — e.g. Prev/Next sliders, card CTAs. Composes
+     * through `asChild` (the glyph lands inside the child `<Link>`/`<a>`/`<span>`).
+     */
+    chevron?: 'start' | 'end'
+    /** Tailwind text-color utility for the chevron; defaults to the label colour. */
+    chevronColor?: string
   }
 
-export function Button({ className, variant, size, asChild = false, ...props }: ButtonProps) {
+export function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  chevron,
+  chevronColor = 'text-current',
+  children,
+  ...props
+}: ButtonProps) {
   const Comp = asChild ? Slot : 'button'
-  return <Comp className={cn(buttonVariants({ variant, size }), className)} {...props} />
+  const glyph = chevron && (
+    <Chevron
+      direction={chevron === 'start' ? 'left' : 'right'}
+      color={chevronColor}
+      className="h-3.5 w-auto"
+    />
+  )
+  return (
+    <Comp className={cn(buttonVariants({ variant, size }), className)} {...props}>
+      {chevron === 'start' && glyph}
+      <Slottable>{children}</Slottable>
+      {chevron === 'end' && glyph}
+    </Comp>
+  )
 }
 
 export { buttonVariants }
