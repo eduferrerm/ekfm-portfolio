@@ -153,14 +153,11 @@ export function SearchPalette({
       })
       if (trimmed) add(trimmed)
       setOpen(false)
-      // Section docs ship a bare `#slug` fragment so they resolve against the
-      // current route (a visitor stays on /dear/[company]); root-relative detail
-      // hrefs are scoped to the current mirror (if any) so results never break out.
-      router.push(
-        row.href.startsWith('#')
-          ? `${pathname}${row.href}`
-          : scopeHref(row.href, scopeFromPath(pathname)),
-      )
+      // All result hrefs are root-relative; scope them to the current mirror (if
+      // any) so a visitor never breaks out of /dear/[company]. Section anchors
+      // (`/#slug`) thus resolve to the mirror's landing — not appended to the
+      // current route, which would be a dead fragment on an inner page.
+      router.push(scopeHref(row.href, scopeFromPath(pathname)))
     },
     [trimmed, add, router, pathname],
   )
