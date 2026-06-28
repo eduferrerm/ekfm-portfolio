@@ -45,3 +45,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env*
+
+# design reference boards (local-only; brand sheets are the external SSOT).
+# README stays tracked so the convention is documented; the images don't bloat git.
+design-refs/*
+!design-refs/README.md

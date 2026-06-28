@@ -95,8 +95,16 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'visitor-content': VisitorContent;
+    landing: Landing;
+    labels: Label;
+  };
+  globalsSelect: {
+    'visitor-content': VisitorContentSelect<false> | VisitorContentSelect<true>;
+    landing: LandingSelect<false> | LandingSelect<true>;
+    labels: LabelsSelect<false> | LabelsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -158,6 +166,10 @@ export interface User {
 export interface Media {
   id: number;
   /**
+   * Human-friendly name for this asset (shown in the media picker).
+   */
+  title: string;
+  /**
    * Alternative text for accessibility and SEO.
    */
   alt: string;
@@ -180,35 +192,69 @@ export interface Media {
 export interface Portfolio {
   id: number;
   title: string;
-  slug: string;
+  /**
+   * Short feature name shown above the title and in nav/related cards.
+   */
+  eyebrow: string;
+  /**
+   * URL slug for /portfolio/[slug]. Auto-filled from the title if left blank; editable.
+   */
+  slug?: string | null;
+  /**
+   * Sort order (ascending). Lower shows first; /portfolio redirects to the lowest.
+   */
+  order?: number | null;
+  /**
+   * Square/circular thumbnail for nav + landing cards.
+   */
+  thumbnail?: (number | null) | Media;
   summary?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  keywords?: (number | Keyword)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "keywords".
- */
-export interface Keyword {
-  id: number;
-  label: string;
-  slug: string;
+  overview?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * System Design diagram (authored in features/portfolio/graph/diagrams).
+   */
+  diagramKey: 'context-aware-routes';
+  /**
+   * Subtitle under "Key Decisions". Defaults to the eyebrow when blank.
+   */
+  keyDecisionsTitle?: string | null;
+  keyDecisions?:
+    | {
+        title: string;
+        description?: string | null;
+        conclusion: 'up' | 'down';
+        points?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  relatedContent?:
+    | (
+        | {
+            relationTo: 'portfolio';
+            value: number | Portfolio;
+          }
+        | {
+            relationTo: 'experience';
+            value: number | Experience;
+          }
+      )[]
+    | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
+  /**
+   * Hidden terms that surface this item in search but never render on the page.
+   */
+  searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -220,25 +266,75 @@ export interface Experience {
   id: number;
   role: string;
   company: string;
+  /**
+   * URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.
+   */
+  slug?: string | null;
   startDate: string;
   endDate?: string | null;
   current?: boolean | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  keywords?: (number | Keyword)[] | null;
+  /**
+   * Optional company logo.
+   */
+  companyLogo?: (number | null) | Media;
+  showcase?:
+    | {
+        image: number | Media;
+        /**
+         * Optional "Visit site" link for this showcase image.
+         */
+        url?: string | null;
+        /**
+         * Optional caption / accessible label for this image.
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  responsibilities?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  scope?: (number | Keyword)[] | null;
+  craft?: (number | Keyword)[] | null;
+  deepDive?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        details?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hidden terms that surface this item in search but never render on the page.
+   */
+  searchKeywords?: (number | Keyword)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keywords".
+ */
+export interface Keyword {
+  id: number;
+  /**
+   * Immutable machine key (seeder/exporter upsert identity). Auto-filled from the label if left blank; set once, cannot be edited after.
+   */
+  key: string;
+  label: string;
+  /**
+   * Scope = areas/domains (Frontend, Platform). Craft = skills & how (React, Testing). Search-only = hidden recruiter term, feeds search only, never rendered.
+   */
+  category: 'scope' | 'craft' | 'searchOnly';
+  aliases?: string[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -249,23 +345,36 @@ export interface Experience {
 export interface Visitor {
   id: number;
   company: string;
+  role: string;
+  /**
+   * URL slug for /dear/[company]. Auto-filled from the company if left blank; editable.
+   */
   slug: string;
-  headline?: string | null;
-  notes?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  /**
+   * Company avatar for the welcome banner + card.
+   */
+  companyLogo?: (number | null) | Media;
+  /**
+   * Link to the job post the expectations were sourced from.
+   */
+  jobPostUrl: string;
+  expectations: {
+    expectation: string;
+    reply: string;
+    relevantContent?:
+      | (
+          | {
+              relationTo: 'portfolio';
+              value: number | Portfolio;
+            }
+          | {
+              relationTo: 'experience';
+              value: number | Experience;
+            }
+        )[]
+      | null;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -387,6 +496,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  title?: T;
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -406,10 +516,37 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PortfolioSelect<T extends boolean = true> {
   title?: T;
+  eyebrow?: T;
   slug?: T;
+  order?: T;
+  thumbnail?: T;
   summary?: T;
-  content?: T;
-  keywords?: T;
+  overview?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  diagramKey?: T;
+  keyDecisionsTitle?: T;
+  keyDecisions?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        conclusion?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  relatedContent?: T;
+  scope?: T;
+  craft?: T;
+  searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -420,11 +557,41 @@ export interface PortfolioSelect<T extends boolean = true> {
 export interface ExperienceSelect<T extends boolean = true> {
   role?: T;
   company?: T;
+  slug?: T;
   startDate?: T;
   endDate?: T;
   current?: T;
-  description?: T;
-  keywords?: T;
+  companyLogo?: T;
+  showcase?:
+    | T
+    | {
+        image?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  responsibilities?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  scope?: T;
+  craft?: T;
+  deepDive?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        details?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -434,9 +601,18 @@ export interface ExperienceSelect<T extends boolean = true> {
  */
 export interface VisitorsSelect<T extends boolean = true> {
   company?: T;
+  role?: T;
   slug?: T;
-  headline?: T;
-  notes?: T;
+  companyLogo?: T;
+  jobPostUrl?: T;
+  expectations?:
+    | T
+    | {
+        expectation?: T;
+        reply?: T;
+        relevantContent?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -445,8 +621,10 @@ export interface VisitorsSelect<T extends boolean = true> {
  * via the `definition` "keywords_select".
  */
 export interface KeywordsSelect<T extends boolean = true> {
+  key?: T;
   label?: T;
-  slug?: T;
+  category?: T;
+  aliases?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -489,6 +667,330 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-content".
+ */
+export interface VisitorContent {
+  id: number;
+  welcomeGreeting?: string | null;
+  intro?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Phrase in the intro to highlight (e.g. "Relevant content"). Optional.
+   */
+  highlightPhrase?: string | null;
+  constants?: {
+    expectations?: string | null;
+    reply?: string | null;
+    relevantContent?: string | null;
+    jobPost?: string | null;
+    dearCompanyNav?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing".
+ */
+export interface Landing {
+  id: number;
+  sections?:
+    | {
+        /**
+         * Which band this is. Binds to its renderer; the copy comes from the matching group below.
+         */
+        key: 'tldr' | 'experience' | 'portfolio' | 'moreAboutMe' | 'contact';
+        /**
+         * Nav text. The band’s anchor id + search title derive from this (slugified).
+         */
+        navLabel: string;
+        /**
+         * Hidden terms that surface this section in search but never render.
+         */
+        searchKeywords?: (number | Keyword)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  hero?: {
+    title?: string | null;
+    driveLabel?: string | null;
+    drive?: string | null;
+    listLabel?: string | null;
+    /**
+     * Craft keywords shown in the hero (before scope), in attach order.
+     */
+    craft?: (number | Keyword)[] | null;
+    /**
+     * Scope keywords shown in the hero (after craft), in attach order.
+     */
+    scope?: (number | Keyword)[] | null;
+  };
+  tldr?: {
+    greeting?: string | null;
+    subtitle?: string | null;
+    blocks?:
+      | {
+          title: string;
+          body?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  experience?: {
+    heading?: string | null;
+    subheader?: string | null;
+    diveInto?: {
+      subheader?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    ctaLabel?: string | null;
+  };
+  portfolio?: {
+    heading?: string | null;
+    subheader?: string | null;
+    diveInto?: {
+      subheader?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    ctaLabel?: string | null;
+  };
+  moreAboutMe?: {
+    heading?: string | null;
+    subheader?: string | null;
+    teaser?: {
+      eyebrow?: string | null;
+      title?: string | null;
+      description?: string | null;
+      items?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
+      ctaLabel?: string | null;
+    };
+  };
+  contact?: {
+    header?: string | null;
+    subheader?: string | null;
+    description?: string | null;
+    ctaLabel?: string | null;
+    ctaUrl?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels".
+ */
+export interface Label {
+  id: number;
+  constants?: {
+    portfolio?: {
+      overview?: string | null;
+      systemDesign?: string | null;
+      keyDecisions?: string | null;
+      conclusion?: string | null;
+      relevantContent?: string | null;
+    };
+    experience?: {
+      roleDescription?: string | null;
+      scope?: string | null;
+      craft?: string | null;
+      deepDive?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-content_select".
+ */
+export interface VisitorContentSelect<T extends boolean = true> {
+  welcomeGreeting?: T;
+  intro?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  highlightPhrase?: T;
+  constants?:
+    | T
+    | {
+        expectations?: T;
+        reply?: T;
+        relevantContent?: T;
+        jobPost?: T;
+        dearCompanyNav?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing_select".
+ */
+export interface LandingSelect<T extends boolean = true> {
+  sections?:
+    | T
+    | {
+        key?: T;
+        navLabel?: T;
+        searchKeywords?: T;
+        id?: T;
+      };
+  hero?:
+    | T
+    | {
+        title?: T;
+        driveLabel?: T;
+        drive?: T;
+        listLabel?: T;
+        craft?: T;
+        scope?: T;
+      };
+  tldr?:
+    | T
+    | {
+        greeting?: T;
+        subtitle?: T;
+        blocks?:
+          | T
+          | {
+              title?: T;
+              body?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  experience?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        diveInto?:
+          | T
+          | {
+              subheader?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        ctaLabel?: T;
+      };
+  portfolio?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        diveInto?:
+          | T
+          | {
+              subheader?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        ctaLabel?: T;
+      };
+  moreAboutMe?:
+    | T
+    | {
+        heading?: T;
+        subheader?: T;
+        teaser?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              description?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              ctaLabel?: T;
+            };
+      };
+  contact?:
+    | T
+    | {
+        header?: T;
+        subheader?: T;
+        description?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels_select".
+ */
+export interface LabelsSelect<T extends boolean = true> {
+  constants?:
+    | T
+    | {
+        portfolio?:
+          | T
+          | {
+              overview?: T;
+              systemDesign?: T;
+              keyDecisions?: T;
+              conclusion?: T;
+              relevantContent?: T;
+            };
+        experience?:
+          | T
+          | {
+              roleDescription?: T;
+              scope?: T;
+              craft?: T;
+              deepDive?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

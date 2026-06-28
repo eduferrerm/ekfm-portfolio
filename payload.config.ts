@@ -13,6 +13,9 @@ import { Portfolio } from './payload/collections/Portfolio'
 import { Experience } from './payload/collections/Experience'
 import { Visitors } from './payload/collections/Visitors'
 import { Keywords } from './payload/collections/Keywords'
+import { VisitorContent } from './payload/globals/VisitorContent'
+import { Landing } from './payload/globals/Landing'
+import { Labels } from './payload/globals/Labels'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,6 +28,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Portfolio, Experience, Visitors, Keywords],
+  globals: [VisitorContent, Landing, Labels],
   editor: lexicalEditor(),
   // Secret is read exclusively from the environment — never hardcoded.
   secret: process.env.PAYLOAD_SECRET || '',
@@ -47,11 +51,12 @@ export default buildConfig({
   plugins: [
     vercelBlobStorage({
       // Maps the Media upload collection onto a Vercel Blob store.
+      // disableLocalStorage is set automatically by the adapter.
       collections: {
         media: true,
       },
-      // Browser → Blob direct uploads, bypassing the 4.5MB serverless body cap.
-      clientUploads: true,
+      // Server-side uploads: assets are small, pre-optimized images well under
+      // Vercel's 4.5MB request cap, so client uploads aren't needed.
       // Token is injected automatically by Vercel; read from env, never hardcoded.
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),

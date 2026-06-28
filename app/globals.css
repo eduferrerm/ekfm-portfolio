@@ -1,124 +1,272 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 /* Tailwind v4 explicit content sources: scan the app and features directories */
 @source "../app";
 @source "../features";
 
-@custom-variant dark (&:is(.dark *));
+/* ────────────────────────────────────────────────────────────────────────────
+ * TIER 1 — PRIMITIVES  (@theme)
+ * Raw values that generate utilities. The palette is stock Tailwind 4 (slate,
+ * lime, fuchsia, blue) — those stops already ship in TW4, so we do NOT redeclare
+ * them. This block holds only what TW lacks: the Roboto families, the alpha tints
+ * derived off stock stops, and the brand surface gradient.
+ * ──────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Typeface families — the CSS vars are injected by next/font in
+   * app/(frontend)/layout.tsx (Roboto + Roboto Condensed). */
+  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+  --font-condensed: var(--font-roboto-condensed), var(--font-roboto), ui-sans-serif, sans-serif;
 
+  /* Alpha tints — derived off stock TW stops via native color-mix. `in oklch` is
+   * the interpolation space only; the base stays a stock TW color (not rewritten
+   * as an oklch() literal). Named to mirror the brand Colors sheet swatches. */
+  --color-lime-200-20: color-mix(in oklch, var(--color-lime-200) 20%, transparent);
+  --color-blue-400-20: color-mix(in oklch, var(--color-blue-400) 20%, transparent);
+  --color-slate-900-50: color-mix(in oklch, var(--color-slate-900) 50%, transparent);
+
+  /* Brand surface gradient — exact stops from the brand Colors sheet.
+   * (Angle assumed top→bottom; trivial to flip if the source differs.) */
+  --gradient-surface: linear-gradient(180deg, #1b2434 15%, #101625 100%);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * TIER 2 — SEMANTIC ROLES  (:root)
+ * Single dark theme → :root only. No .dark block, no theme switching. Roles keep
+ * shadcn's variable names (so net-new shadcn components drop in) but point at the
+ * stock palette, making the palette the single source of truth.
+ * ──────────────────────────────────────────────────────────────────────────── */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Surfaces & text (slate) */
+  --background: var(--color-slate-900);
+  --foreground: var(--color-slate-300);
+  --card: var(--color-slate-800);
+  --card-foreground: var(--color-slate-300);
+  --muted: var(--color-slate-700);
+  --muted-foreground: var(--color-slate-400);
+  --border: var(--color-slate-700);
+  --input: var(--color-slate-700);
+
+  /* Brand hues — three tiers (primary / secondary / tertiary), each a stock stop.
+   * Tokens are named by JOB; several jobs can share one tier's hue (just as the
+   * primary tier is both --primary and --feedback). */
+  /* Primary tier — lime-200 (loudest / emphasis) */
+  --primary: var(--color-lime-200); /* primary action / emphasis */
+  --primary-foreground: var(--color-slate-900); /* dark text on lime */
+  --feedback: var(--color-lime-200); /* active-feedback flash */
+  /* Secondary tier — blue-400 (quieter accent / hierarchy) */
+  --selection: var(--color-blue-400); /* selected state: underline / border / fill */
+  --label: var(--color-blue-400); /* section sub-heading / accent label text */
+  /* Tertiary tier — fuchsia-300 (focus) */
+  --accent: var(--color-fuchsia-300); /* tertiary accent */
+  --accent-foreground: var(--color-slate-900); /* dark text on fuchsia, if filled */
+  --ring: var(--accent); /* focus ring */
+
+  /* Neutral overlay */
+  --scrim: var(--color-slate-900-50); /* overlay / dim surface */
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* ────────────────────────────────────────────────────────────────────────────
+ * TIER 3 — BRIDGE  (@theme inline)
+ * Re-expose every semantic role as a utility-generating color token, so
+ * bg-primary / text-foreground / border-border / ring-ring exist and autocomplete.
+ * `inline` resolves utilities straight through to the primitive (no extra var hop).
+ * Every role in :root has an entry here; nothing in :root is reachable only as a
+ * raw var().
+ * ──────────────────────────────────────────────────────────────────────────── */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-selection: var(--selection);
+  --color-label: var(--label);
+  --color-feedback: var(--feedback);
+  --color-scrim: var(--scrim);
 }
 
+/* Brand surface gradient, exposed as a clean utility (no raw var() at call site). */
+@utility bg-gradient-surface {
+  background-image: var(--gradient-surface);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * TIER 4 — TYPE SCALE  (@utility)
+ * Semantic type roles, element-agnostic: the author picks the HTML tag at the
+ * call site (<h3 class="text-card-title">). Each role is a composite utility
+ * (family + weight + size + line-height + transform). Line-heights use TW's named
+ * `leading` scale where the design value maps cleanly (125%→tight, 150%→normal,
+ * 200%→loose); 100% is literal `1` (TW has no --leading-none var) and
+ * text-card-body's 20px/14px has no named equivalent, so it's literal too.
+ * Values verified against the brand Fonts sheet.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/* — General — */
+@utility text-header {
+  font-family: var(--font-condensed);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 1.44rem + 1.33vw, 2.5rem); /* fluid 28 → 40px */
+  line-height: var(--leading-normal); /* 150% */
+}
+@utility text-subtitle {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.5rem; /* 24px */
+  line-height: var(--leading-tight); /* 125% */
+}
+@utility text-subheader {
+  font-family: var(--font-condensed);
+  font-weight: 400;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.1; /* 110% */
+}
+@utility text-lead {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.125rem; /* 18px */
+  line-height: var(--leading-normal); /* 150% */
+}
+@utility text-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1rem; /* 16px */
+  line-height: var(--leading-normal); /* 150% (override: sheet confirms 150%) */
+}
+@utility text-list {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
+}
+@utility text-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem; /* 16px */
+  line-height: 1; /* 100% */
+}
+
+/* — Hero — */
+@utility text-hero-headline {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 0.87rem + 6.96vw, 6.4375rem); /* fluid 40 → 103px */
+  line-height: 1; /* 100% */
+  /* No transform: page titles keep natural case (e.g. "Website UX
+   * Personalisation" must preserve "UX"). The landing hero adds `uppercase`
+   * at the call site. */
+}
+@utility text-hero-list {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.75rem; /* 12px */
+  line-height: var(--leading-loose); /* 200% */
+}
+
+/* — Nav (brand sheet "Menu" group; named by surface) — */
+/* The inner-page asides (SiteNav side rail). */
+@utility text-aside {
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1; /* 100% */
+  text-transform: uppercase;
+}
+/* The main nav — hero + sticky header navbar. */
+@utility text-nav {
+  font-family: var(--font-condensed);
+  font-weight: 400;
+  font-size: 1rem; /* 16px */
+  line-height: 1; /* 100% */
+  text-transform: uppercase;
+}
+
+/* — UI (brand sheet role "primary"; renamed to avoid the text-primary color-utility collision) — */
+@utility text-ui {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
+}
+@utility text-ui-bold {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1; /* 100% */
+}
+
+/* — Card — */
+@utility text-card-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1; /* 100% */
+}
+@utility text-card-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.4286; /* 20px / 14px — no TW-named equivalent (override) */
+}
+
+/* — Meta — */
+@utility text-meta {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.75rem; /* 12px */
+  line-height: 1; /* 100% */
+}
+@utility text-meta-bold {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.75rem; /* 12px */
+  line-height: 1; /* 100% */
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * BASE
+ * ──────────────────────────────────────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * More-About-Me mental graph — hover focus
+ * The hovered node's "pop" (fill/label/scale/glow) lives on the pill as Tailwind
+ * hover: utilities. The other half — dimming everything NOT hovered — is a
+ * cross-element `:has()` effect over @xyflow/react's own DOM (class names it
+ * owns), which a Tailwind utility can't express cleanly; scoped to `.mental-graph`.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.mental-graph .react-flow__node,
+.mental-graph .react-flow__edge {
+  transition: opacity 150ms ease;
+}
+.mental-graph:has(.react-flow__node:hover) .react-flow__node:not(:hover),
+.mental-graph:has(.react-flow__node:hover) .react-flow__edge {
+  opacity: 0.1;
+}
+.mental-graph .react-flow__node:hover {
+  z-index: 10;
 }

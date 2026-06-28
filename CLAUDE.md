@@ -1,22 +1,6 @@
-STACK:Next15.5.19,React19,TS,Tailwind4,ShadCN(excl:menu,search-palette),Payload3.85.1,PostgreSQL,@xyflow/react@12,PostHog
-HOSTING:Vercel(Next+Payload,stateless),Railway(PostgreSQL,stateful)
-DOMAINS:content(Payload+Railway),analytics(PostHog),application(Vercel)
-CONTENT:Payload-collections(code-first,SSOT)
-GRAPHQL:Payload-built-in,custom-resolvers-via-payload-config,no-yoga,endpoint-from-env
-ANALYTICS:PostHog(behavioral+ops+search-events,analytics-domain)
-ADMIN:Payload-UI
-STYLE:tailwind-only,no-inline-styles,no-css-modules
-COMPONENTS:feature-based-folders,colocate-tests
-FORMS:no-html-form-tags,controlled-inputs-only
-SSR:visitor-routes=ISR,portfolio-details=SPA-shell+client-hydration
-STATE:url-first(?tab=&decision=),useState-default,zustand=last-resort
-NOSSR:@xyflow/react→dynamic(ssr:false)
-SHADCN:install-dont-eject,extend-dont-override,use-shadcn-add
-IMG:next/image-only
-SEARCH:Fuse.js,client-side,no-algolia
-PKGMGR:pnpm@9.x(pin-exact-version-in-packagejson)
-ENV:all-values-from-process.env,never-hardcode,never-generate-secrets
-COMMITS:conventional(feat/fix/chore)
-NODE:payload-generate-cmds=node20-only,runtime-unaffected-on-node24
-DONOT:axios,moment,lodash,css-modules,page-router,prisma,strapi,graphql-yoga,reactflow(legacy)
-ISOLATION:content-domain(Payload+Railway),analytics-domain(PostHog),application-domain(Vercel)
+STACK[majors-only,exact-pins=package.json-SSOT]:Next15,React19,TS5,Tailwind4,ShadCN(excl:menu,search-palette),Payload3(db-postgres+next+richtext-lexical+storage-vercel-blob),PostgreSQL,@xyflow/react12,PostHog(js+node),Fuse.js
+HOSTING:Vercel(Next+Payload,serverless)+Railway(PostgreSQL,stateful)+VercelBlob(media);content=Payload+Postgres,analytics=PostHog,app=Vercel(logical-isolation,not-host-based)
+DOCS[descriptive-detail-lives-here,NOT-duplicated-in-this-file]:before architecture/feature/data-model/routing work→READ docs/ARCHITECTURE.md(system map:globals/routing/keywords/search/visitors/components/data-fetch/state/media+CODEORG-detail+canonical-helpers+ENV-canonical-var-list);before touching DB/schema/migrations/codegen/media-blob/keyword-seeding→READ docs/RUNBOOK.md(footguns+standing-constraints:dev-push+destructive-DDL,codegen-node24,blob-leak-shim,seed,parked-migration-gap,static-params↔Railway-build-coupling);launch+migration-sequence→docs/phases.md
+CODEORG:NO-helpers.ts/utils.ts-junk-drawer(name-modules-by-responsibility);deps-MUST-stay-acyclic=lib←features←app(features-NEVER-import-sideways→hoist-shared-bits-DOWN-to-lib);projections=reshape-domain-doc→view-model(sync,NO-fetch)/queries=Local-API-fetch(server-only)=keep-separate;2-axis-placement+canonical-helpers(prose/routes/content/format/slugify/yoe)+projection-file-conventions→docs/ARCHITECTURE.md
+WORKFLOW:after-ANY-collection/field/editor-change→run pnpm generate:types+pnpm generate:importmap(why+node24-tsx-detail→docs/RUNBOOK.md);commits=conventional(feat/fix/chore);ENV=all-from-process.env,never-hardcode,never-generate-secrets(canonical-var-list→docs/ARCHITECTURE.md);STATE=url-first(?tab=&decision=)→useState→zustand-last-resort
+DONOT:axios,moment,lodash,prisma(Payload-uses-Drizzle-internally),strapi,graphql-yoga,reactflow(legacy→@xyflow/react),page-router;css-modules(app)+inline-styles(app)→tailwind-only;html-<form>-tags→controlled-inputs-only;raw-<img>→next/image-only;eject-shadcn→install/extend-only;remove-sass-dep(payload-admin-scss→docs/ARCHITECTURE.md);GraphQL-on-render-hot-path(render=Local-API);local-disk-uploads(breaks-serverless);remove-client-bundle-shim while-on-storage-vercel-blob@3.85.1(→docs/RUNBOOK.md);revert-codegen-to-stock-payload-CLI(breaks-node24→docs/RUNBOOK.md);rely-on-dev-push-for-prod(NODE_ENV=production-disables-push;prod=migrations,infra-PARKED→docs/RUNBOOK.md);leave-visitor-internal-hrefs-unscoped(whole-site-mirrors-under-/dear/[company]→thread-scope-via lib/routes.scopeHref-chokepoint;adding-a-routed-section-needs-its-scoped-twin,route-parity.test-enforces→docs/ARCHITECTURE.md);add-a-content-collection/global-without-wiring lib/revalidate.revalidateSite()-into-its-afterChange(ISR=daily-backstop-ONLY→on-demand-revalidation-is-PRIMARY;unwired-source=edits-stale-≤24h;Visitors-also-warmVisitor(slug)→docs/ARCHITECTURE.md+RUNBOOK)

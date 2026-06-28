@@ -2,8 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateSite } from '../../lib/revalidate'
+import { slugify } from '../../lib/slugify'
 
-/** Work history surfaced at /experience. */
+/** Work history surfaced at /experience (one anchored section per role). */
 export const Experience: CollectionConfig = {
   slug: 'experience',
   admin: {
@@ -15,6 +17,11 @@ export const Experience: CollectionConfig = {
     create: authenticated,
     update: authenticated,
     delete: authenticated,
+  },
+  hooks: {
+    // A role feeds its detail page (+ scoped twin), the landing cards, and the
+    // search corpus, so an edit revalidates the whole tree on demand.
+    afterChange: [() => revalidateSite()],
   },
   fields: [
     {
@@ -28,18 +35,49 @@ export const Experience: CollectionConfig = {
       required: true,
     },
     {
+      // Anchor target for /experience#slug and the search href. Auto-derived
+      // from the role when left blank, but editable + stable: once set it does
+      // not track later role edits, so existing bookmarks/search hrefs survive
+      // a role rename. Unique to guarantee a single DOM id per anchor.
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description:
+          'URL anchor for /experience#slug. Auto-filled from the role if left blank; editable.',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value, data }) =>
+            value || (typeof data?.role === 'string' ? slugify(data.role) : value),
+        ],
+      },
+    },
+    {
       type: 'row',
       fields: [
         {
           name: 'startDate',
           type: 'date',
           required: true,
+          admin: {
+            date: {
+              pickerAppearance: 'monthOnly',
+              displayFormat: 'MMMM yyyy',
+            },
+          },
         },
         {
           name: 'endDate',
           type: 'date',
           admin: {
             condition: (data) => !data?.current,
+            date: {
+              pickerAppearance: 'monthOnly',
+              displayFormat: 'MMMM yyyy',
+            },
           },
         },
       ],
@@ -50,14 +88,110 @@ export const Experience: CollectionConfig = {
       defaultValue: false,
     },
     {
-      name: 'description',
-      type: 'richText',
+      // Optional company mark, rendered via next/image on the experience card.
+      name: 'companyLogo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Optional company logo.',
+      },
     },
     {
-      name: 'keywords',
+      // Showcase gallery for the detail page: a main image + thumbnail strip.
+      // Each item is an image with an optional "Visit site" url and caption.
+      // Picker is scoped to image assets only.
+      name: 'showcase',
+      type: 'array',
+      labels: { singular: 'Showcase item', plural: 'Showcase' },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          filterOptions: () => ({ mimeType: { contains: 'image' } }),
+        },
+        {
+          name: 'url',
+          type: 'text',
+          admin: { description: 'Optional "Visit site" link for this showcase image.' },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          admin: { description: 'Optional caption / accessible label for this image.' },
+        },
+      ],
+    },
+    {
+      // Renders as the hardcoded "Role Description" section — a list of prose
+      // paragraphs (List, prose variant), not a single rich-text block.
+      name: 'responsibilities',
+      type: 'array',
+      labels: { singular: 'Responsibility', plural: 'Responsibilities' },
+      fields: [
+        {
+          name: 'text',
+          type: 'textarea',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'scope',
       type: 'relationship',
       relationTo: 'keywords',
       hasMany: true,
+      filterOptions: () => ({ category: { equals: 'scope' } }),
+      admin: { allowCreate: false },
+    },
+    {
+      name: 'craft',
+      type: 'relationship',
+      relationTo: 'keywords',
+      hasMany: true,
+      filterOptions: () => ({ category: { equals: 'craft' } }),
+      admin: { allowCreate: false },
+    },
+    {
+      // Deep Dive: the storytelling band below the fold — a slider of
+      // {title, description, details[]} entries (experience's analogue of
+      // Portfolio's Key Decisions). Each entry pairs a titled narrative with a
+      // "Details" list.
+      name: 'deepDive',
+      type: 'array',
+      labels: { singular: 'Deep Dive', plural: 'Deep Dive' },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+        },
+        {
+          name: 'details',
+          type: 'array',
+          labels: { singular: 'Detail', plural: 'Details' },
+          fields: [{ name: 'text', type: 'textarea', required: true }],
+        },
+      ],
+    },
+    {
+      // Hidden, search-only attachments. Never rendered on the page; flattened
+      // into the search doc's aliases (see lib/search/dataset.ts) so these terms
+      // surface this item without cluttering the card. Offers only searchOnly
+      // keywords, so it never overlaps the scope/craft pickers.
+      name: 'searchKeywords',
+      type: 'relationship',
+      relationTo: 'keywords',
+      hasMany: true,
+      filterOptions: () => ({ category: { equals: 'searchOnly' } }),
+      admin: {
+        allowCreate: false,
+        description: 'Hidden terms that surface this item in search but never render on the page.',
+      },
     },
   ],
 }

@@ -23,8 +23,7 @@ export const AnalyticsEvent = {
   SearchResultSelected: 'search_result_selected',
 } as const
 
-export type AnalyticsEventName =
-  (typeof AnalyticsEvent)[keyof typeof AnalyticsEvent]
+export type AnalyticsEventName = (typeof AnalyticsEvent)[keyof typeof AnalyticsEvent]
 
 /** Payload contracts per event. Extend as features land. */
 export type AnalyticsEventProperties = {
