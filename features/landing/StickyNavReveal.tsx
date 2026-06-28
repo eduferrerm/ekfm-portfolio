@@ -81,8 +81,11 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
 
   // Parked (hidden) items shouldn't catch clicks; Search must stay clickable, so
   // pointer-events toggle on the clipped wrappers only, never the whole row.
+  // `p-2 -m-2`: the `overflow-hidden` that hides parked items also clips a focused
+  // child's outline. The padding gives the ring room to bleed inside the clip box;
+  // the matching negative margin cancels it from layout, so spacing is unchanged.
   const clip = cn(
-    'overflow-hidden group-focus-within/reveal:pointer-events-auto flex items-center',
+    'overflow-hidden group-focus-within/reveal:pointer-events-auto flex items-center p-2 -m-2',
     revealed ? 'pointer-events-auto' : 'pointer-events-none',
   )
 

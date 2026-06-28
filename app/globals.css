@@ -251,10 +251,20 @@
  * ──────────────────────────────────────────────────────────────────────────── */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground font-sans;
+  }
+  /* One keyboard-focus ring for the whole app. Components that opt into the shadcn
+   * ring pattern (Button/Card/Input — `outline-none` + `focus-visible:ring-*`)
+   * suppress this and show only their ring. Native elements that don't (nav links,
+   * graph filter chips) get this single solid fuchsia outline. `solid` (not the UA
+   * `auto`) is the point: it replaces the browser's own focus ring rather than
+   * stacking on top of it, so we never render the doubled white + fuchsia outline. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
