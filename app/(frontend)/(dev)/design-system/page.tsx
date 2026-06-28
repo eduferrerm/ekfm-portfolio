@@ -20,8 +20,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-const featured = dsThemeTextStyles.find((s) => s.feature)
-const scale = dsThemeTextStyles.filter((s) => !s.feature)
+// The hero headline leads in its own emphasised row; the rest follow. Which role
+// is featured is a viewer decision, not token data — so it lives here.
+const FEATURED = 'text-hero-headline'
+const featured = dsThemeTextStyles.includes(FEATURED) ? FEATURED : undefined
+const scale = dsThemeTextStyles.filter((u) => u !== FEATURED)
 
 export default function DesignSystemPage() {
   return (
@@ -76,10 +79,16 @@ export default function DesignSystemPage() {
           drift from globals.css. Fluid roles report their current rendered px; resize to watch them
           track.
         </p>
-        {featured && <PreviewTextStyle style={featured} className="border-b border-border pb-8" />}
+        {featured && (
+          <PreviewTextStyle
+            utility={featured}
+            sample="headline"
+            className="border-b border-border pb-8"
+          />
+        )}
         <div className="flex flex-col gap-8">
-          {scale.map((style) => (
-            <PreviewTextStyle key={style.utility} style={style} />
+          {scale.map((utility) => (
+            <PreviewTextStyle key={utility} utility={utility} />
           ))}
         </div>
       </PreviewSection>

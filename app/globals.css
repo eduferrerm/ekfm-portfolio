@@ -37,35 +37,41 @@
  * stock palette, making the palette the single source of truth.
  * ──────────────────────────────────────────────────────────────────────────── */
 :root {
+  /* The `@ds` tags below are the SINGLE SOURCE for the /design-system viewer and
+   * cn()'s twMerge config: scripts/generate-tokens.mts scrapes them into
+   * lib/design-system/tokens.generated.ts. Tag each `:root` colour token with a
+   * trailing `@ds <group>` comment — add `dark` when the swatch needs a light
+   * label. Group ids, titles and caption-mode are declared on the next line. */
+  /* @ds-groups roles="Color roles · semantic"/provenance states="Interaction states"/provenance */
   --radius: 0.625rem;
 
   /* Surfaces & text (slate) */
-  --background: var(--color-slate-900);
-  --foreground: var(--color-slate-300);
-  --card: var(--color-slate-800);
-  --card-foreground: var(--color-slate-300);
-  --muted: var(--color-slate-700);
-  --muted-foreground: var(--color-slate-400);
-  --border: var(--color-slate-700);
-  --input: var(--color-slate-700);
+  --background: var(--color-slate-900); /* @ds roles */
+  --foreground: var(--color-slate-300); /* @ds roles dark */
+  --card: var(--color-slate-800); /* @ds roles */
+  --card-foreground: var(--color-slate-300); /* @ds roles dark */
+  --muted: var(--color-slate-700); /* @ds roles */
+  --muted-foreground: var(--color-slate-400); /* @ds roles dark */
+  --border: var(--color-slate-700); /* @ds roles */
+  --input: var(--color-slate-700); /* @ds roles */
 
   /* Brand hues — three tiers (primary / secondary / tertiary), each a stock stop.
    * Tokens are named by JOB; several jobs can share one tier's hue (just as the
    * primary tier is both --primary and --feedback). */
   /* Primary tier — lime-200 (loudest / emphasis) */
-  --primary: var(--color-lime-200); /* primary action / emphasis */
-  --primary-foreground: var(--color-slate-900); /* dark text on lime */
-  --feedback: var(--color-lime-200); /* active-feedback flash */
+  --primary: var(--color-lime-200); /* @ds roles dark */ /* primary action / emphasis */
+  --primary-foreground: var(--color-slate-900); /* @ds roles */ /* text on lime */
+  --feedback: var(--color-lime-200); /* @ds states dark */ /* active-feedback flash */
   /* Secondary tier — blue-400 (quieter accent / hierarchy) */
-  --selection: var(--color-blue-400); /* selected state: underline / border / fill */
-  --label: var(--color-blue-400); /* section sub-heading / accent label text */
+  --selection: var(--color-blue-400); /* @ds states dark */ /* selected: underline / border / fill */
+  --label: var(--color-blue-400); /* @ds roles dark */ /* section sub-heading / accent label text */
   /* Tertiary tier — fuchsia-300 (focus) */
-  --accent: var(--color-fuchsia-300); /* tertiary accent */
-  --accent-foreground: var(--color-slate-900); /* dark text on fuchsia, if filled */
-  --ring: var(--accent); /* focus ring */
+  --accent: var(--color-fuchsia-300); /* @ds roles dark */ /* tertiary accent */
+  --accent-foreground: var(--color-slate-900); /* @ds roles */ /* text on fuchsia, if filled */
+  --ring: var(--accent); /* @ds roles dark */ /* focus ring */
 
   /* Neutral overlay */
-  --overlay: var(--color-slate-900-50); /* dim wash behind modals / menus */
+  --overlay: var(--color-slate-900-50); /* @ds states */ /* dim wash behind modals / menus */
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
