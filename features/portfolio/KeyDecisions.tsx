@@ -44,7 +44,7 @@ export function KeyDecisions({
   const decision = decisions[index]
 
   return (
-    <section className="scroll-mt-24">
+    <section>
       <h2 className="text-header tracking-tight">{labels.keyDecisions}</h2>
       <p className="mt-1 text-eyebrow text-primary">
         {subtitle}

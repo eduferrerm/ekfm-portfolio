@@ -52,7 +52,7 @@ export function DearCompanySection({
   const jobPostLabel = content.constants?.jobPost || 'Job Post Here'
 
   return (
-    <section id="dear-company" className="scroll-mt-24">
+    <section id="dear-company">
       <div className="grid gap-10 lg:grid-cols-2">
         <div>
           <h2 className="text-header tracking-tight text-foreground/70">

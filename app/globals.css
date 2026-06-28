@@ -254,6 +254,25 @@
  * BASE
  * ──────────────────────────────────────────────────────────────────────────── */
 @layer base {
+  html {
+    /* Sticky-header height — the SINGLE source consumed by both LandingNav's
+     * height and the anchor scroll offset below, so a clicked / hash-navigated
+     * (search palette) `#section` settles clear of the nav instead of hiding
+     * under it. Mirrors LandingNav's h-18 / lg:h-20. */
+    --header-h: 4.5rem; /* 72px */
+    scroll-padding-top: var(--header-h);
+  }
+  @media (min-width: 64rem) {
+    html {
+      --header-h: 5rem; /* 80px — lg */
+    }
+  }
+  /* Smooth in-page anchor scrolling; honour users who ask for less motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   * {
     @apply border-border;
   }

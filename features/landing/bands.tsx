@@ -147,7 +147,7 @@ export function TldrBand({
   const subtitle = tldr?.subtitle ? fillYears(tldr.subtitle) : ''
 
   return (
-    <section id={id} className="relative isolate w-full scroll-mt-24">
+    <section id={id} className="relative isolate w-full">
       {/* Pinned, full-bleed background. `isolate` keeps the `-z-10` layer behind
           the copy but in front of the page, never escaping behind <body>. */}
       <div className="sticky top-[3.5rem] -z-10 h-[calc(100vh-3.5rem)] w-full overflow-hidden">
@@ -232,7 +232,7 @@ export function LandingSectionBand({
   const diveItems = proseLines(section?.diveInto?.items)
 
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight text-muted-foreground">{section?.heading}</h2>
         {section?.subheader && <p className="mt-3 max-w-2xl text-lead">{section.subheader}</p>}
@@ -267,7 +267,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
   const teaserItems = proseLines(teaser?.items)
 
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight">{data?.heading}</h2>
         {data?.subheader && (
@@ -309,7 +309,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
 /** Contact — closing band with a CTA out (the LinkedIn link in the mock). */
 export function ContactBand({ id, contact }: { id: string; contact: Landing['contact'] }) {
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <Container className={BAND_SPACING}>
         <h2 className="text-header tracking-tight">{contact?.header}</h2>
         {contact?.subheader && (
