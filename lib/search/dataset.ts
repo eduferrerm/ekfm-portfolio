@@ -89,11 +89,12 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
           ...keywordAliases(section.searchKeywords),
           ...keywordLabels(section.searchKeywords),
         ],
-        // Bare fragment, not `/#slug`: the assembled landing renders these
-        // anchors on BOTH `/` and `/dear/[company]`, so the palette resolves the
-        // fragment against the current route (see SearchPalette) — a visitor
-        // stays on their personalized page instead of bouncing to `/`.
-        href: `#${slug}`,
+        // Root-relative landing anchor. Section anchors render ONLY on the
+        // assembled landing (`/` and each `/dear/[company]` mirror), never on
+        // inner routes — so the palette scopes this to the current mirror (see
+        // SearchPalette). A visitor searching from an inner page lands on THEIR
+        // landing (`/dear/ashby/#slug`), not a dead fragment on the inner route.
+        href: `/#${slug}`,
       }
     }),
   ]
