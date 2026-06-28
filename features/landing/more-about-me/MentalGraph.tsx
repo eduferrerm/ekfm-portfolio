@@ -236,6 +236,7 @@ export function MentalGraph() {
           maxZoom={2}
           nodesDraggable={false}
           nodesConnectable={false}
+          nodesFocusable={false}
           edgesFocusable={false}
           elementsSelectable={false}
           zoomOnScroll={false}

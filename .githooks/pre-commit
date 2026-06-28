@@ -1,0 +1,20 @@
+#!/bin/sh
+# Keep the generated design-system token catalog in sync with app/globals.css.
+# Regenerate; if the artifact changed, stage it and stop so the author sees it,
+# then re-commits. This makes "I forgot to regenerate" impossible to commit.
+#
+# Wired via `core.hooksPath .githooks` (set by the package.json `prepare` script).
+
+GENERATED="lib/design-system/tokens.generated.ts"
+
+if ! pnpm generate:tokens >/dev/null 2>&1; then
+  echo "✗ pre-commit: pnpm generate:tokens failed — fix the generator or globals.css."
+  exit 1
+fi
+
+if ! git diff --quiet "$GENERATED"; then
+  git add "$GENERATED"
+  echo "✗ pre-commit: $GENERATED was stale — regenerated and staged it."
+  echo "  Review the change and re-commit."
+  exit 1
+fi

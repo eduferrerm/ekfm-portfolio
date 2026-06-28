@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
 
+import { textRoleNames } from '@/lib/design-system/tokens'
+
 /**
  * Our semantic type roles (the `@utility text-*` scale in globals.css) share the
  * `text-` prefix with colour utilities. tailwind-merge doesn't know our custom
@@ -14,36 +16,16 @@ import { extendTailwindMerge } from 'tailwind-merge'
  * about which CSS property a class sets. Registering the roles in the `font-size`
  * group models them as the element's single text-identity axis: they then dedupe
  * against each other and against raw sizes (`text-sm`) — the "one type role per
- * element" rule — while never colliding with a colour. Trade-off: a role won't
- * dedupe against a piecemeal `font-weight`/`font-family` override, which is fine
- * (pick a different role instead of overriding a role's weight).
+ * element" rule — while never colliding with a colour.
  *
- * Keep this list in sync with the `@utility text-*` blocks in globals.css.
+ * The role list (`textRoleNames`) is derived from the design-system catalog, which
+ * is generated from globals.css — so there is no hand-maintained list to keep in
+ * sync. Add a `@utility text-*` in globals.css, run `pnpm generate:tokens`, done.
  */
-const TYPE_ROLES = [
-  'hero-headline',
-  'header',
-  'subtitle',
-  'subheader',
-  'lead',
-  'body',
-  'list',
-  'ui',
-  'ui-bold',
-  'card-title',
-  'card-body',
-  'eyebrow',
-  'hero-list',
-  'nav',
-  'aside',
-  'meta',
-  'meta-bold',
-]
-
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      'font-size': [{ text: TYPE_ROLES }],
+      'font-size': [{ text: textRoleNames }],
     },
   },
 })

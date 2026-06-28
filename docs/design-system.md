@@ -2,7 +2,8 @@
 
 The CSS foundation for the EKFM portfolio: a three-tier colour-token architecture plus a
 semantic type scale, all in `app/globals.css`. Single dark theme (no light mode, no `.dark`).
-Live specimen: **`/design-system`** (renders every token + type role).
+Live viewer: **`/design-system`** (reads the `lib/design-system` catalog and resolves every token +
+type role live off `globals.css`).
 
 > Source of truth split: **data** (palette stops, font sizes, line-heights) comes from the brand
 > sheets in `EKFM-Brand-2026` (Colors / Fonts / Pressables). **Decisions** (the tier model, which
@@ -59,7 +60,7 @@ palette, making the palette the SSOT.
 | `--selection`                        | blue-400                | selected state (underline / border / fill) |
 | `--label`                            | blue-400                | section sub-heading / accent label text    |
 | `--feedback`                         | lime-200                | active-feedback flash                      |
-| `--scrim`                            | slate-900/50            | overlay / dim                              |
+| `--overlay`                          | slate-900/50            | dim wash behind modals / menus             |
 
 ### Tier 3 — bridge (`@theme inline`)
 
@@ -227,7 +228,7 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   elevated. `SearchResultRow` shares the same `--selection` token for its blue you-are-here state
   (its compact geometry differs from the Card shell, so it reuses the token, not the component).
 
-Specimens render live at **`/design-system`** under _Components · cva_.
+Component demos render at **`/design-system`** under _Components · cva_ (`PreviewComponents`).
 
 ### Nav (landing + asides)
 
@@ -238,17 +239,47 @@ the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators) a
 board — _not_ blue (blue stays the result-row / nav-card you-are-here surface). Icon controls
 (hamburger / close on `StickyNavReveal` + `MobileMenu`) are Button `size="icon"` ghosts.
 
-### Self-describing specimens
+### Self-describing viewer (SSOT) — `globals.css` is the only place you author
 
-The `/design-system` type-scale captions are **read live off the rendered DOM** via
-`getComputedStyle` (`design-system/TypeSpecimen.tsx`, a client component — the page is a server
-component), not hand-maintained literals, so a caption can never drift from the `@utility text-*`
-definitions in `globals.css`. It reports family (Condensed vs Roboto), weight, current px size,
-line-height as a percentage of size, and any `text-transform`; fluid `clamp()` roles report their
-current rendered px and re-read on resize. (This caught the old hero caption, which claimed
-`capitalize` for a role that has no transform.) Colour/state/palette swatches stay literal — their
-captions name the palette stop (`slate-900`), which `getComputedStyle` can't recover from a resolved
-`oklch()` value.
+`/design-system` is a **viewer** — it owns no design values. `globals.css` is the single source of
+truth; everything else is generated from it or reads it live, so a token is **authored once.**
+
+**The pipeline:**
+
+- **`app/globals.css`** — values + `@utility text-*` blocks, plus machine markers: a `@ds-groups`
+  header declares the colour foundations (id/title/caption mode) and each `:root` token is tagged
+  `/* @ds <group> [dark] */`. (`dark` = the swatch needs a light label.)
+- **`scripts/generate-tokens.mts`** (`pnpm generate:tokens`) — scrapes those markers + the
+  `@utility text-*` names into **`lib/design-system/tokens.generated.ts`** (`generatedColorGroups`,
+  `dsThemeTextStyles`). A build artifact — **never hand-edit it.**
+- **`lib/design-system/tokens.ts`** — the small hand part: the `DSThemeColor` types, the curated
+  `palette` foundation (stock Tailwind stops aren't in globals.css to scrape), and derives
+  `textRoleNames` from the generated list. Exports `dsThemeColors` (generated roles/states + palette).
+- **`lib/utils.ts`** — `cn()`'s twMerge config imports `textRoleNames`; **no hand-kept `TYPE_ROLES`.**
+- **`lib/design-system/resolveTokens.ts`** — reads live values at runtime: `resolveValue` (computed
+  `:root` prop), `resolveProvenance` (the AUTHORED `var(--color-slate-900)` recovered from the
+  `:root` `CSSStyleRule` text — `getComputedStyle` only returns the resolved value), `resolveTextStyle`
+  (a type role's spec off a rendered element).
+- **the viewer** (`app/(frontend)/(dev)/design-system/`) — `page.tsx` composes the `Preview*` cluster
+  (`PreviewColor` / `PreviewTextStyle` / `PreviewComponents` / `PreviewSection`; prefix so they
+  surface together in the file palette). Whether a type role is "featured" (hero headline) is a viewer
+  decision in `page.tsx`, not token data.
+
+**Authoring a token:**
+
+- **Edit a value/property** (weight, hue, size, transform) → edit `globals.css` **only**. No
+  regeneration — the name didn't change; the viewer re-reads the value live.
+- **Add / rename / remove** → edit `globals.css` (+ its `@ds` tag for a new colour token), then the
+  generated catalog follows. It regenerates automatically on **`predev`** (every `pnpm dev` start) and
+  via **`pnpm watch:tokens`** (live, second terminal); the **`.githooks/pre-commit`** hook regenerates
+  + stages on commit, so a stale `tokens.generated.ts` can't be committed. Rename also needs the
+  call-site `bg-`/`text-` strings (grep — opaque to tooling) + this doc's token table.
+
+So **both** colour captions and type specs are read live and can never drift, and the TS name-lists
+are generated, not hand-copied — there's no second place to register a token. Component demos stay
+AUTHORED (`PreviewComponents`) — there's no token to read, the component itself is the source. (CI, if
+added, should run `pnpm generate:tokens && git diff --exit-code lib/design-system/tokens.generated.ts`
+to block drift.)
 
 ### Still deferred
 
