@@ -292,7 +292,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
             <Button
               asChild
               variant="ghost"
-              size="sm"
+              size="md"
               chevron="end"
               chevronColor="text-primary"
               className="mt-8 border-foreground text-foreground"

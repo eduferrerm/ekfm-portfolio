@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils'
  * classes compose onto the child `<Link>`/`<a>`.
  */
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border text-ui transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 aria-disabled:pointer-events-none aria-disabled:opacity-40',
+  'inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full border text-ui transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 aria-disabled:pointer-events-none aria-disabled:opacity-40',
   {
     variants: {
       variant: {
@@ -37,7 +37,7 @@ const buttonVariants = cva(
       // (brand "primary / regular", 14px) regardless of size.
       size: {
         sm: 'px-3 py-1',
-        md: 'px-4 py-2',
+        md: 'px-5 py-3',
         // Square, label-free — wraps a single lucide/Chevron icon (search mobile
         // back/close, nav hamburger/close). The icon sizes itself (h-5 w-5).
         icon: 'p-2',

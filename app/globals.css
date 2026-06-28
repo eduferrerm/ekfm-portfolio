@@ -53,6 +53,7 @@
   --muted: var(--color-slate-700); /* @ds roles */
   --muted-foreground: var(--color-slate-400); /* @ds roles dark */
   --border: var(--color-slate-700); /* @ds roles */
+  --border-tag: var(--color-slate-600); /* @ds roles */
   --input: var(--color-slate-700); /* @ds roles */
 
   /* Brand hues — three tiers (primary / secondary / tertiary), each a stock stop.
@@ -63,7 +64,9 @@
   --primary-foreground: var(--color-slate-900); /* @ds roles */ /* text on lime */
   --feedback: var(--color-lime-200); /* @ds states dark */ /* active-feedback flash */
   /* Secondary tier — blue-400 (quieter accent / hierarchy) */
-  --selection: var(--color-blue-400); /* @ds states dark */ /* selected: underline / border / fill */
+  --selection: var(
+    --color-blue-400
+  ); /* @ds states dark */ /* selected: underline / border / fill */
   --label: var(--color-blue-400); /* @ds roles dark */ /* section sub-heading / accent label text */
   /* Tertiary tier — fuchsia-300 (focus) */
   --accent: var(--color-fuchsia-300); /* @ds roles dark */ /* tertiary accent */
@@ -95,6 +98,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-border-tag: var(--border-tag);
   --color-input: var(--input);
 
   --color-primary: var(--primary);
