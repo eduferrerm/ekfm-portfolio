@@ -21,9 +21,12 @@ Live specimen: **`/design-system`** (renders every token + type role).
 
 **The one rule:** components consume **semantic utilities only** — `bg-primary`, `text-foreground`,
 `text-card-title`. Never primitives (`bg-slate-900`), never raw vars (`bg-[var(--primary)]`). The
-only legitimate direct-primitive use is the `/design-system` page documenting the palette, and
-brand/structural marks with no semantic role. Emitting `bg-[var(--x)]` means something skipped the
-bridge — that is a defect.
+only legitimate direct-primitive use is the `/design-system` page documenting the palette,
+brand/structural marks with no semantic role, and a **data-viz categorical scale** where the
+3-tier brand can't encode the dimension — the More-About-Me mental graph paints its 13 node
+categories with stock Tailwind `*-500` stops (sans lime; `categoryTier.ts`), a deliberate,
+documented exception. Emitting `bg-[var(--x)]` for a _role_ means something skipped the bridge —
+that is a defect.
 
 ### Tier 1 — primitives (`@theme`)
 
