@@ -53,9 +53,9 @@ export function HeroBand({
   return (
     <section className="relative">
       {banner}
-      {/* The whole hero is ONE viewport (minus the sticky nav, ~3.5rem): wordmark,
+      {/* The whole hero is ONE viewport (minus the sticky nav, var(--header-h)): wordmark,
           title, in-hero nav, chevron, and the Drive/Craft grid all share this block. */}
-      <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center gap-10 py-10">
+      <div className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
           <h1 className="text-hero-headline uppercase text-muted">{hero?.title}</h1>
@@ -114,8 +114,8 @@ const TLDR_BG = {
  *
  * Pinned scroll-through, pure CSS (no scroll-jacking): the section is taller than
  * the viewport; the background is a sticky layer offset to the navbar's bottom
- * (`top-[3.5rem]`) that locks the instant the section's top reaches that border
- * and HOLDS while the copy column — pulled up over it with `-mt-[calc(100vh-3.5rem)]`
+ * (`top-[var(--header-h)]`) that locks the instant the section's top reaches that
+ * border and HOLDS while the copy column — pulled up with `-mt-[calc(100vh_-_var(--header-h))]`
  * — scrolls past, then sticky releases on its own as the section ends and normal
  * scrolling resumes. The band stays a server component because the effect is
  * layout-only.
@@ -150,7 +150,7 @@ export function TldrBand({
     <section id={id} className="relative isolate w-full">
       {/* Pinned, full-bleed background. `isolate` keeps the `-z-10` layer behind
           the copy but in front of the page, never escaping behind <body>. */}
-      <div className="sticky top-[3.5rem] -z-10 h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+      <div className="sticky top-[var(--header-h)] -z-10 h-[calc(100vh_-_var(--header-h))] w-full overflow-hidden">
         <picture>
           <source media="(max-width: 767px)" srcSet={TLDR_BG.mobile} />
           <source media="(max-width: 1023px)" srcSet={TLDR_BG.tablet} />
@@ -174,8 +174,8 @@ export function TldrBand({
           as an intro before the copy scrolls in and an outro after it leaves. The
           column is what makes the section taller than the viewport, driving the
           scroll-through. */}
-      <div className="relative -mt-[calc(100vh-3.5rem)]">
-        <Container className="flex min-h-[calc(100vh-3.5rem)] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
+      <div className="relative -mt-[calc(100vh_-_var(--header-h))]">
+        <Container className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col justify-start pb-[50vh] pt-[50vh] text-white">
           <div className="max-w-[60vw] md:max-w-sm">
             {greeting && <h2 className="mb-6 text-header tracking-tight">{greeting}</h2>}
             {subtitle && (
