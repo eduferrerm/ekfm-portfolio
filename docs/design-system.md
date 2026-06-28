@@ -2,7 +2,8 @@
 
 The CSS foundation for the EKFM portfolio: a three-tier colour-token architecture plus a
 semantic type scale, all in `app/globals.css`. Single dark theme (no light mode, no `.dark`).
-Live specimen: **`/design-system`** (renders every token + type role).
+Live viewer: **`/design-system`** (reads the `lib/design-system` catalog and resolves every token +
+type role live off `globals.css`).
 
 > Source of truth split: **data** (palette stops, font sizes, line-heights) comes from the brand
 > sheets in `EKFM-Brand-2026` (Colors / Fonts / Pressables). **Decisions** (the tier model, which
@@ -227,7 +228,7 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   elevated. `SearchResultRow` shares the same `--selection` token for its blue you-are-here state
   (its compact geometry differs from the Card shell, so it reuses the token, not the component).
 
-Specimens render live at **`/design-system`** under _Components · cva_.
+Component demos render at **`/design-system`** under _Components · cva_ (`PreviewComponents`).
 
 ### Nav (landing + asides)
 
@@ -238,17 +239,30 @@ the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators) a
 board — _not_ blue (blue stays the result-row / nav-card you-are-here surface). Icon controls
 (hamburger / close on `StickyNavReveal` + `MobileMenu`) are Button `size="icon"` ghosts.
 
-### Self-describing specimens
+### Self-describing viewer (SSOT)
 
-The `/design-system` type-scale captions are **read live off the rendered DOM** via
-`getComputedStyle` (`design-system/TypeSpecimen.tsx`, a client component — the page is a server
-component), not hand-maintained literals, so a caption can never drift from the `@utility text-*`
-definitions in `globals.css`. It reports family (Condensed vs Roboto), weight, current px size,
-line-height as a percentage of size, and any `text-transform`; fluid `clamp()` roles report their
-current rendered px and re-read on resize. (This caught the old hero caption, which claimed
-`capitalize` for a role that has no transform.) Colour/state/palette swatches stay literal — their
-captions name the palette stop (`slate-900`), which `getComputedStyle` can't recover from a resolved
-`oklch()` value.
+`/design-system` is a **viewer** — it owns no design values. The design system is split so the
+catalog is route-agnostic and the route is just a consumer:
+
+- **`lib/design-system/tokens.ts`** — the catalog: token NAMES, foundation grouping, and order
+  (`DSThemeColor` / `DSThemeTextStyle` shapes; `dsThemeColors` / `dsThemeTextStyles`). **No values** —
+  the `DSTheme` prefix dodges Next's `themeColor` and ties the names to Tailwind's `@theme`. This is
+  the curated knowledge the CSS can't encode (which roles exist, in which foundation).
+- **`lib/design-system/resolveTokens.ts`** — reads the live values off `globals.css` at runtime:
+  `resolveValue` (computed custom-property off `:root`), `resolveProvenance` (the AUTHORED
+  `var(--color-slate-900)` declaration, recovered from the `:root` `CSSStyleRule` text — which
+  `getComputedStyle` can't give back, it only returns the resolved value), and `resolveTextStyle`
+  (a type role's family/weight/px/LH/transform off a rendered element).
+- **`app/(frontend)/(dev)/design-system/`** (the viewer): `page.tsx` composes; the `Preview*`
+  cluster — `PreviewColor` / `PreviewTextStyle` / `PreviewComponents` / `PreviewSection` — renders
+  the catalog. (Prefix so the viewer's render units surface together in the file palette.)
+
+So **both** colour captions and type specs are now read live and can never drift from `globals.css`:
+a role swatch reports the stock stop it maps to (`primary → lime-200`), a palette stop reports its
+resolved value, a type role reports its rendered spec (fluid `clamp()` roles re-read on resize). The
+hand-maintained `slate-900` literals are gone. Component demos stay AUTHORED (`PreviewComponents`) —
+there's no token to read, the component itself is the source. (This live-read approach caught the old
+hero caption that claimed `capitalize` for a role with no transform.)
 
 ### Still deferred
 
