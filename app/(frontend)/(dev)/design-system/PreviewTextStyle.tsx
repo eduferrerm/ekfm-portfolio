@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { resolveTextStyle } from '@/lib/design-system/resolveTokens'
-import type { DSThemeTextStyle } from '@/lib/design-system/tokens'
 import { cn } from '@/lib/utils'
 
 const SAMPLE = 'The quick brown fox jumps over the lazy dog'
@@ -16,10 +15,12 @@ const SAMPLE = 'The quick brown fox jumps over the lazy dog'
  * resize so the reported px tracks the viewport.
  */
 export function PreviewTextStyle({
-  style,
+  utility,
+  sample = SAMPLE,
   className,
 }: {
-  style: DSThemeTextStyle
+  utility: string
+  sample?: string
   className?: string
 }) {
   const ref = useRef<HTMLParagraphElement>(null)
@@ -37,11 +38,11 @@ export function PreviewTextStyle({
   return (
     <div className={cn('flex flex-col gap-1', className)}>
       <p className="text-meta text-muted-foreground">
-        {style.utility}
+        {utility}
         {spec ? ` · ${spec}` : ''}
       </p>
-      <p ref={ref} className={cn(style.utility, 'text-foreground')}>
-        {style.sample ?? SAMPLE}
+      <p ref={ref} className={cn(utility, 'text-foreground')}>
+        {sample}
       </p>
     </div>
   )

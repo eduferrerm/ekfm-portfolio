@@ -5,6 +5,8 @@
   "type": "module",
   "packageManager": "pnpm@11.5.2",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
+    "predev": "pnpm generate:tokens",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -14,6 +16,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "payload": "payload",
+    "generate:tokens": "node --import tsx/esm scripts/generate-tokens.mts",
+    "watch:tokens": "node --import tsx/esm scripts/watch-tokens.mts",
     "generate:types": "node --import tsx/esm scripts/generate-types.mts",
     "generate:importmap": "node --import tsx/esm scripts/generate-importmap.mts",
     "build:more-about-me-graph": "node --import tsx/esm scripts/build-more-about-me-graph.mts",
