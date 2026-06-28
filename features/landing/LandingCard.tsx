@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { Tag } from '@/components/primitives/Tag'
-import { buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
 import type { LandingCardData } from './projections'
@@ -35,15 +35,16 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
             ))}
           </div>
         )}
-        <span
-          className={buttonVariants({
-            variant: 'ghost',
-            size: 'sm',
-            className: 'mt-auto w-fit group-hover:border-primary group-hover:text-primary',
-          })}
+        <Button
+          asChild
+          variant="ghost"
+          size="sm"
+          chevron="end"
+          chevronColor="text-primary"
+          className="mt-auto w-fit border-foreground text-foreground group-hover:border-primary group-hover:text-primary"
         >
-          {ctaLabel}
-        </span>
+          <span>{ctaLabel}</span>
+        </Button>
       </Link>
     </Card>
   )

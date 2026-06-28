@@ -39,11 +39,12 @@ export function SliderControls({
     >
       <Button
         type="button"
+        chevron="start"
         onClick={() => go(index - 1)}
         disabled={index === 0}
         className="disabled:cursor-not-allowed"
       >
-        <span aria-hidden>‹</span> Prev
+        Prev
       </Button>
 
       <ul className="flex items-center gap-2" aria-hidden>
@@ -64,11 +65,12 @@ export function SliderControls({
 
       <Button
         type="button"
+        chevron="end"
         onClick={() => go(index + 1)}
         disabled={index === count - 1}
         className="disabled:cursor-not-allowed"
       >
-        Next <span aria-hidden>›</span>
+        Next
       </Button>
     </div>
   )

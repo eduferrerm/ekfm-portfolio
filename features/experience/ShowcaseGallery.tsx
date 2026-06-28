@@ -34,9 +34,9 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
         />
         {current.label && <figcaption className="sr-only">{current.label}</figcaption>}
         {current.url && (
-          <Button asChild className="absolute bottom-4 right-4 shadow-lg">
+          <Button asChild chevron="end" className="absolute bottom-4 right-4 shadow-lg">
             <a href={current.url} target="_blank" rel="noopener noreferrer">
-              Visit site <span aria-hidden>›</span>
+              Visit site
             </a>
           </Button>
         )}

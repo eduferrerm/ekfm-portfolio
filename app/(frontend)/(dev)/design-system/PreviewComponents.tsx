@@ -38,6 +38,25 @@ export function PreviewComponents() {
 
       <div className="flex flex-col gap-3">
         <p className="text-meta-bold text-foreground">
+          Button · chevron (start / end; colour the glyph independently of the label)
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <Button chevron="start">Back</Button>
+          <Button chevron="end">Next</Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            chevron="end"
+            chevronColor="text-primary"
+            className="border-foreground text-foreground"
+          >
+            Explore (card CTA)
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-meta-bold text-foreground">
           Input · fuchsia focus ring (tab in to see the focus channel)
         </p>
         <div className="relative max-w-xs">
