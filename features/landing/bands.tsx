@@ -269,10 +269,8 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
   return (
     <section id={id}>
       <Container className={BAND_SPACING}>
-        <h2 className="text-header tracking-tight">{data?.heading}</h2>
-        {data?.subheader && (
-          <p className="mt-3 text-lead text-muted-foreground">{data.subheader}</p>
-        )}
+        <h2 className="text-header text-muted-foreground tracking-tight">{data?.heading}</h2>
+        {data?.subheader && <p className="mt-3 text-lead">{data.subheader}</p>}
 
         {/* The relational map. Fixed height so the lazy client bundle swaps in
             without shifting the page (the skeleton fills the same box). The panel's
@@ -318,10 +316,8 @@ export function ContactBand({ id, contact }: { id: string; contact: Landing['con
   return (
     <section id={id}>
       <Container className={BAND_SPACING}>
-        <h2 className="text-header tracking-tight">{contact?.header}</h2>
-        {contact?.subheader && (
-          <p className="mt-3 max-w-2xl text-lead text-foreground/80">{contact.subheader}</p>
-        )}
+        <h2 className="text-header text-muted-foreground tracking-tight">{contact?.header}</h2>
+        {contact?.subheader && <p className="mt-3 max-w-2xl text-lead">{contact.subheader}</p>}
         {contact?.description && (
           <p className="mt-3 max-w-2xl text-body text-muted-foreground">{contact.description}</p>
         )}
