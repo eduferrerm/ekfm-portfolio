@@ -84,7 +84,7 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
       <div className={clip}>
         <Brand className={reveal(0)} />
       </div>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2 lg:gap-5 ">
         {/* Inline links — the desktop row. Below `lg` the full set can't fit, so it
             gives way to the hamburger (which would otherwise overflow horizontally). */}
         <div className={cn(clip, 'hidden lg:block')}>
