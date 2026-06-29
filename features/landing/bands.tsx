@@ -13,7 +13,7 @@ import { LandingCard } from './LandingCard'
 import { MentalGraphClient } from './more-about-me/MentalGraphClient'
 import { NavList, type NavItem } from './NavList'
 import { HERO_NAV_ATTR } from './navReveal'
-import type { LandingCardData } from './projections'
+import type { LandingCardData, MoreAboutMeCta } from './projections'
 
 /** Vertical rhythm shared by every band; width + gutter come from <Container>. */
 const BAND_SPACING = 'py-20'
@@ -262,7 +262,15 @@ export function LandingSectionBand({
  * a teaser card beneath that contextualises it. The map is the precomputed
  * ~400-node graph (features/landing/more-about-me), mounted client-only.
  */
-export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreAboutMe'] }) {
+export function MoreAboutMeBand({
+  id,
+  data,
+  cta,
+}: {
+  id: string
+  data: Landing['moreAboutMe']
+  cta: MoreAboutMeCta | null
+}) {
   const teaser = data?.teaser
   const teaserItems = proseLines(teaser?.items)
 
@@ -299,9 +307,9 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
             )}
           </div>
           <div>
-            {teaser?.ctaLabel && (
+            {cta && (
               <Button asChild variant="secondary" className="mt-8">
-                <span>{teaser.ctaLabel}</span>
+                <Link href={cta.href}>{cta.label}</Link>
               </Button>
             )}
           </div>

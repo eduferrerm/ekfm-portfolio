@@ -9,6 +9,7 @@ import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
+import { moreAboutMeCta } from './projections'
 import { experienceCards, experienceYearsLabel, landingGlobal, portfolioCards } from './queries'
 
 /** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
@@ -100,7 +101,14 @@ export async function Landing({
               />
             )
           case 'moreAboutMe':
-            return <MoreAboutMeBand key={section.id} id={id} data={landing.moreAboutMe} />
+            return (
+              <MoreAboutMeBand
+                key={section.id}
+                id={id}
+                data={landing.moreAboutMe}
+                cta={moreAboutMeCta(landing.moreAboutMe?.teaser, scope)}
+              />
+            )
           case 'contact':
             return <ContactBand key={section.id} id={id} contact={landing.contact} />
           default:

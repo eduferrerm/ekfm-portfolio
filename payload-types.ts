@@ -789,7 +789,14 @@ export interface Landing {
             id?: string | null;
           }[]
         | null;
+      /**
+       * Button text. The button only renders when a portfolio write-up is attached below.
+       */
       ctaLabel?: string | null;
+      /**
+       * Portfolio write-up this section links to. Attach one to show the button; empty hides it.
+       */
+      ctaPortfolioItem?: (number | null) | Portfolio;
     };
   };
   contact?: {
@@ -947,6 +954,7 @@ export interface LandingSelect<T extends boolean = true> {
                     id?: T;
                   };
               ctaLabel?: T;
+              ctaPortfolioItem?: T;
             };
       };
   contact?:

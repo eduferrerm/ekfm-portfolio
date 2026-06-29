@@ -67,3 +67,22 @@ export function experienceCard(
     image: d.companyLogo,
   }
 }
+
+/** Resolved More-About-Me CTA: a real secondary-button link to a portfolio write-up. */
+export type MoreAboutMeCta = { label: string; href: string }
+
+/**
+ * Resolve the More-About-Me teaser's CTA. The button is opt-in: it exists only
+ * when an author attaches a portfolio write-up (`ctaPortfolioItem`), which at
+ * depth>=1 is populated to a doc we read the slug off (unpopulated id → no link).
+ * The scoped href keeps a visitor inside their `/dear/[company]` mirror. Returns
+ * null when nothing is attached, so the band omits the button entirely.
+ */
+export function moreAboutMeCta(
+  teaser: NonNullable<Landing['moreAboutMe']>['teaser'],
+  scope = '',
+): MoreAboutMeCta | null {
+  const item = teaser?.ctaPortfolioItem
+  if (typeof item !== 'object' || !item || !item.slug) return null
+  return { label: teaser?.ctaLabel || 'Read the write-up', href: portfolioHref(item.slug, scope) }
+}
