@@ -60,24 +60,24 @@ export function Expectations({
   const view = expectations[index]
 
   return (
-    <div className="flex flex-col gap-6 rounded-2xl border border-border p-6 sm:p-8 bg-sunken/70">
-      <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
+    <div className="flex flex-col gap-6 rounded-2xl border border-border p-6 md:p-10 sm:p-8 bg-sunken/70">
+      <div className="flex items-center gap-3">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
           <MediaImage media={logo} className="h-full w-full object-cover" />
         </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-ui-bold text-primary">{labels.expectations}</p>
-          <p className="truncate text-meta text-muted-foreground">{role}</p>
+        <div>
+          <p className="text-subheader text-primary mb-1">{labels.expectations}</p>
+          <p className="truncate text-eyebrow-description text-muted-foreground">{role}</p>
         </div>
-        <span className="text-meta-bold text-primary">
+        <span className="text-subheader text-label ml-auto">
           {index + 1}/{expectations.length}
         </span>
       </div>
 
-      <p className="text-lead text-foreground/90">{view.expectation}</p>
+      <p className="text-lead text-foreground/90 mb-4">{view.expectation}</p>
 
-      <div>
-        <h3 className="mb-3 text-subheader text-label">{labels.reply}</h3>
+      <div className="mb-8">
+        <h3 className="mb-6 text-subheader text-primary">{labels.reply}</h3>
         {/* One prose body flowed into two balanced columns — no break-inside
             guard, so any length splits to halve the height and keep the slide
             controls in view. */}
@@ -91,8 +91,8 @@ export function Expectations({
       </div>
 
       {view.items.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-subheader text-label">{labels.relevantContent}</h3>
+        <div className="mb-2">
+          <h3 className="mb-3 text-ui text-label">{labels.relevantContent}</h3>
           <ul className="grid gap-3 sm:grid-cols-2">
             {view.items.map((item) => (
               <li key={item.href}>

@@ -183,6 +183,12 @@
   font-size: 1rem; /* 16px */
   line-height: 1; /* 100% */
 }
+@utility text-eyebrow-description {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1rem; /* 16px */
+  line-height: 1; /* 100% */
+}
 
 /* — Hero — */
 @utility text-hero-headline {
