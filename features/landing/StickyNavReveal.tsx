@@ -1,10 +1,11 @@
 'use client'
 
-import { Menu, X } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
+import { MenuOverlay } from '@/components/MenuOverlay'
+import { scopeFromPath } from '@/lib/routes'
 import { cn } from '@/lib/utils'
 
 import { Brand } from './Brand'
@@ -20,30 +21,19 @@ import { useActiveSection } from './useActiveSection'
  * copy scrolls out of view (and retract on the way back up). An IntersectionObserver
  * on the in-hero copy (`HERO_NAV_SELECTOR`) drives the `revealed` flag.
  *
+ * Below `lg` the links give way to the shared `MenuOverlay` hamburger, which sits
+ * to the RIGHT of Search and opens the same anchors as a full-screen panel.
+ *
  * a11y: the links are always in the DOM (so crawlers/AT see one real nav landmark),
  * and `focus-within` reveals them for keyboard users who tab in while they're
  * visually hidden over the hero — they never chase invisible focus.
  */
 export function StickyNavReveal({ items, search }: { items: NavItem[]; search: ReactNode }) {
   const [revealed, setRevealed] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const activeSlug = useActiveSection(items.map((item) => item.slug))
-
-  // While the mobile overlay is open, lock background scroll and let Escape close
-  // it — the standard modal affordances the inline desktop row doesn't need.
-  useEffect(() => {
-    if (!menuOpen) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false)
-    }
-    document.addEventListener('keydown', onKey)
-    const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = prevOverflow
-    }
-  }, [menuOpen])
+  // The overlay logo links home in-scope: `/` on the canonical site, the visitor's
+  // own landing under `/dear/[company]` (recovered client-side from the path).
+  const scope = scopeFromPath(usePathname())
 
   useEffect(() => {
     const sentinel = document.querySelector(HERO_NAV_SELECTOR)
@@ -107,49 +97,16 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
             activeLinkClassName="text-foreground underline decoration-primary underline-offset-4"
           />
         </div>
-        {/* Hamburger — the mobile equivalent of the links, so it follows the same
-            reveal (hidden over the hero's own nav copy, revealed once it scrolls away). */}
-        <div className={cn(clip, 'lg:hidden')}>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            aria-controls="landing-mobile-menu"
-            className={reveal(1)}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </div>
         {search}
-      </div>
-
-      {/* Full-screen overlay holding the same anchor links, vertical. Rendered only
-          when open, so the duplicated links never sit in the a11y tree alongside the
-          inline row; tapping any link bubbles to the wrapper and closes it. */}
-      {menuOpen && (
-        <div
-          id="landing-mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-background p-6 lg:hidden"
-        >
-          <div className="flex items-center justify-between">
-            <Brand />
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
-          <div className="mt-12" onClick={() => setMenuOpen(false)}>
+        {/* Hamburger — the mobile equivalent of the links, to the RIGHT of Search.
+            It shares the links' reveal (hidden over the hero's own nav copy, revealed
+            once it scrolls away) and opens the same anchors as a full-screen panel. */}
+        <div className={cn(clip, 'lg:hidden')}>
+          <MenuOverlay
+            id="landing-mobile-menu"
+            home={{ href: scope || '/' }}
+            triggerClassName={reveal(1)}
+          >
             <NavList
               items={items}
               className="flex flex-col gap-5"
@@ -157,9 +114,9 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
               activeSlug={activeSlug}
               activeLinkClassName="text-foreground underline decoration-primary underline-offset-4"
             />
-          </div>
+          </MenuOverlay>
         </div>
-      )}
+      </div>
     </div>
   )
 }
