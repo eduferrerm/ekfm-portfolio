@@ -59,7 +59,7 @@ export function PreviewComponents() {
         <div className="flex flex-wrap items-center gap-4">
           <Pressable
             type="button"
-            className="rounded-full border border-border-tag bg-primary-foreground px-5 py-3 text-muted-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground"
+            className="rounded-full border border-border-tag bg-sunken px-5 py-3 text-muted-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground"
             startIcon={<Search className="h-5 w-5 text-primary" />}
             aria-label="Search (Pressable specimen)"
           >

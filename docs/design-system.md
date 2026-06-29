@@ -211,8 +211,9 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   escape hatch: a **one-off** builds straight from `Pressable` with arbitrary styles (a shared
   `buttonVariants({ … })` skin _or_ a bespoke one) instead of registering a `variant` it would be the
   only member of. The **search palette** trigger uses a **bespoke skin** — tag-style border
-  (`border-border-tag`), a dark `bg-primary-foreground` fill, a leading lime Search glyph, no
-  chevron, `text-nav` label on a child `<span>` — composed via `Pressable` with no variant.
+  (`border-border-tag`), a dark `bg-sunken` recessed fill (slate-900, below the slate-800 page), a
+  leading lime Search glyph, no chevron, `text-nav` label on a child `<span>` — composed via
+  `Pressable` with no variant.
 - **`Button`** (`components/ui/button.tsx`) — the **design-system layer** over `Pressable`:
   `buttonVariants` is the brand skin (`cva`), with `variant` primary / secondary / ghost (the closed
   set of emphasis _tiers_), `size` sm / md / **icon** (square, wraps a single lucide/Chevron glyph),
