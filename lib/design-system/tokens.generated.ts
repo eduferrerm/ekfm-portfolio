@@ -55,6 +55,11 @@ export const generatedColorGroups: DSThemeColorGroup[] = [
         swatch: 'bg-border-tag',
       },
       {
+        name: 'border-card',
+        cssVar: '--border-card',
+        swatch: 'bg-border-card',
+      },
+      {
         name: 'input',
         cssVar: '--input',
         swatch: 'bg-input',
