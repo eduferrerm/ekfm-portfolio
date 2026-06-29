@@ -15,22 +15,19 @@ import { cn } from '@/lib/utils'
  *
  * Colour comes only from semantic roles; never raw stops or vars.
  */
-const cardVariants = cva(
-  'rounded-2xl border bg-card/30 p-6 transition outline-none',
-  {
-    variants: {
-      interactive: {
-        true: 'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:border-primary/50',
-        false: '',
-      },
-      selected: {
-        true: 'border-selection bg-selection/20',
-        false: 'border-border',
-      },
+const cardVariants = cva('rounded-2xl border bg-card p-6 transition outline-none', {
+  variants: {
+    interactive: {
+      true: 'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:border-primary/50',
+      false: '',
     },
-    defaultVariants: { interactive: false, selected: false },
+    selected: {
+      true: 'border-selection bg-selection/20',
+      false: 'border-border-card',
+    },
   },
-)
+  defaultVariants: { interactive: false, selected: false },
+})
 
 export type CardProps = React.ComponentProps<'div'> &
   VariantProps<typeof cardVariants> & {
@@ -40,9 +37,7 @@ export type CardProps = React.ComponentProps<'div'> &
 
 export function Card({ className, interactive, selected, asChild = false, ...props }: CardProps) {
   const Comp = asChild ? Slot : 'div'
-  return (
-    <Comp className={cn(cardVariants({ interactive, selected }), className)} {...props} />
-  )
+  return <Comp className={cn(cardVariants({ interactive, selected }), className)} {...props} />
 }
 
 export { cardVariants }
