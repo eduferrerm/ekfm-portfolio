@@ -27,8 +27,9 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
     <div className="flex gap-4 mb-20 flex-col md:flex-row">
       <figure className="relative min-w-0 flex-1 max-w-205.5 overflow-hidden rounded-xl border border-border">
         <MediaImage
+          key={index}
           media={current.media}
-          className="h-auto w-full object-cover"
+          className="h-auto w-full object-cover animate-showcase-zoom"
           sizes="(min-width: 1024px) 60vw, 100vw"
           priority
         />
