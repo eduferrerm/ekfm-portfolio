@@ -13,11 +13,14 @@ import {
   type NodeProps,
   type ReactFlowInstance,
 } from '@xyflow/react'
+import { Maximize2, Minimize2 } from 'lucide-react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 // @xyflow/react ships its own stylesheet; required for nodes/edges to render.
 import '@xyflow/react/dist/style.css'
 
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 import graph from './graph.json'
@@ -135,6 +138,7 @@ export function MentalGraph() {
   const [hover, setHover] = useState<Hover>(null)
   const [focusedId, setFocusedId] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState(false)
   const rf = useRef<ReactFlowInstance | null>(null)
 
   const baseNodes = useMemo<Node[]>(
@@ -207,6 +211,22 @@ export function MentalGraph() {
     else inst.fitView({ duration: 400 })
   }, [visible])
 
+  // Full-screen overlay modal affordances — Escape closes, lock background scroll.
+  // (Site convention: MenuOverlay / SearchPalette.)
+  useEffect(() => {
+    if (!expanded) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setExpanded(false)
+    }
+    document.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [expanded])
+
   const onToggleCategory = useCallback((key: string) => {
     setFocusedId(null)
     setActiveCategory((a) => (a === key ? null : key))
@@ -224,9 +244,9 @@ export function MentalGraph() {
   }, [])
   const clearHover = useCallback(() => setHover(null), [])
 
-  return (
+  const content = (
     <div className="flex h-full w-full flex-col">
-      <div className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
+      <div className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-primary)] [--xy-controls-button-color:var(--color-primary)] [--xy-edge-stroke:var(--color-border)]">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -242,9 +262,12 @@ export function MentalGraph() {
           nodesFocusable={false}
           edgesFocusable={false}
           elementsSelectable={false}
-          zoomOnScroll={false}
+          // Wheel-zoom only in the full-screen overlay. Inline it stays off so a
+          // page scroll over the hero map isn't trapped here; expanded there's no
+          // page to scroll past (body scroll is locked), so the gesture is safe.
+          zoomOnScroll={expanded}
           panOnScroll={false}
-          preventScrolling={false}
+          preventScrolling={expanded}
           onlyRenderVisibleElements
           onInit={(inst) => {
             rf.current = inst
@@ -259,6 +282,18 @@ export function MentalGraph() {
           <Background color="var(--color-muted)" gap={28} size={1} />
           <Controls showInteractive={false} position="top-left" />
         </ReactFlow>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={() => setExpanded((e) => !e)}
+          aria-label={expanded ? 'Exit full screen' : 'Expand to full screen'}
+          aria-pressed={expanded}
+          className="absolute top-2 right-2 z-10 bg-card/80 text-primary"
+        >
+          {expanded ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+        </Button>
 
         {hover && (
           <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
@@ -288,5 +323,23 @@ export function MentalGraph() {
 
       <FilterChips active={activeCategory} counts={counts} onToggle={onToggleCategory} />
     </div>
+  )
+
+  // Portaling the SINGLE rendered instance (not a second copy) preserves the
+  // active filter / focus / hover across expand+collapse and avoids re-rendering
+  // ~400 nodes twice. Portal to <body>: the sticky landing nav's backdrop-blur
+  // would otherwise trap a `fixed` overlay. fitView re-runs on remount.
+  if (!expanded) return content
+
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="More about me — mental map"
+      className="fixed inset-0 z-50 bg-sunken"
+    >
+      {content}
+    </div>,
+    document.body,
   )
 }
