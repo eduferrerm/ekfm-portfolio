@@ -155,7 +155,7 @@
 }
 @utility text-subheader {
   font-family: var(--font-condensed);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.125rem; /* 18px */
   line-height: 1.1; /* 110% */
 }
@@ -227,7 +227,7 @@
 /* The main nav — hero + sticky header navbar. */
 @utility text-nav {
   font-family: var(--font-condensed);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1rem; /* 16px */
   line-height: 1; /* 100% */
   text-transform: uppercase;
