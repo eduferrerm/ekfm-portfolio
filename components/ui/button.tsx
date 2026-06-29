@@ -1,14 +1,19 @@
-import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { Chevron } from '@/components/primitives/Chevron'
+import { Pressable } from '@/components/primitives/Pressable'
 import { cn } from '@/lib/utils'
 
 /**
- * The pill/CTA family. Variants encode the brand's three emphasis tiers and the
- * interaction model decoded from the Pressables board:
+ * The pill/CTA family — the design-system layer over `Pressable`. `buttonVariants`
+ * is the brand *skin* (pill shape + label role + the three emphasis tiers); the
+ * interaction *mechanism* (layout, focus ring, disabled, `asChild`) lives in
+ * `Pressable`, which this composes the skin onto via `className`.
  *
- * - **focus** is global — fuchsia ring (`ring-ring` → --accent) on every variant.
+ * Variants encode the brand's three emphasis tiers and the interaction model
+ * decoded from the Pressables board:
+ *
+ * - **focus** is global — fuchsia ring (`ring-ring` → --accent), owned by Pressable.
  * - **active (press) feedback** is global — a lime flash / dim.
  * - **hover**: primary (lime fill) trades its fill for a lime outline + lime label;
  *   secondary turns its slate outline + label lime; ghost — now icon-only chrome —
@@ -19,9 +24,15 @@ import { cn } from '@/lib/utils'
  * Colour comes only from semantic roles (--primary/--border/--ring …), never raw
  * stops or vars. Render as a link with `asChild` (Radix Slot): the variant
  * classes compose onto the child `<Link>`/`<a>`.
+ *
+ * A control that's a one-off (the search trigger) builds straight from `Pressable`
+ * + a shared skin (`buttonVariants({ variant: 'secondary' })`) instead of earning
+ * a `variant` here — this enum stays the closed set of emphasis *tiers*.
  */
 const buttonVariants = cva(
-  'group/btn inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full border text-ui transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 aria-disabled:pointer-events-none aria-disabled:opacity-40',
+  // Brand skin only — pill shape + label type role. The shared mechanism (flex
+  // layout, focus ring, disabled) is Pressable's `pressableBase`.
+  'rounded-full border text-ui',
   {
     variants: {
       variant: {
@@ -34,7 +45,7 @@ const buttonVariants = cva(
         // press fills lime with a dark (--primary-foreground) label/chevron. md
         // auto-carries an end chevron (see Button) held in text-primary, dark on press.
         secondary:
-          'border-foreground bg-transparent text-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground',
+          'border-muted-foreground bg-transparent text-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground',
         // Icon-only chrome (hamburger / back / close): transparent, glyph carried in
         // text-primary by the caller, hover grows a lime edge. No longer used for
         // text CTAs — those are `secondary` now.
@@ -85,7 +96,6 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
-  const Comp = asChild ? Slot : 'button'
   const resolvedVariant = variant ?? 'primary'
   const resolvedSize = size ?? 'md'
   // primary + secondary text buttons (md) carry a trailing chevron by default; the
@@ -111,11 +121,15 @@ export function Button({
     />
   )
   return (
-    <Comp className={cn(buttonVariants({ variant, size }), className)} {...props}>
-      {placement === 'start' && glyph}
-      <Slottable>{children}</Slottable>
-      {placement === 'end' && glyph}
-    </Comp>
+    <Pressable
+      asChild={asChild}
+      className={cn(buttonVariants({ variant, size }), className)}
+      startIcon={placement === 'start' ? glyph : undefined}
+      endIcon={placement === 'end' ? glyph : undefined}
+      {...props}
+    >
+      {children}
+    </Pressable>
   )
 }
 

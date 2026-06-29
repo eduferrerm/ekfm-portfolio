@@ -46,7 +46,7 @@
   --radius: 0.625rem;
 
   /* Surfaces & text (slate) */
-  --background: var(--color-slate-900); /* @ds roles */
+  --background: var(--color-slate-800); /* @ds roles */
   --foreground: var(--color-slate-300); /* @ds roles dark */
   --card: var(--color-slate-800); /* @ds roles */
   --card-foreground: var(--color-slate-300); /* @ds roles dark */
@@ -55,6 +55,7 @@
   --border: var(--color-slate-700); /* @ds roles */
   --border-tag: var(--color-slate-600); /* @ds roles */
   --input: var(--color-slate-700); /* @ds roles */
+  --sunken: var(--color-slate-900); /* @ds roles */ /* recessed control surface (sits below the page) */
 
   /* Brand hues — three tiers (primary / secondary / tertiary), each a stock stop.
    * Tokens are named by JOB; several jobs can share one tier's hue (just as the
@@ -100,6 +101,7 @@
   --color-border: var(--border);
   --color-border-tag: var(--border-tag);
   --color-input: var(--input);
+  --color-sunken: var(--sunken);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);

@@ -60,6 +60,11 @@ export const generatedColorGroups: DSThemeColorGroup[] = [
         swatch: 'bg-input',
       },
       {
+        name: 'sunken',
+        cssVar: '--sunken',
+        swatch: 'bg-sunken',
+      },
+      {
         name: 'primary',
         cssVar: '--primary',
         swatch: 'bg-primary',
