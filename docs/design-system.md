@@ -47,20 +47,29 @@ ship, so they are **not** redeclared. `@theme` holds only what TW lacks:
 Roles keep shadcn's variable names (so net-new shadcn components drop in) but point at the stock
 palette, making the palette the SSOT.
 
-| Token                                | →                       | Notes                                      |
-| ------------------------------------ | ----------------------- | ------------------------------------------ |
-| `--background`                       | slate-900               | page                                       |
-| `--foreground`                       | slate-300               | body text (lightest stop)                  |
-| `--card` / `--card-foreground`       | slate-800 / slate-300   | elevated surface                           |
-| `--muted` / `--muted-foreground`     | slate-700 / slate-400   | recessed surface / quiet text              |
-| `--border` / `--input`               | slate-700               |                                            |
-| `--primary` / `--primary-foreground` | lime-200 / slate-900    | primary action / emphasis                  |
-| `--accent` / `--accent-foreground`   | fuchsia-300 / slate-900 | tertiary accent                            |
-| `--ring`                             | `var(--accent)`         | focus ring                                 |
-| `--selection`                        | blue-400                | selected state (underline / border / fill) |
-| `--label`                            | blue-400                | section sub-heading / accent label text    |
-| `--feedback`                         | lime-200                | active-feedback flash                      |
-| `--overlay`                          | slate-900/50            | dim wash behind modals / menus             |
+Roles name **jobs, not values** — resolved stops live in `app/globals.css` and the live
+`/design-system` viewer, so this table can't go stale when a stop is retuned.
+
+| Token                                | Role                                              |
+| ------------------------------------ | ------------------------------------------------- |
+| `--background`                       | page                                              |
+| `--foreground`                       | body text (lightest stop)                         |
+| `--card` / `--card-foreground`       | elevated surface / text on it                     |
+| `--muted` / `--muted-foreground`     | quiet surface / quiet text                        |
+| `--sunken`                           | recessed surface (sits below the page)            |
+| `--border` / `--input`               | default hairline / form-control border            |
+| `--border-tag`                       | tag / chip border                                 |
+| `--border-card`                      | card border                                       |
+| `--primary` / `--primary-foreground` | primary action / emphasis / text on it            |
+| `--accent` / `--accent-foreground`   | tertiary accent / text on it                      |
+| `--ring`                             | focus ring (→ `--accent`)                         |
+| `--selection`                        | selected state (underline / border / fill)        |
+| `--label`                            | section sub-heading / accent label text           |
+| `--feedback`                         | active-feedback flash                             |
+| `--overlay`                          | dim wash behind modals / menus                    |
+
+**Border width** — every border is 1px via `--default-border-width`; thicker numeric/arbitrary
+variants are blocked in `.githooks/pre-commit`, so `border` is the only width on the site.
 
 ### Tier 3 — bridge (`@theme inline`)
 
@@ -163,8 +172,9 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 - **`cn` knows the type roles:** every `text-*` role shares the `text-` prefix with colour
   utilities, so stock tailwind-merge would file `cn('text-nav', 'text-muted-foreground')` as a
   colour clash and silently drop the _role_. `lib/utils.ts` registers all roles in twMerge's
-  `font-size` group, so a role + a colour both survive (and two roles still dedupe to one). **Keep
-  that `TYPE_ROLES` list in sync when adding or renaming an `@utility text-*`.**
+  `font-size` group, so a role + a colour both survive (and two roles still dedupe to one). That
+  role list (`textRoleNames`) is derived from the generated catalog, so adding an `@utility text-*`
+  and running `pnpm generate:tokens` is enough — there is no hand-kept list to update.
 - **Component variants vs colour roles:** a `<Button variant="primary">` _uses_ `--primary`; the
   variant name is the component's emphasis tier, the colour token is global. Never invent
   per-component colour tokens like `--card-primary`.
@@ -211,7 +221,7 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   escape hatch: a **one-off** builds straight from `Pressable` with arbitrary styles (a shared
   `buttonVariants({ … })` skin _or_ a bespoke one) instead of registering a `variant` it would be the
   only member of. The **search palette** trigger uses a **bespoke skin** — tag-style border
-  (`border-border-tag`), a dark `bg-sunken` recessed fill (slate-900, below the slate-800 page), a
+  (`border-border-tag`), a dark `bg-sunken` recessed fill (`--sunken`, below the `--background` page), a
   leading lime Search glyph, no chevron, `text-nav` label on a child `<span>` — composed via
   `Pressable` with no variant.
 - **`Button`** (`components/ui/button.tsx`) — the **design-system layer** over `Pressable`:
