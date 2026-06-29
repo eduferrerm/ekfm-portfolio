@@ -5,6 +5,16 @@
 #
 # Wired via `core.hooksPath .githooks` (set by the package.json `prepare` script).
 
+# Borders are 1px site-wide (--default-border-width in app/globals.css). The bare
+# `border` utility honours that token; thicker utilities are computed from the
+# value you type, so they can't be disabled in CSS — block them here instead.
+if rg -nP --glob '*.{tsx,ts,css}' -g '!*.generated.*' \
+   '\bborder-(?:[2-9]|[1-9][0-9])\b|\bborder-\[[^]]*(?:px|rem|em)\]' . ; then
+  echo "✗ pre-commit: non-1px border utility found — borders are 1px site-wide."
+  echo "  Use bare \`border\` (width comes from --default-border-width)."
+  exit 1
+fi
+
 GENERATED="lib/design-system/tokens.generated.ts"
 
 if ! pnpm generate:tokens >/dev/null 2>&1; then
