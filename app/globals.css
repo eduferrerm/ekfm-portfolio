@@ -207,6 +207,14 @@
   line-height: var(--leading-loose); /* 200% */
 }
 
+/* — Sub Pages — */
+@utility text-headline {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.38rem + 2.65vw, 3.5rem); /* fluid 32 → 56px */
+  line-height: 1; /* 100% */
+}
+
 /* — Nav (brand sheet "Menu" group; named by surface) — */
 /* The inner-page asides (SiteNav side rail). */
 @utility text-aside {
