@@ -3,42 +3,46 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { Brand } from '@/components/Brand'
 import { MediaImage } from '@/components/primitives/MediaImage'
 import type { NavItem, NavSectionView, SectionKey } from '@/lib/nav'
+import { cn } from '@/lib/utils'
 
 /**
  * The site navigation tree, shared by the desktop aside and the mobile overlay
- * menu (one model, two shells — see _chrome/SectionShell + MobileMenu). The
- * section list comes from the Landing SSOT (`sections`, same rows as LandingNav);
- * under the `active` routed section it expands a nested sub-nav of items
- * (role/feature rows: thumbnail + primary/secondary). The active sub-item is
- * resolved by pathname. IA-first: styling is intentionally minimal pending the
- * design-system branch.
+ * menu (one model, two shells — the aside in _chrome/SectionShell + the shared
+ * MenuOverlay it opens below the rail breakpoint). Both shells own their own brand
+ * mark, so this renders only the nav itself. The section list comes from the
+ * Landing SSOT (`sections`, same rows as LandingNav); under the `active` routed
+ * section it expands a nested sub-nav of items (role/feature rows: thumbnail +
+ * primary/secondary). The active sub-item is resolved by pathname.
  */
 export function SiteNav({
   sections,
   active,
   items,
   home,
+  itemWidth = 'fill',
 }: {
   sections: NavSectionView[]
   active: SectionKey
   items: NavItem[]
   /** Visitor-only "Dear Company" entry linking back to the scoped landing. */
   home?: { label: string; href: string } | null
+  /**
+   * Sub-item row width. The fixed-width aside fills its rail (`'fill'`); the
+   * full-bleed overlay hugs each row to its content (`'fit'`) so a card doesn't
+   * stretch the whole 1200px column.
+   */
+  itemWidth?: 'fill' | 'fit'
 }) {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* The brand lives in the menu now (the inner-page top bar holds only search). */}
-      <Brand href={home?.href ?? '/'} />
-      <nav className="flex flex-col gap-2" aria-label="Sections">
+    <nav className="flex flex-col gap-6" aria-label="Sections">
         {home && (
           <Link
             href={home.href}
-            className="text-aside text-muted-foreground transition hover:text-foreground"
+            className="text-nav text-muted-foreground transition hover:text-foreground"
           >
             {home.label}
           </Link>
@@ -52,15 +56,21 @@ export function SiteNav({
                 aria-current={sectionActive ? 'page' : undefined}
                 className={
                   sectionActive
-                    ? 'text-aside text-foreground underline decoration-primary underline-offset-4'
-                    : 'text-aside text-muted-foreground transition hover:text-foreground'
+                    ? 'text-nav text-foreground underline decoration-primary underline-offset-4'
+                    : 'text-nav text-muted-foreground transition hover:text-foreground'
                 }
               >
                 {section.label}
               </Link>
 
               {sectionActive && items.length > 0 && (
-                <ul className="mt-2 flex flex-col gap-1">
+                <ul
+                  className={cn(
+                    'mt-2 flex flex-col gap-1',
+                    // 'fit' aligns rows to the start so each shrinks to its content.
+                    itemWidth === 'fit' && 'items-start',
+                  )}
+                >
                   {items.map((item) => {
                     const itemActive = pathname === item.href
                     return (
@@ -68,9 +78,14 @@ export function SiteNav({
                         <Link
                           href={item.href}
                           aria-current={itemActive ? 'page' : undefined}
-                          className={`flex items-center gap-2 rounded-md p-2 ${
-                            itemActive ? 'border border-primary bg-muted/40' : 'hover:bg-muted/30'
-                          }`}
+                          className={cn(
+                            'flex items-center gap-2 rounded-md p-2',
+                            // Selected = the blue "you-are-here" surface (--selection),
+                            // a 20%-opacity fill behind a full-strength border.
+                            itemActive
+                              ? 'border border-selection bg-selection/20'
+                              : 'hover:bg-muted/30',
+                          )}
                         >
                           {item.thumbnail && (
                             <MediaImage
@@ -98,6 +113,5 @@ export function SiteNav({
           )
         })}
       </nav>
-    </div>
   )
 }

@@ -154,9 +154,10 @@ The brand sheet labelled several roles "Capitalized", but the designs show other
 
 - **Page titles** (`text-hero-headline`) keep **natural case** — no transform. The landing hero
   applies `uppercase` at the call site.
-- **Nav** (`text-nav` = main nav: hero + sticky header; `text-aside` = inner-page side rail) bakes
-  in **uppercase**. (These are the brand sheet's "Menu" group, renamed by surface — `main`→`nav`,
-  `subpage`→`aside` — for semantic salience.)
+- **Nav** (`text-nav` = main nav AND the inner-page side rail / overlay — `SiteNav` now uses the
+  same 16px role for parity) bakes in **uppercase**. `text-aside` is the brand sheet's larger
+  "subpage" Menu variant (24px), kept in the scale but currently unused. (These are the brand
+  sheet's "Menu" group, renamed by surface — `main`→`nav`, `subpage`→`aside` — for semantic salience.)
 - **Eyebrows** (`text-eyebrow`) are **natural case** (sentence/title as authored) — the earlier
   uppercase + letter-spaced 12px treatment was dropped for a quieter 16px medium label.
 
@@ -230,8 +231,8 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   `asChild`, and the **chevron policy** (primary/secondary `md` auto-carry an end chevron; `chevron` /
   `chevronColor` override). Consumed by `SliderControls` (Prev/Next), `ShowcaseGallery` (Visit site),
   `LandingCard` (ghost CTA), `DearCompanySection` + `ContactBand` (secondary CTAs), mobile back/close
-  (ghost icon, lime at rest per the board), and the **nav** (`MobileMenu` MENU trigger; hamburger /
-  close on `StickyNavReveal` + `MobileMenu` as ghost icons). A Button whose label needs a non-default
+  (ghost icon, lime at rest per the board), and the **nav** (the shared `MenuOverlay` hamburger +
+  close, ghost icons lime at rest, on both `StickyNavReveal` and `SectionShell`). A Button whose label needs a non-default
   type role puts the role on a child `<span>` to scope it to the label text. (The palette's Clear /
   recent-search controls are plain underlined / muted **text links**, not buttons — the board shows
   no pill there.)
@@ -255,11 +256,14 @@ Component demos render at **`/design-system`** under _Components · cva_ (`Previ
 ### Nav (landing + asides)
 
 The nav consumes the renamed Menu roles — no bespoke role. **`text-nav`** (16) drives the main nav:
-the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators) and the sticky header
-(`StickyNavReveal`, desktop + mobile overlay). **`text-aside`** (24) drives the inner-page side rail
-(`SiteNav`). Active item = `text-foreground` + a **lime underline** (`decoration-primary`), per the
-board — _not_ blue (blue stays the result-row / nav-card you-are-here surface). Icon controls
-(hamburger / close on `StickyNavReveal` + `MobileMenu`) are Button `size="icon"` ghosts.
+the in-hero copy (`bands.tsx`, decorative, blue `--selection` pipe separators), the sticky header
+(`StickyNavReveal`, desktop + mobile overlay), and the inner-page side rail / overlay tree
+(`SiteNav`) — one 16px role across every nav surface. Active **section** = `text-foreground` + a
+**lime underline** (`decoration-primary`), per the board; the active **sub-item card** is the blue
+`--selection` you-are-here surface (`border-selection` + `bg-selection/20`), shared with the
+result-row / nav-card state. Icon controls
+(hamburger / close in the shared `MenuOverlay`, used by `StickyNavReveal` + `SectionShell`) are
+Button `size="icon"` ghosts, lime (`text-primary`) at rest.
 
 ### Self-describing viewer (SSOT) — `globals.css` is the only place you author
 
