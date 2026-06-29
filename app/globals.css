@@ -10,13 +10,18 @@
  * Raw values that generate utilities. The palette is stock Tailwind 4 (slate,
  * lime, fuchsia, blue) — those stops already ship in TW4, so we do NOT redeclare
  * them. This block holds only what TW lacks: the Roboto families, the alpha tints
- * derived off stock stops, and the brand surface gradient.
+ * derived off stock stops, the brand surface gradient, and the 1px border default.
  * ──────────────────────────────────────────────────────────────────────────── */
 @theme {
   /* Typeface families — the CSS vars are injected by next/font in
    * app/(frontend)/layout.tsx (Roboto + Roboto Condensed). */
   --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
   --font-condensed: var(--font-roboto-condensed), var(--font-roboto), ui-sans-serif, sans-serif;
+
+  /* Every border is 1px by decision, not by framework default. The bare `border`
+   * utility reads this; thicker numeric/arbitrary-width variants are blocked in
+   * .githooks/pre-commit so this stays the only border width on the site. */
+  --default-border-width: 1px;
 
   /* Alpha tints — derived off stock TW stops via native color-mix. `in oklch` is
    * the interpolation space only; the base stays a stock TW color (not rewritten
