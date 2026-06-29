@@ -9,8 +9,8 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className=" bg-label fixed inset-x-0 bottom-0 z-0 flex h-(--header-h) items-center justify-center">
-      <p className="text-subtitle text-primary-foreground"> Bob's your uncle... Thanks! © {year}</p>
+    <footer className=" bg-primary fixed inset-x-0 bottom-0 z-0 flex h-(--header-h) items-center justify-center">
+      <p className="text-subtitle text-primary-foreground"> That is all... 🚀 © {year}</p>
     </footer>
   )
 }
