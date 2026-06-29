@@ -53,8 +53,6 @@ export function HeroBand({
   return (
     <section className="relative">
       {banner}
-      {/* The whole hero is ONE viewport (minus the sticky nav, var(--header-h)): wordmark,
-          title, in-hero nav, chevron, and the Drive/Craft grid all share this block. */}
       <div className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />

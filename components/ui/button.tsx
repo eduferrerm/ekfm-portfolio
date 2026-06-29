@@ -36,29 +36,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Loudest. Lime fill + dark label/chevron; hover empties to a lime outline;
-        // press flashes a faint lime fill (--feedback at 20%). md auto-carries an
-        // end chevron (see Button) coloured by the label (text-current).
         primary:
           'border-transparent bg-primary text-primary-foreground hover:border-primary hover:bg-transparent hover:text-primary active:bg-feedback/20 active:text-primary-foreground',
-        // Slate-300 outline + label, lime chevron; hover turns outline + label lime;
-        // press fills lime with a dark (--primary-foreground) label/chevron. md
-        // auto-carries an end chevron (see Button) held in text-primary, dark on press.
         secondary:
           'border-muted-foreground bg-transparent text-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground',
-        // Icon-only chrome (hamburger / back / close): transparent, glyph carried in
-        // text-primary by the caller, hover grows a lime edge. No longer used for
-        // text CTAs — those are `secondary` now.
+        // Icon-only chrome (hamburger / back / close) — not for text CTAs (use secondary).
         ghost:
           'border-transparent bg-transparent text-muted-foreground hover:border-primary hover:text-primary active:opacity-60',
       },
-      // Sizes change padding only — every label stays the `text-ui` role
-      // (brand "primary / regular", 14px) regardless of size.
+      // Padding only — the label stays the text-ui role at every size.
       size: {
         sm: 'px-3 py-1',
         md: 'px-5 py-3',
-        // Square, label-free — wraps a single lucide/Chevron icon (search mobile
-        // back/close, nav hamburger/close). The icon sizes itself (h-5 w-5).
+        // Square, label-free — wraps a single icon (which sizes itself).
         icon: 'p-2',
       },
     },
