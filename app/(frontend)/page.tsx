@@ -1,8 +1,6 @@
 import { Landing } from '@/features/landing/Landing'
 
-// ISR: daily time-based backstop; content publishes revalidate on demand
-// (revalidateSite in every collection/global afterChange), so this timer only
-// catches writes outside a request scope (seeds/migrations).
+// ISR daily backstop; on-demand revalidation is primary → docs/ARCHITECTURE.md (ROUTING).
 export const revalidate = 86400
 
 /**
