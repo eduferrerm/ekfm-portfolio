@@ -1,10 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
+import { MetaCard } from '@/components/primitives/MetaCard'
 import { SliderControls } from '@/components/primitives/Slider'
 import type { Media } from '@/payload-types'
 
@@ -96,17 +96,12 @@ export function Expectations({
           <ul className="grid gap-3 sm:grid-cols-2">
             {view.items.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="group flex items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
-                    <MediaImage media={item.thumbnail} className="h-full w-full object-cover" />
-                  </span>
-                  <span className="flex min-w-0 flex-col">
-                    <span className="text-meta text-muted-foreground">{item.title}</span>
-                    <span className="truncate text-ui-bold group-hover:underline">
-                      {item.metadata}
-                    </span>
-                  </span>
-                </Link>
+                <MetaCard
+                  href={item.href}
+                  eyebrow={item.title}
+                  title={item.metadata}
+                  thumbnail={item.thumbnail}
+                />
               </li>
             ))}
           </ul>
