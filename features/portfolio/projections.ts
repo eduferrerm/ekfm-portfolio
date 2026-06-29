@@ -1,4 +1,4 @@
-import type { Portfolio } from '@/payload-types'
+import type { Media, Portfolio } from '@/payload-types'
 import type { NavItem } from '@/lib/nav'
 import { resolveContentRefs } from '@/lib/content'
 import { proseLines } from '@/lib/prose'
@@ -29,10 +29,16 @@ export type KeyDecisionView = {
   points: string[]
 }
 
-/** A resolved "Relevant content" link (Portfolio item or Experience role). */
+/**
+ * A resolved "Relevant content" card. Follows the shared MetaCard contract
+ * (`eyebrow` = content category, `title` = the item's own name) so it renders
+ * identically to the Dear Company relevant-content cards.
+ */
 export type RelatedItem = {
+  eyebrow: string
   title: string
   href: string
+  thumbnail?: Media | number | null
 }
 
 /** Map the authored keyDecisions to slide view-models (drops empty points). */
@@ -53,15 +59,25 @@ export function keyDecisionsSubtitle(
 }
 
 /**
- * Resolve the polymorphic `relatedContent` relationship to title + href. The
+ * Resolve the polymorphic `relatedContent` relationship to MetaCard data. The
  * narrowing, slug guard, and route shape live in `resolveContentRefs`; here we
- * only shape the label: a portfolio piece shows its eyebrow, a role shows
- * "{role} · {company}".
+ * only shape the card, mirroring the Dear Company resolver: Portfolio →
+ * "Feature" + eyebrow + thumbnail; Experience → "Experience" + company + logo.
  */
 export function relatedItems(related?: Portfolio['relatedContent'], scope = ''): RelatedItem[] {
   return resolveContentRefs(related, scope).map((ref) =>
     ref.relationTo === 'portfolio'
-      ? { title: ref.doc.eyebrow, href: ref.href }
-      : { title: `${ref.doc.role} · ${ref.doc.company}`, href: ref.href },
+      ? {
+          eyebrow: 'Feature',
+          title: ref.doc.eyebrow,
+          href: ref.href,
+          thumbnail: ref.doc.thumbnail,
+        }
+      : {
+          eyebrow: 'Experience',
+          title: ref.doc.company,
+          href: ref.href,
+          thumbnail: ref.doc.companyLogo,
+        },
   )
 }
