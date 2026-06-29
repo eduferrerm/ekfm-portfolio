@@ -1,8 +1,10 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 
+import { Container } from '@/components/Container'
 import { List } from '@/components/primitives/List'
 import { Button } from '@/components/ui/button'
+import { DEAR_COMPANY_ID } from '@/lib/nav'
 import { dearHref } from '@/lib/routes'
 import type { Visitor, VisitorContent } from '@/payload-types'
 
@@ -51,30 +53,37 @@ export function DearCompanySection({
   }
   const jobPostLabel = content.constants?.jobPost || 'Job Post Here'
 
+  // Anchor + spacing mirror the landing bands: `id` lives on the outermost
+  // <section> with `py-20` INSIDE it, so scroll-padding-top lands the title with
+  // the same offset as every other section (see features/landing/bands.tsx).
   return (
-    <section id="dear-company">
-      <div className="grid gap-10 lg:grid-cols-2">
-        <div>
-          <h2 className="text-header tracking-tight text-foreground/70">Dear {visitor.company}</h2>
+    <section id={DEAR_COMPANY_ID}>
+      <Container className="py-20">
+        <div className="grid gap-10 md:gap-20 lg:grid-cols-[2fr_3fr]">
+          <div>
+            <h2 className="text-header tracking-tight text-foreground/70">
+              Dear {visitor.company}
+            </h2>
 
-          <List variant="prose" items={intro} className="mt-6" chevronColor="text-label" />
+            <List variant="prose" items={intro} className="mt-6" chevronColor="text-label" />
 
-          <Button asChild variant="secondary" className="mt-8">
-            <Link href={visitor.jobPostUrl} target="_blank" rel="noopener noreferrer">
-              {jobPostLabel}
-            </Link>
-          </Button>
+            <Button asChild variant="secondary" className="mt-8">
+              <Link href={visitor.jobPostUrl} target="_blank" rel="noopener noreferrer">
+                {jobPostLabel}
+              </Link>
+            </Button>
+          </div>
+
+          <Suspense fallback={null}>
+            <Expectations
+              expectations={views}
+              role={visitor.role}
+              logo={visitor.companyLogo}
+              labels={labels}
+            />
+          </Suspense>
         </div>
-
-        <Suspense fallback={null}>
-          <Expectations
-            expectations={views}
-            role={visitor.role}
-            logo={visitor.companyLogo}
-            labels={labels}
-          />
-        </Suspense>
-      </div>
+      </Container>
     </section>
   )
 }

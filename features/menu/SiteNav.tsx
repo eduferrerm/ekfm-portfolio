@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
-import type { NavItem, NavSectionView, SectionKey } from '@/lib/nav'
+import { DEAR_COMPANY_ID, type NavItem, type NavSectionView, type SectionKey } from '@/lib/nav'
 import { cn } from '@/lib/utils'
 
 /**
@@ -40,8 +40,11 @@ export function SiteNav({
   return (
     <nav className="flex flex-col gap-6" aria-label="Sections">
         {home && (
+          // The "Dear Company" entry scrolls back to the landing's dear-company
+          // band, so it targets that anchor — `home.href` itself stays the scoped
+          // landing root (the Brand/logo's home), which lands on the hero instead.
           <Link
-            href={home.href}
+            href={`${home.href}/#${DEAR_COMPANY_ID}`}
             className="text-nav text-muted-foreground transition hover:text-foreground"
           >
             {home.label}

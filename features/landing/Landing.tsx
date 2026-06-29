@@ -1,5 +1,5 @@
-import { Container } from '@/components/Container'
 import { buildSearchDataset } from '@/lib/search/dataset'
+import { DEAR_COMPANY_ID } from '@/lib/nav'
 import { dearHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 import type { Visitor, VisitorContent } from '@/payload-types'
@@ -11,9 +11,6 @@ import { LandingNav } from './LandingNav'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
 import { moreAboutMeCta } from './projections'
 import { experienceCards, experienceYearsLabel, landingGlobal, portfolioCards } from './queries'
-
-/** Anchor for the visitor-only Dear Company band (matches DearCompanySection's id). */
-const DEAR_COMPANY_ID = 'dear-company'
 
 /**
  * The assembled landing, composed from the Landing global + collection
@@ -70,9 +67,7 @@ export async function Landing({
       />
 
       {visitor && visitorContent && (
-        <Container className="py-20">
-          <DearCompanySection visitor={visitor} content={visitorContent} />
-        </Container>
+        <DearCompanySection visitor={visitor} content={visitorContent} />
       )}
 
       {sections.map((section) => {

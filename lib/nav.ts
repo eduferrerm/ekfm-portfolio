@@ -10,6 +10,14 @@ import type { Media } from '@/payload-types'
 export type SectionKey = 'tldr' | 'experience' | 'portfolio' | 'moreAboutMe' | 'contact'
 
 /**
+ * Anchor id of the visitor-only "Dear Company" landing band — NOT a routed
+ * SectionKey. The single source shared by the band itself (DearCompanySection's
+ * `id`), the landing nav item (LandingNav), and the section-chrome aside link
+ * (SiteNav) that scrolls back to it from an inner page, so the three can't drift.
+ */
+export const DEAR_COMPANY_ID = 'dear-company'
+
+/**
  * Sections that have a routed inner page with a nested sub-nav (route path ===
  * key). Every other section is landing-anchor-only: it has no inner-page
  * presence, so from a detail page it cross-links back to its landing band
