@@ -268,7 +268,27 @@ export const Landing: GlobalConfig = {
             },
             { name: 'description', type: 'textarea' },
             proseArray('items', 'Item', 'Items'),
-            { name: 'ctaLabel', type: 'text', defaultValue: 'Feature System Here' },
+            {
+              name: 'ctaLabel',
+              type: 'text',
+              defaultValue: 'Read the write-up',
+              admin: {
+                description:
+                  'Button text. The button only renders when a portfolio write-up is attached below.',
+              },
+            },
+            {
+              // Attach the portfolio detail page that documents this feature. The
+              // band's CTA button renders only when this is set (→ a real link to
+              // /portfolio/[slug]); leave it empty to hide the button.
+              name: 'ctaPortfolioItem',
+              type: 'relationship',
+              relationTo: 'portfolio',
+              admin: {
+                description:
+                  'Portfolio write-up this section links to. Attach one to show the button; empty hides it.',
+              },
+            },
           ],
         },
       ],
