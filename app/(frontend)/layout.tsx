@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${roboto.variable} ${robotoCondensed.variable}`}>
-      <body>
+      <body className="antialiased">
         <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>

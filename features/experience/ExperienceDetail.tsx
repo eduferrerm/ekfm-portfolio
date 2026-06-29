@@ -18,7 +18,7 @@ import { deepDiveViews, showcaseItems } from './projections'
  * are the `--label` role everywhere; the experience page was the lone grey outlier.
  */
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <h3 className="mb-4 text-subheader text-label">{children}</h3>
+  return <h3 className="mb-10 text-subheader text-label">{children}</h3>
 }
 
 /**
@@ -45,21 +45,21 @@ export async function ExperienceDetail({ slug }: { slug: string }) {
   const dives = deepDiveViews(exp.deepDive)
 
   return (
-    <article className="space-y-16">
-      <header className="space-y-5">
+    <article>
+      <header className="space-y-5 mb-6">
         <div className="flex items-center gap-3">
-          {logo && <MediaImage media={logo} className="h-10 w-auto" />}
+          {logo && <MediaImage media={logo} className="h-13 w-auto rounded-md" />}
           <div>
-            <p className="text-ui-bold">{exp.company}</p>
-            <p className="text-meta text-muted-foreground">{yearRange(exp)}</p>
+            <p className="text-eyebrow mb-2">{exp.company}</p>
+            <p className="text-eyebrow-description text-muted-foreground">{yearRange(exp)}</p>
           </div>
         </div>
-        <h1 className="text-hero-headline">{exp.role}</h1>
+        <h1 className="text-headline">{exp.role}</h1>
       </header>
 
       {gallery.length > 0 && <ShowcaseGallery items={gallery} />}
 
-      <div className="grid gap-10 md:grid-cols-3">
+      <div className="grid gap-16 md:grid-cols-3 mb-20">
         {responsibilities.length > 0 && (
           <section>
             <SectionLabel>{labels.roleDescription}</SectionLabel>

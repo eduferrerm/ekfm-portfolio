@@ -143,6 +143,7 @@ export const dsThemeTextStyles: string[] = [
   'text-eyebrow-description',
   'text-hero-headline',
   'text-hero-list',
+  'text-headline',
   'text-aside',
   'text-nav',
   'text-ui',

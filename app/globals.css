@@ -33,6 +33,19 @@
   /* Brand surface gradient — exact stops from the brand Colors sheet.
    * (Angle assumed top→bottom; trivial to flip if the source differs.) */
   --gradient-surface: linear-gradient(180deg, #1b2434 15%, #101625 100%);
+
+  /* Showcase select reveal — the active gallery image eases from a 1.3 zoom back
+   * to natural scale (Ken Burns settle). Replayed by re-keying the <img> on each
+   * selection; figure's overflow-hidden crops the overscan. */
+  --animate-showcase-zoom: showcase-zoom 4s cubic-bezier(0.22, 1, 0.36, 1);
+  @keyframes showcase-zoom {
+    from {
+      transform: scale(1.3);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -155,7 +168,7 @@
 }
 @utility text-subheader {
   font-family: var(--font-condensed);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.125rem; /* 18px */
   line-height: 1.1; /* 110% */
 }
@@ -207,6 +220,14 @@
   line-height: var(--leading-loose); /* 200% */
 }
 
+/* — Sub Pages — */
+@utility text-headline {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.38rem + 2.65vw, 3.5rem); /* fluid 32 → 56px */
+  line-height: 1; /* 100% */
+}
+
 /* — Nav (brand sheet "Menu" group; named by surface) — */
 /* The inner-page asides (SiteNav side rail). */
 @utility text-aside {
@@ -219,7 +240,7 @@
 /* The main nav — hero + sticky header navbar. */
 @utility text-nav {
   font-family: var(--font-condensed);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1rem; /* 16px */
   line-height: 1; /* 100% */
   text-transform: uppercase;
@@ -305,6 +326,12 @@
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+  /* Honour reduced-motion: skip the showcase zoom reveal. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-showcase-zoom {
+      animation: none;
+    }
   }
 }
 

@@ -24,11 +24,12 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
   const current = items[index]
 
   return (
-    <div className="flex gap-4">
-      <figure className="relative min-w-0 flex-1 overflow-hidden rounded-xl border border-border">
+    <div className="flex gap-4 mb-20 flex-col md:flex-row">
+      <figure className="relative min-w-0 flex-1 max-w-205.5 overflow-hidden rounded-xl border border-border">
         <MediaImage
+          key={index}
           media={current.media}
-          className="h-auto w-full"
+          className="h-auto w-full object-cover animate-showcase-zoom"
           sizes="(min-width: 1024px) 60vw, 100vw"
           priority
         />
@@ -43,9 +44,9 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
       </figure>
 
       {items.length > 1 && (
-        <ul className="flex w-24 shrink-0 flex-col gap-3 sm:w-28">
+        <ul className="flex w-full shrink-0 gap-3 flex-row md:w-31.5 md:flex-col">
           {items.map((item, i) => (
-            <li key={i}>
+            <li key={i} className="flex-1 md:flex-none">
               <button
                 type="button"
                 onClick={() => setActive(i)}
@@ -58,7 +59,7 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
                     : 'border-border opacity-70 hover:opacity-100',
                 )}
               >
-                <MediaImage media={item.media} className="h-auto w-full" sizes="112px" />
+                <MediaImage media={item.media} className="h-auto w-full" sizes="(min-width: 768px) 126px, 33vw" />
               </button>
             </li>
           ))}
