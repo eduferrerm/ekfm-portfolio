@@ -172,7 +172,9 @@ export function MentalGraph() {
   // The visible set = category filter ∩ focus neighbourhood (null = show all).
   const visible = useMemo(() => {
     if (!activeCategory && !focusedId) return null
-    let set: Set<string> | null = activeCategory ? (byCategory.get(activeCategory) ?? new Set()) : null
+    let set: Set<string> | null = activeCategory
+      ? (byCategory.get(activeCategory) ?? new Set())
+      : null
     if (focusedId) {
       const nb = new Set<string>([focusedId])
       adjacency.get(focusedId)?.forEach((id) => nb.add(id))
@@ -200,7 +202,8 @@ export function MentalGraph() {
   useEffect(() => {
     const inst = rf.current
     if (!inst) return
-    if (visible) inst.fitView({ nodes: [...visible].map((id) => ({ id })), padding: 0.3, duration: 400 })
+    if (visible)
+      inst.fitView({ nodes: [...visible].map((id) => ({ id })), padding: 0.3, duration: 400 })
     else inst.fitView({ duration: 400 })
   }, [visible])
 
@@ -222,7 +225,7 @@ export function MentalGraph() {
   const clearHover = useCallback(() => setHover(null), [])
 
   return (
-    <div className="flex h-full w-full flex-col bg-card">
+    <div className="flex h-full w-full flex-col">
       <div className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-foreground)] [--xy-controls-button-color:var(--color-foreground)] [--xy-edge-stroke:var(--color-border)]">
         <ReactFlow
           nodes={nodes}
@@ -262,7 +265,13 @@ export function MentalGraph() {
             {hover.kind === 'node' ? (
               <>
                 <p className="text-meta-bold text-foreground">{hover.title}</p>
-                <p className={cn('text-meta', categoryMeta(hover.categoryKey).varClass, 'text-[var(--node)]')}>
+                <p
+                  className={cn(
+                    'text-meta',
+                    categoryMeta(hover.categoryKey).varClass,
+                    'text-[var(--node)]',
+                  )}
+                >
                   {categoryMeta(hover.categoryKey).label}
                 </p>
                 <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>

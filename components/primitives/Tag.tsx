@@ -18,7 +18,7 @@ const tagVariants = cva(
     variants: {
       selected: {
         true: 'border-primary bg-primary text-primary-foreground',
-        false: 'border-border-tag bg-muted text-muted-foreground',
+        false: 'border-border-tag bg-sunken/70 text-muted-foreground',
       },
     },
     defaultVariants: { selected: false },

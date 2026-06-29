@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 function MentalGraphSkeleton() {
   return (
     <div
-      className="h-full w-full animate-pulse rounded-xl border border-border bg-muted/40"
+      className="h-full w-full animate-pulse rounded-xl border border-border"
       aria-hidden="true"
     />
   )
