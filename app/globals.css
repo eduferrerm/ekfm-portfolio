@@ -46,7 +46,7 @@
   --radius: 0.625rem;
 
   /* Surfaces & text (slate) */
-  --background: var(--color-slate-900); /* @ds roles */
+  --background: var(--color-slate-800); /* @ds roles */
   --foreground: var(--color-slate-300); /* @ds roles dark */
   --card: var(--color-slate-800); /* @ds roles */
   --card-foreground: var(--color-slate-300); /* @ds roles dark */
