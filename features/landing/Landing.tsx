@@ -8,6 +8,7 @@ import { buildVisitorSearchContext } from '@/features/search-palette/visitorCont
 import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
+import { Footer } from './Footer'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
 import { moreAboutMeCta } from './projections'
 import { experienceCards, experienceYearsLabel, landingGlobal, portfolioCards } from './queries'
@@ -49,8 +50,11 @@ export async function Landing({
   ]
 
   return (
-    <main>
-      <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
+    <>
+      {/* Opaque, lifted above the fixed Footer so it reads as a reveal: the page
+          slides over the footer, exposing it only through Contact's bottom gap. */}
+      <main className="relative z-10 bg-background">
+        <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
 
       <HeroBand
         hero={landing.hero}
@@ -110,6 +114,9 @@ export async function Landing({
             return null
         }
       })}
-    </main>
+      </main>
+
+      <Footer />
+    </>
   )
 }
