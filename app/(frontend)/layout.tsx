@@ -22,6 +22,10 @@ const robotoCondensed = Roboto_Condensed({
 })
 
 export const metadata: Metadata = {
+  // Absolute base for OG/icon URLs — crawlers require absolute, and without this
+  // Next falls back to localhost. Reuses the canonical app base URL (the same var
+  // warmVisitor fetches against); dev falls back to localhost.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_PAYLOAD_URL ?? 'http://localhost:3000'),
   title: 'EKFM Portfolio',
   description: 'Portfolio of Eduardo Ferrer',
 }
