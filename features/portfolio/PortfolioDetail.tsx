@@ -43,11 +43,11 @@ export async function PortfolioDetail({ slug, scope = '' }: { slug: string; scop
   return (
     <article className="space-y-16">
       <header className="space-y-5">
-        <p className="text-eyebrow text-primary">
-          {item.eyebrow}
-        </p>
-        <h1 className="text-hero-headline">{item.title}</h1>
-        {item.summary && <p className="max-w-2xl text-lead text-muted-foreground">{item.summary}</p>}
+        <p className="text-eyebrow text-primary">{item.eyebrow}</p>
+        <h1 className="text-headline">{item.title}</h1>
+        {item.summary && (
+          <p className="max-w-2xl text-lead text-muted-foreground">{item.summary}</p>
+        )}
         {tags.length > 0 && <List variant="tag" items={tags} />}
         <hr className="border-border" />
       </header>

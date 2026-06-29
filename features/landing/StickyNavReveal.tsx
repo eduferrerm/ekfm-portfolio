@@ -79,6 +79,18 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
     revealed ? 'pointer-events-auto' : 'pointer-events-none',
   )
 
+  // The hamburger mirrors the brand/links: it hides while the hero's own nav copy is
+  // on screen (no duplicate entry points) and appears once scrolled past. Below md
+  // the in-hero nav never renders, so the hamburger is the sole nav there → always
+  // shown. From md up it is HIDDEN at the hero (display:none, so it reserves no width
+  // and can't push Search) and shown once `revealed` — or when keyboard focus enters
+  // the row, so it's never an unreachable target. (Display, not a translate-park:
+  // a parked-but-laid-out box was the empty 58×58 slot shoving Search left.)
+  const hamburgerClip = cn(
+    'flex items-center p-2 -m-2 pointer-events-auto max-md:translate-x-2',
+    revealed ? 'md:flex' : 'md:hidden group-focus-within/reveal:flex',
+  )
+
   return (
     <div className="group/reveal flex w-full items-center justify-between gap-6">
       <div className={clip}>
@@ -101,12 +113,8 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
         {/* Hamburger — the mobile equivalent of the links, to the RIGHT of Search.
             It shares the links' reveal (hidden over the hero's own nav copy, revealed
             once it scrolls away) and opens the same anchors as a full-screen panel. */}
-        <div className={cn(clip, 'lg:hidden')}>
-          <MenuOverlay
-            id="landing-mobile-menu"
-            home={{ href: scope || '/' }}
-            triggerClassName={reveal(1)}
-          >
+        <div className={cn(hamburgerClip, 'lg:hidden')}>
+          <MenuOverlay id="landing-mobile-menu" home={{ href: scope || '/' }}>
             <NavList
               items={items}
               className="flex flex-col gap-5"

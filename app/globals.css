@@ -156,7 +156,7 @@
 /* — General — */
 @utility text-header {
   font-family: var(--font-condensed);
-  font-weight: 400;
+  font-weight: 500;
   font-size: clamp(1.75rem, 1.44rem + 1.33vw, 2.5rem); /* fluid 28 → 40px */
   line-height: var(--leading-normal); /* 150% */
 }
@@ -207,7 +207,7 @@
 @utility text-hero-headline {
   font-family: var(--font-condensed);
   font-weight: 500;
-  font-size: clamp(2.5rem, 0.87rem + 6.96vw, 6.4375rem); /* fluid 40 → 103px */
+  font-size: clamp(4.125rem, 0.87rem + 6.96vw, 6.4375rem); /* fluid 66 → 103px (floor 66px) */
   line-height: 1; /* 100% */
   /* No transform: page titles keep natural case (e.g. "Website UX
    * Personalisation" must preserve "UX"). The landing hero adds `uppercase`

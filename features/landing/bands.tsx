@@ -53,30 +53,35 @@ export function HeroBand({
   return (
     <section className="relative">
       {banner}
-      <div className="flex min-h-[calc(100vh_-_var(--header-h))] flex-col items-center justify-center gap-10 py-10">
+      <div className="flex min-h-[calc(100vh-var(--header-h))] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
           <h1 className="text-hero-headline uppercase text-muted">{hero?.title}</h1>
           {navItems.length > 0 && (
+            // The in-hero nav LINKS are hidden below md (no inline nav on phones),
+            // but this wrapper stays laid out at every width so it remains the reveal
+            // sentinel: the IntersectionObserver in StickyNavReveal tracks it on
+            // mobile too, so the sticky logo parks at the top and reveals on scroll
+            // exactly as it does on desktop.
             <div {...{ [HERO_NAV_ATTR]: '' }}>
               <NavList
                 items={navItems}
                 decorative
                 separated
-                className="flex flex-wrap items-center justify-center gap-y-2"
+                className="hidden md:flex flex-wrap items-center justify-center gap-y-2"
                 linkClassName="text-nav text-muted-foreground transition hover:text-foreground"
               />
             </div>
           )}
-          <div className="animate-bounce mb-20">
+          <div className="animate-bounce mb-5 md:mb-20">
             <Chevron direction="down" color="text-primary" className="h-12" />
           </div>
         </Container>
         <Container>
           {(drive || craftAndScope.length > 0) && (
-            <div className="flex items-start gap-22.5">
+            <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-22.5 ">
               {drive && (
-                <div className="max-w-62.5">
+                <div className="text-center md:text-start md:max-w-62.5 flex flex-col ">
                   {hero?.driveLabel && <BandLabel>{hero.driveLabel}</BandLabel>}
                   {/* Plain prose block; `whitespace-pre-line` honours any line
                       breaks the author types in the textarea. */}
@@ -86,7 +91,7 @@ export function HeroBand({
               {craftAndScope.length > 0 && (
                 <div>
                   {hero?.listLabel && <BandLabel>{hero.listLabel}</BandLabel>}
-                  <List variant="text" items={craftAndScope} itemsClassName="w-[50%] md:w-[25%]" />
+                  <List variant="text" items={craftAndScope} itemsClassName="w-[50%] lg:w-[25%]" />
                 </div>
               )}
             </div>
@@ -286,7 +291,7 @@ export function MoreAboutMeBand({
         </div>
 
         <div className="mt-6 rounded-2xl border border-border p-6 sm:p-10 flex flex-wrap items-center bg-sunken/70">
-          <div className="w-[50%]">
+          <div className="w-full md:w-[50%]">
             {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
             {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}
             {teaser?.description && (

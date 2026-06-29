@@ -40,7 +40,7 @@ export function SectionShell({
   children: ReactNode
 }) {
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[1920px]">
+    <div className="mx-auto min-h-screen w-full max-w-[1920px] pb-20">
       {/* Top bar — search + hamburger on the right, brand on the left. The brand
           shows only below the rail breakpoint (1700px); at/above it the aside takes
           over the nav and carries the brand, so the bar's copy hides. */}
