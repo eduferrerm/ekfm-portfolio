@@ -1,10 +1,11 @@
 'use client'
 
-import { ArrowLeft, Search, X } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+import { Brand } from '@/components/Brand'
 import { Container } from '@/components/Container'
 import { Pressable } from '@/components/primitives/Pressable'
 import { tagVariants } from '@/components/primitives/Tag'
@@ -194,32 +195,6 @@ export function SearchPalette({
 
   const panelBody = (
     <>
-      {/* Mobile-only back / close (desktop closes via backdrop or Esc). */}
-      {/* Board renders the back/close glyphs in lime at rest (not muted) — a ghost
-          icon button carrying the primary colour; hover grows the lime edge. */}
-      <div className="mb-3 flex items-center justify-between sm:hidden">
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={close}
-          aria-label="Back"
-          className="text-primary"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={close}
-          aria-label="Close"
-          className="text-primary"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
-
       {/* Top group: the input + facet chips share one hairline-bordered frame,
           fixed above the scrolling content (per the board's nested panel). */}
       <div className="border-t-rounded-lg bg-sunken p-4">
@@ -375,16 +350,36 @@ export function SearchPalette({
         onClick={close}
         className="absolute inset-0 cursor-default bg-background/70 backdrop-blur-sm"
       />
+      {/* Mobile close bar — sits ABOVE the palette and mirrors the MenuOverlay top
+          row exactly (same Container column + --header-h baseline): brand on the
+          left, a lime ghost X on the right. Desktop closes via backdrop / Esc, so
+          this is sm:hidden. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 sm:hidden">
+        <Container className="pointer-events-auto flex h-(--header-h) items-center justify-between">
+          <Brand href="/" />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={close}
+            aria-label="Close search"
+            className="text-primary"
+          >
+            <X className="h-6 w-6" />
+          </Button>
+        </Container>
+      </div>
       {/* The alignment wrapper is click-through (pointer-events-none) so an
           outside click still reaches the backdrop; only the dialog itself
           catches events. 'container' aligns the panel to the content column,
-          under the nav's Search button; 'edge' pins it to the viewport edge. */}
+          under the nav's Search button; 'edge' pins it to the viewport edge.
+          On mobile the panel drops below the close bar (top = --header-h). */}
       {overlayAlign === 'container' ? (
-        <div className="pointer-events-none absolute inset-x-0 top-3 sm:top-16">
+        <div className="pointer-events-none absolute inset-x-0 top-(--header-h) sm:top-16">
           <Container className="flex justify-end">{dialog}</Container>
         </div>
       ) : (
-        <div className="pointer-events-none absolute inset-x-3 top-3 flex justify-center sm:inset-x-auto sm:right-6 sm:top-16 sm:block">
+        <div className="pointer-events-none absolute inset-x-3 top-(--header-h) flex justify-center sm:inset-x-auto sm:right-6 sm:top-16 sm:block">
           {dialog}
         </div>
       )}
