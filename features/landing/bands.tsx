@@ -281,7 +281,7 @@ export function MoreAboutMeBand({ id, data }: { id: string; data: Landing['moreA
           <MentalGraphClient />
         </div>
 
-        <div className="mt-6 rounded-2xl border border-border p-6 sm:p-10 flex flex-wrap items-center">
+        <div className="mt-6 rounded-2xl border border-border p-6 sm:p-10 flex flex-wrap items-center bg-sunken/70">
           <div className="w-[50%]">
             {teaser?.eyebrow && <p className="text-eyebrow text-primary">{teaser.eyebrow}</p>}
             {teaser?.title && <h3 className="mt-1 text-card-title">{teaser.title}</h3>}

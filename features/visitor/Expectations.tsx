@@ -60,9 +60,9 @@ export function Expectations({
   const view = expectations[index]
 
   return (
-    <div className="flex flex-col gap-6 rounded-2xl border border-border p-6 sm:p-8">
+    <div className="flex flex-col gap-6 rounded-2xl border border-border p-6 sm:p-8 bg-sunken/70">
       <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
           <MediaImage media={logo} className="h-full w-full object-cover" />
         </span>
         <div className="min-w-0 flex-1">
