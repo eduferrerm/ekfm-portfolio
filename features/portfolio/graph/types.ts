@@ -15,3 +15,18 @@ export type GraphData = {
   nodes: Node[]
   edges: Edge[]
 }
+
+/**
+ * The three brand emphasis tiers a system-design node can be painted in
+ * (primary = lime, secondary = blue, tertiary = fuchsia — see {@link SystemNode}).
+ * Authored per-node in the hand-built diagrams to encode role: entry/exit points,
+ * processing steps, and data stores read as distinct hues.
+ */
+export type NodeTier = 'primary' | 'secondary' | 'tertiary'
+
+/** Shape of a system-design node's `data` (carried on the xyflow {@link Node}). */
+export type SystemNodeData = {
+  label: string
+  /** Brand tier driving the pill colour; defaults to `primary` when omitted. */
+  tier?: NodeTier
+}
