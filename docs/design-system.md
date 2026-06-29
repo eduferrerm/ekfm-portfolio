@@ -204,15 +204,26 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
 
 ### Built components
 
-- **`Button`** (`components/ui/button.tsx`) — `variant` primary / secondary / ghost, `size` sm / md /
-  **icon** (square, wraps a single lucide/Chevron glyph), `asChild`. Consumed by `SliderControls`
-  (Prev/Next), `ShowcaseGallery` (Visit site), `LandingCard` (ghost CTA), `DearCompanySection` +
-  `ContactBand` (secondary CTAs), the **search palette** trigger (secondary, `text-nav` label) +
-  mobile back/close (ghost icon, lime at rest per the board), and the **nav** (`MobileMenu` MENU
-  trigger; hamburger / close on `StickyNavReveal` + `MobileMenu` as ghost icons). A Button whose
-  label needs a non-default type role puts the role on a child `<span>` (e.g. the trigger's
-  `text-nav`) to scope it to the label text. (The palette's Clear / recent-search controls are
-  plain underlined / muted **text links**, not buttons — the board shows no pill there.)
+- **`Pressable`** (`components/primitives/Pressable.tsx`) — the pressable **mechanism** under every
+  button-shaped control, with zero brand policy: the icon ↔ label layout (`startIcon` / `endIcon`),
+  the global fuchsia focus ring, the disabled treatment, and `asChild` (Radix Slot). It knows nothing
+  about emphasis tiers, the pill skin, or chevron policy — those are `Button`'s. The split is the
+  escape hatch: a **one-off** builds straight from `Pressable` with arbitrary styles (a shared
+  `buttonVariants({ … })` skin _or_ a bespoke one) instead of registering a `variant` it would be the
+  only member of. The **search palette** trigger uses a **bespoke skin** — tag-style border
+  (`border-border-tag`), a dark `bg-primary-foreground` fill, a leading lime Search glyph, no
+  chevron, `text-nav` label on a child `<span>` — composed via `Pressable` with no variant.
+- **`Button`** (`components/ui/button.tsx`) — the **design-system layer** over `Pressable`:
+  `buttonVariants` is the brand skin (`cva`), with `variant` primary / secondary / ghost (the closed
+  set of emphasis _tiers_), `size` sm / md / **icon** (square, wraps a single lucide/Chevron glyph),
+  `asChild`, and the **chevron policy** (primary/secondary `md` auto-carry an end chevron; `chevron` /
+  `chevronColor` override). Consumed by `SliderControls` (Prev/Next), `ShowcaseGallery` (Visit site),
+  `LandingCard` (ghost CTA), `DearCompanySection` + `ContactBand` (secondary CTAs), mobile back/close
+  (ghost icon, lime at rest per the board), and the **nav** (`MobileMenu` MENU trigger; hamburger /
+  close on `StickyNavReveal` + `MobileMenu` as ghost icons). A Button whose label needs a non-default
+  type role puts the role on a child `<span>` to scope it to the label text. (The palette's Clear /
+  recent-search controls are plain underlined / muted **text links**, not buttons — the board shows
+  no pill there.)
 - **`Input`** (`components/ui/input.tsx`) — `cva` text input; focus is the global fuchsia ring
   (`ring-ring`), not a lime border. Owns the surface + `text-body` role + the four channels; layout
   (an icon's `pl-9`) stays at the call site. Consumed by the search palette query field.

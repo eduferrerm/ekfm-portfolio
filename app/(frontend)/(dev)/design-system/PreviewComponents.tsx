@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react'
 
 import { Chevron } from '@/components/primitives/Chevron'
+import { Pressable } from '@/components/primitives/Pressable'
 import { Tag } from '@/components/primitives/Tag'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -46,6 +47,24 @@ export function PreviewComponents() {
           <Button chevron="start">Back</Button>
           <Button chevron="end">Next</Button>
           <Button variant="secondary">Feature Details</Button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-meta-bold text-foreground">
+          Pressable · the mechanism under Button — one-offs compose arbitrary styles + a start/end
+          icon without earning a variant (the live search trigger does exactly this: a bespoke skin,
+          leading lime glyph, no chevron)
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <Pressable
+            type="button"
+            className="rounded-full border border-border-tag bg-primary-foreground px-5 py-3 text-muted-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground"
+            startIcon={<Search className="h-5 w-5 text-primary" />}
+            aria-label="Search (Pressable specimen)"
+          >
+            <span className="mb-[-2px] text-nav">Search</span>
+          </Pressable>
         </div>
       </div>
 

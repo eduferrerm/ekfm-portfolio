@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import { Container } from '@/components/Container'
+import { Pressable } from '@/components/primitives/Pressable'
 import { tagVariants } from '@/components/primitives/Tag'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -348,7 +349,7 @@ export function SearchPalette({
       aria-modal="true"
       aria-label="Search"
       onKeyDown={onPanelKeyDown}
-      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-background p-4 shadow-2xl sm:w-[30rem]"
+      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-background p-4 shadow-2xl sm:w-120"
     >
       {panelBody}
     </div>
@@ -380,20 +381,22 @@ export function SearchPalette({
 
   return (
     <>
-      <Button
+      {/* A one-off: a bespoke skin (tag-style border, dark fill, lime glyph) with
+          a leading Search glyph and no chevron. Rather than register a `variant`
+          it'd be the only member of, it's composed straight from the Pressable
+          mechanism — the payoff of the primitive: arbitrary styles, no variant. */}
+      <Pressable
         type="button"
-        variant="secondary"
-        size="sm"
+        className="rounded-full border border-border-tag bg-primary-foreground px-5 py-3 text-muted-foreground hover:border-primary hover:text-primary active:border-primary active:bg-primary active:text-primary-foreground"
+        startIcon={<Search className="h-5 w-5 text-primary" />}
         onClick={() => setOpen(true)}
         aria-label="Open search"
         aria-keyshortcuts="Meta+K Control+K"
       >
-        <Search className="h-3.5 w-3.5" />
-        {/* Eyebrow type role via a child span — Button bakes `text-ui` into its
-            base, and twMerge can't dedupe two custom @utility roles, so the role
-            override lives on the label element, not the Button className. */}
-        <span className="text-nav">Search</span>
-      </Button>
+        {/* Eyebrow type role on the label element — a flex item, so the optical
+            `-mb` nudge applies; a <span> keeps the button's content phrasing-only. */}
+        <span className="mb-[-2px] text-nav">Search</span>
+      </Pressable>
       {mounted && open && createPortal(overlay, document.body)}
     </>
   )
