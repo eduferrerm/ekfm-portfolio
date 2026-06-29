@@ -221,7 +221,7 @@ export function SearchPalette({
 
       {/* Top group: the input + facet chips share one hairline-bordered frame,
           fixed above the scrolling content (per the board's nested panel). */}
-      <div className="rounded-lg border border-border/60 p-3">
+      <div className="border-t-rounded-lg bg-sunken p-4">
         <div className="relative">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -234,7 +234,7 @@ export function SearchPalette({
             }}
             placeholder={placeholder}
             aria-label="Search query"
-            className="pl-9 pr-3"
+            className="pl-9 pr-3 "
           />
         </div>
 
@@ -268,50 +268,57 @@ export function SearchPalette({
 
       {/* Scrolling content. Corpus search → one Results card; a visitor empty
           state → one card per expectation; recents → a lighter footer band. */}
-      <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto">
-        {isQuerying && (
-          <Card className="rounded-xl border-border/60 p-4">
-            <p className="text-lead text-label">Results</p>
-            {results.length === 0 ? (
-              <p className="mt-2 text-body text-muted-foreground">No results for “{trimmed}”.</p>
-            ) : (
-              <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
-                {results.map((doc, i) => (
-                  <SearchResultRow
-                    key={doc.id}
-                    ref={i === activeIndex ? activeRowRef : undefined}
-                    row={doc}
-                    active={i === activeIndex}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onSelect={() => selectRow(doc, i)}
-                  />
-                ))}
-              </div>
-            )}
-          </Card>
-        )}
-
-        {showExpectations &&
-          visitorSearch!.expectations.map((group) => (
-            <Card key={group.title} className="rounded-xl border-border/60 p-4">
-              <p className="text-lead text-label">{group.title}</p>
-              <p className="mt-1 text-body text-muted-foreground line-clamp-2">{group.summary}</p>
-              <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
-                {group.items.map((item, i) => (
-                  <SearchResultRow
-                    key={`${group.title}:${item.href}`}
-                    row={item}
-                    onSelect={() => selectRow(item, i)}
-                  />
-                ))}
-              </div>
+      <div className="flex flex-1 flex-col overflow-y-auto">
+        <div className={cn('flex flex-col bg-muted', (isQuerying || showExpectations) && 'p-2')}>
+          {isQuerying && (
+            <Card className="rounded-xl border-border p-4 bg-sunken">
+              <p className="text-lead text-label">Results</p>
+              {results.length === 0 ? (
+                <p className="mt-2 text-body text-muted-foreground">No results for “{trimmed}”.</p>
+              ) : (
+                <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                  {results.map((doc, i) => (
+                    <SearchResultRow
+                      key={doc.id}
+                      ref={i === activeIndex ? activeRowRef : undefined}
+                      row={doc}
+                      active={i === activeIndex}
+                      onMouseEnter={() => setActiveIndex(i)}
+                      onSelect={() => selectRow(doc, i)}
+                    />
+                  ))}
+                </div>
+              )}
             </Card>
-          ))}
+          )}
+          {showExpectations &&
+            visitorSearch!.expectations.map((group, idx, arr) => (
+              <Card
+                key={group.title}
+                className={cn(
+                  'rounded-xl border-border p-4 bg-sunken',
+                  idx !== arr.length - 1 && 'mb-2',
+                )}
+              >
+                <p className="text-lead text-label">{group.title}</p>
+                <p className="mt-1 text-body text-muted-foreground line-clamp-2">{group.summary}</p>
+                <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                  {group.items.map((item, i) => (
+                    <SearchResultRow
+                      key={`${group.title}:${item.href}`}
+                      row={item}
+                      onSelect={() => selectRow(item, i)}
+                    />
+                  ))}
+                </div>
+              </Card>
+            ))}
+        </div>
 
         {recents.length > 0 && (
-          <div className="mt-1 rounded-xl bg-muted/30 px-4 py-3">
+          <div className="bg-muted/30 p-4 py-6">
             <div className="flex items-center justify-between">
-              <span className="text-lead text-label">Recent Searches</span>
+              <span className="text-lead text-label pb-2">Recent Searches</span>
               {/* Board shows Clear as an underlined text link, not a pill. */}
               <button
                 type="button"
@@ -322,7 +329,7 @@ export function SearchPalette({
               </button>
             </div>
             {/* Recents are plain muted text labels (no pill), per the board. */}
-            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
               {recents.map((r) => (
                 <button
                   key={r}
@@ -349,14 +356,14 @@ export function SearchPalette({
       aria-modal="true"
       aria-label="Search"
       onKeyDown={onPanelKeyDown}
-      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-border bg-background p-4 shadow-2xl sm:w-120"
+      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-xl sm:w-120"
     >
       {panelBody}
     </div>
   )
 
   const overlay = (
-    <div className="fixed inset-0 z-[60]">
+    <div className="fixed inset-0 z-60">
       <button
         type="button"
         aria-label="Close search"

@@ -228,7 +228,7 @@
 }
 @utility text-ui-bold {
   font-family: var(--font-sans);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.875rem; /* 14px */
   line-height: 1; /* 100% */
 }
