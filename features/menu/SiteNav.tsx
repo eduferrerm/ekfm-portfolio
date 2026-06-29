@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { MediaImage } from '@/components/primitives/MediaImage'
+import { MetaCard } from '@/components/primitives/MetaCard'
 import { DEAR_COMPANY_ID, type NavItem, type NavSectionView, type SectionKey } from '@/lib/nav'
 import { cn } from '@/lib/utils'
 
@@ -78,35 +78,18 @@ export function SiteNav({
                     const itemActive = pathname === item.href
                     return (
                       <li key={item.href}>
-                        <Link
+                        {/* The item's own name is the regular-foreground line; its
+                            descriptor rides above as the bold-muted eyebrow — the
+                            shared MetaCard treatment, identical to the search and
+                            Expectations rows. */}
+                        <MetaCard
                           href={item.href}
                           aria-current={itemActive ? 'page' : undefined}
-                          className={cn(
-                            'flex items-center gap-2 rounded-md p-2',
-                            // Selected = the blue "you-are-here" surface (--selection),
-                            // a 20%-opacity fill behind a full-strength border.
-                            itemActive
-                              ? 'border border-selection bg-selection/20'
-                              : 'hover:bg-muted/30',
-                          )}
-                        >
-                          {item.thumbnail && (
-                            <MediaImage
-                              media={item.thumbnail}
-                              className="h-8 w-8 shrink-0 rounded"
-                            />
-                          )}
-                          <span className="min-w-0">
-                            <span className="block truncate text-ui-bold text-foreground">
-                              {item.primary}
-                            </span>
-                            {item.secondary && (
-                              <span className="block truncate text-meta text-muted-foreground">
-                                {item.secondary}
-                              </span>
-                            )}
-                          </span>
-                        </Link>
+                          eyebrow={item.secondary}
+                          title={item.primary}
+                          thumbnail={item.thumbnail}
+                          active={itemActive}
+                        />
                       </li>
                     )
                   })}

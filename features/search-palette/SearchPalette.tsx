@@ -17,8 +17,9 @@ import { scopeFromPath, scopeHref } from '@/lib/routes'
 import type { SearchDocument } from '@/lib/search/types'
 import { cn } from '@/lib/utils'
 
+import { MetaCard } from '@/components/primitives/MetaCard'
+
 import { ALL_FACET, COMPANY_FACET, applyFacet, buildFacets } from './facets'
-import { SearchResultRow } from './SearchResultRow'
 import { useRecentSearches } from './useRecentSearches'
 import { useSearchIndex } from './useSearchIndex'
 import type { VisitorSearchContext } from './types'
@@ -278,10 +279,12 @@ export function SearchPalette({
               ) : (
                 <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
                   {results.map((doc, i) => (
-                    <SearchResultRow
+                    <MetaCard
                       key={doc.id}
                       ref={i === activeIndex ? activeRowRef : undefined}
-                      row={doc}
+                      eyebrow={doc.label}
+                      title={doc.name}
+                      thumbnail={doc.thumbnail}
                       active={i === activeIndex}
                       onMouseEnter={() => setActiveIndex(i)}
                       onSelect={() => selectRow(doc, i)}
@@ -304,9 +307,11 @@ export function SearchPalette({
                 <p className="mt-1 text-body text-muted-foreground line-clamp-2">{group.summary}</p>
                 <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
                   {group.items.map((item, i) => (
-                    <SearchResultRow
+                    <MetaCard
                       key={`${group.title}:${item.href}`}
-                      row={item}
+                      eyebrow={item.label}
+                      title={item.name}
+                      thumbnail={item.thumbnail}
                       onSelect={() => selectRow(item, i)}
                     />
                   ))}
