@@ -56,7 +56,7 @@ export async function landingSectionAnchor(key: string, scope = ''): Promise<str
 }
 
 /** Portfolio landing cards, in display `order` (ascending). depth:1 populates the
- * scope/craft labels + the thumbnail; `select` keeps the read lean. */
+ * spotlight tag labels + the thumbnail; `select` keeps the read lean. */
 export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
@@ -64,7 +64,7 @@ export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
     sort: 'order',
     limit: 1000,
     depth: 1,
-    select: { eyebrow: true, title: true, slug: true, thumbnail: true, scope: true, craft: true },
+    select: { eyebrow: true, title: true, slug: true, thumbnail: true, spotlight: true },
   })
   return docs.map((d) => portfolioCard(d, scope))
 }
@@ -77,7 +77,7 @@ export async function experienceCards(scope = ''): Promise<LandingCardData[]> {
     sort: '-startDate',
     limit: 1000,
     depth: 1,
-    select: { role: true, company: true, slug: true, companyLogo: true, scope: true, craft: true },
+    select: { role: true, company: true, slug: true, companyLogo: true, spotlight: true },
   })
   return docs.map((d) => experienceCard(d, scope))
 }

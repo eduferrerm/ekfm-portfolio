@@ -37,15 +37,19 @@ export type LandingCardData = {
   image?: Media | number | null
 }
 
-/** Project a Portfolio doc (depth>=1) to its landing card. */
+/**
+ * Project a Portfolio doc (depth>=1) to its landing card. Tags are the curated
+ * `spotlight` subset (≤5, in spotlight order) — not the full scope/craft set the
+ * detail page renders — so the card stays scannable.
+ */
 export function portfolioCard(
-  d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail' | 'scope' | 'craft'>,
+  d: Pick<Portfolio, 'eyebrow' | 'title' | 'slug' | 'thumbnail' | 'spotlight'>,
   scope = '',
 ): LandingCardData {
   return {
     eyebrow: d.eyebrow,
     title: d.title,
-    tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
+    tags: keywordLabels(d.spotlight),
     href: portfolioHref(d.slug, scope),
     image: d.thumbnail,
   }
@@ -54,15 +58,16 @@ export function portfolioCard(
 /**
  * Project an Experience doc (depth>=1) to its landing card. Mirrors the portfolio
  * contract: company is the eyebrow, role the title, linking to /experience/[slug].
+ * Tags are the curated `spotlight` subset (see portfolioCard).
  */
 export function experienceCard(
-  d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo' | 'scope' | 'craft'>,
+  d: Pick<Experience, 'role' | 'company' | 'slug' | 'companyLogo' | 'spotlight'>,
   scope = '',
 ): LandingCardData {
   return {
     eyebrow: d.company,
     title: d.role,
-    tags: [...keywordLabels(d.scope), ...keywordLabels(d.craft)],
+    tags: keywordLabels(d.spotlight),
     href: experienceHref(d.slug, scope),
     image: d.companyLogo,
   }
