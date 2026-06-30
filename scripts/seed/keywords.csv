@@ -1,12 +1,19 @@
 key,label,category,aliases
+candidate-assesment,Candidate Assessment,scope,Candidate|Evaluation|Assessment|Interviewing|Hiring
 conceptual-direction,Conceptual Direction,scope,creative direction|art direction|design direction|creative vision|concept development|design leadership
+conversational-ui-interfaces,Conversational UI Interfaces,scope,ai|agentic
+design-system-migration,Design System Migration,scope,migration|rollout|re-architecture|unification|standardization
 design-systems,Design Systems,scope,DS|design system|design language|design tokens|theming|UI kit|pattern library|style guide|component systems|design ops
 frontend,Frontend,scope,FE|UI|client-side|web|frontend engineering
 platform,Platform,scope,backend|infra|infrastructure|platform engineering|full-stack|fullstack|distributed systems
 product-engineering,Product Engineering,scope,product eng|product engineer|product-minded|0 to 1|0-to-1|product builder
 product-management,Product Management,scope,PM|product strategy|product direction|roadmap|prioritization|product sense|product discovery|product owner
 project-management,Project Management,scope,delivery|execution|planning|timelines|milestones|coordination|risk management|sprint planning|agile|scrum
+team-lead,Team Lead,scope,Lead Developer|Squad Lead|Engineering Lead
+technical-interviewing,Technical Interviewing,scope,Hiring|Interview|Candidates
+video-game-ui-engineering,Video Game UI Engineering,scope,Video Game
 accessibility,Accessibility,craft,a11y|WCAG|inclusive design|screen readers
+angular-two-plus,Angular 2+,craft,Angular 2+|Angular 2|ng|ng2
 animation,Animation,craft,motion|transitions|micro-interactions|motion design
 api-design,API Design,craft,REST|endpoints|api architecture|api contracts|endpoint design
 api-integration,API Integration,craft,API wiring|consuming APIs|third-party APIs|REST integration|webhooks|API clients|service integration
@@ -21,6 +28,7 @@ graphql,GraphQL,craft,GQL|graph query language|apollo|graphql api|schema-first
 html,HTML,craft,HTML5|markup|web standards|hypertext
 illustrator,Illustrator,craft,adobe illustrator|vector graphics|vector design|logo design
 javascript,JavaScript,craft,JS|ES6|ECMAScript|vanilla js|client-side scripting|DOM
+markdown-based-cms,Markdown Based CMS,craft,YAML|Zurb|Markdown|Panini|Gulp|Front Matter
 nextjs,Next.js,craft,next|app router|server components|react framework
 nodejs,Node.js,craft,node|server-side javascript|backend js
 performance,Performance,craft,perf|web performance|mobile performance|web vitals|core web vitals|optimization|page speed|lighthouse
