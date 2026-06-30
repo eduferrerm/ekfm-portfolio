@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 import { visitorBySlug } from '@/features/visitor/queries'
+import { AnalyticsEvent } from '@/lib/posthog/events'
+import { TrackOnMount } from '@/lib/posthog/TrackOnMount'
 
 // The mirror is personalized for one targeted company — never index it (don't
 // leak the targeted-company list to search engines). Applies to the whole subtree.
@@ -26,5 +28,11 @@ export default async function DearLayout({ params, children }: Args) {
   const { company } = await params
   const visitor = await visitorBySlug(company)
   if (!visitor) redirect('/')
-  return <>{children}</>
+  return (
+    <>
+      {/* Fires once when a visitor enters the /dear/[company] subtree. */}
+      <TrackOnMount event={AnalyticsEvent.VisitorPageViewed} properties={{ company }} />
+      {children}
+    </>
+  )
 }

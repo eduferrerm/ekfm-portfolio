@@ -21,6 +21,8 @@ import { createPortal } from 'react-dom'
 import '@xyflow/react/dist/style.css'
 
 import { Button } from '@/components/ui/button'
+import { capture } from '@/lib/posthog/client'
+import { AnalyticsEvent } from '@/lib/posthog/events'
 import { cn } from '@/lib/utils'
 
 import graph from './graph.json'
@@ -236,7 +238,16 @@ export function MentalGraph() {
     setFocusedId(null)
     setActiveCategory((a) => (a === key ? null : key))
   }, [])
-  const onNodeClick = useCallback<NodeMouseHandler>((_, n) => setFocusedId(n.id), [])
+  const onNodeClick = useCallback<NodeMouseHandler>((_, n) => {
+    const d = n.data as MentalNodeData
+    capture(AnalyticsEvent.GraphNodeClicked, {
+      nodeId: n.id,
+      nodeType: d.category,
+      label: d.label,
+      graph: 'mental',
+    })
+    setFocusedId(n.id)
+  }, [])
   const onPaneClick = useCallback(() => setFocusedId(null), [])
 
   const onNodeEnter = useCallback<NodeMouseHandler>((event, n) => {
@@ -328,7 +339,11 @@ export function MentalGraph() {
           >
             <p className="text-meta-bold text-foreground">{hover.title}</p>
             <p
-              className={cn('text-meta', categoryMeta(hover.categoryKey).varClass, 'text-[var(--node)]')}
+              className={cn(
+                'text-meta',
+                categoryMeta(hover.categoryKey).varClass,
+                'text-[var(--node)]',
+              )}
             >
               {categoryMeta(hover.categoryKey).label}
             </p>

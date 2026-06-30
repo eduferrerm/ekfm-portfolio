@@ -128,6 +128,11 @@ export function SearchPalette({
     return applyFacet(search(query), facet)
   }, [isQuerying, search, query, facet])
 
+  // Latest results for the debounced analytics effect to read without making the
+  // full array a dependency (the effect intentionally fires on count change).
+  const resultsRef = useRef(results)
+  resultsRef.current = results
+
   // Keep the active row in range and scrolled into view.
   useEffect(() => {
     setActiveIndex((i) => Math.min(i, Math.max(results.length - 1, 0)))
@@ -140,7 +145,12 @@ export function SearchPalette({
   useEffect(() => {
     if (!isQuerying) return
     const t = setTimeout(() => {
-      capture(AnalyticsEvent.SearchPerformed, { query: trimmed, resultCount: results.length })
+      capture(AnalyticsEvent.SearchPerformed, {
+        query: trimmed,
+        resultCount: results.length,
+        // Top few ids the term surfaced — answers "what results did this query produce".
+        resultIds: resultsRef.current.slice(0, 5).map((r) => r.id),
+      })
     }, ANALYTICS_DEBOUNCE_MS)
     return () => clearTimeout(t)
   }, [trimmed, isQuerying, results.length])
@@ -148,11 +158,13 @@ export function SearchPalette({
   const close = useCallback(() => setOpen(false), [])
 
   const selectRow = useCallback(
-    (row: { id?: string; href: string }, rank: number) => {
+    (row: { id?: string; href: string; type?: string; name?: string }, rank: number) => {
       capture(AnalyticsEvent.SearchResultSelected, {
         query: trimmed,
         resultId: row.id ?? row.href,
         rank,
+        resultType: row.type,
+        resultName: row.name,
       })
       if (trimmed) add(trimmed)
       setOpen(false)

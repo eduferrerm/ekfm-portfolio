@@ -29,14 +29,30 @@ export type AnalyticsEventName = (typeof AnalyticsEvent)[keyof typeof AnalyticsE
 export type AnalyticsEventProperties = {
   [AnalyticsEvent.SectionViewed]: { section: string }
   [AnalyticsEvent.PortfolioItemOpened]: { slug: string; from?: string }
-  [AnalyticsEvent.GraphNodeClicked]: { nodeId: string; nodeType?: string }
+  [AnalyticsEvent.GraphNodeClicked]: {
+    nodeId: string
+    nodeType?: string
+    /** Human-readable node label, for at-a-glance reporting. */
+    label?: string
+    /** Which graph the node lives in. */
+    graph?: 'portfolio' | 'mental'
+  }
   [AnalyticsEvent.VisitorPageViewed]: { company: string }
   [AnalyticsEvent.AppError]: { message: string; context?: string }
   [AnalyticsEvent.SlowLoad]: { route: string; durationMs: number }
-  [AnalyticsEvent.SearchPerformed]: { query: string; resultCount: number }
+  [AnalyticsEvent.SearchPerformed]: {
+    query: string
+    resultCount: number
+    /** Ids of the top results the query produced (capped) — "what the term surfaced". */
+    resultIds?: string[]
+  }
   [AnalyticsEvent.SearchResultSelected]: {
     query: string
     resultId: string
     rank: number
+    /** Result doc type (portfolio/experience/section); absent for visitor-seeded rows. */
+    resultType?: string
+    /** Result display name, for readable reporting. */
+    resultName?: string
   }
 }
