@@ -13,6 +13,7 @@ team-lead,Team Lead,scope,Lead Developer|Squad Lead|Engineering Lead
 technical-interviewing,Technical Interviewing,scope,Hiring|Interview|Candidates
 video-game-ui-engineering,Video Game UI Engineering,scope,Video Game
 accessibility,Accessibility,craft,a11y|WCAG|inclusive design|screen readers
+ai-assisted-development,AI-Assisted Development,craft,AI coding|agentic|LLM|coding agent|pair programming with AI|Claude Code
 angular-two-plus,Angular 2+,craft,Angular 2+|Angular 2|ng|ng2
 animation,Animation,craft,motion|transitions|micro-interactions|motion design
 api-design,API Design,craft,REST|endpoints|api architecture|api contracts|endpoint design
@@ -22,11 +23,14 @@ ci-cd,CI/CD,craft,continuous integration|continuous deployment|pipelines|deploym
 component-libraries,Component Libraries,craft,component library|reusable components|shadcn|radix|headless UI|UI components|component kit
 css,CSS,craft,CSS3|cascading style sheets|styling|stylesheets|flexbox|css grid|css layout
 data-visualization,Data Visualization,craft,dataviz|charts|graphs|d3|node graphs
+developer-tooling,Developer Tooling,craft,DX|developer experience|codegen|build tooling|automation|scripts
 figma,Figma,craft,figma design|auto layout|figjam|design collaboration|design tool
 frontend-architecture,Frontend Architecture,craft,FE architecture|frontend systems|frontend system design|client-side architecture|component architecture|architecting frontends
 graphql,GraphQL,craft,GQL|graph query language|apollo|graphql api|schema-first
+headless-cms,Headless CMS,craft,CMS|content management|Payload|content modeling|code-first CMS
 html,HTML,craft,HTML5|markup|web standards|hypertext
 illustrator,Illustrator,craft,adobe illustrator|vector graphics|vector design|logo design
+information-architecture,Information Architecture,craft,IA|taxonomy|content structure|sitemap|navigation design
 javascript,JavaScript,craft,JS|ES6|ECMAScript|vanilla js|client-side scripting|DOM
 markdown-based-cms,Markdown Based CMS,craft,YAML|Zurb|Markdown|Panini|Gulp|Front Matter
 nextjs,Next.js,craft,next|app router|server components|react framework
