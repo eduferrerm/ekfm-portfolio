@@ -23,6 +23,7 @@
     "build:more-about-me-graph": "node --import tsx/esm scripts/build-more-about-me-graph.mts",
     "seed:keywords": "node --env-file=.env.local --import tsx/esm scripts/seed-keywords.mts",
     "export:keywords": "node --env-file=.env.local --import tsx/esm scripts/export-keywords.mts",
+    "inventory:content": "node --env-file=.env.local --import tsx/esm scripts/inventory-content-keywords.mts",
     "migrate": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate",
     "migrate:create": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:create",
     "migrate:status": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:status",

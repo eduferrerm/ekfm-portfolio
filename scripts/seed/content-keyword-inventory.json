@@ -1,0 +1,149 @@
+{
+  "generatedFrom": "DB via Payload Local API (read-only)",
+  "counts": {
+    "portfolio": 1,
+    "experience": 3
+  },
+  "portfolio": [
+    {
+      "slug": "website-ux-personalisation",
+      "title": "Website UX Personalisation",
+      "diagramKey": "context-aware-routes",
+      "scope": [
+        "frontend"
+      ],
+      "craft": [
+        "system-design",
+        "visual-design"
+      ],
+      "spotlight": [],
+      "searchKeywords": [
+        "e2e-ownership"
+      ],
+      "relatedContent": []
+    }
+  ],
+  "experience": [
+    {
+      "slug": "ic5-frontend-engineer",
+      "role": "IC5 Frontend Engineer",
+      "company": "Meta",
+      "scope": [
+        "conversational-ui-interfaces",
+        "design-system-migration",
+        "design-systems",
+        "frontend",
+        "product-engineering",
+        "project-management",
+        "video-game-ui-engineering"
+      ],
+      "craft": [
+        "api-design",
+        "api-integration",
+        "component-libraries",
+        "graphql",
+        "product-design",
+        "prototyping",
+        "react",
+        "scalability",
+        "stylex",
+        "system-design",
+        "technical-leadership",
+        "testing",
+        "typescript"
+      ],
+      "spotlight": [
+        "design-systems",
+        "react",
+        "technical-leadership"
+      ],
+      "searchKeywords": [
+        "background",
+        "e2e-ownership",
+        "expertise",
+        "scope-of-impact",
+        "seniority",
+        "social-media",
+        "tenure",
+        "track-record",
+        "work"
+      ]
+    },
+    {
+      "slug": "senior-web-developer",
+      "role": "Senior Web Developer",
+      "company": "Fever",
+      "scope": [
+        "candidate-assesment",
+        "frontend",
+        "product-engineering",
+        "product-management",
+        "team-lead",
+        "technical-interviewing"
+      ],
+      "craft": [
+        "angular-two-plus",
+        "bem",
+        "css",
+        "html",
+        "javascript",
+        "markdown-based-cms",
+        "prototyping",
+        "responsive-design",
+        "sass",
+        "seo",
+        "technical-leadership",
+        "ui-engineering"
+      ],
+      "spotlight": [
+        "product-engineering",
+        "team-lead",
+        "ui-engineering"
+      ],
+      "searchKeywords": [
+        "background",
+        "e2e-ownership",
+        "events",
+        "expertise",
+        "scope-of-impact",
+        "seniority",
+        "tenure",
+        "track-record",
+        "work"
+      ]
+    },
+    {
+      "slug": "web-developer-designer",
+      "role": "Web Developer & Designer",
+      "company": "El País",
+      "scope": [
+        "conceptual-direction",
+        "frontend",
+        "project-management",
+        "team-lead"
+      ],
+      "craft": [
+        "bem",
+        "css",
+        "html",
+        "javascript",
+        "performance",
+        "php",
+        "ui-engineering",
+        "visual-design"
+      ],
+      "spotlight": [
+        "conceptual-direction",
+        "frontend",
+        "visual-design"
+      ],
+      "searchKeywords": [
+        "background",
+        "e2e-ownership",
+        "scope-of-impact",
+        "track-record",
+        "work"
+      ]
+    }
+  ]
+}
