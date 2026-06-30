@@ -6,7 +6,17 @@
  * the admin bundle. The diagram *data* lives in `./<key>.ts` and is wired up in
  * `./index.ts`; this is just the string contract shared between CMS and code.
  */
-export const DIAGRAM_KEYS = ['context-aware-routes'] as const
+export const DIAGRAM_KEYS = [
+  'context-aware-routes',
+  'design-system-ssot',
+  'keyword-recall-lanes',
+  'seed-pipeline',
+  'mental-graph-render',
+  'diagram-registry',
+  'search-corpus',
+  'agent-guardrail-loop',
+  'website-stack',
+] as const
 
 export type DiagramKey = (typeof DIAGRAM_KEYS)[number]
 
