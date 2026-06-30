@@ -25,19 +25,22 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
 
   return (
     <div className="flex gap-4 mb-20 flex-col md:flex-row">
-      <figure className="relative min-w-0 flex-1 max-w-205.5 overflow-hidden rounded-xl border border-border">
+      {/* Fixed capture ratio (the 1000×549 showcase spec) so swapping images
+          never reflows the box — source images drift a couple of px and `h-auto`
+          would track each one. The image fills the ratio box with object-cover;
+          aspect-ratio keeps it responsive. */}
+      <figure className="relative aspect-[1000/549] min-w-0 flex-1 max-w-205.5 overflow-hidden rounded-xl border border-border">
         <MediaImage
           key={index}
           media={current.media}
-          className="h-auto w-full object-cover animate-showcase-zoom"
+          className="absolute inset-0 h-full w-full object-cover animate-showcase-zoom"
           sizes="(min-width: 1024px) 60vw, 100vw"
           priority
         />
-        {current.label && <figcaption className="sr-only">{current.label}</figcaption>}
         {current.url && (
           <Button asChild chevron="end" className="absolute bottom-4 right-4 shadow-lg">
             <a href={current.url} target="_blank" rel="noopener noreferrer">
-              Visit site
+              {current.linkLabel || 'Visit site'}
             </a>
           </Button>
         )}
@@ -50,16 +53,32 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
               <button
                 type="button"
                 onClick={() => setActive(i)}
-                aria-label={`Show image ${i + 1}${item.label ? `: ${item.label}` : ''}`}
+                aria-label={`Show image ${i + 1}`}
                 aria-current={i === index ? 'true' : undefined}
                 className={cn(
-                  'block w-full overflow-hidden rounded-lg border transition',
+                  'relative block aspect-[1000/549] w-full overflow-hidden rounded-lg border transition',
                   i === index
                     ? 'border-primary ring-1 ring-primary'
-                    : 'border-border opacity-70 hover:opacity-100',
+                    : 'border-border hover:border-muted-foreground',
                 )}
               >
-                <MediaImage media={item.media} className="h-auto w-full" sizes="(min-width: 768px) 126px, 33vw" />
+                <MediaImage
+                  media={item.media}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  sizes="(min-width: 768px) 126px, 33vw"
+                />
+                {/* Dim the active thumbnail's IMAGE only (not its selection
+                    border/ring, which sit outside this inset veil): a
+                    background-coloured overlay that fades to 70% on selection. It
+                    reads as "this one is already enlarged beside the strip". 1s
+                    fade on the same easing as the showcase zoom. */}
+                <span
+                  aria-hidden
+                  className={cn(
+                    'pointer-events-none absolute inset-0 bg-background transition-opacity duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                    i === index ? 'opacity-70' : 'opacity-0',
+                  )}
+                />
               </button>
             </li>
           ))}

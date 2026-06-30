@@ -117,9 +117,14 @@ export const Experience: CollectionConfig = {
           admin: { description: 'Optional "Visit site" link for this showcase image.' },
         },
         {
-          name: 'label',
+          // Optional override for the link button's text. Defaults to "Visit
+          // site" when blank, and only matters (so only shows) when a url is set.
+          name: 'linkLabel',
           type: 'text',
-          admin: { description: 'Optional caption / accessible label for this image.' },
+          admin: {
+            description: 'Optional button text for the link (defaults to "Visit site").',
+            condition: (_, siblingData) => Boolean(siblingData?.url),
+          },
         },
       ],
     },
