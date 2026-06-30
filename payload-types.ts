@@ -218,7 +218,16 @@ export interface Portfolio {
   /**
    * System Design diagram (authored in features/portfolio/graph/diagrams).
    */
-  diagramKey: 'context-aware-routes';
+  diagramKey:
+    | 'context-aware-routes'
+    | 'design-system-ssot'
+    | 'keyword-recall-lanes'
+    | 'seed-pipeline'
+    | 'mental-graph-render'
+    | 'diagram-registry'
+    | 'search-corpus'
+    | 'agent-guardrail-loop'
+    | 'website-stack';
   /**
    * Subtitle under "Key Decisions". Defaults to the eyebrow when blank.
    */
