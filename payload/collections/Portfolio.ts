@@ -166,6 +166,26 @@ export const Portfolio: CollectionConfig = {
       admin: { allowCreate: false },
     },
     {
+      // Curated subset of this item's scope/craft tags to feature on the landing
+      // card (the detail page still renders the full scope + craft). The picker
+      // is restricted to keywords already attached above, so set scope/craft
+      // first; spotlight has its own drag order, which is the card's render order.
+      name: 'spotlight',
+      type: 'relationship',
+      relationTo: 'keywords',
+      hasMany: true,
+      required: true,
+      maxRows: 5,
+      filterOptions: ({ data }) => ({
+        id: { in: [...(data?.scope ?? []), ...(data?.craft ?? [])] },
+      }),
+      admin: {
+        allowCreate: false,
+        description:
+          'Up to 5 tags to feature on the landing card, chosen from the scope/craft set above (set those first). Drag to set card order.',
+      },
+    },
+    {
       // Hidden, search-only attachments. Never rendered; flattened into the
       // search doc's aliases (see lib/search/dataset.ts). Offers only searchOnly
       // keywords, so it never overlaps the scope/craft pickers.

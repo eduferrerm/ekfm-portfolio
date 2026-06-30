@@ -261,6 +261,10 @@ export interface Portfolio {
   scope?: (number | Keyword)[] | null;
   craft?: (number | Keyword)[] | null;
   /**
+   * Up to 5 tags to feature on the landing card, chosen from the scope/craft set above (set those first). Drag to set card order.
+   */
+  spotlight: (number | Keyword)[];
+  /**
    * Hidden terms that surface this item in search but never render on the page.
    */
   searchKeywords?: (number | Keyword)[] | null;
@@ -308,6 +312,10 @@ export interface Experience {
     | null;
   scope?: (number | Keyword)[] | null;
   craft?: (number | Keyword)[] | null;
+  /**
+   * Up to 5 tags to feature on the landing card, chosen from the scope/craft set above (set those first). Drag to set card order.
+   */
+  spotlight: (number | Keyword)[];
   deepDive?:
     | {
         title?: string | null;
@@ -555,6 +563,7 @@ export interface PortfolioSelect<T extends boolean = true> {
   relatedContent?: T;
   scope?: T;
   craft?: T;
+  spotlight?: T;
   searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -587,6 +596,7 @@ export interface ExperienceSelect<T extends boolean = true> {
       };
   scope?: T;
   craft?: T;
+  spotlight?: T;
   deepDive?:
     | T
     | {
