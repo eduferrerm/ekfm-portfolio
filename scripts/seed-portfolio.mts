@@ -17,7 +17,9 @@
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { PORTFOLIO_CONTENT, type PortfolioSeedEntry } from './seed/portfolio-content'
+import { loadPortfolioContent, type PortfolioSeedEntry } from './seed/portfolio-content'
+
+const PORTFOLIO_CONTENT = loadPortfolioContent()
 
 const configPath = pathToFileURL(path.resolve(process.cwd(), 'payload.config.ts')).href
 const config = await (await import(configPath)).default
