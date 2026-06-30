@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
 import { MetaCard } from '@/components/primitives/MetaCard'
-import { SliderControls } from '@/components/primitives/Slider'
+import { SlideStack, SliderControls } from '@/components/primitives/Slider'
 import type { Media } from '@/payload-types'
 
 import type { ExpectationView } from './visitor'
@@ -57,8 +57,6 @@ export function Expectations({
     window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`)
   }
 
-  const view = expectations[index]
-
   return (
     <div className="flex flex-col gap-6 rounded-2xl border border-border p-6 md:p-10 sm:p-8 bg-sunken/70">
       <div className="flex items-center gap-3">
@@ -74,39 +72,47 @@ export function Expectations({
         </span>
       </div>
 
-      <p className="text-lead text-foreground/90 mb-4">{view.expectation}</p>
+      {/* Body sized to the tallest expectation (SlideStack), so the fixed
+          header + controls never jump as you cycle slides. */}
+      <SlideStack index={index}>
+        {expectations.map((view, i) => (
+          <div key={i} className="flex flex-col gap-6">
+            <p className="text-lead text-foreground/90 mb-4">{view.expectation}</p>
 
-      <div className="mb-8">
-        <h3 className="mb-6 text-subheader text-primary">{labels.reply}</h3>
-        {/* One prose body flowed into two balanced columns — no break-inside
-            guard, so any length splits to halve the height and keep the slide
-            controls in view. */}
-        <div className="gap-x-8 sm:columns-2 [&>p]:mb-4 [&>p:last-child]:mb-0">
-          {view.replyParagraphs.map((text, i) => (
-            <p key={i} className="text-body text-foreground/80">
-              {text}
-            </p>
-          ))}
-        </div>
-      </div>
+            <div className="mb-8">
+              <h3 className="mb-6 text-subheader text-primary">{labels.reply}</h3>
+              {/* One prose body flowed into two balanced columns — no break-inside
+                  guard, so any length splits to halve the height and keep the slide
+                  controls in view. */}
+              <div className="gap-x-8 sm:columns-2 [&>p]:mb-4 [&>p:last-child]:mb-0">
+                {view.replyParagraphs.map((text, j) => (
+                  <p key={j} className="text-body text-foreground/80">
+                    {text}
+                  </p>
+                ))}
+              </div>
+            </div>
 
-      {view.items.length > 0 && (
-        <div className="mb-2">
-          <h3 className="mb-3 text-ui text-label">{labels.relevantContent}</h3>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {view.items.map((item) => (
-              <li key={item.href}>
-                <MetaCard
-                  href={item.href}
-                  eyebrow={item.title}
-                  title={item.metadata}
-                  thumbnail={item.thumbnail}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+            {view.items.length > 0 && (
+              <div className="mb-2">
+                <h3 className="mb-3 text-ui text-label">{labels.relevantContent}</h3>
+                <ul className="grid gap-3 sm:grid-cols-2">
+                  {view.items.map((item) => (
+                    <li key={item.href}>
+                      <MetaCard
+                        href={item.href}
+                        eyebrow={item.title}
+                        title={item.metadata}
+                        thumbnail={item.thumbnail}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </SlideStack>
 
       <SliderControls
         index={index}

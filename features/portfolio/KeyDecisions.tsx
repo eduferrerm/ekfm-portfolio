@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { List } from '@/components/primitives/List'
-import { SliderControls } from '@/components/primitives/Slider'
+import { SlideStack, SliderControls } from '@/components/primitives/Slider'
 import type { Subheaders } from '@/lib/labels'
 
 import type { KeyDecisionView } from './projections'
@@ -41,8 +41,6 @@ export function KeyDecisions({
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const decision = decisions[index]
-
   return (
     <section>
       <h2 className="text-header tracking-tight">{labels.keyDecisions}</h2>
@@ -51,26 +49,32 @@ export function KeyDecisions({
       </p>
 
       <div className="mt-6 flex flex-col gap-6">
+        {/* One panel sized to the tallest decision (SlideStack), so cycling
+            decisions never reflows the panel. */}
         <div className="rounded-2xl border border-border p-6 sm:p-10">
-          <div className="grid gap-10 md:grid-cols-2">
-            <div>
-              <h3 className="mb-4 text-subheader text-label">{decision.title}</h3>
-              {decision.description && (
-                <p className="text-body text-foreground/80">{decision.description}</p>
-              )}
-            </div>
+          <SlideStack index={index}>
+            {decisions.map((decision, i) => (
+              <div key={i} className="grid gap-10 md:grid-cols-2">
+                <div>
+                  <h3 className="mb-4 text-subheader text-label">{decision.title}</h3>
+                  {decision.description && (
+                    <p className="text-body text-foreground/80">{decision.description}</p>
+                  )}
+                </div>
 
-            <div>
-              <h3 className="mb-4 flex items-center gap-2 text-subheader text-label">
-                {labels.conclusion}{' '}
-                <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
-                <span className="sr-only">
-                  {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
-                </span>
-              </h3>
-              <List variant="prose" items={decision.points} />
-            </div>
-          </div>
+                <div>
+                  <h3 className="mb-4 flex items-center gap-2 text-subheader text-label">
+                    {labels.conclusion}{' '}
+                    <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
+                    <span className="sr-only">
+                      {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
+                    </span>
+                  </h3>
+                  <List variant="prose" items={decision.points} />
+                </div>
+              </div>
+            ))}
+          </SlideStack>
         </div>
 
         <SliderControls

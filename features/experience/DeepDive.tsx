@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { List } from '@/components/primitives/List'
-import { SliderControls } from '@/components/primitives/Slider'
+import { SlideStack, SliderControls } from '@/components/primitives/Slider'
 
 import type { DeepDiveView } from './projections'
 
@@ -38,27 +38,31 @@ export function DeepDive({
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const entry = items[index]
-
   return (
     <section>
       <h2 className="text-header tracking-tight">{heading}</h2>
       <p className="mt-1 text-eyebrow text-primary">{eyebrow}</p>
 
       <div className="mt-6 flex flex-col gap-6">
+        {/* One panel sized to the tallest entry (SlideStack), so cycling entries
+            never reflows the panel. */}
         <div className="rounded-2xl border border-border p-6 sm:p-10">
-          <div className="grid gap-10 md:grid-cols-2">
-            <div>
-              <h3 className="mb-4 text-subheader text-label">{entry.title}</h3>
-              {entry.description && (
-                <p className="text-body text-foreground/80">{entry.description}</p>
-              )}
-            </div>
-            <div>
-              <h3 className="mb-4 text-subheader text-label">Details</h3>
-              <List variant="prose" items={entry.details} />
-            </div>
-          </div>
+          <SlideStack index={index}>
+            {items.map((entry, i) => (
+              <div key={i} className="grid gap-10 md:grid-cols-2">
+                <div>
+                  <h3 className="mb-4 text-subheader text-label">{entry.title}</h3>
+                  {entry.description && (
+                    <p className="text-body text-foreground/80">{entry.description}</p>
+                  )}
+                </div>
+                <div>
+                  <h3 className="mb-4 text-subheader text-label">Details</h3>
+                  <List variant="prose" items={entry.details} />
+                </div>
+              </div>
+            ))}
+          </SlideStack>
         </div>
 
         <SliderControls
