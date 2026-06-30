@@ -667,4 +667,81 @@ export const PORTFOLIO_CONTENT: PortfolioSeedEntry[] = [
     ],
     searchKeywords: ['e2e-ownership'],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'design-system',
+    order: 8,
+    eyebrow: 'Design System',
+    title: 'A Drift-Proof Design System',
+    summary:
+      'A three-tier token and type architecture authored once in globals.css — the class-merger, the docs, and the component layer all derive from that one file, so a value can never live in two places and silently drift.',
+    diagramKey: 'design-system-ssot',
+    overview: [
+      'The brief was a set of brand boards designed in Figma — Colors, Fonts, Pressables. The risk in turning brand boards into a real system is drift: the moment a value lives in two places — the CSS and a docs table, the design and the code — they fall out of sync within days. This build proved it directly: the generated layers stayed perfect across a run of merges while every hand-maintained prose copy went stale.',
+      'So the whole system is built around one contract: each fact has exactly one hand-written home, and everything else is generated from it or derives it. Colour and type values live in globals.css, named for the job they do rather than the hue they happen to be. The class-merger derives its role list from the same generated catalog. The docs name jobs, not values.',
+      "On top of that foundation sits a small cva component layer where the colour token is global and the variant name is just the component's emphasis tier — and a mechanism/policy split that lets genuinely unique controls compose freely without polluting the system with one-member variants.",
+    ],
+    keyDecisionsTitle: null,
+    keyDecisions: [
+      {
+        title: 'Design in Figma first',
+        conclusion: 'up',
+        description:
+          'The brand began as Figma boards — Colors, Fonts, Pressables — not as code. The risk is treating those boards as throwaway reference and letting the implementation quietly diverge from the agreed visual language.',
+        points: [
+          'Visual decisions are made in Figma — palette, type ramp, the pill/pressable language — where they’re fast to iterate, then encoded once in globals.css rather than reinvented in code.',
+          'Matching the boards is treated as a standing constraint, not a one-time port: the design refs stay the reference the tokens are checked against.',
+          "Designing straight in code was rejected — exploration is faster and clearer in Figma, so code's job is faithful encoding, not ideation.",
+        ],
+      },
+      {
+        title: 'Stock palette as SSOT',
+        conclusion: 'up',
+        description:
+          'Brand boards become a real system, and the first drift risk is redeclaring values Tailwind already ships. Where should the palette actually live?',
+        points: [
+          'The stock TW4 palette (slate / lime / fuchsia / blue) is the single source; @theme adds only what Tailwind lacks — the Roboto families, alpha tints via color-mix, a surface gradient, a 1px border default, a showcase animation.',
+          "Semantic roles keep shadcn's variable names but point at the stock stops, so any net-new shadcn component drops in unchanged and the palette stays the one place a colour is defined.",
+          'Redeclaring stops was rejected outright: duplicating values Tailwind already owns reintroduces the exact two-homes drift the system exists to prevent.',
+        ],
+      },
+      {
+        title: 'Tokens named by their job',
+        conclusion: 'up',
+        description:
+          'A tier story (lime/blue/fuchsia = primary/secondary/tertiary) helps designers, but "is this lime or blue?" has no objective answer — so what name does a developer actually type?',
+        points: [
+          'Importance rank is subjective, and "secondary" already means a neutral grey surface in shadcn, so rank-naming was rejected as ambiguous and colliding.',
+          'The tier stays the organising story, but tokens are named for what they do: lime is both --primary and --feedback; blue’s two jobs split into --selection (interaction) and --label (content hierarchy).',
+          'Distinct names despite a shared blue-400 keep behaviour and hue independent, so a role can be re-pointed at a different stop later without renaming every call site.',
+        ],
+      },
+      {
+        title: 'Generate the catalog from CSS',
+        conclusion: 'up',
+        description:
+          "A new token used to need registering in three places — the CSS, the catalog, and the class-merger's role list. Three hand-kept copies is three chances to drift.",
+        points: [
+          'Codegen scrapes @ds markers and @utility text-* names out of globals.css into a generated catalog — a build artifact like payload-types.ts — and the TypeScript side derives itself from it.',
+          "A drift test was rejected for still typing the token twice; TS-first token tools (Style Dictionary, Panda, Vanilla Extract) were rejected for fighting Tailwind 4's CSS-first @theme model.",
+          'The result: globals.css is the one hand-written home, and every downstream layer regenerates from it rather than restating it.',
+        ],
+      },
+      {
+        title: 'Split mechanism from brand policy',
+        conclusion: 'up',
+        description:
+          'Button conflated the mechanism (icon/label layout, focus ring, asChild slot) with brand policy (emphasis tiers, pill skin, auto-chevron), so a genuine one-off couldn’t reuse the look without registering a variant it’d be the only member of.',
+        points: [
+          'Pressable is now the brand-free mechanism; Button is the design-system skin over it. The variant enum stays a closed set of emphasis tiers, and the escape hatch covers the open set of one-offs.',
+          'The payoff: the search trigger composes a bespoke skin — tag border, recessed bg-sunken fill, lime glyph, no chevron — straight from Pressable, with no new variant added.',
+          'Composing unique controls freely keeps one-member variants out of the system, so the tier enum stays meaningful instead of bloating into a catch-all.',
+        ],
+      },
+    ],
+    scope: ['design-systems', 'frontend', 'conceptual-direction'],
+    craft: ['figma', 'visual-design', 'css', 'tailwind', 'component-libraries', 'developer-tooling'],
+    spotlight: ['design-systems', 'tailwind', 'component-libraries', 'figma', 'visual-design'],
+  },
 ]

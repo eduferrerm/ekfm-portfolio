@@ -1,7 +1,7 @@
 {
   "generatedFrom": "DB via Payload Local API (read-only)",
   "counts": {
-    "portfolio": 8,
+    "portfolio": 9,
     "experience": 3
   },
   "portfolio": [
@@ -30,6 +30,33 @@
       "searchKeywords": [
         "e2e-ownership"
       ],
+      "relatedContent": []
+    },
+    {
+      "slug": "design-system",
+      "title": "A Drift-Proof Design System",
+      "diagramKey": "design-system-ssot",
+      "scope": [
+        "conceptual-direction",
+        "design-systems",
+        "frontend"
+      ],
+      "craft": [
+        "component-libraries",
+        "css",
+        "developer-tooling",
+        "figma",
+        "tailwind",
+        "visual-design"
+      ],
+      "spotlight": [
+        "component-libraries",
+        "design-systems",
+        "figma",
+        "tailwind",
+        "visual-design"
+      ],
+      "searchKeywords": [],
       "relatedContent": []
     },
     {
