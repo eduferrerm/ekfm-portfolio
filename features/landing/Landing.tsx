@@ -9,6 +9,7 @@ import { WelcomeBanner } from '@/features/visitor/WelcomeBanner'
 
 import { LandingNav } from './LandingNav'
 import { Footer } from './Footer'
+import { SectionViewTracker } from './SectionViewTracker'
 import { HeroBand, TldrBand, LandingSectionBand, MoreAboutMeBand, ContactBand } from './bands'
 import { moreAboutMeCta } from './projections'
 import { experienceCards, experienceYearsLabel, landingGlobal, portfolioCards } from './queries'
@@ -54,66 +55,70 @@ export async function Landing({
       {/* Opaque, lifted above the fixed Footer so it reads as a reveal: the page
           slides over the footer, exposing it only through Contact's bottom gap. */}
       <main className="relative z-10 bg-background">
+        {/* Scroll-reach analytics: fires section_viewed once per band as it's reached. */}
+        <SectionViewTracker sections={sections.map((s) => slugify(s.navLabel))} />
         <LandingNav items={navItems} documents={searchDocs} visitorSearch={visitorSearch} />
 
-      <HeroBand
-        hero={landing.hero}
-        navItems={navItems}
-        banner={
-          visitor ? (
-            <WelcomeBanner
-              company={visitor.company}
-              logo={visitor.companyLogo}
-              greeting={visitorContent?.welcomeGreeting}
-            />
-          ) : undefined
-        }
-      />
+        <HeroBand
+          hero={landing.hero}
+          navItems={navItems}
+          banner={
+            visitor ? (
+              <WelcomeBanner
+                company={visitor.company}
+                logo={visitor.companyLogo}
+                greeting={visitorContent?.welcomeGreeting}
+              />
+            ) : undefined
+          }
+        />
 
-      {visitor && visitorContent && (
-        <DearCompanySection visitor={visitor} content={visitorContent} />
-      )}
+        {visitor && visitorContent && (
+          <DearCompanySection visitor={visitor} content={visitorContent} />
+        )}
 
-      {sections.map((section) => {
-        const id = slugify(section.navLabel)
-        switch (section.key) {
-          case 'tldr':
-            return <TldrBand key={section.id} id={id} tldr={landing.tldr} yearsLabel={yearsLabel} />
-          case 'experience':
-            return (
-              <LandingSectionBand
-                key={section.id}
-                id={id}
-                section={landing.experience}
-                cards={eCards}
-                ctaLabel={landing.experience?.ctaLabel || 'View Role'}
-              />
-            )
-          case 'portfolio':
-            return (
-              <LandingSectionBand
-                key={section.id}
-                id={id}
-                section={landing.portfolio}
-                cards={pCards}
-                ctaLabel={landing.portfolio?.ctaLabel || 'Feature Details'}
-              />
-            )
-          case 'moreAboutMe':
-            return (
-              <MoreAboutMeBand
-                key={section.id}
-                id={id}
-                data={landing.moreAboutMe}
-                cta={moreAboutMeCta(landing.moreAboutMe?.teaser, scope)}
-              />
-            )
-          case 'contact':
-            return <ContactBand key={section.id} id={id} contact={landing.contact} />
-          default:
-            return null
-        }
-      })}
+        {sections.map((section) => {
+          const id = slugify(section.navLabel)
+          switch (section.key) {
+            case 'tldr':
+              return (
+                <TldrBand key={section.id} id={id} tldr={landing.tldr} yearsLabel={yearsLabel} />
+              )
+            case 'experience':
+              return (
+                <LandingSectionBand
+                  key={section.id}
+                  id={id}
+                  section={landing.experience}
+                  cards={eCards}
+                  ctaLabel={landing.experience?.ctaLabel || 'View Role'}
+                />
+              )
+            case 'portfolio':
+              return (
+                <LandingSectionBand
+                  key={section.id}
+                  id={id}
+                  section={landing.portfolio}
+                  cards={pCards}
+                  ctaLabel={landing.portfolio?.ctaLabel || 'Feature Details'}
+                />
+              )
+            case 'moreAboutMe':
+              return (
+                <MoreAboutMeBand
+                  key={section.id}
+                  id={id}
+                  data={landing.moreAboutMe}
+                  cta={moreAboutMeCta(landing.moreAboutMe?.teaser, scope)}
+                />
+              )
+            case 'contact':
+              return <ContactBand key={section.id} id={id} contact={landing.contact} />
+            default:
+              return null
+          }
+        })}
       </main>
 
       <Footer />

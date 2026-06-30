@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { List } from '@/components/primitives/List'
 import { keywordLabels } from '@/lib/keywords'
 import { getSubheaders } from '@/lib/labels'
+import { AnalyticsEvent } from '@/lib/posthog/events'
+import { TrackOnMount } from '@/lib/posthog/TrackOnMount'
 
 import { GraphClient, getDiagram } from './graph'
 import { KeyDecisions } from './KeyDecisions'
@@ -42,6 +44,12 @@ export async function PortfolioDetail({ slug, scope = '' }: { slug: string; scop
 
   return (
     <article className="space-y-16">
+      {/* Opening a detail = navigating to this server-rendered page; a client
+          mount-emitter turns that into a single named event (scope = where from). */}
+      <TrackOnMount
+        event={AnalyticsEvent.PortfolioItemOpened}
+        properties={{ slug, from: scope || undefined }}
+      />
       <header className="space-y-5">
         <p className="text-eyebrow text-primary">{item.eyebrow}</p>
         <h1 className="text-headline">{item.title}</h1>

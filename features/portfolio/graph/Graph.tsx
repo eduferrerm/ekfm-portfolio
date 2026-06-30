@@ -1,17 +1,19 @@
 'use client'
 
-import { Background, Controls, ReactFlow, type Node } from '@xyflow/react'
+import { Background, Controls, ReactFlow, type Node, type NodeMouseHandler } from '@xyflow/react'
 import { Maximize2, Minimize2 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 // @xyflow/react ships its own stylesheet; required for nodes/edges to render.
 import '@xyflow/react/dist/style.css'
 
 import { Button } from '@/components/ui/button'
+import { capture } from '@/lib/posthog/client'
+import { AnalyticsEvent } from '@/lib/posthog/events'
 
 import { SystemNode } from './SystemNode'
-import type { GraphData } from './types'
+import type { GraphData, SystemNodeData } from './types'
 
 export type GraphProps = GraphData
 
@@ -46,12 +48,25 @@ function FlowCanvas({
   // pills by stamping every node with our custom `system` type.
   const typedNodes = useMemo<Node[]>(() => nodes.map((n) => ({ ...n, type: 'system' })), [nodes])
 
+  // Diagram nodes aren't navigational, but a click is a genuine "they poked at
+  // the system design" interest signal worth capturing (no behaviour change).
+  const onNodeClick = useCallback<NodeMouseHandler>((_, node) => {
+    const data = node.data as SystemNodeData | undefined
+    capture(AnalyticsEvent.GraphNodeClicked, {
+      nodeId: node.id,
+      nodeType: data?.tier,
+      label: data?.label,
+      graph: 'portfolio',
+    })
+  }, [])
+
   return (
     <div className={`relative h-full w-full ${FLOW_THEME}`}>
       <ReactFlow
         nodes={typedNodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        onNodeClick={onNodeClick}
         proOptions={{ hideAttribution: true }}
         fitView
       >
@@ -103,12 +118,7 @@ export function Graph({ nodes, edges }: GraphProps) {
 
   return (
     <>
-      <FlowCanvas
-        nodes={nodes}
-        edges={edges}
-        expanded={false}
-        onToggle={() => setExpanded(true)}
-      />
+      <FlowCanvas nodes={nodes} edges={edges} expanded={false} onToggle={() => setExpanded(true)} />
 
       {expanded &&
         typeof document !== 'undefined' &&
@@ -119,12 +129,7 @@ export function Graph({ nodes, edges }: GraphProps) {
             aria-label="System design diagram"
             className="fixed inset-0 z-50 bg-sunken"
           >
-            <FlowCanvas
-              nodes={nodes}
-              edges={edges}
-              expanded
-              onToggle={() => setExpanded(false)}
-            />
+            <FlowCanvas nodes={nodes} edges={edges} expanded onToggle={() => setExpanded(false)} />
           </div>,
           document.body,
         )}
