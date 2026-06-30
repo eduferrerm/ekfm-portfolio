@@ -58,6 +58,74 @@ trunk (auth-locked / password-protected deployed env).
 
 ---
 
+## Launch checklist (live — execute top-to-bottom)
+
+> Ordered so the one blocker and all prerequisites land before the irreversible steps.
+> Dependency chain that matters: **migrate wrapper → test it → snapshot `0001`**. Everything
+> in "Provision prod" except the `0001` snapshot is independent of the wrapper.
+
+### Pre-launch prep (safe while the single shared DB makes everything low-stakes)
+
+- [ ] **Build the migrate wrapper** ⚠️ _blocker, net-new_ — tsx-ESM script (`scripts/migrate.mts`,
+      same pattern as `scripts/generate-types.mts`) so the Payload migrate CLI runs under Node 24
+      (stock CLI dies on `ERR_REQUIRE_ASYNC_MODULE`). Wire `pnpm migrate` / `migrate:create`.
+- [ ] **Test the wrapper** — `migrate:create` against current schema emits + applies cleanly.
+- [ ] **Finish content fill** — all collections populated in admin.
+- [ ] **Assign keywords** — incl. re-attaching El País links ("Conceptual Direction" scope tag exists).
+- [ ] **Export keywords → CSV** — `pnpm export:keywords` + commit (keep CSV the SSOT).
+- [ ] **Landing cards** — slider behaviour + active feedback state.
+- [ ] **Dear/Ashby expectations reply** — complete the content.
+- [ ] **PostHog ops** — verify the full usage event set fires in PostHog live events (PR #72):
+      `$pageview`, `section_viewed`, `portfolio_item_opened`, `graph_node_clicked`,
+      `visitor_page_viewed`, `search_performed`/`search_result_selected`. Posture is **cookieless**
+      (no consent banner needed) — also confirm DevTools shows **no `ph_` cookie** + the anon id is
+      in localStorage. Needs both `NEXT_PUBLIC_POSTHOG_*` vars (see prod env-vars below); missing
+      either = **silent no-op** (RUNBOOK: ANALYTICS-ENV).
+- [ ] **Finalize schema on `development`** — no more field/collection changes after this point.
+- [ ] **Run codegen** — `pnpm generate:types && pnpm generate:importmap` after the last change.
+
+### Launch decisions to settle
+
+- [ ] **Clone mechanism** — Railway fork vs `pg_dump`+restore.
+- [ ] **Blob store** — confirm prod _reuses_ staging's store (else baked-in
+      `*.blob.vercel-storage.com` URLs in cloned DB rows 404).
+- [ ] **`PAYLOAD_SECRET`** — keep-consistent vs. fresh (fresh just invalidates sessions, fine
+      unless encrypted fields exist).
+
+### Provision prod
+
+- [ ] **Create prod Railway Postgres** + grab the **pooled/PgBouncer** `DATABASE_URL` (not the TCP proxy).
+- [ ] **Co-locate regions** — Vercel function region ⟷ Railway region.
+- [ ] **Clone staging DB → prod** (chosen mechanism) — carries schema + content.
+- [ ] **Snapshot `0001` baseline** — generate from the cloned (dev-push-built) state via the wrapper.
+- [ ] **Purchase domain in Vercel.**
+
+### Wire prod env vars on `main` (currently empty by design)
+
+- [ ] `PAYLOAD_SECRET`
+- [ ] `DATABASE_URL` (pooled/PgBouncer)
+- [ ] `BLOB_READ_WRITE_TOKEN` (shared store)
+- [ ] `NEXT_PUBLIC_PAYLOAD_URL` (real domain)
+- [ ] `NEXT_PUBLIC_POSTHOG_KEY` + `NEXT_PUBLIC_POSTHOG_HOST`
+
+### Dry run (before DNS flips)
+
+- [ ] **Wake prod Railway DB** (avoid `57P03 database is starting up` build failure).
+- [ ] **Prod-config build against cloned prod DB** — retry once if DB was cold.
+- [ ] **Smoke test** — admin login, media loads, search works, `/dear/[company]` scoped routes +
+      unknown-company redirect.
+
+### Go live
+
+- [ ] **Merge `development` → `main`** → first prod deploy.
+- [ ] **Assign domain** to the prod deployment + confirm `NEXT_PUBLIC_PAYLOAD_URL` matches.
+- [ ] **Post-deploy verification** — public site, a real `/dear/[company]` link, search, PostHog
+      receiving prod events.
+- [ ] **Update docs** — flip the migration-gap "PARKED" notes in RUNBOOK + this file once the
+      wrapper + `0001` exist.
+
+---
+
 ## IA refinement — phases (independent unless noted)
 
 Source list "Item N" = the owner's review-notes numbering. Each slice = its own feature branch
