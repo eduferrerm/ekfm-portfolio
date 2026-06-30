@@ -1,7 +1,42 @@
 'use client'
 
+import { Children, type ReactNode } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+
+/**
+ * Slide viewport that stays as tall as its TALLEST slide, so cycling between
+ * slides of different content heights never reflows the surface. Every slide is
+ * stacked into the same grid cell (col/row 1), so the cell sizes to the max of
+ * them all; every slide but the active one is held with `invisible` — which,
+ * unlike `hidden`, keeps its box (and therefore its height contribution) — plus
+ * `inert` to drop it from focus and the accessibility tree. Consumers map their
+ * slides as children and pass the active `index` (the same one SliderControls
+ * drives).
+ */
+export function SlideStack({
+  index,
+  className,
+  children,
+}: {
+  index: number
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div className={cn('grid', className)}>
+      {Children.map(children, (child, i) => (
+        <div
+          className={cn('col-start-1 row-start-1 min-w-0', i === index ? 'visible' : 'invisible')}
+          inert={i !== index}
+        >
+          {child}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 /**
  * Atomized slider navigation control: Prev / clickable dot-strip / Next, and
