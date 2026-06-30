@@ -115,7 +115,10 @@ function FilterChips({
 }
 
 type Hover =
-  | { kind: 'node'; title: string; categoryKey: string; body: string }
+  // Node hovers carry the hovered pill's screen position (relative to the graph
+  // container) so the descriptor renders right under the node; edge hovers fall back
+  // to the corner card (an edge has no single anchor point).
+  | { kind: 'node'; title: string; categoryKey: string; body: string; x: number; y: number }
   | { kind: 'edge'; title: string; body: string }
   | null
 
@@ -140,6 +143,8 @@ export function MentalGraph() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
   const rf = useRef<ReactFlowInstance | null>(null)
+  // The `.mental-graph` box — the positioning context for the under-node descriptor.
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   const baseNodes = useMemo<Node[]>(
     () => DATA.nodes.map((n) => ({ id: n.id, position: n.position, data: n.data, type: 'mental' })),
@@ -234,9 +239,24 @@ export function MentalGraph() {
   const onNodeClick = useCallback<NodeMouseHandler>((_, n) => setFocusedId(n.id), [])
   const onPaneClick = useCallback(() => setFocusedId(null), [])
 
-  const onNodeEnter = useCallback<NodeMouseHandler>((_, n) => {
+  const onNodeEnter = useCallback<NodeMouseHandler>((event, n) => {
     const d = n.data as MentalNodeData
-    setHover({ kind: 'node', title: d.label, categoryKey: d.category, body: d.description })
+    const container = containerRef.current
+    const nodeEl = (event.target as HTMLElement).closest('.react-flow__node')
+    if (!container || !nodeEl) return
+    // Anchor the descriptor to the node's bottom-centre, in the container's own
+    // coordinate space (screen px) — so it stays a fixed, readable size regardless
+    // of the canvas zoom, rather than scaling with the node.
+    const c = container.getBoundingClientRect()
+    const r = nodeEl.getBoundingClientRect()
+    setHover({
+      kind: 'node',
+      title: d.label,
+      categoryKey: d.category,
+      body: d.description,
+      x: r.left + r.width / 2 - c.left,
+      y: r.bottom - c.top,
+    })
   }, [])
   const onEdgeEnter = useCallback<EdgeMouseHandler>((_, e) => {
     const rel = (e.data as { relation?: string } | undefined)?.relation
@@ -246,7 +266,10 @@ export function MentalGraph() {
 
   const content = (
     <div className="flex h-full w-full flex-col">
-      <div className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-primary)] [--xy-controls-button-color:var(--color-primary)] [--xy-edge-stroke:var(--color-border)]">
+      <div
+        ref={containerRef}
+        className="mental-graph relative min-h-0 flex-1 select-none [--xy-controls-button-background-color-hover:var(--color-muted)] [--xy-controls-button-background-color:var(--color-card)] [--xy-controls-button-border-color:var(--color-border)] [--xy-controls-button-color-hover:var(--color-primary)] [--xy-controls-button-color:var(--color-primary)] [--xy-edge-stroke:var(--color-border)]"
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -295,28 +318,28 @@ export function MentalGraph() {
           {expanded ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
         </Button>
 
-        {hover && (
+        {/* Node descriptor — anchored just under the hovered pill. `left/top` are the
+            only dynamic bits (computed screen coords); everything visual is Tailwind.
+            `-translate-x-1/2` centres it on the node; `mt-2` clears the hover pop. */}
+        {hover?.kind === 'node' && (
+          <div
+            className="pointer-events-none absolute z-10 mt-2 w-56 max-w-[60vw] -translate-x-1/2 rounded-lg border border-border bg-card/95 p-3 shadow-lg"
+            style={{ left: hover.x, top: hover.y }}
+          >
+            <p className="text-meta-bold text-foreground">{hover.title}</p>
+            <p
+              className={cn('text-meta', categoryMeta(hover.categoryKey).varClass, 'text-[var(--node)]')}
+            >
+              {categoryMeta(hover.categoryKey).label}
+            </p>
+            <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
+          </div>
+        )}
+
+        {hover?.kind === 'edge' && (
           <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs rounded-lg border border-border bg-card/95 p-3 shadow-lg">
-            {hover.kind === 'node' ? (
-              <>
-                <p className="text-meta-bold text-foreground">{hover.title}</p>
-                <p
-                  className={cn(
-                    'text-meta',
-                    categoryMeta(hover.categoryKey).varClass,
-                    'text-[var(--node)]',
-                  )}
-                >
-                  {categoryMeta(hover.categoryKey).label}
-                </p>
-                <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
-              </>
-            ) : (
-              <>
-                <p className="text-meta-bold text-foreground">{hover.title}</p>
-                <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
-              </>
-            )}
+            <p className="text-meta-bold text-foreground">{hover.title}</p>
+            <p className="mt-1 text-meta text-muted-foreground">{hover.body}</p>
           </div>
         )}
       </div>
