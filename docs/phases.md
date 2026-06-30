@@ -61,15 +61,21 @@ trunk (auth-locked / password-protected deployed env).
 ## Launch checklist (live — execute top-to-bottom)
 
 > Ordered so the one blocker and all prerequisites land before the irreversible steps.
-> Dependency chain that matters: **migrate wrapper → test it → snapshot `0001`**. Everything
-> in "Provision prod" except the `0001` snapshot is independent of the wrapper.
+> Dependency chain that matters: **migrate wrapper → test it → snapshot `0001`**. The wrapper
+> and its test are now DONE; only the `0001` snapshot remains (authored at launch from the
+> cloned prod schema). Everything in "Provision prod" except `0001` is independent of the wrapper.
 
 ### Pre-launch prep (safe while the single shared DB makes everything low-stakes)
 
-- [ ] **Build the migrate wrapper** ⚠️ _blocker, net-new_ — tsx-ESM script (`scripts/migrate.mts`,
-      same pattern as `scripts/generate-types.mts`) so the Payload migrate CLI runs under Node 24
-      (stock CLI dies on `ERR_REQUIRE_ASYNC_MODULE`). Wire `pnpm migrate` / `migrate:create`.
-- [ ] **Test the wrapper** — `migrate:create` against current schema emits + applies cleanly.
+- [x] **Build the migrate wrapper** — DONE. `scripts/migrate.mts` (tsx-ESM, same pattern as
+      `scripts/generate-types.mts`) replicates Payload's `bin/migrate` dispatcher (not in package
+      exports) over the public adapter API; runs under Node 24 (stock CLI dies on
+      `ERR_REQUIRE_ASYNC_MODULE`). Wired: `pnpm migrate` / `migrate:create` / `migrate:status` /
+      `migrate:down` / `migrate:refresh` / `migrate:reset` / `migrate:fresh`.
+- [x] **Test the wrapper** — DONE. Verified under Node 24: `migrate:create` emits a migration +
+      snapshot, `migrate:status` connects read-only and lists it pending. (Did **not** run
+      `migrate` apply against the shared dev-push DB — would fight the pushed schema; throwaway
+      test migration removed.)
 - [ ] **Finish content fill** — all collections populated in admin.
 - [ ] **Assign keywords** — incl. re-attaching El País links ("Conceptual Direction" scope tag exists).
 - [ ] **Export keywords → CSV** — `pnpm export:keywords` + commit (keep CSV the SSOT).
@@ -97,7 +103,9 @@ trunk (auth-locked / password-protected deployed env).
 - [ ] **Create prod Railway Postgres** + grab the **pooled/PgBouncer** `DATABASE_URL` (not the TCP proxy).
 - [ ] **Co-locate regions** — Vercel function region ⟷ Railway region.
 - [ ] **Clone staging DB → prod** (chosen mechanism) — carries schema + content.
-- [ ] **Snapshot `0001` baseline** — generate from the cloned (dev-push-built) state via the wrapper.
+- [ ] **Snapshot `0001` baseline** — `pnpm migrate:create` against the cloned (dev-push-built)
+      prod schema, then `pnpm migrate:status` to confirm. Wrapper is ready (see Pre-launch prep);
+      this is the only remaining migration step. Do **not** snapshot pre-clone.
 - [ ] **Purchase domain in Vercel.**
 
 ### Wire prod env vars on `main` (currently empty by design)
