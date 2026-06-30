@@ -52,15 +52,25 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
                 aria-label={`Show image ${i + 1}`}
                 aria-current={i === index ? 'true' : undefined}
                 className={cn(
-                  'block w-full overflow-hidden rounded-lg border transition',
-                  // The active thumbnail is dimmed (it's the one already enlarged
-                  // beside the strip); the rest stay at full opacity.
+                  'relative block w-full overflow-hidden rounded-lg border transition',
                   i === index
-                    ? 'border-primary ring-1 ring-primary opacity-40'
+                    ? 'border-primary ring-1 ring-primary'
                     : 'border-border hover:border-muted-foreground',
                 )}
               >
                 <MediaImage media={item.media} className="h-auto w-full" sizes="(min-width: 768px) 126px, 33vw" />
+                {/* Dim the active thumbnail's IMAGE only (not its selection
+                    border/ring, which sit outside this inset veil): a
+                    background-coloured overlay that fades to 70% on selection. It
+                    reads as "this one is already enlarged beside the strip". 1s
+                    fade on the same easing as the showcase zoom. */}
+                <span
+                  aria-hidden
+                  className={cn(
+                    'pointer-events-none absolute inset-0 bg-background transition-opacity duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                    i === index ? 'opacity-70' : 'opacity-0',
+                  )}
+                />
               </button>
             </li>
           ))}
