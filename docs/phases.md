@@ -126,6 +126,48 @@ trunk (auth-locked / password-protected deployed env).
 
 ---
 
+## Launch risk register
+
+> Ranked by **blast radius × hard-to-undo × fails-silently**. The mental model: the **loud**
+> failures (build errors, DNS) are the safe ones; the dangerous ones are **silent** (broken
+> media, dead analytics) or **delayed** (a bad `0001` that detonates on the first real migration
+> weeks later). The dry-run smoke test before the DNS flip is the one chance to catch the silent
+> ones while you can still back out.
+
+### Tier 1 — can lose data or poison the foundation
+
+- **Destructive dev-push against the shared DB (during prep, not launch day).** One Railway DB
+  backs local + preview + staging — including the content being filled. A destructive diff (col
+  drop, or drop+add read as a rename TUI) hits **all envs at once**, and a lingering `next dev`
+  can _half_-migrate on the rename prompt → the most likely way to actually lose content.
+  _Mitigation (RUNBOOK DB-PUSH/DB-LINGERING-DEV):_ kill `next dev` by PID first, split drop+add
+  into two pushes, feed the lone y/N via FIFO.
+- **Clone → `0001` baseline snapshot.** Prod is `NODE_ENV=production` → **dev-push OFF → no
+  safety net**. A wrong migrate wrapper or a `0001` that doesn't exactly match the cloned schema
+  fails _delayed_: launch looks fine, then the **first post-launch schema change fails or applies
+  a wrong diff to prod**; a bad baseline poisons every future migration.
+  _Mitigation:_ build + **prove** the wrapper on the shared DB before touching prod.
+
+### Tier 2 — silently wrong in prod (no crash, no error, just broken)
+
+- **Blob store mismatch.** Media URLs are absolute and **baked into cloned DB rows** → pointing
+  prod at a different store 404s every asset while the build stays green. _Prod must reuse
+  staging's blob store._
+- **Silent env-var no-ops.** PostHog needs **both** `NEXT_PUBLIC_POSTHOG_KEY` _and_ `_HOST`
+  (miss either = collects nothing, no error); `NEXT_PUBLIC_PAYLOAD_URL` wrong → `warmVisitor`
+  + absolute OG/favicon URLs point at the wrong host.
+- **`PAYLOAD_SECRET` vs encrypted fields.** A different secret makes any encrypted cloned data
+  unreadable. Likely none here — **verify, don't assume.**
+- **Secret leakage.** Never put `DATABASE_URL` / `PAYLOAD_SECRET` / blob token behind a
+  `NEXT_PUBLIC_` prefix (ships to the browser) or into git/logs. Low odds, Tier-1 severity.
+
+### Tier 3 — looks alarming, actually fine
+
+- **First prod build fails `57P03 database is starting up`** — expected; retry once Railway is awake.
+- **DNS / domain flip** — reversible; only cost is propagation delay.
+
+---
+
 ## IA refinement — phases (independent unless noted)
 
 Source list "Item N" = the owner's review-notes numbering. Each slice = its own feature branch
