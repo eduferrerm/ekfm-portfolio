@@ -22,7 +22,14 @@
     "generate:importmap": "node --import tsx/esm scripts/generate-importmap.mts",
     "build:more-about-me-graph": "node --import tsx/esm scripts/build-more-about-me-graph.mts",
     "seed:keywords": "node --env-file=.env.local --import tsx/esm scripts/seed-keywords.mts",
-    "export:keywords": "node --env-file=.env.local --import tsx/esm scripts/export-keywords.mts"
+    "export:keywords": "node --env-file=.env.local --import tsx/esm scripts/export-keywords.mts",
+    "migrate": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate",
+    "migrate:create": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:create",
+    "migrate:status": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:status",
+    "migrate:down": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:down",
+    "migrate:refresh": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:refresh",
+    "migrate:reset": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:reset",
+    "migrate:fresh": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:fresh"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.85.1",
