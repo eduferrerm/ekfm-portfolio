@@ -33,11 +33,10 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
           sizes="(min-width: 1024px) 60vw, 100vw"
           priority
         />
-        {current.label && <figcaption className="sr-only">{current.label}</figcaption>}
         {current.url && (
           <Button asChild chevron="end" className="absolute bottom-4 right-4 shadow-lg">
             <a href={current.url} target="_blank" rel="noopener noreferrer">
-              Visit site
+              {current.linkLabel || 'Visit site'}
             </a>
           </Button>
         )}
@@ -50,13 +49,15 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
               <button
                 type="button"
                 onClick={() => setActive(i)}
-                aria-label={`Show image ${i + 1}${item.label ? `: ${item.label}` : ''}`}
+                aria-label={`Show image ${i + 1}`}
                 aria-current={i === index ? 'true' : undefined}
                 className={cn(
                   'block w-full overflow-hidden rounded-lg border transition',
+                  // The active thumbnail is dimmed (it's the one already enlarged
+                  // beside the strip); the rest stay at full opacity.
                   i === index
-                    ? 'border-primary ring-1 ring-primary'
-                    : 'border-border opacity-70 hover:opacity-100',
+                    ? 'border-primary ring-1 ring-primary opacity-40'
+                    : 'border-border hover:border-muted-foreground',
                 )}
               >
                 <MediaImage media={item.media} className="h-auto w-full" sizes="(min-width: 768px) 126px, 33vw" />

@@ -298,9 +298,9 @@ export interface Experience {
          */
         url?: string | null;
         /**
-         * Optional caption / accessible label for this image.
+         * Optional button text for the link (defaults to "Visit site").
          */
-        label?: string | null;
+        linkLabel?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -585,7 +585,7 @@ export interface ExperienceSelect<T extends boolean = true> {
     | {
         image?: T;
         url?: T;
-        label?: T;
+        linkLabel?: T;
         id?: T;
       };
   responsibilities?:

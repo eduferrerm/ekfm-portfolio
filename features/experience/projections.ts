@@ -16,11 +16,11 @@ export function experienceNavItem(
   }
 }
 
-/** One showcase gallery image with its optional "Visit site" url + caption. */
+/** One showcase gallery image with its optional link url + link button text. */
 export type ShowcaseItem = {
   media: Media
   url?: string | null
-  label?: string | null
+  linkLabel?: string | null
 }
 
 /** View-model for one Deep Dive slide — a titled narrative + a details list. */
@@ -39,7 +39,7 @@ export function showcaseItems(items?: Experience['showcase']): ShowcaseItem[] {
   return (items ?? [])
     .map((item): ShowcaseItem | null =>
       typeof item.image === 'object' && item.image
-        ? { media: item.image, url: item.url, label: item.label }
+        ? { media: item.image, url: item.url, linkLabel: item.linkLabel }
         : null,
     )
     .filter((item): item is ShowcaseItem => Boolean(item))
