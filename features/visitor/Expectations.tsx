@@ -76,10 +76,14 @@ export function Expectations({
           header + controls never jump as you cycle slides. */}
       <SlideStack index={index}>
         {expectations.map((view, i) => (
-          <div key={i} className="flex flex-col gap-6">
+          <div key={i} className="flex h-full flex-col gap-6">
+            {/* h-full above fills the SlideStack cell (sized to the tallest slide);
+                flex-1 on the reply block below then absorbs the height variance so
+                the relevant content bottom-anchors at the same spot on every slide
+                instead of jumping with the reply length. */}
             <p className="text-lead text-foreground/90 mb-4">{view.expectation}</p>
 
-            <div className="mb-8">
+            <div className="mb-8 flex-1">
               <h3 className="mb-6 text-subheader text-primary">{labels.reply}</h3>
               {/* One prose body flowed into two balanced columns — no break-inside
                   guard, so any length splits to halve the height and keep the slide
@@ -96,10 +100,11 @@ export function Expectations({
             {view.items.length > 0 && (
               <div className="mb-2">
                 <h3 className="mb-3 text-ui text-label">{labels.relevantContent}</h3>
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <ul className="flex flex-wrap gap-6">
                   {view.items.map((item) => (
                     <li key={item.href}>
                       <MetaCard
+                        className="w-auto"
                         href={item.href}
                         eyebrow={item.title}
                         title={item.metadata}
