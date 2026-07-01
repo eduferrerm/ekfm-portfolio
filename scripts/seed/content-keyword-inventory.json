@@ -1,22 +1,244 @@
 {
   "generatedFrom": "DB via Payload Local API (read-only)",
   "counts": {
-    "portfolio": 1,
+    "portfolio": 9,
     "experience": 3
   },
   "portfolio": [
     {
-      "slug": "website-ux-personalisation",
-      "title": "Website UX Personalisation",
-      "diagramKey": "context-aware-routes",
+      "slug": "agentic-workflow",
+      "title": "Engineering the Guardrails",
+      "diagramKey": "agent-guardrail-loop",
       "scope": [
+        "platform",
+        "product-engineering"
+      ],
+      "craft": [
+        "ai-assisted-development",
+        "ci-cd",
+        "developer-tooling",
+        "system-design",
+        "technical-leadership"
+      ],
+      "spotlight": [
+        "ai-assisted-development",
+        "ci-cd",
+        "developer-tooling",
+        "system-design",
+        "technical-leadership"
+      ],
+      "searchKeywords": [
+        "e2e-ownership"
+      ],
+      "relatedContent": []
+    },
+    {
+      "slug": "design-system",
+      "title": "A Drift-Proof Design System",
+      "diagramKey": "design-system-ssot",
+      "scope": [
+        "conceptual-direction",
+        "design-systems",
         "frontend"
       ],
       "craft": [
-        "system-design",
+        "component-libraries",
+        "css",
+        "developer-tooling",
+        "figma",
+        "tailwind",
         "visual-design"
       ],
-      "spotlight": [],
+      "spotlight": [
+        "component-libraries",
+        "design-systems",
+        "figma",
+        "tailwind",
+        "visual-design"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "keywords-ia",
+      "title": "A Sealed Keyword Taxonomy",
+      "diagramKey": "keyword-recall-lanes",
+      "scope": [
+        "frontend",
+        "platform",
+        "product-engineering"
+      ],
+      "craft": [
+        "headless-cms",
+        "information-architecture",
+        "postgres",
+        "search",
+        "system-design"
+      ],
+      "spotlight": [
+        "headless-cms",
+        "information-architecture",
+        "platform",
+        "search",
+        "system-design"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "mental-map",
+      "title": "A Map of How I Think",
+      "diagramKey": "mental-graph-render",
+      "scope": [
+        "conceptual-direction",
+        "frontend"
+      ],
+      "craft": [
+        "animation",
+        "css",
+        "data-visualization",
+        "performance",
+        "react"
+      ],
+      "spotlight": [
+        "animation",
+        "css",
+        "data-visualization",
+        "performance",
+        "react"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "search-palette",
+      "title": "Client-Side Command Palette",
+      "diagramKey": "search-corpus",
+      "scope": [
+        "frontend",
+        "product-engineering"
+      ],
+      "craft": [
+        "component-libraries",
+        "performance",
+        "react",
+        "search",
+        "ui-engineering"
+      ],
+      "spotlight": [
+        "component-libraries",
+        "performance",
+        "react",
+        "search",
+        "ui-engineering"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "seed-system",
+      "title": "Idempotent, Round-Trippable Seeding",
+      "diagramKey": "seed-pipeline",
+      "scope": [
+        "platform",
+        "product-engineering"
+      ],
+      "craft": [
+        "developer-tooling",
+        "headless-cms",
+        "postgres",
+        "system-design",
+        "typescript"
+      ],
+      "spotlight": [
+        "developer-tooling",
+        "headless-cms",
+        "postgres",
+        "system-design",
+        "typescript"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "system-diagrams",
+      "title": "Hand-Authored System Diagrams",
+      "diagramKey": "diagram-registry",
+      "scope": [
+        "frontend",
+        "product-engineering"
+      ],
+      "craft": [
+        "component-libraries",
+        "data-visualization",
+        "react",
+        "system-design",
+        "typescript"
+      ],
+      "spotlight": [
+        "component-libraries",
+        "data-visualization",
+        "frontend",
+        "react",
+        "system-design"
+      ],
+      "searchKeywords": [],
+      "relatedContent": []
+    },
+    {
+      "slug": "website-stack",
+      "title": "The Portfolio Is the Exhibit",
+      "diagramKey": "website-stack",
+      "scope": [
+        "frontend",
+        "platform",
+        "product-engineering"
+      ],
+      "craft": [
+        "headless-cms",
+        "nextjs",
+        "postgres",
+        "rendering-strategies",
+        "scalability",
+        "system-design"
+      ],
+      "spotlight": [
+        "headless-cms",
+        "nextjs",
+        "postgres",
+        "rendering-strategies",
+        "system-design"
+      ],
+      "searchKeywords": [
+        "e2e-ownership"
+      ],
+      "relatedContent": []
+    },
+    {
+      "slug": "website-ux-personalisation",
+      "title": "Website UX Personalization",
+      "diagramKey": "context-aware-routes",
+      "scope": [
+        "frontend",
+        "platform",
+        "product-engineering"
+      ],
+      "craft": [
+        "frontend-architecture",
+        "nextjs",
+        "performance",
+        "rendering-strategies",
+        "seo",
+        "system-design",
+        "testing"
+      ],
+      "spotlight": [
+        "frontend-architecture",
+        "nextjs",
+        "performance",
+        "platform",
+        "rendering-strategies"
+      ],
       "searchKeywords": [
         "e2e-ownership"
       ],

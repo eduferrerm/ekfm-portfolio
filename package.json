@@ -25,6 +25,7 @@
     "export:keywords": "node --env-file=.env.local --import tsx/esm scripts/export-keywords.mts",
     "inventory:content": "node --env-file=.env.local --import tsx/esm scripts/inventory-content-keywords.mts",
     "seed:portfolio": "node --env-file=.env.local --import tsx/esm scripts/seed-portfolio.mts",
+    "export:portfolio": "node --env-file=.env.local --import tsx/esm scripts/export-portfolio.mts",
     "migrate": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate",
     "migrate:create": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:create",
     "migrate:status": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:status",
