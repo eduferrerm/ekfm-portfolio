@@ -18,10 +18,9 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
     <Card
       asChild
       interactive
-      // Fixed width + `shrink-0` while in the scroll shelf (below xl); at xl the
-      // wrapper becomes a grid and the card fills its column. `aspect-[3/4]` keeps
-      // every card the same 3:4 portrait shape regardless of its width.
-      className="group flex aspect-[3/4] flex-col gap-4 w-65 shrink-0 lg:w-82.5 xl:w-full"
+      // Controlled fixed width + `shrink-0` in the scroll shelf at every
+      // breakpoint. `aspect-[3/4]` keeps every card the same 3:4 portrait shape.
+      className="group flex aspect-[3/4] flex-col gap-4 w-65 shrink-0 lg:w-82.5"
     >
       <Link href={card.href}>
         {card.image && (
