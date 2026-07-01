@@ -28,7 +28,7 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 
-export type Conclusion = 'up' | 'down'
+export type Conclusion = 'up' | 'down' | 'none'
 
 export type PortfolioSeedDecision = {
   title: string

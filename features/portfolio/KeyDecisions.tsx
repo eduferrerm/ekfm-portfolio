@@ -64,11 +64,16 @@ export function KeyDecisions({
 
                 <div>
                   <h3 className="mb-4 flex items-center gap-2 text-subheader text-label">
-                    {labels.conclusion}{' '}
-                    <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
-                    <span className="sr-only">
-                      {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
-                    </span>
+                    {labels.conclusion}
+                    {decision.conclusion !== 'none' && (
+                      <>
+                        {' '}
+                        <span aria-hidden>{decision.conclusion === 'up' ? '👍' : '👎'}</span>
+                        <span className="sr-only">
+                          {decision.conclusion === 'up' ? 'Adopted' : 'Rejected'}
+                        </span>
+                      </>
+                    )}
                   </h3>
                   <List variant="prose" items={decision.points} />
                 </div>

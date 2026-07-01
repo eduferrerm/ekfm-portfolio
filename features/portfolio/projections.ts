@@ -25,7 +25,7 @@ export function portfolioNavItem(
 export type KeyDecisionView = {
   title: string
   description?: string | null
-  conclusion: 'up' | 'down'
+  conclusion: 'up' | 'down' | 'none'
   points: string[]
 }
 
