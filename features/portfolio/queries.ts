@@ -26,13 +26,17 @@ export async function portfolioNavItems(scope = ''): Promise<NavItem[]> {
   return docs.map((d) => portfolioNavItem(d, scope))
 }
 
-/** One piece by slug. depth:1 populates scope/craft labels + relatedContent docs. */
+/**
+ * One piece by slug. depth:2 populates scope/craft labels + relatedContent docs
+ * AND those related docs' own `thumbnail`/`companyLogo` (a second relation level)
+ * so the Relevant content cards render their images instead of the initial.
+ */
 export async function portfolioBySlug(slug: string): Promise<Portfolio | null> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
     where: { slug: { equals: slug } },
-    depth: 1,
+    depth: 2,
     limit: 1,
   })
   return docs[0] ?? null

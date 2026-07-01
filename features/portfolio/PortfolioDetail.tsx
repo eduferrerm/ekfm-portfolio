@@ -22,8 +22,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  * Portfolio detail render — the four-band article shared by the canonical
  * `/portfolio/[slug]` route and the visitor-scoped mirror. Bands: header, global
  * context (Overview + System Design), deep dive (Key Decisions slider), relevant
- * content. Server-rendered via the Local API (depth:1 populates scope/craft labels
- * + relatedContent docs). The single System Design diagram is resolved from the
+ * content. Server-rendered via the Local API (depth:2 populates scope/craft labels
+ * + relatedContent docs and their thumbnails). The single System Design diagram is resolved from the
  * repo registry by `diagramKey` and rendered through the NoSSR GraphClient.
  * notFound() on miss.
  */
