@@ -15,7 +15,13 @@ import type { LandingCardData } from './projections'
  */
 export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabel: string }) {
   return (
-    <Card asChild interactive className="group flex flex-col gap-4 w-65 lg:w-82.5">
+    <Card
+      asChild
+      interactive
+      // Fixed width + `shrink-0` while in the scroll shelf (below xl); at xl the
+      // wrapper becomes a grid and the card fills its column.
+      className="group flex flex-col gap-4 w-65 shrink-0 lg:w-82.5 xl:w-full"
+    >
       <Link href={card.href}>
         {card.image && (
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">
