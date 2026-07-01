@@ -250,9 +250,12 @@ export function LandingSectionBand({
           {cards.length > 0 && (
             // Below xl (1280px) the cards are a horizontally scrolling shelf of
             // fixed-width cards; at xl the shelf becomes a 3-up grid whose cards
-            // grow to fill their column. `py-2` gives the focus ring room the
-            // shelf's overflow-x (which forces overflow-y) would otherwise clip.
-            <div className="flex gap-6 overflow-x-auto py-2 xl:grid xl:grid-cols-3 xl:overflow-visible xl:py-0">
+            // grow to fill their column. `-mx-6 px-6` full-bleeds the shelf past
+            // the Container's px-6 gutter so cards scroll to the true edge (not
+            // cut off a gutter early) while the first card still aligns with the
+            // heading; `py-2` gives the focus ring room the shelf's overflow-x
+            // (which forces overflow-y) would otherwise clip.
+            <div className="-mx-6 flex gap-6 overflow-x-auto px-6 py-2 xl:mx-0 xl:grid xl:grid-cols-3 xl:overflow-visible xl:px-0 xl:py-0">
               {cards.map((card, i) => (
                 <LandingCard key={`${card.href}-${i}`} card={card} ctaLabel={ctaLabel} />
               ))}
