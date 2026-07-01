@@ -236,7 +236,7 @@ export interface Portfolio {
     | {
         title: string;
         description?: string | null;
-        conclusion: 'up' | 'down';
+        conclusion: 'up' | 'down' | 'none';
         points?:
           | {
               text: string;
