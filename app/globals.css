@@ -251,13 +251,13 @@
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 0.875rem; /* 14px */
-  line-height: 1; /* 100% */
+  line-height: 1.25; /* room for descenders (g/y/p) under truncate/overflow-hidden */
 }
 @utility text-ui-bold {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.875rem; /* 14px */
-  line-height: 1; /* 100% */
+  line-height: 1.25; /* room for descenders (g/y/p) under truncate/overflow-hidden */
 }
 
 /* — Card — */
