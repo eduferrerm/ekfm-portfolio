@@ -113,7 +113,8 @@ export const Portfolio: CollectionConfig = {
     },
     {
       // The N options/approaches considered, cycled by the slider. Each carries
-      // a thumb up/down conclusion and a prose reasoning list.
+      // a thumb up/down conclusion (or "none" to render no verdict) and a prose
+      // reasoning list.
       name: 'keyDecisions',
       type: 'array',
       labels: { singular: 'Key decision', plural: 'Key decisions' },
@@ -121,6 +122,10 @@ export const Portfolio: CollectionConfig = {
         { name: 'title', type: 'text', required: true },
         { name: 'description', type: 'textarea' },
         {
+          // "None" is the clear/empty verdict: radios can't be un-selected once
+          // clicked, so this explicit option is the admin's way to remove a
+          // conclusion. Kept required (default 'up') so a row is always one of
+          // the three — no nulls to handle downstream.
           name: 'conclusion',
           type: 'radio',
           required: true,
@@ -128,6 +133,7 @@ export const Portfolio: CollectionConfig = {
           options: [
             { label: '👍 Adopted', value: 'up' },
             { label: '👎 Rejected', value: 'down' },
+            { label: '— No conclusion', value: 'none' },
           ],
         },
         {

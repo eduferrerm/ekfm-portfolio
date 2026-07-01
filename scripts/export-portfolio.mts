@@ -63,7 +63,8 @@ const entries = docs
       keyDecisions: Array.isArray(d.keyDecisions)
         ? d.keyDecisions.map((dec: Record<string, unknown>) => {
             const out: Record<string, unknown> = { title: String(dec.title ?? '') }
-            out.conclusion = dec.conclusion === 'down' ? 'down' : 'up'
+            out.conclusion =
+              dec.conclusion === 'down' || dec.conclusion === 'none' ? dec.conclusion : 'up'
             if (dec.description) out.description = String(dec.description)
             out.points = Array.isArray(dec.points)
               ? dec.points.map((p: { text?: unknown }) => String(p.text ?? ''))
