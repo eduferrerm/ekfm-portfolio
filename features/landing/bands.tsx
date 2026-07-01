@@ -254,8 +254,11 @@ export function LandingSectionBand({
             // the Container's px-6 gutter so cards scroll to the true edge (not
             // cut off a gutter early) while the first card still aligns with the
             // heading; `py-2` gives the focus ring room the shelf's overflow-x
-            // (which forces overflow-y) would otherwise clip.
-            <div className="-mx-6 flex gap-6 overflow-x-auto px-6 py-2 xl:mx-0 xl:grid xl:grid-cols-3 xl:overflow-visible xl:px-0 xl:py-0">
+            // (which forces overflow-y) would otherwise clip. `items-start` stops
+            // flex/grid from stretching cards to the tallest sibling, which would
+            // override each card's 3:4 aspect ratio. Scrollbar hidden (the scroll
+            // affordance is the peeking next card, not a bar).
+            <div className="-mx-6 flex items-start gap-6 overflow-x-auto px-6 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:mx-0 xl:grid xl:grid-cols-3 xl:overflow-visible xl:px-0 xl:py-0">
               {cards.map((card, i) => (
                 <LandingCard key={`${card.href}-${i}`} card={card} ctaLabel={ctaLabel} />
               ))}
