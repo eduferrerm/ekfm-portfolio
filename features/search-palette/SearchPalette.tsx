@@ -348,7 +348,7 @@ export function SearchPalette({
       aria-modal="true"
       aria-label="Search"
       onKeyDown={onPanelKeyDown}
-      className="pointer-events-auto flex max-h-[calc(100vh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-xl sm:w-120"
+      className="pointer-events-auto flex max-h-[60vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-xl sm:w-120"
     >
       {panelBody}
     </div>
