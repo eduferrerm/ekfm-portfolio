@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 import { MediaImage } from '@/components/primitives/MediaImage'
@@ -12,10 +14,21 @@ import type { LandingCardData } from './projections'
  * Shared by the Experience and Portfolio bands; the whole card is the link, so the
  * CTA is a faux-button (a styled span) that lights up on card hover via
  * `group-hover`, not its own hover.
+ *
+ * `onFocus` scrolls the card fully into the scroll shelf on keyboard focus —
+ * native focus-scroll leaves a partially-visible card partly clipped, so we do it
+ * explicitly (`inline: 'nearest'` respects the shelf's scroll-padding gutter).
  */
 export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabel: string }) {
   return (
-    <Card asChild interactive className="group flex flex-col gap-4 w-65 lg:w-82.5">
+    <Card
+      asChild
+      interactive
+      onFocus={(e) => e.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}
+      // Controlled fixed width + `shrink-0` in the scroll shelf at every
+      // breakpoint. `aspect-[3/4]` keeps every card the same 3:4 portrait shape.
+      className="group flex aspect-[3/4] flex-col gap-4 w-65 shrink-0 lg:w-82.5"
+    >
       <Link href={card.href}>
         {card.image && (
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-indigo-500 to-fuchsia-500">

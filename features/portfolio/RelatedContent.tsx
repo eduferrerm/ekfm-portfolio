@@ -14,10 +14,11 @@ export function RelatedContent({ items, label }: { items: RelatedItem[]; label: 
   return (
     <section>
       <h2 className="mb-4 text-subheader text-label">{label}</h2>
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="flex flex-wrap gap-6">
         {items.map((item) => (
           <li key={item.href}>
             <MetaCard
+              className="w-auto"
               href={item.href}
               eyebrow={item.eyebrow}
               title={item.title}

@@ -25,11 +25,20 @@ import { useActiveSection } from './useActiveSection'
  * to the RIGHT of Search and opens the same anchors as a full-screen panel.
  *
  * a11y: the links are always in the DOM (so crawlers/AT see one real nav landmark),
- * and `focus-within` reveals them for keyboard users who tab in while they're
- * visually hidden over the hero — they never chase invisible focus.
+ * and focus reveals them for keyboard users who tab in while they're visually
+ * hidden over the hero — they never chase invisible focus. This is JS-driven
+ * (`navFocused`) rather than CSS `focus-within` on purpose: `focus-within` would
+ * also fire when the always-visible Search button takes focus, and the resulting
+ * reveal reflows the row (the hamburger flips from display:none to flex) between
+ * a click's pointerdown and pointerup — shifting Search out from under the pointer
+ * so the browser drops the `click` and the palette never opens on the first press.
+ * So we reveal only when focus lands on a hidden nav item, not on Search.
  */
 export function StickyNavReveal({ items, search }: { items: NavItem[]; search: ReactNode }) {
   const [revealed, setRevealed] = useState(false)
+  // Keyboard reveal: true while focus is on one of the hidden nav items (brand /
+  // links / hamburger) — but NOT on the always-visible Search trigger (see above).
+  const [navFocused, setNavFocused] = useState(false)
   const activeSlug = useActiveSection(items.map((item) => item.slug))
   // The overlay logo links home in-scope: `/` on the canonical site, the visitor's
   // own landing under `/dear/[company]` (recovered client-side from the path).
@@ -63,10 +72,9 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
   const reveal = (seq: number) =>
     cn(
       'transition-transform duration-200 ease-out',
-      STAGGER_DELAYS[Math.min(seq, STAGGER_DELAYS.length - 1)],
-      revealed ? 'translate-y-0' : '-translate-y-12',
-      // Keyboard reveal: drop into view (no stagger) when any link is focused.
-      'group-focus-within/reveal:translate-y-0 group-focus-within/reveal:delay-[0ms]',
+      // Keyboard reveal drops in with no stagger; the scroll reveal staggers.
+      navFocused ? 'delay-[0ms]' : STAGGER_DELAYS[Math.min(seq, STAGGER_DELAYS.length - 1)],
+      revealed || navFocused ? 'translate-y-0' : '-translate-y-12',
     )
 
   // Parked (hidden) items shouldn't catch clicks; Search must stay clickable, so
@@ -75,8 +83,8 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
   // child's outline. The padding gives the ring room to bleed inside the clip box;
   // the matching negative margin cancels it from layout, so spacing is unchanged.
   const clip = cn(
-    'overflow-hidden group-focus-within/reveal:pointer-events-auto flex items-center p-2 -m-2',
-    revealed ? 'pointer-events-auto' : 'pointer-events-none',
+    'overflow-hidden flex items-center p-2 -m-2',
+    revealed || navFocused ? 'pointer-events-auto' : 'pointer-events-none',
   )
 
   // The hamburger mirrors the brand/links: it hides while the hero's own nav copy is
@@ -88,11 +96,32 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
   // a parked-but-laid-out box was the empty 58×58 slot shoving Search left.)
   const hamburgerClip = cn(
     'flex items-center p-2 -m-2 pointer-events-auto max-md:translate-x-2',
-    revealed ? 'md:flex' : 'md:hidden group-focus-within/reveal:flex',
+    revealed || navFocused ? 'md:flex' : 'md:hidden',
   )
 
+  // Reveal on keyboard focus, but only when it lands on a hidden nav item — not on
+  // the Search trigger (`data-nav-search`), whose focus must not reflow the row.
+  // React focus/blur bubble; blur checks the whole row so intra-row tabs don't flicker.
+  const onRowFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement
+    // The search palette is portaled to <body> but is a React child of this row, so
+    // its focus events (e.g. the input focusing on open) bubble here through the React
+    // tree even though their DOM lives outside the row. Ignore anything not a real DOM
+    // descendant — otherwise opening the palette would wrongly reveal the nav.
+    if (!e.currentTarget.contains(target)) return
+    if (target.closest('[data-nav-search]')) return
+    setNavFocused(true)
+  }
+  const onRowBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setNavFocused(false)
+  }
+
   return (
-    <div className="group/reveal flex w-full items-center justify-between gap-6">
+    <div
+      className="flex w-full items-center justify-between gap-6"
+      onFocus={onRowFocus}
+      onBlur={onRowBlur}
+    >
       <div className={clip}>
         <Brand className={reveal(0)} />
       </div>
@@ -109,7 +138,11 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
             activeLinkClassName="text-foreground underline decoration-primary underline-offset-4"
           />
         </div>
-        {search}
+        {/* `display:contents` marker (layout-neutral) so the focus handler can tell
+            the always-visible Search trigger apart from the hidden nav items. */}
+        <span data-nav-search className="contents">
+          {search}
+        </span>
         {/* Hamburger — the mobile equivalent of the links, to the RIGHT of Search.
             It shares the links' reveal (hidden over the hero's own nav copy, revealed
             once it scrolls away) and opens the same anchors as a full-screen panel. */}

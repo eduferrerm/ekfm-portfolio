@@ -240,7 +240,9 @@ export function LandingSectionBand({
         <h2 className="text-header tracking-tight text-muted-foreground">{section?.heading}</h2>
         {section?.subheader && <p className="mt-3 max-w-2xl text-lead">{section.subheader}</p>}
 
-        <div className="mt-10 grid gap-10">
+        {/* grid-cols-1 pins the column to minmax(0,1fr) so the full-bleed 100vw
+            shelf below can't stretch the track and drag the Dive-into list wide. */}
+        <div className="mt-10 grid grid-cols-1 gap-10">
           {diveItems.length > 0 && (
             <div>
               {section?.diveInto?.subheader && <BandLabel>{section.diveInto.subheader}</BandLabel>}
@@ -248,7 +250,19 @@ export function LandingSectionBand({
             </div>
           )}
           {cards.length > 0 && (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            // A horizontally scrolling shelf of fixed-width cards at every
+            // breakpoint (no grid), so the card width is fully controlled by the
+            // card itself. Full-bleed to the viewport, not just past the Container
+            // gutter: `w-screen` + `ml-[calc((100%-100vw)/2)]` pins the shelf's
+            // left edge to the viewport edge (100% resolves against the container
+            // column P, which is centered), and a matching `px-[calc((100vw-100%)/2)]`
+            // re-insets the first/last card to line up with the column — so the
+            // first card sits under the heading while cards scroll edge to edge.
+            // `py-2` gives the focus ring room the overflow-x (which forces
+            // overflow-y) would otherwise clip; `items-start` stops flex from
+            // stretching cards to the tallest sibling, which would override each
+            // card's 3:4 ratio. Scrollbar hidden (the affordance is the peeking card).
+            <div className="w-screen ml-[calc((100%_-_100vw)/2)] flex items-start gap-6 overflow-x-auto px-[calc((100vw_-_100%)/2)] py-2 scroll-px-[calc((100vw_-_100%)/2)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {cards.map((card, i) => (
                 <LandingCard key={`${card.href}-${i}`} card={card} ctaLabel={ctaLabel} />
               ))}
