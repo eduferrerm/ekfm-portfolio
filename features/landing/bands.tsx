@@ -262,7 +262,7 @@ export function LandingSectionBand({
             // overflow-y) would otherwise clip; `items-start` stops flex from
             // stretching cards to the tallest sibling, which would override each
             // card's 3:4 ratio. Scrollbar hidden (the affordance is the peeking card).
-            <div className="w-screen ml-[calc((100%_-_100vw)/2)] flex items-start gap-6 overflow-x-auto px-[calc((100vw_-_100%)/2)] py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="w-screen ml-[calc((100%_-_100vw)/2)] flex items-start gap-6 overflow-x-auto px-[calc((100vw_-_100%)/2)] py-2 scroll-px-[calc((100vw_-_100%)/2)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {cards.map((card, i) => (
                 <LandingCard key={`${card.href}-${i}`} card={card} ctaLabel={ctaLabel} />
               ))}
