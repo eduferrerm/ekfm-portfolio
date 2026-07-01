@@ -9,7 +9,13 @@
 
 ## Status
 
-_Last updated: 2026-06-26 (IA refinement complete — all four slices landed)._
+_Last updated: 2026-07-01 (**🚀 LAUNCHED** — live at [ekfm.dev](https://ekfm.dev))._
+
+**LAUNCHED 2026-07-01.** Prod is live on its own Railway DB (`ekfm-portfolio-prod`),
+served from `main` via Vercel at **ekfm.dev** (public; `*.vercel.app` URLs stay behind Vercel
+Authentication). The clone → `0001` baseline → `development`→`main` sequence below executed
+top-to-bottom; execution notes + the one surprise (a `main`/`development` divergence) are
+recorded under "Launch execution notes" at the bottom of this file.
 
 **Phases 1–6 (Foundations → Search palette): COMPLETE.** All merged to `development`
 (latest: PR #7 search). Build logs pruned 2026-06-18 — see git history + CLAUDE.md for the
@@ -34,7 +40,7 @@ re-attached in admin (its scope tag "Conceptual Direction" now exists in the tax
 
 ---
 
-## Branch & deploy strategy (LOCKED — not yet executed)
+## Branch & deploy strategy (EXECUTED 2026-07-01 — launched)
 
 `main` auto-deploys to prod on Vercel → `main` = _release_ branch. `development` = staging
 trunk (auth-locked / password-protected deployed env).
@@ -58,7 +64,7 @@ trunk (auth-locked / password-protected deployed env).
 
 ---
 
-## Launch checklist (live — execute top-to-bottom)
+## Launch checklist (✅ COMPLETE 2026-07-01 — execution recap in "Launch execution notes")
 
 > Ordered so the one blocker and all prerequisites land before the irreversible steps.
 > Dependency chain that matters: **migrate wrapper → test it → snapshot `0001`**. The wrapper
@@ -237,3 +243,46 @@ risked semantic collision. No code change.
 - `pg` isn't hoisted under pnpm → introspect via the explicit `.pnpm/pg@<ver>/…` path.
 - After any field change: `pnpm generate:types && pnpm generate:importmap` (Node 24 / tsx scripts).
 - `scripts/push-schema.mts` only handles non-prompting (additive) pushes; needs `--env-file=.env.local`.
+
+---
+
+## Launch execution notes (2026-07-01)
+
+What actually happened when the checklist above ran, and the one thing that wasn't on it.
+
+- **Clone = `pg_dump` + restore (not a Railway fork).** No local Postgres tooling existed →
+  `brew install libpq` (keg-only, `/opt/homebrew/opt/libpq/bin`), then
+  `pg_dump --no-owner --no-privileges --format=custom` from staging → `pg_restore` into an
+  **empty** new `ekfm-portfolio-prod` Postgres. **Verified** by per-table `COUNT(*)` diff:
+  36 tables / 989 rows identical staging↔prod. Recipe + conn details → RUNBOOK CLONE-MECHANISM.
+- **`0001` baseline recorded, not run.** The clone carried the dev-push schema **and** the
+  `payload_migrations(name='dev', batch=-1)` sentinel, so running `0001`'s `up()` would have
+  re-created existing tables. Baselined instead: dropped the `dev` row, inserted
+  `('20260701_163737_initial', batch 1)`; `migrate:status` → `Ran: Yes`. Detail → RUNBOOK
+  MIGRATION-GAP.
+- **⚠️ Surprise caught: `main` had diverged from `development`.** `main` carried 5 commits not on
+  `development` — PRs **#48/#49 (design-system SSOT)**, merged to `main` by mistake **before
+  `development` was made the default branch**. Their content was already superseded on
+  `development` (newer `globals.css` / `tokens.generated.ts`). Fix: **hard-reset `main` →
+  `origin/development` + force-push** so `main` is byte-identical to the (dry-run-verified)
+  `development` tree; the stale commits are gone from `main`'s history. **Invariant reaffirmed:
+  `main` must always equal `development` at release; every PR targets `development` only.**
+- **Dry run = local prod build against the prod DB.** `NODE_ENV=production` +
+  `.env.production.local` overriding `DATABASE_URL`/`NEXT_PUBLIC_PAYLOAD_URL` → `next build`
+  generated all 40 pages from prod data before `main` was touched. High-confidence gate; the
+  real Vercel prod build then matched.
+- **Vercel env vars are per-environment.** `DATABASE_URL` and `NEXT_PUBLIC_PAYLOAD_URL` each
+  have **two** entries — Preview (staging) + Production (prod / `https://ekfm.dev`) — same key,
+  non-overlapping environments (Vercel keys on name+env). The reused vars (`PAYLOAD_SECRET`,
+  both `POSTHOG`) were simply extended to Production. Blob vars came via connecting the store to
+  the Production env. Function region set to **`fra1`** (nearest Vercel region to the Amsterdam
+  prod DB). Blob-token / deploy-protection footguns → RUNBOOK.
+- **Cost guards.** Vercel = Hobby (no overage billing — can't be surprise-billed); Railway =
+  Hobby with a **$20 compute cap** (pauses at ceiling); the prod fork ~doubles DB compute from
+  ~$0.15 → ~$0.30/mo, far under the cap.
+
+### Post-launch follow-ups (browser-side, owner)
+
+- [ ] Confirm search (`Cmd/Ctrl+K`) returns results on `ekfm.dev`.
+- [ ] PostHog Live Events receiving prod events + **no `ph_` cookie** (cookieless posture).
+- [ ] `ekfm.dev/admin` login + a content edit (exercises prod DB write + blob).
