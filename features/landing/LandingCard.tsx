@@ -26,7 +26,9 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
       interactive
       onFocus={(e) => e.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}
       // Controlled fixed width + `shrink-0` in the scroll shelf at every
-      // breakpoint. `aspect-[3/4]` keeps every card the same 3:4 portrait shape.
+      // breakpoint. `aspect-[3/4]` is the card's minimum height (portrait floor);
+      // the shelf's `items-stretch` grows it to match the tallest sibling, and the
+      // CTA's `mt-auto` keeps itself pinned to the bottom as the card stretches.
       className="group flex aspect-[3/4] flex-col gap-4 w-65 shrink-0 lg:w-82.5"
     >
       <Link href={card.href}>
@@ -43,8 +45,13 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
         </div>
         {card.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {card.tags.map((t) => (
-              <Tag key={t}>{t}</Tag>
+            {/* Below md the card is narrow, so only the first three spotlight tags
+                show; the curated remainder (≤5) unhides from md up. CSS-only so it
+                stays SSG-safe — no media-query hook, no hydration flash. */}
+            {card.tags.map((t, i) => (
+              <Tag key={t} className={i >= 3 ? 'max-md:hidden' : undefined}>
+                {t}
+              </Tag>
             ))}
           </div>
         )}

@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { MenuOverlay } from '@/components/MenuOverlay'
 import { scopeFromPath } from '@/lib/routes'
@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 
 import { Brand } from './Brand'
 import { NavList, type NavItem } from './NavList'
-import { HERO_NAV_SELECTOR, STAGGER_DELAYS } from './navReveal'
+import { STAGGER_DELAYS } from './navReveal'
 import { useActiveSection } from './useActiveSection'
 
 /**
@@ -33,9 +33,25 @@ import { useActiveSection } from './useActiveSection'
  * a click's pointerdown and pointerup — shifting Search out from under the pointer
  * so the browser drops the `click` and the palette never opens on the first press.
  * So we reveal only when focus lands on a hidden nav item, not on Search.
+ *
+ * `revealed` (scrolled past the hero) is owned by `LandingNav` via
+ * `useRevealedPastHero` and passed in, so the bar background and this row share one
+ * observer.
  */
-export function StickyNavReveal({ items, search }: { items: NavItem[]; search: ReactNode }) {
-  const [revealed, setRevealed] = useState(false)
+export function StickyNavReveal({
+  items,
+  search,
+  drawerSearch,
+  revealed,
+}: {
+  items: NavItem[]
+  /** The top-bar Search trigger — hidden below md, where the drawer carries it. */
+  search: ReactNode
+  /** The below-md Search twin, rendered inside the hamburger drawer's bottom slot. */
+  drawerSearch: ReactNode
+  /** Whether the hero has scrolled away — drives the brand/links stagger reveal. */
+  revealed: boolean
+}) {
   // Keyboard reveal: true while focus is on one of the hidden nav items (brand /
   // links / hamburger) — but NOT on the always-visible Search trigger (see above).
   const [navFocused, setNavFocused] = useState(false)
@@ -43,24 +59,6 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
   // The overlay logo links home in-scope: `/` on the canonical site, the visitor's
   // own landing under `/dear/[company]` (recovered client-side from the path).
   const scope = scopeFromPath(usePathname())
-
-  useEffect(() => {
-    const sentinel = document.querySelector(HERO_NAV_SELECTOR)
-    if (!sentinel) return
-    // The in-hero copy can only ever leave through the TOP (it sits at the top of
-    // the page), so "not intersecting the inset viewport" == "scrolled above the
-    // sticky bar" — reveal then. Don't also gate on boundingClientRect.top < 0: the
-    // copy stops intersecting the moment its BOTTOM clears the rootMargin line, when
-    // its top is still positive, so that guard dropped the single crossing callback
-    // on slow scrolls and the nav never rendered.
-    const observer = new IntersectionObserver(
-      ([entry]) => setRevealed(!entry.isIntersecting),
-      // Trigger as the in-hero copy meets the sticky bar, not the viewport edge.
-      { rootMargin: '-56px 0px 0px 0px' },
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [])
 
   /**
    * Reveal + stagger classes for sequence slot `seq` (brand is 0, links follow).
@@ -139,15 +137,17 @@ export function StickyNavReveal({ items, search }: { items: NavItem[]; search: R
           />
         </div>
         {/* `display:contents` marker (layout-neutral) so the focus handler can tell
-            the always-visible Search trigger apart from the hidden nav items. */}
-        <span data-nav-search className="contents">
+            the Search trigger apart from the hidden nav items. Below md the bar
+            trigger hides (the drawer carries it); the instance stays mounted so it
+            still owns Cmd/Ctrl+K there. */}
+        <span data-nav-search className="hidden md:contents">
           {search}
         </span>
         {/* Hamburger — the mobile equivalent of the links, to the RIGHT of Search.
             It shares the links' reveal (hidden over the hero's own nav copy, revealed
             once it scrolls away) and opens the same anchors as a full-screen panel. */}
         <div className={cn(hamburgerClip, 'lg:hidden')}>
-          <MenuOverlay id="landing-mobile-menu" home={{ href: scope || '/' }}>
+          <MenuOverlay id="landing-mobile-menu" home={{ href: scope || '/' }} search={drawerSearch}>
             <NavList
               items={items}
               className="flex flex-col gap-5"

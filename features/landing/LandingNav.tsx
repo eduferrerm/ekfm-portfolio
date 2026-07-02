@@ -1,10 +1,14 @@
+'use client'
+
 import { Container } from '@/components/Container'
 import { SearchPalette } from '@/features/search-palette/SearchPalette'
 import type { VisitorSearchContext } from '@/features/search-palette/types'
 import type { SearchDocument } from '@/lib/search/types'
+import { cn } from '@/lib/utils'
 
 import { StickyNavReveal } from './StickyNavReveal'
 import type { NavItem } from './NavList'
+import { useRevealedPastHero } from './useRevealedPastHero'
 
 /**
  * Persistent landing nav — the single canonical `<nav>` landmark. Sticky; the
@@ -17,6 +21,10 @@ import type { NavItem } from './NavList'
  *
  * Anchors derive from the Landing global's section `navLabel`s (slugified
  * upstream), so the nav, the band ids, and the search docs all stay in sync.
+ *
+ * The bar is transparent over the hero (it reads as part of the hero) and fades to
+ * the translucent, blurred, hairline-bordered chrome once the hero scrolls away —
+ * driven by the same `revealed` flag as the brand/links reveal.
  */
 export function LandingNav({
   items,
@@ -27,19 +35,39 @@ export function LandingNav({
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
 }) {
+  const revealed = useRevealedPastHero()
+
   return (
     <nav
       aria-label="Primary"
-      className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur h-(--header-h) flex items-center"
+      className={cn(
+        'sticky top-0 z-40 h-(--header-h) flex items-center border-b transition-colors duration-200',
+        // Over the hero: fully transparent (border colour carried but invisible so
+        // the row height never shifts). Past it: the translucent blurred bar.
+        revealed
+          ? 'border-border/60 bg-background/80 backdrop-blur'
+          : 'border-transparent bg-transparent',
+      )}
     >
       <Container className="flex items-center py-3">
         <StickyNavReveal
+          revealed={revealed}
           items={items}
           search={
             <SearchPalette
               documents={documents}
               visitorSearch={visitorSearch}
               overlayAlign="container"
+            />
+          }
+          // Below-md twin that lives in the hamburger drawer; the bar instance above
+          // keeps the global Cmd/Ctrl+K, so this one opts out to avoid a double toggle.
+          drawerSearch={
+            <SearchPalette
+              documents={documents}
+              visitorSearch={visitorSearch}
+              overlayAlign="container"
+              enableGlobalShortcut={false}
             />
           }
         />
