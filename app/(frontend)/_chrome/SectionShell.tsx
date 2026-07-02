@@ -73,13 +73,28 @@ export function SectionShell({
         <Container className="flex h-(--header-h) items-center">
           <Brand href={home?.href ?? '/'} className={layout.railHidden} />
           <div className="ml-auto flex items-center gap-2">
-            <SearchPalette
-              documents={documents}
-              visitorSearch={visitorSearch}
-              overlayAlign="container"
-            />
+            {/* Bar Search — hidden below md, where the hamburger drawer carries it;
+                the instance stays mounted so it keeps owning Cmd/Ctrl+K there. */}
+            <div className="hidden md:block">
+              <SearchPalette
+                documents={documents}
+                visitorSearch={visitorSearch}
+                overlayAlign="container"
+              />
+            </div>
             <div className={layout.railHidden}>
-              <MenuOverlay id="section-mobile-menu" home={home}>
+              <MenuOverlay
+                id="section-mobile-menu"
+                home={home}
+                search={
+                  <SearchPalette
+                    documents={documents}
+                    visitorSearch={visitorSearch}
+                    overlayAlign="container"
+                    enableGlobalShortcut={false}
+                  />
+                }
+              >
                 <SiteNav
                   active={active}
                   sections={sections}

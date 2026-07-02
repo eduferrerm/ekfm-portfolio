@@ -41,6 +41,7 @@ export function SearchPalette({
   visitorSearch,
   placeholder = 'Search',
   overlayAlign = 'edge',
+  enableGlobalShortcut = true,
 }: {
   documents: SearchDocument[]
   visitorSearch?: VisitorSearchContext | null
@@ -52,6 +53,13 @@ export function SearchPalette({
    * viewport edge for a trigger that sits at the edge.
    */
   overlayAlign?: 'container' | 'edge'
+  /**
+   * Whether this instance binds the global Cmd/Ctrl+K toggle. Below md the trigger
+   * is duplicated — one in the top bar, one inside the hamburger drawer — so only
+   * the always-mounted bar instance owns the shortcut; the drawer twin passes
+   * false so a keypress doesn't toggle both overlays at once.
+   */
+  enableGlobalShortcut?: boolean
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -71,8 +79,9 @@ export function SearchPalette({
   // createPortal needs document — only after mount.
   useEffect(() => setMounted(true), [])
 
-  // Global toggle shortcut.
+  // Global toggle shortcut (only the bar instance binds it — see enableGlobalShortcut).
   useEffect(() => {
+    if (!enableGlobalShortcut) return
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault()
@@ -81,7 +90,7 @@ export function SearchPalette({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [enableGlobalShortcut])
 
   // Focus on open; reset query/facet/selection on close so the next open is fresh.
   useEffect(() => {

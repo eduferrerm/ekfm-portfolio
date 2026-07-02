@@ -259,10 +259,13 @@ export function LandingSectionBand({
             // re-insets the first/last card to line up with the column — so the
             // first card sits under the heading while cards scroll edge to edge.
             // `py-2` gives the focus ring room the overflow-x (which forces
-            // overflow-y) would otherwise clip; `items-start` stops flex from
-            // stretching cards to the tallest sibling, which would override each
-            // card's 3:4 ratio. Scrollbar hidden (the affordance is the peeking card).
-            <div className="w-screen ml-[calc((100%_-_100vw)/2)] flex items-start gap-6 overflow-x-auto px-[calc((100vw_-_100%)/2)] py-2 scroll-px-[calc((100vw_-_100%)/2)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            // overflow-y) would otherwise clip; `items-stretch` sizes every card to
+            // the tallest sibling — content that outgrows a card's 3:4 box (a long
+            // title, a 4th/5th tag row) would otherwise leave the shelf ragged. The
+            // card's `aspect-[3/4]` stays as the minimum floor (its unstretched size),
+            // so uniform bands keep the portrait shape. Scrollbar hidden (the
+            // affordance is the peeking card).
+            <div className="w-screen ml-[calc((100%_-_100vw)/2)] flex items-stretch gap-6 overflow-x-auto px-[calc((100vw_-_100%)/2)] py-2 scroll-px-[calc((100vw_-_100%)/2)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {cards.map((card, i) => (
                 <LandingCard key={`${card.href}-${i}`} card={card} ctaLabel={ctaLabel} />
               ))}
