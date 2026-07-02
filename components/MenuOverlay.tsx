@@ -28,6 +28,7 @@ export function MenuOverlay({
   id,
   children,
   home,
+  search,
   triggerClassName,
 }: {
   id: string
@@ -35,6 +36,12 @@ export function MenuOverlay({
   children: ReactNode
   /** Home link for the overlay's EKFM mark (visitor scope passes its landing). */
   home?: { href: string } | null
+  /**
+   * Below md the Search trigger moves out of the top bar and lives here, pinned to
+   * the drawer's bottom-right (hidden from md up, where the bar carries it). It sits
+   * OUTSIDE the tap-to-dismiss body so opening search doesn't unmount the drawer.
+   */
+  search?: ReactNode
   /** Extra classes for the hamburger trigger (e.g. the landing reveal stagger). */
   triggerClassName?: string
 }) {
@@ -84,7 +91,7 @@ export function MenuOverlay({
             // Full-height sheet on phones; from tablet up it's a drawer that hugs
             // its content (height = content, capped to the viewport so long menus
             // still scroll), with a bottom edge to read as a panel over the page.
-            className="fixed inset-x-0 top-0 z-50 h-dvh max-h-dvh overflow-y-auto bg-sunken md:h-auto md:border-b md:border-border"
+            className="fixed inset-x-0 top-0 z-50 flex h-dvh max-h-dvh flex-col overflow-y-auto bg-sunken md:h-auto md:border-b md:border-border"
           >
           <Container className="flex h-(--header-h) items-center justify-between">
             <Brand href={home?.href ?? '/'} />
@@ -105,6 +112,14 @@ export function MenuOverlay({
               {children}
             </div>
           </Container>
+          {/* Below-md Search slot, pinned bottom-right (`mt-auto` in the flex column).
+              Not inside the tap-to-dismiss body above: opening search must NOT close
+              the drawer, or the drawer (and this instance) would unmount mid-open. */}
+          {search && (
+            <Container className="mt-auto flex justify-end pb-12 pt-6 md:hidden">
+              {search}
+            </Container>
+          )}
           </div>,
           document.body,
         )}

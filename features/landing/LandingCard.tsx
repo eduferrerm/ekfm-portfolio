@@ -43,8 +43,13 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
         </div>
         {card.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {card.tags.map((t) => (
-              <Tag key={t}>{t}</Tag>
+            {/* Below md the card is narrow, so only the first three spotlight tags
+                show; the curated remainder (≤5) unhides from md up. CSS-only so it
+                stays SSG-safe — no media-query hook, no hydration flash. */}
+            {card.tags.map((t, i) => (
+              <Tag key={t} className={i >= 3 ? 'max-md:hidden' : undefined}>
+                {t}
+              </Tag>
             ))}
           </div>
         )}
