@@ -75,6 +75,7 @@ export function SearchPalette({
 
   const inputRef = useRef<HTMLInputElement>(null)
   const activeRowRef = useRef<HTMLButtonElement>(null)
+  const resultsGridRef = useRef<HTMLDivElement>(null)
 
   // createPortal needs document — only after mount.
   useEffect(() => setMounted(true), [])
@@ -192,6 +193,23 @@ export function SearchPalette({
     inputRef.current?.focus()
   }, [])
 
+  // Results render as a responsive grid (1 col on mobile, 2 at sm+), so the flat
+  // activeIndex maps to a 2D layout. Measure the live column count by grouping
+  // the rendered cards by offsetTop — robust across the breakpoint and any future
+  // column change, unlike hard-coding the `sm` width. Up/Down then step a full
+  // row (±columns) and Left/Right step within a row (±1), all clamped to bounds.
+  const getColumns = useCallback(() => {
+    const cards = resultsGridRef.current?.children
+    if (!cards || cards.length < 2) return 1
+    const firstTop = (cards[0] as HTMLElement).offsetTop
+    let cols = 1
+    for (let i = 1; i < cards.length; i++) {
+      if ((cards[i] as HTMLElement).offsetTop !== firstTop) break
+      cols++
+    }
+    return cols
+  }, [])
+
   const onPanelKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault()
@@ -199,10 +217,17 @@ export function SearchPalette({
       return
     }
     if (!isQuerying || results.length === 0) return
+    const last = results.length - 1
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setActiveIndex((i) => Math.min(i + 1, results.length - 1))
+      setActiveIndex((i) => Math.min(i + getColumns(), last))
     } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex((i) => Math.max(i - getColumns(), 0))
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      setActiveIndex((i) => Math.min(i + 1, last))
+    } else if (e.key === 'ArrowLeft') {
       e.preventDefault()
       setActiveIndex((i) => Math.max(i - 1, 0))
     } else if (e.key === 'Enter') {
@@ -273,7 +298,7 @@ export function SearchPalette({
               {results.length === 0 ? (
                 <p className="mt-2 text-body text-muted-foreground">No results for “{trimmed}”.</p>
               ) : (
-                <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                <div ref={resultsGridRef} className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
                   {results.map((doc, i) => (
                     <MetaCard
                       key={doc.id}
