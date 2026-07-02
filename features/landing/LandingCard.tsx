@@ -26,7 +26,9 @@ export function LandingCard({ card, ctaLabel }: { card: LandingCardData; ctaLabe
       interactive
       onFocus={(e) => e.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}
       // Controlled fixed width + `shrink-0` in the scroll shelf at every
-      // breakpoint. `aspect-[3/4]` keeps every card the same 3:4 portrait shape.
+      // breakpoint. `aspect-[3/4]` is the card's minimum height (portrait floor);
+      // the shelf's `items-stretch` grows it to match the tallest sibling, and the
+      // CTA's `mt-auto` keeps itself pinned to the bottom as the card stretches.
       className="group flex aspect-[3/4] flex-col gap-4 w-65 shrink-0 lg:w-82.5"
     >
       <Link href={card.href}>
