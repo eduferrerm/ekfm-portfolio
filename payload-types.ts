@@ -368,6 +368,10 @@ export interface Visitor {
    */
   slug: string;
   /**
+   * When off, /dear/[company] redirects to the main site (ekfm.dev).
+   */
+  active?: boolean | null;
+  /**
    * Company avatar for the welcome banner + card.
    */
   companyLogo?: (number | null) | Media;
@@ -622,6 +626,7 @@ export interface VisitorsSelect<T extends boolean = true> {
   company?: T;
   role?: T;
   slug?: T;
+  active?: T;
   companyLogo?: T;
   jobPostUrl?: T;
   expectations?:

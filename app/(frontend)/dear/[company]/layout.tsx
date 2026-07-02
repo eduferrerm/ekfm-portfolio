@@ -18,16 +18,21 @@ type Args = {
 
 /**
  * Guard + scope root for the visitor mirror (`/dear/[company]/...`). Validates the
- * company once for the entire subtree — an unknown company redirects to the
- * canonical site (`/`) before any scoped page renders, so a mistyped or unseeded
- * link shows the non-personalized portfolio instead of dead-ending, and non-visitors
- * can't browse a half-personalized site. The visitor fetch is React.cache()-deduped,
- * so the landing + section layouts that also read it share this one query.
+ * company once for the entire subtree — an unknown OR deactivated company redirects
+ * to the canonical site (`/`) before any scoped page renders, so a mistyped, unseeded,
+ * or retired link shows the non-personalized portfolio instead of dead-ending, and
+ * non-visitors can't browse a half-personalized site. `active === false` (not
+ * `!active`) is deliberate: only an explicit opt-out deactivates, so a row whose
+ * value is null/undefined (never toggled) stays live. NB: the `active` column must
+ * exist in prod BEFORE this code deploys — the build prerenders each mirror and
+ * would query a missing column (apply the migration first; see the release steps).
+ * The visitor fetch is React.cache()-deduped, so the landing + section layouts that
+ * also read it share this one query.
  */
 export default async function DearLayout({ params, children }: Args) {
   const { company } = await params
   const visitor = await visitorBySlug(company)
-  if (!visitor) redirect('/')
+  if (!visitor || visitor.active === false) redirect('/')
   return (
     <>
       {/* Fires once when a visitor enters the /dear/[company] subtree. */}

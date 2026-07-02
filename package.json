@@ -32,7 +32,9 @@
     "migrate:down": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:down",
     "migrate:refresh": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:refresh",
     "migrate:reset": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:reset",
-    "migrate:fresh": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:fresh"
+    "migrate:fresh": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:fresh",
+    "migrate:status:prod": "node --env-file=.env.prod.local --import tsx/esm scripts/migrate.mts migrate:status",
+    "migrate:prod": "node --env-file=.env.prod.local --import tsx/esm scripts/migrate.mts migrate"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.85.1",

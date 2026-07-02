@@ -66,6 +66,21 @@ export const Visitors: CollectionConfig = {
       },
     },
     {
+      // Kill switch for the mirror. When off, /dear/[company] (and its whole
+      // subtree) redirects to the canonical site — used to retire a route once
+      // the owner falls out of that company's funnel, without deleting the doc
+      // (so it can be re-activated). Defaults on so existing visitors stay live.
+      // Gated in app/(frontend)/dear/[company]/layout.tsx and excluded from
+      // generateStaticParams (features/visitor/queries.allVisitorSlugs).
+      name: 'active',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'When off, /dear/[company] redirects to the main site (ekfm.dev).',
+      },
+    },
+    {
       // Company mark shown as the avatar in the welcome banner + Expectations
       // card. Bytes live in Media / Vercel Blob; this stores only the FK.
       name: 'companyLogo',
