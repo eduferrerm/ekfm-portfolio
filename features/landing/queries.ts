@@ -62,6 +62,7 @@ export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
+    where: PUBLISHED_ONLY,
     sort: 'order',
     limit: 1000,
     depth: 1,

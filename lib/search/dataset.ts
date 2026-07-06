@@ -21,8 +21,8 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
   const payload = await getPayload({ config })
 
   const [portfolio, experience, landing] = await Promise.all([
-    payload.find({ collection: 'portfolio', limit: 1000, depth: 1 }),
-    // Published-only: a draft role must never enter the client search corpus.
+    // Published-only: a draft piece/role must never enter the client search corpus.
+    payload.find({ collection: 'portfolio', where: PUBLISHED_ONLY, limit: 1000, depth: 1 }),
     payload.find({ collection: 'experience', where: PUBLISHED_ONLY, limit: 1000, depth: 1 }),
     // Keyword docs were dropped from the corpus in Phase 6 (Open #6): they had
     // no real destination once the navigational `target` mechanism was retired,

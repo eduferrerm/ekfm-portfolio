@@ -33,14 +33,14 @@ export function resolveContentRefs(refs?: ContentRef[] | null, scope = ''): Reso
       if (ref.relationTo === 'portfolio') {
         const value = ref.value
         if (typeof value !== 'object' || !value || !value.slug) return null
+        // Skip an unpublished piece: a draft portfolio ref must not surface as a
+        // public card (Portfolio has drafts; depth>=1 populates `_status`).
+        if (value._status === 'draft') return null
         return { relationTo: 'portfolio', doc: value, href: portfolioHref(value.slug, scope) }
       }
       const value = ref.value
       if (typeof value !== 'object' || !value || !value.slug) return null
-      // Skip an unpublished role: a draft experience referenced by a visitor's
-      // relevantContent must not surface as a public card (Experience has drafts;
-      // depth>=1 populates `_status`). Portfolio has no drafts yet, so its branch
-      // needs no such guard.
+      // Same for an unpublished role (Experience has drafts).
       if (value._status === 'draft') return null
       return { relationTo: 'experience', doc: value, href: experienceHref(value.slug, scope) }
     })
