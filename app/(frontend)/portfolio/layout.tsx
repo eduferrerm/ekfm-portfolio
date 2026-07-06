@@ -1,5 +1,6 @@
 import { sectionNav } from '@/features/landing/queries'
 import { portfolioNavItems } from '@/features/portfolio/queries'
+import { isPreview } from '@/lib/preview'
 import { buildSearchDataset } from '@/lib/search/dataset'
 
 import { SectionShell } from '../_chrome/SectionShell'
@@ -12,9 +13,10 @@ import { SectionShell } from '../_chrome/SectionShell'
  * in the URL (e.g. ?decision=) — read it in the child routes, not here.
  */
 export default async function PortfolioLayout({ children }: { children: React.ReactNode }) {
+  const draft = await isPreview()
   const [sections, items, documents] = await Promise.all([
     sectionNav(),
-    portfolioNavItems(),
+    portfolioNavItems('', { draft }),
     buildSearchDataset(),
   ])
 

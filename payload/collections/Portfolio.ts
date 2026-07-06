@@ -11,7 +11,21 @@ export const Portfolio: CollectionConfig = {
   slug: 'portfolio',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'eyebrow', 'slug', 'order', 'updatedAt'],
+    defaultColumns: ['title', 'eyebrow', 'slug', 'order', '_status'],
+    // "Preview" button → /preview (enables draft mode for an authenticated admin,
+    // then redirects), so a draft piece renders in the real detail page before
+    // it's published. Mirrors Experience. Null until the slug exists.
+    preview: (doc) =>
+      typeof doc?.slug === 'string'
+        ? `/preview?path=${encodeURIComponent(`/portfolio/${doc.slug}`)}`
+        : null,
+  },
+  // Draft/publish (mirrors Experience): a save is no longer an instant publish.
+  // Unpublished pieces (and unpublished edits to a live piece) stay off the
+  // public site until published, visible only via the Preview button / draft
+  // mode. Public reads gate on `_status = published` (see lib/preview).
+  versions: {
+    drafts: true,
   },
   access: {
     read: anyone,
@@ -21,8 +35,16 @@ export const Portfolio: CollectionConfig = {
   },
   hooks: {
     // A piece feeds its detail page (+ scoped twin), the landing cards, and the
-    // search corpus, so an edit revalidates the whole tree on demand.
-    afterChange: [() => revalidateSite()],
+    // search corpus, so a publish revalidates the whole tree on demand. With
+    // drafts, gate on published state so draft-only saves don't churn the public
+    // cache (fires on publish, edits to a live piece, and unpublish).
+    afterChange: [
+      ({ doc, previousDoc }) => {
+        if (doc._status === 'published' || previousDoc?._status === 'published') {
+          revalidateSite()
+        }
+      },
+    ],
   },
   fields: [
     {

@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 
 import { firstPortfolioSlug } from '@/features/portfolio/queries'
+import { isPreview } from '@/lib/preview'
 
 // ISR: daily backstop; publishes revalidate on demand (revalidateSite).
 export const revalidate = 86400
@@ -11,7 +12,7 @@ export const revalidate = 86400
  * piece (lowest `order`).
  */
 export default async function PortfolioIndex() {
-  const slug = await firstPortfolioSlug()
+  const slug = await firstPortfolioSlug({ draft: await isPreview() })
   if (!slug) notFound()
   redirect(`/portfolio/${slug}`)
 }
