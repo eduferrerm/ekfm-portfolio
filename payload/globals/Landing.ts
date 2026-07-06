@@ -65,14 +65,42 @@ const landingSectionGroup = (
 
 export const Landing: GlobalConfig = {
   slug: 'landing',
+  admin: {
+    // "Preview" button → /preview (enables draft mode for an authenticated admin,
+    // then redirects) targeting the homepage. A draft global renders the whole
+    // assembled landing — hero, all band copy, nav, anchors, section order — from
+    // the working draft before it's published.
+    preview: () => `/preview?path=${encodeURIComponent('/')}`,
+  },
+  // Draft/publish for the homepage. Unlike the collections there is no `_status`
+  // where-filter (a global is a singleton): a public read is `findGlobal` without
+  // `draft`, preview is `findGlobal({ draft: true })`. The whole homepage renders
+  // from one `landingGlobal(draft)` call (see features/landing), so a single
+  // threaded read makes the previewed page fully coherent. NOTE: draft saves skip
+  // the sections dup-slug/dup-key validation (only enforced on publish), so a
+  // malformed in-progress draft can render odd anchors in preview — publish
+  // re-validates. Inner-page aside nav (sectionNav) + search corpus stay
+  // published-only, so a draft that renames/adds a section shows in the previewed
+  // homepage but not yet in those secondary surfaces until published.
+  versions: {
+    drafts: true,
+  },
   access: {
     read: anyone,
     update: authenticated,
   },
   hooks: {
     // Landing copy fans out to `/` AND every /dear/[company] mirror (one shared
-    // RSC), so an edit revalidates the whole tree on demand — not just `/`.
-    afterChange: [() => revalidateSite()],
+    // RSC), so a publish revalidates the whole tree on demand — not just `/`. With
+    // drafts, gate on published state so a draft save doesn't churn the public
+    // cache (fires on publish and on unpublish).
+    afterChange: [
+      ({ doc, previousDoc }) => {
+        if (doc._status === 'published' || previousDoc?._status === 'published') {
+          revalidateSite()
+        }
+      },
+    ],
   },
   fields: [
     {

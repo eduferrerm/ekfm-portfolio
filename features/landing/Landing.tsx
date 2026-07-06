@@ -1,5 +1,6 @@
 import { buildSearchDataset } from '@/lib/search/dataset'
 import { DEAR_COMPANY_ID } from '@/lib/nav'
+import { isPreview } from '@/lib/preview'
 import { dearHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 import type { Visitor, VisitorContent } from '@/payload-types'
@@ -35,8 +36,13 @@ export async function Landing({
   // On a visitor page, scope every internal link to the company's mirror so
   // navigation never falls out of the visitor experience.
   const scope = visitor?.slug ? dearHref(visitor.slug) : ''
+  // Only the Landing GLOBAL is draft-aware here: previewing shows draft homepage
+  // copy/sections. The projected cards + search corpus stay published-only (their
+  // own collections own their publish state), matching the Experience/Portfolio
+  // landing-card decision.
+  const draft = await isPreview()
   const [landing, pCards, eCards, searchDocs, yearsLabel] = await Promise.all([
-    landingGlobal(),
+    landingGlobal({ draft }),
     portfolioCards(scope),
     experienceCards(scope),
     buildSearchDataset(),

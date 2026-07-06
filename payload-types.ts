@@ -834,6 +834,7 @@ export interface Landing {
     ctaLabel?: string | null;
     ctaUrl?: string | null;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -994,6 +995,7 @@ export interface LandingSelect<T extends boolean = true> {
         ctaLabel?: T;
         ctaUrl?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
