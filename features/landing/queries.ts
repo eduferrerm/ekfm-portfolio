@@ -5,6 +5,7 @@ import config from '@payload-config'
 
 import type { Landing } from '@/payload-types'
 import type { NavSectionView } from '@/lib/nav'
+import { PUBLISHED_ONLY } from '@/lib/preview'
 import { scopeHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 import { experienceYears, formatYearsLabel } from '@/lib/yoe'
@@ -69,11 +70,14 @@ export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   return docs.map((d) => portfolioCard(d, scope))
 }
 
-/** Experience landing cards, newest first. */
+/** Experience landing cards, newest first. Published-only: a draft role must not
+ * surface as a card on the public landing (draft preview is scoped to the
+ * experience section in phase 1; the landing adopts drafts in phase 3). */
 export async function experienceCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
+    where: PUBLISHED_ONLY,
     sort: '-startDate',
     limit: 1000,
     depth: 1,
@@ -92,6 +96,7 @@ export async function experienceYearsLabel(): Promise<string> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
+    where: PUBLISHED_ONLY,
     limit: 1000,
     depth: 0,
     select: { startDate: true, endDate: true, current: true },

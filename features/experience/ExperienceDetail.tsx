@@ -6,6 +6,7 @@ import { MediaImage } from '@/components/primitives/MediaImage'
 import { keywordLabels } from '@/lib/keywords'
 import { yearRange } from '@/lib/format'
 import { getSubheaders } from '@/lib/labels'
+import { isPreview } from '@/lib/preview'
 
 import { DeepDive } from './DeepDive'
 import { ShowcaseGallery } from './ShowcaseGallery'
@@ -30,7 +31,13 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  * and the scope/craft keyword labels). notFound() on miss.
  */
 export async function ExperienceDetail({ slug }: { slug: string }) {
-  const [exp, subheaders] = await Promise.all([experienceBySlug(slug), getSubheaders()])
+  // Reading draft mode here (not per-route) means the canonical route AND the
+  // /dear mirror both honour a preview session; a normal visitor gets published.
+  const draft = await isPreview()
+  const [exp, subheaders] = await Promise.all([
+    experienceBySlug(slug, { draft }),
+    getSubheaders(),
+  ])
 
   if (!exp) notFound()
   const labels = subheaders.experience
