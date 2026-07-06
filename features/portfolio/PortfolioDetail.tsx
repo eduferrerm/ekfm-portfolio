@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { List } from '@/components/primitives/List'
 import { keywordLabels } from '@/lib/keywords'
 import { getSubheaders } from '@/lib/labels'
+import { isPreview } from '@/lib/preview'
 import { AnalyticsEvent } from '@/lib/posthog/events'
 import { TrackOnMount } from '@/lib/posthog/TrackOnMount'
 
@@ -28,7 +29,10 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
  * notFound() on miss.
  */
 export async function PortfolioDetail({ slug, scope = '' }: { slug: string; scope?: string }) {
-  const [item, subheaders] = await Promise.all([portfolioBySlug(slug), getSubheaders()])
+  // Reading draft mode here (not per-route) means the canonical route AND the
+  // /dear mirror both honour a preview session; a normal visitor gets published.
+  const draft = await isPreview()
+  const [item, subheaders] = await Promise.all([portfolioBySlug(slug, { draft }), getSubheaders()])
 
   if (!item) notFound()
   const labels = subheaders.portfolio

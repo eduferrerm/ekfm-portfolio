@@ -5,19 +5,26 @@ import config from '@payload-config'
 
 import type { Portfolio } from '@/payload-types'
 import type { NavItem } from '@/lib/nav'
+import { PUBLISHED_ONLY, publishedWhere } from '@/lib/preview'
 
 import { portfolioNavItem } from './projections'
 
 /**
  * Portfolio data-access (Payload Local API, no HTTP hop). The pure view-model
  * mappers live in `./projections`; these only fetch.
+ *
+ * Reads are draft-aware (mirrors Experience): without `draft` they return only
+ * published pieces; with `draft` (the owner previewing, see lib/preview) they
+ * return the working draft. Callers read `isPreview()` and thread it in.
  */
 
 /** All pieces as aside nav sub-items, in display `order`. */
-export async function portfolioNavItems(scope = ''): Promise<NavItem[]> {
+export async function portfolioNavItems(scope = '', { draft = false } = {}): Promise<NavItem[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
+    where: publishedWhere(draft),
+    draft,
     sort: 'order',
     limit: 1000,
     depth: 1,
@@ -31,11 +38,15 @@ export async function portfolioNavItems(scope = ''): Promise<NavItem[]> {
  * AND those related docs' own `thumbnail`/`companyLogo` (a second relation level)
  * so the Relevant content cards render their images instead of the initial.
  */
-export async function portfolioBySlug(slug: string): Promise<Portfolio | null> {
+export async function portfolioBySlug(
+  slug: string,
+  { draft = false } = {},
+): Promise<Portfolio | null> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
-    where: { slug: { equals: slug } },
+    where: publishedWhere(draft, { slug: { equals: slug } }),
+    draft,
     depth: 2,
     limit: 1,
   })
@@ -43,10 +54,12 @@ export async function portfolioBySlug(slug: string): Promise<Portfolio | null> {
 }
 
 /** Slug of the first piece (lowest `order`) — the `/portfolio` redirect target. */
-export async function firstPortfolioSlug(): Promise<string | null> {
+export async function firstPortfolioSlug({ draft = false } = {}): Promise<string | null> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
+    where: publishedWhere(draft),
+    draft,
     sort: 'order',
     limit: 1,
     depth: 0,
@@ -54,11 +67,16 @@ export async function firstPortfolioSlug(): Promise<string | null> {
   return docs[0]?.slug ?? null
 }
 
-/** Every piece's slug — drives `generateStaticParams` so details pre-render at build. */
+/**
+ * Every published piece's slug — drives `generateStaticParams` so details
+ * pre-render at build. Always published-only: a draft piece must never be
+ * pre-rendered into the static tree (it surfaces on demand via draft mode).
+ */
 export async function allPortfolioSlugs(): Promise<string[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
+    where: PUBLISHED_ONLY,
     sort: 'order',
     limit: 1000,
     depth: 0,

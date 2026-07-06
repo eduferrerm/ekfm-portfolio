@@ -270,6 +270,7 @@ export interface Portfolio {
   searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -335,6 +336,7 @@ export interface Experience {
   searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -571,6 +573,7 @@ export interface PortfolioSelect<T extends boolean = true> {
   searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -617,6 +620,7 @@ export interface ExperienceSelect<T extends boolean = true> {
   searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -830,6 +834,7 @@ export interface Landing {
     ctaLabel?: string | null;
     ctaUrl?: string | null;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -990,6 +995,7 @@ export interface LandingSelect<T extends boolean = true> {
         ctaLabel?: T;
         ctaUrl?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

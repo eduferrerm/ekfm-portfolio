@@ -1,5 +1,6 @@
 import { experienceNavItems } from '@/features/experience/queries'
 import { sectionNav } from '@/features/landing/queries'
+import { isPreview } from '@/lib/preview'
 import { buildSearchDataset } from '@/lib/search/dataset'
 
 import { SectionShell } from '../_chrome/SectionShell'
@@ -11,9 +12,10 @@ import { SectionShell } from '../_chrome/SectionShell'
  * remounted across soft-navigations, giving the section its SPA feel.
  */
 export default async function ExperienceLayout({ children }: { children: React.ReactNode }) {
+  const draft = await isPreview()
   const [sections, items, documents] = await Promise.all([
     sectionNav(),
-    experienceNavItems(),
+    experienceNavItems('', { draft }),
     buildSearchDataset(),
   ])
 

@@ -5,6 +5,7 @@ import config from '@payload-config'
 
 import type { Landing } from '@/payload-types'
 import type { NavSectionView } from '@/lib/nav'
+import { PUBLISHED_ONLY } from '@/lib/preview'
 import { scopeHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 import { experienceYears, formatYearsLabel } from '@/lib/yoe'
@@ -16,10 +17,15 @@ import { experienceCard, portfolioCard, sectionNavViews, type LandingCardData } 
  * via `select` then hands the docs to the pure mappers in `./projections`.
  */
 
-/** The Landing global. depth:1 populates hero.craft labels + sections[].searchKeywords. */
-export async function landingGlobal(): Promise<Landing> {
+/**
+ * The Landing global. depth:1 populates hero.craft labels + sections[].searchKeywords.
+ * Draft-aware: without `draft` returns the published homepage; with `draft` (the
+ * owner previewing) returns the working draft. A global has no `_status`
+ * where-filter — `findGlobal` without `draft` already yields published.
+ */
+export async function landingGlobal({ draft = false } = {}): Promise<Landing> {
   const payload = await getPayload({ config })
-  return payload.findGlobal({ slug: 'landing', depth: 1 })
+  return payload.findGlobal({ slug: 'landing', depth: 1, draft })
 }
 
 /**
@@ -61,6 +67,7 @@ export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'portfolio',
+    where: PUBLISHED_ONLY,
     sort: 'order',
     limit: 1000,
     depth: 1,
@@ -69,11 +76,14 @@ export async function portfolioCards(scope = ''): Promise<LandingCardData[]> {
   return docs.map((d) => portfolioCard(d, scope))
 }
 
-/** Experience landing cards, newest first. */
+/** Experience landing cards, newest first. Published-only: a draft role must not
+ * surface as a card on the public landing (draft preview is scoped to the
+ * experience section in phase 1; the landing adopts drafts in phase 3). */
 export async function experienceCards(scope = ''): Promise<LandingCardData[]> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
+    where: PUBLISHED_ONLY,
     sort: '-startDate',
     limit: 1000,
     depth: 1,
@@ -92,6 +102,7 @@ export async function experienceYearsLabel(): Promise<string> {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'experience',
+    where: PUBLISHED_ONLY,
     limit: 1000,
     depth: 0,
     select: { startDate: true, endDate: true, current: true },

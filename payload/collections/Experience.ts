@@ -10,7 +10,21 @@ export const Experience: CollectionConfig = {
   slug: 'experience',
   admin: {
     useAsTitle: 'role',
-    defaultColumns: ['role', 'company', 'startDate', 'current'],
+    defaultColumns: ['role', 'company', 'startDate', '_status'],
+    // "Preview" button → the /preview route (enables draft mode for an
+    // authenticated admin, then redirects), so a draft role renders in the real
+    // detail page + carousel before it's published. Null until the slug exists.
+    preview: (doc) =>
+      typeof doc?.slug === 'string'
+        ? `/preview?path=${encodeURIComponent(`/experience/${doc.slug}`)}`
+        : null,
+  },
+  // Draft/publish: a save is no longer an instant publish. Unpublished roles (and
+  // unpublished edits to a live role) stay off the public site until published,
+  // and are visible only via the Preview button / draft mode. Public reads gate
+  // on `_status = published` (see lib/preview + features/experience/queries).
+  versions: {
+    drafts: true,
   },
   access: {
     read: anyone,
@@ -20,8 +34,17 @@ export const Experience: CollectionConfig = {
   },
   hooks: {
     // A role feeds its detail page (+ scoped twin), the landing cards, and the
-    // search corpus, so an edit revalidates the whole tree on demand.
-    afterChange: [() => revalidateSite()],
+    // search corpus, so a publish revalidates the whole tree on demand. With
+    // drafts, gate on published state: draft-only saves must NOT churn the public
+    // cache. Fires on publish, on edits to an already-live role, and on unpublish
+    // (was published → now draft, so the tree must drop it).
+    afterChange: [
+      ({ doc, previousDoc }) => {
+        if (doc._status === 'published' || previousDoc?._status === 'published') {
+          revalidateSite()
+        }
+      },
+    ],
   },
   fields: [
     {

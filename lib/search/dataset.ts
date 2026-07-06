@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { keywordAliases, keywordLabels } from '@/lib/keywords'
+import { PUBLISHED_ONLY } from '@/lib/preview'
 import { experienceHref, portfolioHref } from '@/lib/routes'
 import { slugify } from '@/lib/slugify'
 
@@ -20,8 +21,9 @@ export async function buildSearchDataset(): Promise<SearchDocument[]> {
   const payload = await getPayload({ config })
 
   const [portfolio, experience, landing] = await Promise.all([
-    payload.find({ collection: 'portfolio', limit: 1000, depth: 1 }),
-    payload.find({ collection: 'experience', limit: 1000, depth: 1 }),
+    // Published-only: a draft piece/role must never enter the client search corpus.
+    payload.find({ collection: 'portfolio', where: PUBLISHED_ONLY, limit: 1000, depth: 1 }),
+    payload.find({ collection: 'experience', where: PUBLISHED_ONLY, limit: 1000, depth: 1 }),
     // Keyword docs were dropped from the corpus in Phase 6 (Open #6): they had
     // no real destination once the navigational `target` mechanism was retired,
     // and a keyword's recall value already folds into the content it tags —
