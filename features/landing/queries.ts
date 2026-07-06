@@ -17,10 +17,15 @@ import { experienceCard, portfolioCard, sectionNavViews, type LandingCardData } 
  * via `select` then hands the docs to the pure mappers in `./projections`.
  */
 
-/** The Landing global. depth:1 populates hero.craft labels + sections[].searchKeywords. */
-export async function landingGlobal(): Promise<Landing> {
+/**
+ * The Landing global. depth:1 populates hero.craft labels + sections[].searchKeywords.
+ * Draft-aware: without `draft` returns the published homepage; with `draft` (the
+ * owner previewing) returns the working draft. A global has no `_status`
+ * where-filter — `findGlobal` without `draft` already yields published.
+ */
+export async function landingGlobal({ draft = false } = {}): Promise<Landing> {
   const payload = await getPayload({ config })
-  return payload.findGlobal({ slug: 'landing', depth: 1 })
+  return payload.findGlobal({ slug: 'landing', depth: 1, draft })
 }
 
 /**
