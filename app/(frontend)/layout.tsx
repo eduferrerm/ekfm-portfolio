@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Roboto, Roboto_Condensed } from 'next/font/google'
 
 import { PostHogProvider } from '@/lib/posthog/provider'
+import { isPreview } from '@/lib/preview'
+import { PreviewBanner } from '@/features/preview/PreviewBanner'
 
 import '../globals.css'
 
@@ -30,11 +32,16 @@ export const metadata: Metadata = {
   description: 'Portfolio of Eduardo Ferrer',
 }
 
-export default function FrontendLayout({ children }: { children: React.ReactNode }) {
+export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
+  // Reading draft mode here does NOT force the site dynamic: Next still statically
+  // generates the draft-disabled (public) branch and only bails to dynamic at
+  // request time when the draft cookie is present (verified via `next build`).
+  const previewing = await isPreview()
   return (
     <html lang="en" className={`${roboto.variable} ${robotoCondensed.variable}`}>
       <body className="antialiased">
         <PostHogProvider>{children}</PostHogProvider>
+        {previewing && <PreviewBanner />}
       </body>
     </html>
   )

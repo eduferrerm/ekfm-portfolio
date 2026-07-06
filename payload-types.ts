@@ -335,6 +335,7 @@ export interface Experience {
   searchKeywords?: (number | Keyword)[] | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -617,6 +618,7 @@ export interface ExperienceSelect<T extends boolean = true> {
   searchKeywords?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

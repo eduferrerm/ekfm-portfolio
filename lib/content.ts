@@ -37,6 +37,11 @@ export function resolveContentRefs(refs?: ContentRef[] | null, scope = ''): Reso
       }
       const value = ref.value
       if (typeof value !== 'object' || !value || !value.slug) return null
+      // Skip an unpublished role: a draft experience referenced by a visitor's
+      // relevantContent must not surface as a public card (Experience has drafts;
+      // depth>=1 populates `_status`). Portfolio has no drafts yet, so its branch
+      // needs no such guard.
+      if (value._status === 'draft') return null
       return { relationTo: 'experience', doc: value, href: experienceHref(value.slug, scope) }
     })
     .filter((ref): ref is ResolvedRef => Boolean(ref))
