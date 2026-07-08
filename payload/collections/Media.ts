@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { revalidateSite } from '../../lib/revalidate'
+import { generateBlurPlaceholder } from './mediaBlurPlaceholder'
 
 /**
  * Upload collection backing all images/files. Storage is delegated to the
@@ -23,6 +24,9 @@ export const Media: CollectionConfig = {
     delete: authenticated,
   },
   hooks: {
+    // Derive the blur LQIP from the uploaded bytes before persisting, so the
+    // data URI is stored alongside the asset (see mediaBlurPlaceholder).
+    beforeChange: [generateBlurPlaceholder],
     // Replacing an asset / editing alt text changes what renders, so revalidate
     // the whole tree on demand. (The referencing doc's own hook also fires when
     // a relation is re-pointed; this covers in-place edits to the asset itself.)
@@ -60,6 +64,16 @@ export const Media: CollectionConfig = {
       required: true,
       admin: {
         description: 'Alternative text for accessibility and SEO.',
+      },
+    },
+    {
+      // Auto-generated base64 LQIP (see beforeChange hook). Feeds next/image
+      // placeholder="blur"; not author-editable and hidden from the admin UI.
+      name: 'blurDataURL',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        hidden: true,
       },
     },
   ],
