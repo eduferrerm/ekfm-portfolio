@@ -17,11 +17,17 @@ import type { ShowcaseItem } from './projections'
  */
 export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
   const [active, setActive] = useState(0)
+  // Track which slide's full image has finished loading. The zoom reveal is
+  // gated on this so it fires on the real asset, not the blur placeholder — on a
+  // slide change `index` moves ahead of `loadedIndex`, dropping the animation
+  // until next/image reports the new image present.
+  const [loadedIndex, setLoadedIndex] = useState<number | null>(null)
 
   if (items.length === 0) return null
 
   const index = Math.min(active, items.length - 1)
   const current = items[index]
+  const loaded = loadedIndex === index
 
   return (
     <div className="flex gap-4 mb-20 flex-col md:flex-row">
@@ -33,7 +39,11 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
         <MediaImage
           key={index}
           media={current.media}
-          className="absolute inset-0 h-full w-full object-cover animate-showcase-zoom"
+          onLoad={() => setLoadedIndex(index)}
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover',
+            loaded && 'animate-showcase-zoom',
+          )}
           sizes="(min-width: 1024px) 60vw, 100vw"
           priority
         />

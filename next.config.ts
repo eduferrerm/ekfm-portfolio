@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
         hostname: '*.public.blob.vercel-storage.com',
       },
     ],
+    // WebP only (not AVIF). AVIF's files are ~20-30% smaller but its cold
+    // optimizer encode is several times slower — and the whole point here is the
+    // FIRST view, where a never-seen variant is encoded on demand. WebP resolves
+    // the crisp image sooner behind the blur placeholder; AVIF's smaller bytes
+    // would only pay off on the already-warm path. Fewer formats also means
+    // fewer variants to warm across the size ladder. (This is Next's default;
+    // pinned explicitly to record the decision.)
+    formats: ['image/webp'],
+    // Blob replaces get a fresh URL (new optimizer key), so a variant is
+    // effectively immutable — hold it in the optimizer cache for a year rather
+    // than re-cooling on the short default TTL and re-paying the cold pass.
+    minimumCacheTTL: 31536000,
   },
   // Reverse-proxy PostHog through this app to reduce adblock loss. The browser
   // talks to /ingest/*; Next rewrites to the PostHog edge. Host is env-driven.
