@@ -30,6 +30,12 @@ export const Visitors: CollectionConfig = {
         await warmVisitor(doc.slug)
       },
     ],
+    // Deleting a visitor retires its whole /dear/[company] mirror — bust the tree
+    // so the scoped subtree drops from cache immediately (the layout guard then
+    // 307s the now-unknown slug to /). No warm on delete: nothing to make hot.
+    // A companyLogo upload is left as an orphan on purpose — the app guards
+    // dangling refs at read time rather than cascading blob deletes.
+    afterDelete: [() => revalidateSite()],
   },
   fields: [
     {
