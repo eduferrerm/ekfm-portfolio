@@ -26,6 +26,8 @@
     "inventory:content": "node --env-file=.env.local --import tsx/esm scripts/inventory-content-keywords.mts",
     "seed:portfolio": "node --env-file=.env.local --import tsx/esm scripts/seed-portfolio.mts",
     "export:portfolio": "node --env-file=.env.local --import tsx/esm scripts/export-portfolio.mts",
+    "backfill:media-blur": "node --env-file=.env.local --import tsx/esm scripts/backfill-media-blur.mts",
+    "backfill:media-blur:prod": "node --env-file=.env.prod.local --import tsx/esm scripts/backfill-media-blur.mts",
     "migrate": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate",
     "migrate:create": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:create",
     "migrate:status": "node --env-file=.env.local --import tsx/esm scripts/migrate.mts migrate:status",
