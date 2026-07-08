@@ -27,6 +27,10 @@ export const Media: CollectionConfig = {
     // the whole tree on demand. (The referencing doc's own hook also fires when
     // a relation is re-pointed; this covers in-place edits to the asset itself.)
     afterChange: [() => revalidateSite()],
+    // Removing an asset changes what renders wherever it was referenced, so bust
+    // the whole tree on delete too. (Referencing docs guard dangling upload refs
+    // at read time; the Blob object itself is not cascaded here.)
+    afterDelete: [() => revalidateSite()],
   },
   upload: {
     // Adapter (Vercel Blob) handles persistence; no local on-disk copies.

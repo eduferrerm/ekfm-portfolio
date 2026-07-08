@@ -28,6 +28,9 @@ export const Keywords: CollectionConfig = {
     // runs outside a request scope — revalidateSite swallows that and the daily
     // backstop covers it.)
     afterChange: [() => revalidateSite()],
+    // A removed keyword drops its pills + search terms across the tree — same
+    // whole-tree bust on delete.
+    afterDelete: [() => revalidateSite()],
   },
   fields: [
     {

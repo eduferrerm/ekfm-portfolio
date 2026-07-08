@@ -3,8 +3,9 @@ import { revalidatePath } from 'next/cache'
 /**
  * Drop the entire route cache — the root layout and every nested segment, i.e.
  * the canonical pages AND every `/dear/[company]` mirror. Wired into the
- * `afterChange` hook of every content source (collections + globals) so a single
- * publish refreshes the whole tree instantly. On-demand revalidation is the
+ * `afterChange` AND `afterDelete` hooks of every content source (collections +
+ * globals) so a single publish — or a delete that retires a route — refreshes
+ * the whole tree instantly. On-demand revalidation is the
  * PRIMARY freshness mechanism; the per-route daily `revalidate` timer is only a
  * backstop for writes that never hit a request scope (see {@link warmVisitor}).
  *

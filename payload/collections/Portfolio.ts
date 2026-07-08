@@ -45,6 +45,14 @@ export const Portfolio: CollectionConfig = {
         }
       },
     ],
+    // Deleting a piece removes its detail page + cards + search entry. Gate on
+    // published — a draft-only piece was never in the public cache — mirroring
+    // the afterChange gate (there's no previousDoc on delete).
+    afterDelete: [
+      ({ doc }) => {
+        if (doc._status === 'published') revalidateSite()
+      },
+    ],
   },
   fields: [
     {
