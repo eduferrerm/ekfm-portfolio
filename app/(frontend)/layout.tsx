@@ -3,6 +3,7 @@ import { Roboto, Roboto_Condensed } from 'next/font/google'
 
 import { PostHogProvider } from '@/lib/posthog/provider'
 import { isPreview } from '@/lib/preview'
+import { CookieConsent } from '@/features/consent/CookieConsent'
 import { PreviewBanner } from '@/features/preview/PreviewBanner'
 
 import '../globals.css'
@@ -41,6 +42,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
     <html lang="en" className={`${roboto.variable} ${robotoCondensed.variable}`}>
       <body className="antialiased">
         <PostHogProvider>{children}</PostHogProvider>
+        <CookieConsent />
         {previewing && <PreviewBanner />}
       </body>
     </html>
