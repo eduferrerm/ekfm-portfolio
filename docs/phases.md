@@ -89,10 +89,12 @@ trunk (auth-locked / password-protected deployed env).
 - [ ] **Dear/Ashby expectations reply** — complete the content.
 - [ ] **PostHog ops** — verify the full usage event set fires in PostHog live events (PR #72):
       `$pageview`, `section_viewed`, `portfolio_item_opened`, `graph_node_clicked`,
-      `visitor_page_viewed`, `search_performed`/`search_result_selected`. Posture is **cookieless**
-      (no consent banner needed) — also confirm DevTools shows **no `ph_` cookie** + the anon id is
-      in localStorage. Needs both `NEXT_PUBLIC_POSTHOG_*` vars (see prod env-vars below); missing
-      either = **silent no-op** (RUNBOOK: ANALYTICS-ENV).
+      `visitor_page_viewed`, `search_performed`/`search_result_selected`. Posture is an **opt-in
+      consent gate over storage-free analytics**: nothing is captured until the visitor Accepts the
+      CookieConsent banner. Confirm before Accept DevTools shows **no `ph_` cookie / no
+      `ph_*_posthog` localStorage** (only `ekfm:cookie-consent` after a choice), and after Accept
+      events flow with **no persistent tracking id** (memory). Needs both `NEXT_PUBLIC_POSTHOG_*`
+      vars (see prod env-vars below); missing either = **silent no-op** (RUNBOOK: ANALYTICS-ENV).
 - [ ] **Finalize schema on `development`** — no more field/collection changes after this point.
 - [ ] **Run codegen** — `pnpm generate:types && pnpm generate:importmap` after the last change.
 
@@ -284,5 +286,5 @@ What actually happened when the checklist above ran, and the one thing that wasn
 ### Post-launch follow-ups (browser-side, owner)
 
 - [ ] Confirm search (`Cmd/Ctrl+K`) returns results on `ekfm.dev`.
-- [ ] PostHog Live Events receiving prod events + **no `ph_` cookie** (cookieless posture).
+- [ ] PostHog Live Events: **nothing** before Accept; after Accept, events flow + **no `ph_` cookie / no persistent tracking id** (opt-in over memory-only analytics).
 - [ ] `ekfm.dev/admin` login + a content edit (exercises prod DB write + blob).

@@ -13,11 +13,19 @@ import { describe, expect, it } from 'vitest'
 const APP = join(process.cwd(), 'app', '(frontend)')
 const SCOPED = join(APP, 'dear', '[company]')
 
+/**
+ * Site-wide routes that intentionally live OUTSIDE the visitor mirror: global
+ * pages with no per-company variant. `/privacy` is a single transparency notice —
+ * personalising a privacy disclosure per recruiter would be pointless (and faintly
+ * absurd), so it has no `/dear/[company]` twin by design.
+ */
+const NON_MIRRORED = new Set(['privacy'])
+
 /** Canonical first-level section routes: a dir with a page.tsx, minus the mirror
- * itself and non-route (underscore-prefixed) dirs. */
+ * itself, non-route (underscore-prefixed) dirs, and deliberately-global pages. */
 function sectionDirs(): string[] {
   return readdirSync(APP).filter((name) => {
-    if (name.startsWith('_') || name === 'dear') return false
+    if (name.startsWith('_') || name === 'dear' || NON_MIRRORED.has(name)) return false
     const dir = join(APP, name)
     return statSync(dir).isDirectory() && existsSync(join(dir, 'page.tsx'))
   })
