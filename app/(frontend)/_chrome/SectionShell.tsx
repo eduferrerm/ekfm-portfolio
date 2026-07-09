@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 
 import { Brand } from '@/components/Brand'
 import { Container } from '@/components/Container'
+import { FooterBar } from '@/components/FooterBar'
 import { MenuOverlay } from '@/components/MenuOverlay'
 import { SiteNav } from '@/features/menu/SiteNav'
 import { SearchPalette } from '@/features/search-palette/SearchPalette'
@@ -65,71 +66,76 @@ export function SectionShell({
       }
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[1920px] pb-20">
-      {/* Top bar — search + hamburger on the right, brand on the left. The brand
+    <>
+      <div className="mx-auto min-h-screen w-full max-w-[1920px] pb-20">
+        {/* Top bar — search + hamburger on the right, brand on the left. The brand
           shows only below the rail breakpoint; at/above it the aside takes over
           the nav and carries the brand, so the bar's copy hides. */}
-      <header>
-        <Container className="flex h-(--header-h) items-center">
-          <Brand href={home?.href ?? '/'} className={layout.railHidden} />
-          <div className="ml-auto flex items-center gap-2">
-            {/* Bar Search — hidden below md, where the hamburger drawer carries it;
+        <header>
+          <Container className="flex h-(--header-h) items-center">
+            <Brand href={home?.href ?? '/'} className={layout.railHidden} />
+            <div className="ml-auto flex items-center gap-2">
+              {/* Bar Search — hidden below md, where the hamburger drawer carries it;
                 the instance stays mounted so it keeps owning Cmd/Ctrl+K there. */}
-            <div className="hidden md:block">
-              <SearchPalette
-                documents={documents}
-                visitorSearch={visitorSearch}
-                overlayAlign="container"
-              />
-            </div>
-            <div className={layout.railHidden}>
-              <MenuOverlay
-                id="section-mobile-menu"
-                home={home}
-                search={
-                  <SearchPalette
-                    documents={documents}
-                    visitorSearch={visitorSearch}
-                    overlayAlign="container"
-                    enableGlobalShortcut={false}
-                  />
-                }
-              >
-                <SiteNav
-                  active={active}
-                  sections={sections}
-                  items={items}
-                  home={home}
-                  itemWidth="fit"
+              <div className="hidden md:block">
+                <SearchPalette
+                  documents={documents}
+                  visitorSearch={visitorSearch}
+                  overlayAlign="container"
                 />
-              </MenuOverlay>
+              </div>
+              <div className={layout.railHidden}>
+                <MenuOverlay
+                  id="section-mobile-menu"
+                  home={home}
+                  search={
+                    <SearchPalette
+                      documents={documents}
+                      visitorSearch={visitorSearch}
+                      overlayAlign="container"
+                      enableGlobalShortcut={false}
+                    />
+                  }
+                >
+                  <SiteNav
+                    active={active}
+                    sections={sections}
+                    items={items}
+                    home={home}
+                    itemWidth="fit"
+                  />
+                </MenuOverlay>
+              </div>
             </div>
-          </div>
-        </Container>
-      </header>
-      <div className={layout.grid}>
-        {/* Persistent rail in the left margin. Pulled up one header-height (`-mt`)
+          </Container>
+        </header>
+        <div className={layout.grid}>
+          {/* Persistent rail in the left margin. Pulled up one header-height (`-mt`)
             so its brand lands on the top bar's baseline — the bar's own brand is
             hidden up here, so the logo reads as one fixed mark, left-aligned with
             the nav items below it. */}
-        <aside
-          className={cn(
-            'box-border hidden w-[300px] shrink-0 -mt-[var(--header-h)] px-10 pb-10',
-            layout.asideShown,
-          )}
-        >
-          <Brand href={home?.href ?? '/'} className="flex h-(--header-h) items-center" />
-          <div className="pt-6">
-            <SiteNav active={active} sections={sections} items={items} home={home} />
-          </div>
-        </aside>
-        <main className={cn('min-w-0', layout.mainCol)}>
-          {/* Body column — the Container styles extracted (centred, `px-6` gutter)
+          <aside
+            className={cn(
+              'box-border hidden w-[300px] shrink-0 -mt-[var(--header-h)] px-10 pb-10',
+              layout.asideShown,
+            )}
+          >
+            <Brand href={home?.href ?? '/'} className="flex h-(--header-h) items-center" />
+            <div className="pt-6">
+              <SiteNav active={active} sections={sections} items={items} home={home} />
+            </div>
+          </aside>
+          <main className={cn('min-w-0', layout.mainCol)}>
+            {/* Body column — the Container styles extracted (centred, `px-6` gutter)
               so the max-width can vary by section without editing the shared
               Container SSOT. */}
-          <div className={cn('mx-auto w-full px-6 py-6', layout.bodyMax)}>{children}</div>
-        </main>
+            <div className={cn('mx-auto w-full px-6 py-6', layout.bodyMax)}>{children}</div>
+          </main>
+        </div>
       </div>
-    </div>
+      {/* Shared footer, in normal flow (the landing's copy is fixed + revealed).
+          Inner pages lead with "Home" → the visitor-scoped home on a mirror, else /. */}
+      <FooterBar lead="home" homeHref={home?.href ?? '/'} />
+    </>
   )
 }

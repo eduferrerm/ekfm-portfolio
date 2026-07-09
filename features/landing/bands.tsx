@@ -342,14 +342,16 @@ export function MoreAboutMeBand({
 /**
  * Contact — closing band with a CTA out (the LinkedIn link in the mock). Fills
  * the viewport (100vh) with its content centred both axes, and carries a bottom
- * margin equal to the footer height (`--header-h`) so the fixed Footer is
- * revealed in the gap as the reader scrolls past it.
+ * margin equal to the footer height so the fixed Footer is revealed in the gap as
+ * the reader scrolls past it. The footer is taller on mobile (a 40px gap between
+ * its stacked rows), so this margin mirrors it: `mb-32 sm:mb-(--header-h)` — keep
+ * in sync with FooterBar's height.
  */
 export function ContactBand({ id, contact }: { id: string; contact: Landing['contact'] }) {
   return (
     <section
       id={id}
-      className="flex min-h-screen flex-col items-center justify-center mb-(--header-h)"
+      className="flex min-h-screen flex-col items-center justify-center mb-32 sm:mb-(--header-h)"
     >
       <Container className="flex flex-col items-center text-center">
         <h2 className="text-header text-muted-foreground tracking-tight">{contact?.header}</h2>
