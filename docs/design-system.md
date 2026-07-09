@@ -236,6 +236,15 @@ The selection split is deliberate: **lime = affordance + toggled-on** (a selecte
   type role puts the role on a child `<span>` to scope it to the label text. (The palette's Clear /
   recent-search controls are plain underlined / muted **text links**, not buttons — the board shows
   no pill there.)
+- **`TextLink`** (`components/TextLink.tsx`) — the **understated sibling of `Button`**: the
+  design-system text hyperlink. Reuses `Pressable` (so the global fuchsia focus ring + `asChild` come
+  free) and adds only a link skin — `text-ui`, an underline, `rounded-sm` + small padding so the ring
+  clears the glyphs. Deliberately **colour-neutral** (inherits `currentColor`): the caller sets colour
+  + hover per surface — lime `hover:text-primary` on dark grounds, an opacity shift + lime
+  `ring-offset-primary` on the lime footer — so one component serves both without baking in a hover
+  that vanishes on a matching ground. Renders as a `<button>` (pass `onClick`, e.g. footer
+  back-to-top) or a link (`asChild` → `<Link>`). Consumed by the **footer** (`FooterBar`
+  back-to-top / home / privacy) and the **CookieConsent** banner (Privacy-details link).
 - **`Input`** (`components/ui/input.tsx`) — `cva` text input; focus is the global fuchsia ring
   (`ring-ring`), not a lime border. Owns the surface + `text-body` role + the four channels; layout
   (an icon's `pl-9`) stays at the call site. Consumed by the search palette query field.
