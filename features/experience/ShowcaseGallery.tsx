@@ -66,7 +66,7 @@ export function ShowcaseGallery({ items }: { items: ShowcaseItem[] }) {
                 aria-label={`Show image ${i + 1}`}
                 aria-current={i === index ? 'true' : undefined}
                 className={cn(
-                  'relative block aspect-[1000/549] w-full overflow-hidden rounded-lg border transition',
+                  'relative block aspect-[1000/549] w-full overflow-hidden rounded-lg border transition active:border-feedback active:ring-1 active:ring-feedback',
                   i === index
                     ? 'border-primary ring-1 ring-primary'
                     : 'border-border hover:border-muted-foreground',
