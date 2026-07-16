@@ -23,8 +23,9 @@ import { cn } from '@/lib/utils'
  * app-level composition root that wires the menu + search-palette features
  * together, so neither feature has to import the other sideways.
  *
- * Experience detail reads in a tighter 964px column (set per the section, not in
- * the shared `Container`); everything else keeps the 1200px column. Because the
+ * The content-heavy detail sections (experience, portfolio) read in a tighter
+ * 964px column (set per the section, not in the shared `Container`); everything
+ * else keeps the 1200px default column. Because the
  * body width is what decides how much margin the aside needs, the rail breakpoint
  * moves with it: 964 + ~2×258 ≈ 1480, mirroring 1200 + ~2×250 = 1700. Both class
  * sets are spelled out in full because a Tailwind arbitrary breakpoint can't be
@@ -48,7 +49,7 @@ export function SectionShell({
   home?: { label: string; href: string } | null
   children: ReactNode
 }) {
-  const narrow = active === 'experience'
+  const narrow = active === 'experience' || active === 'portfolio'
   const layout = narrow
     ? {
         grid: 'min-[1480px]:grid min-[1480px]:grid-cols-[minmax(180px,1fr)_minmax(0,964px)_minmax(180px,1fr)]',
