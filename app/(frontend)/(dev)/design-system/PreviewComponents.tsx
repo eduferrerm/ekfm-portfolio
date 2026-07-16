@@ -88,7 +88,7 @@ export function PreviewComponents() {
 
       <div className="flex flex-col gap-3">
         <p className="text-meta-bold text-foreground">
-          Card · static / interactive (hover+focus) / selected (blue)
+          Card · static / interactive (hover+focus+active) / selected (blue)
         </p>
         <div className="grid gap-4 sm:grid-cols-3">
           <Card>

@@ -7,8 +7,9 @@ import { cn } from '@/lib/utils'
  * Elevated surface. Two interaction axes from the Pressables board:
  *
  * - `interactive` — a pressable card (the feature/portfolio card). Hover grows a
- *   lime edge; focus shows the global fuchsia ring. Use with `asChild` to render
- *   the whole card as a `<Link>`.
+ *   lime edge; focus shows the global fuchsia ring; the active press fills the
+ *   surface with the lime feedback token. Use with `asChild` to render the whole
+ *   card as a `<Link>`.
  * - `selected` — the persisted "you are here" navigation state (the result-row /
  *   sidebar card). This is the one place selection reads **blue** (--selection),
  *   distinct from the lime affordance; a selected tag, by contrast, fills lime.
@@ -18,7 +19,7 @@ import { cn } from '@/lib/utils'
 const cardVariants = cva('rounded-2xl border bg-card p-6 transition outline-none', {
   variants: {
     interactive: {
-      true: 'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:border-primary/50',
+      true: 'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:border-primary/50 active:border-feedback active:bg-feedback active:text-primary-foreground',
       false: '',
     },
     selected: {
