@@ -56,7 +56,7 @@ export function HeroBand({
       <div className="flex min-h-[calc(100vh-var(--header-h))] flex-col items-center justify-center gap-10 py-10">
         <Container className="flex flex-col items-center gap-8 text-center">
           <Brand className="text-lg" />
-          <h1 className="text-hero-headline uppercase text-muted">{hero?.title}</h1>
+          <h1 className="text-hero-headline uppercase text-foreground">{hero?.title}</h1>
           {navItems.length > 0 && (
             // The in-hero nav LINKS are hidden below md (no inline nav on phones),
             // but this wrapper stays laid out at every width so it remains the reveal
