@@ -42,6 +42,25 @@ const nextConfig: NextConfig = {
       { source: '/ingest/:path*', destination: `${host}/:path*` },
     ]
   },
+  // Retired detail-page slugs → their current slug, so old shared/indexed links
+  // land on the live page instead of 404ing. Each rename is registered for the
+  // canonical route AND its /dear/[company] mirror twin (the dear layout guard
+  // still 307s an unknown company to /). Permanent (308): the old slug is retired
+  // for good, so browsers and crawlers can update.
+  async redirects() {
+    const renamedExperienceSlugs = [
+      // 2026-11-05: visible copy switched "IC5" → "Senior" for a wider audience.
+      { from: 'ic5-frontend-engineer', to: 'senior-frontend-engineer' },
+    ]
+    return renamedExperienceSlugs.flatMap(({ from, to }) => [
+      { source: `/experience/${from}`, destination: `/experience/${to}`, permanent: true },
+      {
+        source: `/dear/:company/experience/${from}`,
+        destination: `/dear/:company/experience/${to}`,
+        permanent: true,
+      },
+    ])
+  },
   // Required for PostHog reverse-proxy rewrites with a trailing-slash-free setup.
   skipTrailingSlashRedirect: true,
   webpack: (config, { webpack, isServer }) => {
